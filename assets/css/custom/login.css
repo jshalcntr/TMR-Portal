@@ -1,0 +1,12 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+}
+#errorModal {
+    position: absolute;
+    top: 24px;
+    left: 44%;
+}
