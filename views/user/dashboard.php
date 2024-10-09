@@ -9,7 +9,7 @@ if (isset($_SESSION['user']) && ($_SESSION['user']['role'] == "USER" || $_SESSIO
     $authPP = $_SESSION['user']['profile_picture'];
     $authDepartment = $_SESSION['user']['department'];
 
-    $pendingTotalSql = "SELECT COUNT(*) AS pending_count FROM tickets WHERE ticket_requestor_id = $authId AND ticket_status = 'PENDING'";
+    $pendingTotalSql = "SELECT COUNT(*) AS pending_count FROM tickets_tbl WHERE ticket_requestor_id = $authId AND ticket_status = 'PENDING'";
 
     $pendingTotal = $conn->query($pendingTotalSql)->fetch_assoc()['pending_count'];
     $approvalTotal = 0;
@@ -40,7 +40,10 @@ if (isset($_SESSION['user']) && ($_SESSION['user']['role'] == "USER" || $_SESSIO
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="../../assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../../assets/css/sb-admin-2.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../assets/css/custom/global.css">
+    <link rel="stylesheet" href="../../assets/css/custom/user/dashboard.css">
 
 </head>
 
@@ -71,7 +74,7 @@ if (isset($_SESSION['user']) && ($_SESSION['user']['role'] == "USER" || $_SESSIO
 
                     <!-- Content Row -->
                     <div class="row">
-                        <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="col-xl-4 col-md-6 mb-4 pointer-event" id="pendingTicketsLink">
                             <div class="card border-left-info shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -87,7 +90,7 @@ if (isset($_SESSION['user']) && ($_SESSION['user']['role'] == "USER" || $_SESSIO
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="col-xl-4 col-md-6 mb-4" id="forApprovalTicketsLink">
                             <div class="card border-left-warning shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -104,7 +107,7 @@ if (isset($_SESSION['user']) && ($_SESSION['user']['role'] == "USER" || $_SESSIO
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="col-xl-4 col-md-6 mb-4" id="finishedTicketsLink">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -167,6 +170,8 @@ if (isset($_SESSION['user']) && ($_SESSION['user']['role'] == "USER" || $_SESSIO
     <!-- Page level custom scripts -->
     <script src="../../assets/js/demo/chart-area-demo.js"></script>
     <script src="../../assets/js/demo/chart-pie-demo.js"></script>
+
+    <script src="../../assets/js/userDashboard.js"></script>
 
 </body>
 
