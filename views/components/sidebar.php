@@ -2,7 +2,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../../index.php">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="http://localhost/mis-ts/index.php">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-ticket"></i>
         </div>
@@ -13,11 +13,26 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
-        <a class="nav-link" href="../../index.php">
+    <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'dashboard.php') != false ? 'active' : '' ?> ?>">
+        <a class="nav-link" href="http://localhost/mis-ts/index.php">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
+
+    <?php if ($authRole == "ADMIN"): ?>
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">Inventory Management</div>
+
+        <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'inventory.php') != false ? 'active' : '' ?> ?>">
+            <a class="nav-link" href="http://localhost/mis-ts/views/admin/inventory-management/inventory.php">
+                <i class="fas fa-fw fa-warehouse"></i>
+                <span>Inventory</span></a>
+        </li>
+    <?php endif; ?>
+    <?php
+
+    ?>
 
     <!-- Divider -->
     <!-- <hr class="sidebar-divider"> -->
