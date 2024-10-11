@@ -6,7 +6,17 @@ session_unset();
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-$authenticateSql = "SELECT id, username, password, full_name, role, profile_picture, department FROM accounts_tbl WHERE username = ?";
+$authenticateSql = "SELECT accounts_tbl.id,
+                    accounts_tbl.username,
+                    accounts_tbl.password,
+                    accounts_tbl.full_name,
+                    accounts_tbl.role,
+                    accounts_tbl.profile_picture,
+                    accounts_tbl.department,
+                    authorizations_tbl.*
+                    FROM accounts_tbl
+                    JOIN authorizations_tbl ON accounts_tbl.id = authorizations_tbl.account_id
+                    WHERE username = ?";
 $stmt = $conn->prepare($authenticateSql);
 $stmt->bind_param("s", $username);
 

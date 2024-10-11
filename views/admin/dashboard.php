@@ -1,16 +1,20 @@
 <?php
 session_start();
+
 require('../../backend/dbconn.php');
-if (isset($_SESSION['user']) && $_SESSION['user']['role'] == "ADMIN") {
-    $authId = $_SESSION['user']['id'];
-    $authUsername = $_SESSION['user']['username'];
-    $authFullName = $_SESSION['user']['full_name'];
-    $authRole = $_SESSION['user']['role'];
-    $authPP = $_SESSION['user']['profile_picture'];
-    $authDepartment = $_SESSION['user']['department'];
-} else {
-    header("Location: ../../index.php");
-}
+require('../../backend/middleware/pipes.php');
+require('../../backend/middleware/authorize.php');
+
+authorize($_SESSION['user']['role'] == "ADMIN");
+
+$authId = $_SESSION['user']['id'];
+$authUsername = $_SESSION['user']['username'];
+$authFullName = $_SESSION['user']['full_name'];
+$authRole = $_SESSION['user']['role'];
+$authPP = $_SESSION['user']['profile_picture'];
+$authDepartment = $_SESSION['user']['department'];
+
+$authorizations = setAuthorizations($_SESSION['user']);
 ?>
 
 <!DOCTYPE html>

@@ -1,24 +1,25 @@
 <?php
 session_start();
+
 require('../../backend/dbconn.php');
-if (isset($_SESSION['user']) && ($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] == "HEAD")) {
-    $authId = $_SESSION['user']['id'];
-    $authUsername = $_SESSION['user']['username'];
-    $authFullName = $_SESSION['user']['full_name'];
-    $authRole = $_SESSION['user']['role'];
-    $authPP = $_SESSION['user']['profile_picture'];
-    $authDepartment = $_SESSION['user']['department'];
+require('../../backend/middleware/pipes.php');
+require('../../backend/middleware/authorize.php');
 
-    $pendingTotalSql = "SELECT COUNT(*) AS pending_count FROM tickets_tbl WHERE ticket_requestor_id = $authId AND ticket_status = 'PENDING'";
+authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] == "HEAD");
 
-    $pendingTotal = $conn->query($pendingTotalSql)->fetch_assoc()['pending_count'];
-    $approvalTotal = 0;
-    $finishedTotal = 0;
-} else {
-    header("Location: ../../index.php");
-}
+$authId = $_SESSION['user']['id'];
+$authUsername = $_SESSION['user']['username'];
+$authFullName = $_SESSION['user']['full_name'];
+$authRole = $_SESSION['user']['role'];
+$authPP = $_SESSION['user']['profile_picture'];
+$authDepartment = $_SESSION['user']['department'];
+
+$pendingTotalSql = "SELECT COUNT(*) AS pending_count FROM tickets_record_tbl WHERE ticket_requestor_id = $authId AND ticket_status = 'PENDING'";
+
+$pendingTotal = $conn->query($pendingTotalSql)->fetch_assoc()['pending_count'];
+$approvalTotal = 0;
+$finishedTotal = 0;
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 

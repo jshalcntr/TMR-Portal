@@ -19,7 +19,7 @@
             <span>Dashboard</span></a>
     </li>
 
-    <?php if ($authRole == "ADMIN"): ?>
+    <?php if ($authRole == "ADMIN" && $authorizations['inventory_view']): ?>
         <hr class="sidebar-divider">
 
         <div class="sidebar-heading">Inventory Management</div>
