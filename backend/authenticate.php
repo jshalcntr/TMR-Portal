@@ -24,7 +24,8 @@ if (!$stmt->execute()) {
     header("Content-type: application/json");
     echo json_encode([
         "status" => "error",
-        "message" => "Internal Error. Please Contact MIS"
+        "message" => "Internal Error. Please Contact MIS",
+        "data" => $conn->error
     ]);
     $stmt->close();
     exit;

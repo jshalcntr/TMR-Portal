@@ -1,3 +1,10 @@
 .actions {
     gap: 8px;
 }
+.form-group {
+    position: relative;
+}
+.form-group > .invalid-feedback {
+    position: absolute;
+    bottom: -19px;
+}

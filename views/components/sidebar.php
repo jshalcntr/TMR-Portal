@@ -4,9 +4,10 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="http://localhost/mis-ts/index.php">
         <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-ticket"></i>
+            <!-- <i class="fas fa-ticket"></i> -->
+            <img src="http://localhost/mis-ts/assets/img/tmrlogo.png" alt="" srcset="" width="50px">
         </div>
-        <div class="sidebar-brand-text mx-3">MIS TS</div>
+        <div class="sidebar-brand-text mx-2">TMR PORTAL</div>
     </a>
 
     <!-- Divider -->
