@@ -73,7 +73,7 @@ if ($itemPrice > 9999.4) {
     $addItemSql = "INSERT INTO inventory_records_tbl(item_type, item_name, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($addItemSql);
-    $stmt->bind_param("ssssssssssds", $itemType, $itemName, $itemBrand, $itemModel, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $separtment, $status, $itemPrice);
+    $stmt->bind_param("sssssssssssd", $itemType, $itemName, $itemBrand, $itemModel, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $separtment, $status, $itemPrice);
 
     if ($stmt == false) {
         header('Content-Type: application/json');

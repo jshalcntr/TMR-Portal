@@ -54,22 +54,36 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $sheet->mergeCells('A1:N1');
     $sheet->setCellValue('A1', 'INVENTORY RECORDS');
+    $sheet->mergeCells('A2:A3');
     $sheet->setCellValue('A2', 'ID');
+    $sheet->mergeCells('B2:B3');
     $sheet->setCellValue('B2', 'FA Number');
+    $sheet->mergeCells('C2:C3');
     $sheet->setCellValue('C2', 'Item Type');
+    $sheet->mergeCells('D2:D3');
     $sheet->setCellValue('D2', 'Item Name');
+    $sheet->mergeCells('E2:E3');
     $sheet->setCellValue('E2', 'Brand');
+    $sheet->mergeCells('F2:F3');
     $sheet->setCellValue('F2', 'Model');
+    $sheet->mergeCells('G2:G3');
     $sheet->setCellValue('G2', 'Date Acquired');
+    $sheet->mergeCells('H2:H3');
     $sheet->setCellValue('H2', 'Supplier');
+    $sheet->mergeCells('I2:I3');
     $sheet->setCellValue('I2', 'Serial Number');
+    $sheet->mergeCells('J2:J3');
     $sheet->setCellValue('J2', 'Remarks');
+    $sheet->mergeCells('K2:K3');
     $sheet->setCellValue('K2', 'User');
+    $sheet->mergeCells('L2:L3');
     $sheet->setCellValue('L2', 'Department');
+    $sheet->mergeCells('M2:M3');
     $sheet->setCellValue('M2', 'Status');
+    $sheet->mergeCells('N2:N3');
     $sheet->setCellValue('N2', 'Price');
 
-    $rowIndex = 3;
+    $rowIndex = 4;
 
     foreach ($data as $row) {
         $sheet->setCellValue('A' . $rowIndex, $row['id']);
@@ -96,6 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $sheet->getStyle('A1')->getAlignment()->setHorizontal('center')->setVertical('center');
     $sheet->getStyle('A1')->getFont()->setName('ToyotaType')->setSize(19);
     $sheet->getStyle('A2:N2')->getFont()->setBold(true);
+    $sheet->setAutoFilter('A2:N2');
 
     $highestRow = $sheet->getHighestRow();
 
