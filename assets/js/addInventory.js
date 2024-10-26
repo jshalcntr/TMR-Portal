@@ -38,10 +38,7 @@ $(document).ready(function () {
             }
             if(!this.checkValidity()){
                 e.stopPropagation();
-                // console.log("error");
             }else{
-                // console.log("success");
-
                 Swal.fire({
                     title: 'Add to Inventory?',
                     text: "Are you sure you want to add this inventory?",

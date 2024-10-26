@@ -12,7 +12,7 @@ session_start();
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>MIS TICKETING SYSTEM</title>
+    <title>TMR Internal Portal</title>
 
     <!-- Custom local styles -->
     <link rel="stylesheet" href="http://172.16.14.44/dependencies/css/bootstrap/v5.3.3/bootstrap.min.css">
@@ -48,7 +48,7 @@ session_start();
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h3 text-gray-900 mb-4">MIS TICKETING SYSTEM</h1>
+                                        <h1 class="h3 text-gray-900 mb-4">Welcome to<br><span class="h2 font-weight-bold">TMR Internal Portal!</span></h1>
                                     </div>
                                     <form class="user" id="loginForm">
                                         <div class="form-group">

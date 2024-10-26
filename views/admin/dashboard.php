@@ -5,16 +5,18 @@ require('../../backend/dbconn.php');
 require('../../backend/middleware/pipes.php');
 require('../../backend/middleware/authorize.php');
 
-authorize($_SESSION['user']['role'] == "ADMIN");
+if (authorize($_SESSION['user']['role'] == "ADMIN")) {
+    $authId = $_SESSION['user']['id'];
+    $authUsername = $_SESSION['user']['username'];
+    $authFullName = $_SESSION['user']['full_name'];
+    $authRole = $_SESSION['user']['role'];
+    $authPP = $_SESSION['user']['profile_picture'];
+    $authDepartment = $_SESSION['user']['department'];
 
-$authId = $_SESSION['user']['id'];
-$authUsername = $_SESSION['user']['username'];
-$authFullName = $_SESSION['user']['full_name'];
-$authRole = $_SESSION['user']['role'];
-$authPP = $_SESSION['user']['profile_picture'];
-$authDepartment = $_SESSION['user']['department'];
-
-$authorizations = setAuthorizations($_SESSION['user']);
+    $authorizations = setAuthorizations($_SESSION['user']);
+} else {
+    header("Location: ../../index.php");
+}
 ?>
 
 <!DOCTYPE html>

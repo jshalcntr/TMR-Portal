@@ -5,16 +5,20 @@ require('../../../backend/dbconn.php');
 require('../../../backend/middleware/pipes.php');
 require('../../../backend/middleware/authorize.php');
 
-authorize($_SESSION['user']['role'] == "ADMIN");
+if (authorize($_SESSION['user']['role'] == "ADMIN")) {
+    $authId = $_SESSION['user']['id'];
+    $authUsername = $_SESSION['user']['username'];
+    $authFullName = $_SESSION['user']['full_name'];
+    $authRole = $_SESSION['user']['role'];
+    $authPP = $_SESSION['user']['profile_picture'];
+    $authDepartment = $_SESSION['user']['department'];
 
-$authId = $_SESSION['user']['id'];
-$authUsername = $_SESSION['user']['username'];
-$authFullName = $_SESSION['user']['full_name'];
-$authRole = $_SESSION['user']['role'];
-$authPP = $_SESSION['user']['profile_picture'];
-$authDepartment = $_SESSION['user']['department'];
+    $authorizations = setAuthorizations($_SESSION['user']);
+} else {
+    header("Location: ../../../index.php");
+}
 
-$authorizations = setAuthorizations($_SESSION['user']);
+
 ?>
 
 <!DOCTYPE html>
@@ -57,9 +61,9 @@ $authorizations = setAuthorizations($_SESSION['user']);
                             <div class="actions d-flex flex-row-reverse gap-3">
                                 <?php if ($authorizations['inventory_edit']): ?>
                                     <button class="btn btn-primary modalBtn" data-bs-toggle="modal" data-bs-target="#createInventoryModal"><i class="fas fa-circle-plus"></i> Add Item</button>
-                                    <button class="btn btn-success modalBtn" data-bs-toggle="modal" data-bs-target="#"><i class="fas fa-file-import"></i> Import Data</button>
+                                    <button class="btn btn-success modalBtn" data-bs-toggle="modal" data-bs-target="#importInventoryModal"><i class="fas fa-file-import"></i> Import Data</button>
                                 <?php endif; ?>
-                                <button class="btn btn-warning modalBtn" data-bs-toggle="modal" data-bs-target="#createInventoryModal"><i class="fas fa-file-export"></i> Export Data</button>
+                                <button class="btn btn-warning modalBtn" data-bs-toggle="modal" data-bs-target="#exportInventoryModal" id="exportInventoryModalBtn"><i class="fas fa-file-export"></i> Export Data</button>
                                 <button class="btn btn-secondary modalBtn" data-bs-toggle="modal" data-bs-target="#createInventoryModal"><i class="fas fa-print"></i> Print</button>
                             </div>
                         </div>
@@ -248,7 +252,113 @@ $authorizations = setAuthorizations($_SESSION['user']);
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="importInventoryModal" tabindex="-1" aria-labelledby="importInventoryModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-between align-items-center px-4">
+                        <h3 class="modal-title" id="importInventoryModalLabel">Import File</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-xl-5">
+                        <form class="container" id="importInventoryForm" enctype="multipart/form-data">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <div class="file-upload-contain">
+                                        <label for="importFile" id="dragZone" class="custom-upload-dropzone d-flex align-items-center justify-content-center flex-column p-xl-5">
+                                            <i class="fas fa-cloud-arrow-up fa-3x" id="droppingLogo"></i>
+                                            <p class="h2">Drag and Drop File Here</p>
+                                        </label>
+                                        <input type="file" id="importFile" accept=".csv, .xls, .xlsx" class="d-none">
+                                        <div id="filePreview" class="d-none align-items-center justify-content-center p-xl-5">
+                                            <i class="fas fa-table fa-2x text-info mr-1"></i>
+                                            <p class="h3 mb-0" id="fileName">No File Selected</p>
+                                            <i class="fas fa-trash text-danger " id="removeFileBtn"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row d-none" id="actionGroup">
+                                <div class="col d-flex justify-content-end align-items-end">
+                                    <button type="submit" class="btn-lg btn btn-primary"><i class="fas fa-floppy-disk"></i> Import</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     <?php endif; ?>
+    <div class="modal fade" id="exportInventoryModal">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-between align-items-center px-4">
+                    <h3 class="modal-title" id="exportInventoryModalLabel">Export File</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-xl-5">
+                    <form class="container" id="exportInventoryForm" method="POST" action="../../../backend/admin/inventory-management/exportInventory.php">
+                        <div class="row">
+                            <div class="col">
+                                <h3 class="h5">Choose Asset Type</h3>
+                                <div class="form-check mb-1">
+                                    <input type="radio" name="assetType_export" id="assetType_All" class="form-check-input" value="all" checked>
+                                    <label for="assetType_All" class="form-check-label">All Assets</label>
+                                </div>
+                                <div class="form-check mb-1">
+                                    <input type="radio" name="assetType_export" id="assetType_FA" class="form-check-input" value="fa">
+                                    <label for="assetType_FA" class="form-check-label">Fixed Assets Only</label>
+                                </div>
+                                <div class="form-check mb-1">
+                                    <input type="radio" name="assetType_export" id="assetType_nonFA" class="form-check-input" value="nonFa">
+                                    <label for="assetType_nonFA" class="form-check-label">Non-Fixed Assets Only</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label class="h5" for="itemType_export">Choose Item Type</label>
+                                <div class="form-group">
+                                    <select name="itemType_export" id="itemType_export" class="form-control form-select" required>
+                                        <option value="all" selected>All Items</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="h5">Choose Date</label>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="dateFrom" class="col-form-label">Acquired From</label>
+                                    <input type="date" name="dateFrom" id="dateFrom" class="form-control" max="<?= date('Y-m-d') ?>">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="dateTo" class="col-form-label">Aquired To</label>
+                                    <input type="date" name="dateTo" id="dateTo" class="form-control" max="<?= date('Y-m-d') ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="exportAllDate" id="exportAllDate" class="form-check-input" value="1">
+                                    <label for="exportAllDate" class="form-check-label">Disregard Date Acquired</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-end">
+                                <button type="submit" class="btn btn-lg btn-primary">
+                                    <div class="fas fa-download"></div> Export Data
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 
@@ -263,6 +373,8 @@ $authorizations = setAuthorizations($_SESSION['user']);
 <script src="../../../assets/js/inventory.js"></script>
 <?php if ($authorizations['inventory_edit']): ?>
     <script src="../../../assets/js/addInventory.js"></script>
+    <script src="../../../assets/js/importFile.js"></script>
 <?php endif; ?>
+<script src="../../../assets/js/exportFile.js"></script>
 
 </html>

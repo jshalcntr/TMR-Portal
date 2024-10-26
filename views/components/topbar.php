@@ -1,3 +1,7 @@
+<?php
+date_default_timezone_set('Asia/Manila');
+?>
+
 <!-- Topbar -->
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 

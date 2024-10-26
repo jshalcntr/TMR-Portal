@@ -31,6 +31,17 @@
                 <span>Inventory</span></a>
         </li>
     <?php endif; ?>
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-heading">Ticketing System</div>
+
+    <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'ticketing.php') != false ? 'active' : '' ?> ?>">
+        <a href="<?= $authRole == "ADMIN" ? "http://localhost/mis-ts/views/admin/ticketing-system/ticketing.php" : "http://localhost/mis-ts/views/user/ticketing-system/ticketing.php" ?>" class="nav-link">
+            <i class="fas fa-ticket"></i>
+            <span>Ticketing System</span>
+        </a>
+    </li>
     <?php
 
     ?>
