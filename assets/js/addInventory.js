@@ -57,7 +57,6 @@ $(document).ready(function () {
                             url: '../../../backend/admin/inventory-management/addInventory.php',
                             data: formData,
                             success: function(response) {
-                                console.log(response);
                                 if(response.status === 'success'){
                                     Swal.fire({
                                         title: 'Success!',

@@ -83,3 +83,44 @@ removeFileBtn.addEventListener("click", (e) => {
     fileInput.value = "";
     toggleDragFile();
 });
+
+$(document).ready(function () {
+    $("#importInventoryForm").on("submit",function (e) { 
+        e.preventDefault();
+        
+        let formData = new FormData(this);
+        // formData.append('importFile', $("#importFile")[0].files[0]);
+        $.ajax({
+            url: "../../../backend/admin/inventory-management/importInventory.php",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log(response);
+                if(response.status === 'success'){
+                    Swal.fire({
+                        title: 'Success!',
+                        text: `${response.message}`,
+                        icon: 'success',
+                        confirmButtonColor: 'var(--bs-success)'
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                }else{
+                    Swal.fire({
+                        title: 'Error!',
+                        text: `${response.message}`,
+                        icon: 'error',
+                        confirmButtonColor: 'var(--bs-danger)'
+                    })
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(`Error: ${error}`);
+                console.error(`XHR: ${xhr}`);
+                console.error(`Status: ${status}`);
+            }
+        });
+    });
+});

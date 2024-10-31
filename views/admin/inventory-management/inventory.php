@@ -268,7 +268,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                             <i class="fas fa-cloud-arrow-up fa-3x" id="droppingLogo"></i>
                                             <p class="h2">Drag and Drop File Here</p>
                                         </label>
-                                        <input type="file" id="importFile" accept=".csv, .xls, .xlsx" class="d-none">
+                                        <input type="file" id="importFile" name="importFile" accept=".csv, .xls, .xlsx" class="d-none">
                                         <div id="filePreview" class="d-none align-items-center justify-content-center p-xl-5">
                                             <i class="fas fa-table fa-2x text-info mr-1"></i>
                                             <p class="h3 mb-0" id="fileName">No File Selected</p>

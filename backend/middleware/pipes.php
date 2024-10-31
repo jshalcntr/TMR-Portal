@@ -17,8 +17,18 @@ function convertToReadableDate($date)
     }
     return date("F d, Y", strtotime($date));
 }
+function convertFromReadableDate($date)
+{
+    $date = DateTime::createFromFormat("F d, Y", $date);
+    return $date->format("Y-m-d");
+}
 
 function convertToPhp($integer)
 {
     return "Php " . number_format($integer, 2);
+}
+
+function convertFromPhp($amount)
+{
+    return (float) str_replace(array('Php ', ','), '', $amount);
 }
