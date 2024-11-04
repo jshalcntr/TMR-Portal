@@ -10,11 +10,35 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 if (isset($_FILES['importFile']) && $_FILES['importFile']['error'] == 0) {
     $file = $_FILES['importFile']['tmp_name'];
 
+    function createNewFaNumber($conn, $dateAcquired)
+    {
+        $currentYear = date('y', strtotime($dateAcquired));
+        $latestFaNumberSql = "SELECT fa_number FROM inventory_records_tbl
+                                WHERE fa_number LIKE 'TMRMIS$currentYear-%'
+                                ORDER BY fa_number DESC LIMIT 1";
+        $stmt = $conn->prepare($latestFaNumberSql);
+        $stmt->execute();
+        $latestFaNumberResult = $stmt->get_result();
+        $stmt->close();
 
+        if ($latestFaNumberResult->num_rows > 0) {
+            $latestFaNumberRow = $latestFaNumberResult->fetch_assoc();
+
+            $latesFaNumberRow = $latestFaNumberRow['fa_number'];
+
+            $parts = explode('-', $latesFaNumberRow);
+
+            $latestNumber = (int)$parts[1];
+
+            $newNumber = $latestNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+        return sprintf("TMRMIS%s-%04d", $currentYear, $newNumber);
+    }
     try {
         $spreadSheet = IOFactory::load($file);
         $sheet = $spreadSheet->getActiveSheet();
-        $data = [];
         foreach ($sheet->getRowIterator(4) as $row) {
             $id = $sheet->getCell('A' . $row->getRowIndex())->getValue();
             $faNumber = $sheet->getCell('B' . $row->getRowIndex())->getValue();
@@ -22,60 +46,21 @@ if (isset($_FILES['importFile']) && $_FILES['importFile']['error'] == 0) {
             $itemName = $sheet->getCell('D' . $row->getRowIndex())->getValue();
             $brand = $sheet->getCell('E' . $row->getRowIndex())->getValue();
             $model = $sheet->getCell('F' . $row->getRowIndex())->getValue();
-            $dateAcquired = convertFromReadableDate($sheet->getCell('G' . $row->getRowIndex())->getValue());
+            $dateAcquired = $sheet->getCell('G' . $row->getRowIndex())->getValue() ? convertFromReadableDate($sheet->getCell('G' . $row->getRowIndex())->getValue()) : null;
             $supplier = $sheet->getCell('H' . $row->getRowIndex())->getValue();
             $serialNumber = $sheet->getCell('I' . $row->getRowIndex())->getValue();
             $remarks = $sheet->getCell('J' . $row->getRowIndex())->getValue();
             $user = $sheet->getCell('K' . $row->getRowIndex())->getValue();
             $department = $sheet->getCell('L' . $row->getRowIndex())->getValue();
             $status = $sheet->getCell('M' . $row->getRowIndex())->getValue();
-            $price = convertFromPhp($sheet->getCell('N' . $row->getRowIndex())->getValue());
+            $price = $sheet->getCell('N' . $row->getRowIndex())->getValue() ? convertFromPhp($sheet->getCell('N' . $row->getRowIndex())->getValue()) : null;
 
-
-
-            // $rowData = [
-            //     'id' => $sheet->getCell('A' . $row->getRowIndex())->getValue(),
-            //     'faNumber' => $sheet->getCell('B' . $row->getRowIndex())->getValue(),
-            //     'itemType' => $sheet->getCell('C' . $row->getRowIndex())->getValue(),
-            //     'itemName' => $sheet->getCell('D' . $row->getRowIndex())->getValue(),
-            //     'brand' => $sheet->getCell('E' . $row->getRowIndex())->getValue(),
-            //     'model' => $sheet->getCell('F' . $row->getRowIndex())->getValue(),
-            //     'dateAcquired' => convertFromReadableDate($sheet->getCell('G' . $row->getRowIndex())->getValue()),
-            //     'supplier' => $sheet->getCell('H' . $row->getRowIndex())->getValue(),
-            //     'serialNumber' => $sheet->getCell('I' . $row->getRowIndex())->getValue(),
-            //     'remarks' => $sheet->getCell('J' . $row->getRowIndex())->getValue(),
-            //     'user' => $sheet->getCell('K' . $row->getRowIndex())->getValue(),
-            //     'department' => $sheet->getCell('L' . $row->getRowIndex())->getValue(),
-            //     'status' => $sheet->getCell('M' . $row->getRowIndex())->getValue(),
-            //     'price' => convertFromPhp($sheet->getCell('N' . $row->getRowIndex())->getValue()),
-            // ];
-            // $data[] = $rowData;
-            if (!$id) {
+            if (!$itemType && !$itemName && !$brand && !$model && !$dateAcquired && !$supplier && !$serialNumber && !$remarks && !$user && !$department && !$status) {
+                continue;
+            } else if (!$id) {
                 if (!$faNumber) {
                     if ($price > 9999.4) {
-                        $currentYear = date('y', strtotime($dateAcquired));
-                        $latestFaNumberSql = "SELECT fa_number FROM inventory_records_tbl
-                            WHERE fa_number LIKE 'TMRMIS$currentYear-%'
-                            ORDER BY fa_number DESC LIMIT 1";
-                        $stmt = $conn->prepare($latestFaNumberSql);
-                        $stmt->execute();
-                        $latesFaNumberResult = $stmt->get_result();
-                        $stmt->close();
-
-                        if ($latesFaNumberResult->num_rows > 0) {
-                            $latestFaNumberRow = $latesFaNumberResult->fetch_assoc();
-
-                            $latesFaNumberRow = $latestFaNumberRow['fa_number'];
-
-                            $parts = explode('-', $latesFaNumberRow);
-
-                            $latestNumber = (int)$parts[1];
-
-                            $newNumber = $latestNumber + 1;
-                        } else {
-                            $newNumber = 1;
-                        }
-                        $faNumber = sprintf("TMRMIS%s-%04d", $currentYear, $newNumber);
+                        $faNumber = createNewFaNumber($conn, $dateAcquired);
 
                         $addItemSql = "INSERT INTO inventory_records_tbl(item_type, item_name, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
                                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -88,13 +73,14 @@ if (isset($_FILES['importFile']) && $_FILES['importFile']['error'] == 0) {
                         $stmt->bind_param("sssssssssssd", $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price);
                     }
                 } else {
-                    $faNumberPattern = '/^TMR\d{2}-\d{4}$/';
+                    $faNumberPattern = '/^TMRMIS\d{2}-\d{4}$/';
                     if (preg_match($faNumberPattern, $faNumber)) {
                         $checkFaNumberSql = "SELECT * FROM inventory_records_tbl WHERE fa_number = ?";
-                        $stmt = $conn->prepare($checkFaNumberSql);
-                        $stmt->bind_param("s", $faNumber);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
+                        $stmt2 = $conn->prepare($checkFaNumberSql);
+                        $stmt2->bind_param("s", $faNumber);
+                        $stmt2->execute();
+                        $result = $stmt2->get_result();
+                        $stmt2->close();
 
                         if ($result->num_rows > 0) {
                             $updateItemSql = "UPDATE inventory_records_tbl SET item_type = ?, item_name = ?, brand = ?, model = ?, date_acquired = ?, supplier = ?, serial_number = ?, remarks = ?, user = ?, department = ?, status = ?, price = ? WHERE fa_number = ?";
@@ -107,29 +93,7 @@ if (isset($_FILES['importFile']) && $_FILES['importFile']['error'] == 0) {
                             $stmt->bind_param("sssssssssssds", $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber);
                         }
                     } else {
-                        $currentYear = date('y', strtotime($dateAcquired));
-                        $latestFaNumberSql = "SELECT fa_number FROM inventory_records_tbl
-                                                WHERE fa_number LIKE 'TMRMIS$currentYear-%'
-                                                ORDER BY fa_number DESC LIMIT 1";
-                        $stmt = $conn->prepare($latestFaNumberSql);
-                        $stmt->execute();
-                        $latesFaNumberResult = $stmt->get_result();
-                        $stmt->close();
-
-                        if ($latesFaNumberResult->num_rows > 0) {
-                            $latestFaNumberRow = $latesFaNumberResult->fetch_assoc();
-
-                            $latesFaNumberRow = $latestFaNumberRow['fa_number'];
-
-                            $parts = explode('-', $latesFaNumberRow);
-
-                            $latestNumber = (int)$parts[1];
-
-                            $newNumber = $latestNumber + 1;
-                        } else {
-                            $newNumber = 1;
-                        }
-                        $faNumber = sprintf("TMRMIS%s-%04d", $currentYear, $newNumber);
+                        $faNumber = createNewFaNumber($conn, $dateAcquired);
 
                         $addItemSql = "INSERT INTO inventory_records_tbl(item_type, item_name, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -139,43 +103,23 @@ if (isset($_FILES['importFile']) && $_FILES['importFile']['error'] == 0) {
                 }
             } else {
                 $checkIdSql = "SELECT * FROM inventory_records_tbl WHERE id = ?";
-                $stmt = $conn->prepare($checkIdSql);
-                $stmt->bind_param("i", $id);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $stmt->close();
+                $stmt3 = $conn->prepare($checkIdSql);
+                $stmt3->bind_param("i", $id);
+                $stmt3->execute();
+                $result = $stmt3->get_result();
+                $stmt3->close();
 
 
                 if ($result->num_rows > 0) {
                     if (!$faNumber) {
                         if ($price > 9999.4) {
-                            $currentYear = date('y', strtotime($dateAcquired));
-                            $latestFaNumberSql = "SELECT fa_number FROM inventory_records_tbl
-                                                    WHERE fa_number LIKE 'TMRMIS$currentYear-%'
-                                                    ORDER BY fa_number DESC LIMIT 1";
-                            $stmt = $conn->prepare($latestFaNumberSql);
-                            $stmt->execute();
-                            $latesFaNumberResult = $stmt->get_result();
-                            $stmt->close();
-
-                            if ($latesFaNumberResult->num_rows > 0) {
-                                $latestFaNumberRow = $latesFaNumberResult->fetch_assoc();
-
-                                $latesFaNumberRow = $latestFaNumberRow['fa_number'];
-
-                                $parts = explode('-', $latesFaNumberRow);
-
-                                $latestNumber = (int)$parts[1];
-
-                                $newNumber = $latestNumber + 1;
-                            } else {
-                                $newNumber = 1;
-                            }
-                            $faNumber = sprintf("TMRMIS%s-%04d", $currentYear, $newNumber);
                             $updateItemSql = "UPDATE inventory_records_tbl SET item_type = ?, item_name = ?, brand = ?, model = ?, date_acquired = ?, supplier = ?, serial_number = ?, remarks = ?, user = ?, department = ?, status = ?, price = ?, fa_number = ? WHERE id = ?";
                             $stmt = $conn->prepare($updateItemSql);
                             $stmt->bind_param("sssssssssssdsi", $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber, $id);
                         }
+                        $updateItemSql = "UPDATE inventory_records_tbl SET item_type = ?, item_name = ?, brand = ?, model = ?, date_acquired = ?, supplier = ?, serial_number = ?, remarks = ?, user = ?, department = ?, status = ?, price = ? WHERE id = ?";
+                        $stmt = $conn->prepare($updateItemSql);
+                        $stmt->bind_param("sssssssssssdi", $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $id);
                     } else {
                         $faNumberPattern = '/^TMRMIS\d{2}-\d{4}$/';
 
@@ -192,60 +136,43 @@ if (isset($_FILES['importFile']) && $_FILES['importFile']['error'] == 0) {
                 } else {
                     if (!$faNumber) {
                         if ($price > 9999.4) {
-                            $currentYear = date('y', strtotime($dateAcquired));
-                            $latestFaNumberSql = "SELECT fa_number FROM inventory_records_tbl
-                                                    WHERE fa_number LIKE 'TMRMIS$currentYear-%'
-                                                    ORDER BY fa_number DESC LIMIT 1";
-                            $stmt = $conn->prepare($latestFaNumberSql);
-                            $stmt->execute();
-                            $latesFaNumberResult = $stmt->get_result();
-                            $stmt->close();
-
-                            if ($latesFaNumberResult->num_rows > 0) {
-                                $latestFaNumberRow = $latesFaNumberResult->fetch_assoc();
-
-                                $latesFaNumberRow = $latestFaNumberRow['fa_number'];
-
-                                $parts = explode('-', $latesFaNumberRow);
-
-                                $latestNumber = (int)$parts[1];
-
-                                $newNumber = $latestNumber + 1;
-                            } else {
-                                $newNumber = 1;
-                            }
-                            $faNumber = sprintf("TMRMIS%s-%04d", $currentYear, $newNumber);
-                            $updateItemSql = "UPDATE inventory_records_tbl SET item_type = ?, item_name = ?, brand = ?, model = ?, date_acquired = ?, supplier = ?, serial_number = ?, remarks = ?, user = ?, department = ?, status = ?, price = ?, fa_number = ? WHERE id = ?";
-                            $stmt = $conn->prepare($updateItemSql);
-                            $stmt->bind_param("sssssssssssdsi", $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber, $id);
+                            $faNumber = createNewFaNumber($conn, $dateAcquired);
+                            $addItemSql = "INSERT INTO inventory_records_tbl(id, item_type, item_name, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                            $stmt = $conn->prepare($addItemSql);
+                            $stmt->bind_param("isssssssssssds", $id, $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber);
+                        } else {
+                            $addItemSql = "INSERT INTO inventory_records_tbl(id, item_type, item_name, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                            $stmt = $conn->prepare($addItemSql);
+                            $stmt->bind_param("isssssssssssd", $id, $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price);
                         }
-                        $addItemSql = "INSERT INTO inventory_records_tbl(item_type, item_name, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
-                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    } else {
+                        $addItemSql = "INSERT INTO inventory_records_tbl(id, item_type, item_name, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
+                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         $stmt = $conn->prepare($addItemSql);
-                        $stmt->bind_param("sssssssssssds", $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber);
+                        $stmt->bind_param("isssssssssssds", $id, $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber);
                     }
                 }
             }
-            if ($stmt == false) {
+            if (!$stmt) {
                 header('Content-Type: application/json');
                 echo json_encode([
                     "status" => "internal-error",
                     "message" => "Internal Error. Please Contact MIS",
-                    "data" => $conn->error
+                    "data" => "$conn->error"
                 ]);
                 break;
                 exit;
-            } else {
-                if (!$stmt->execute()) {
-                    header('Content-Type: application/json');
-                    echo json_encode([
-                        "status" => "internal-error",
-                        "message" => "Internal Error. Please Contact MIS",
-                        "data" => $stmt->error
-                    ]);
-                    break;
-                    exit;
-                }
+            } else if (!$stmt->execute()) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    "status" => "internal-error",
+                    "message" => "Internal Error. Please Contact MIS",
+                    "data" => $conn->error,
+                ]);
+                break;
+                exit;
             }
         }
         header('Content-Type: application/json');

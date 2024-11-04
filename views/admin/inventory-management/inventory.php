@@ -83,6 +83,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                             <th>User</th>
                                             <th>Department</th>
                                             <th>Status</th>
+                                            <th>Price</th>
                                             <th>Remarks</th>
                                         </tr>
                                     </thead>
@@ -110,6 +111,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                                     $user = $inventoryRow['user'];
                                                     $department = $inventoryRow['department'];
                                                     $status = $inventoryRow['status'];
+                                                    $price = $inventoryRow['price'];
                                                     $remarks = $inventoryRow['remarks'];
                                         ?>
                                                     <tr>
@@ -124,6 +126,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                                         <td><?= $user ?></td>
                                                         <td><?= $department ?></td>
                                                         <td><?= $status ?></td>
+                                                        <td><?= convertToPhp($price) ?></td>
                                                         <td><?= $remarks ?></td>
                                                     </tr>
                                         <?php }
