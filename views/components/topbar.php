@@ -1,3 +1,7 @@
+<?php
+date_default_timezone_set('Asia/Manila');
+?>
+
 <!-- Topbar -->
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -165,7 +169,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="http://localhost/mis-ts/backend/logout.php">Logout</a>
+                    <a class="btn btn-primary" href="/tmr-portal/backend/logout.php">Logout</a>
                 </div>
             </div>
         </div>

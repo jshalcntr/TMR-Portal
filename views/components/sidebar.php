@@ -2,10 +2,10 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="http://localhost/mis-ts/index.php">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/tmr-portal/index.php">
         <div class="sidebar-brand-icon rotate-n-15">
             <!-- <i class="fas fa-ticket"></i> -->
-            <img src="http://localhost/mis-ts/assets/img/tmrlogo.png" alt="" srcset="" width="50px">
+            <img src="/tmr-portal/assets/img/tmrlogo.png" alt="" srcset="" width="50px">
         </div>
         <div class="sidebar-brand-text mx-2">TMR PORTAL</div>
     </a>
@@ -15,7 +15,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'dashboard.php') != false ? 'active' : '' ?> ?>">
-        <a class="nav-link" href="http://localhost/mis-ts/index.php">
+        <a class="nav-link" href="/tmr-portal/index.php">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -26,11 +26,23 @@
         <div class="sidebar-heading">Inventory Management</div>
 
         <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'inventory.php') != false ? 'active' : '' ?> ?>">
-            <a class="nav-link" href="http://localhost/mis-ts/views/admin/inventory-management/inventory.php">
+            <a class="nav-link" href="/tmr-portal/views/admin/inventory-management/inventory.php">
                 <i class="fas fa-fw fa-warehouse"></i>
                 <span>Inventory</span></a>
         </li>
     <?php endif; ?>
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-heading">Ticketing System</div>
+
+    <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'ticketing.php') !== false ? 'active' : '' ?>">
+        <a href="<?= $authRole == "ADMIN" ? "/tmr-portal/views/admin/ticketing-system/ticketing.php" : "/tmr-portal/views/user/ticketing-system/ticketing.php" ?>" class="nav-link">
+            <i class="fas fa-ticket"></i>
+            <span>Ticketing System</span>
+        </a>
+    </li>
+
     <?php
 
     ?>
