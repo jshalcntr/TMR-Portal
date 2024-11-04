@@ -85,6 +85,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                             <th>Status</th>
                                             <th>Price</th>
                                             <th>Remarks</th>
+                                            <th>View</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -100,6 +101,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                             } else {
                                                 $inventoryResult = $stmt->get_result();
                                                 while ($inventoryRow = $inventoryResult->fetch_assoc()) {
+                                                    $id = $inventoryRow['id'];
                                                     $faNumber = $inventoryRow['fa_number'];
                                                     $itemType = $inventoryRow['item_type'];
                                                     $itemName = $inventoryRow['item_name'];
@@ -128,6 +130,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                                         <td><?= $status ?></td>
                                                         <td><?= convertToPhp($price) ?></td>
                                                         <td><?= $remarks ?></td>
+                                                        <td><i class="fas fa-eye text-primary" role="button" data-inventory-id="<?= $id ?>"></i></td>
                                                     </tr>
                                         <?php }
                                             }
