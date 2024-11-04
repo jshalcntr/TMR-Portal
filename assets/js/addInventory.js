@@ -38,10 +38,7 @@ $(document).ready(function () {
             }
             if(!this.checkValidity()){
                 e.stopPropagation();
-                // console.log("error");
             }else{
-                // console.log("success");
-
                 Swal.fire({
                     title: 'Add to Inventory?',
                     text: "Are you sure you want to add this inventory?",
@@ -60,7 +57,6 @@ $(document).ready(function () {
                             url: '../../../backend/admin/inventory-management/addInventory.php',
                             data: formData,
                             success: function(response) {
-                                console.log(response);
                                 if(response.status === 'success'){
                                     Swal.fire({
                                         title: 'Success!',

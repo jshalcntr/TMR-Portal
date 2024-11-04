@@ -8,3 +8,23 @@
     position: absolute;
     bottom: -19px;
 }
+.custom-upload-dropzone {
+    border: 5px dashed var(--text-gray);
+    border-radius: 5px;
+}
+#importFile {
+    /* display: none; */
+}
+#dragZone {
+    transition: border-width 0.2s;
+    cursor: pointer;
+}
+#dragZone.drag-over {
+    border-width: 7px;
+}
+#filePreview {
+    gap: 8px;
+}
+#removeFileBtn {
+    cursor: pointer;
+}

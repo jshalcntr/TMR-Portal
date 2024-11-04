@@ -1,9 +1,7 @@
 <?php
 function authorize($condition)
 {
-    if (!isset($_SESSION['user']) && $condition) {
-        header("Location: ../../index.php");
-    }
+    return isset($_SESSION['user']) && $condition;
 }
 
 function setAuthorizations($user)

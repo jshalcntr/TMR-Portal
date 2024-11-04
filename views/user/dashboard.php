@@ -5,16 +5,20 @@ require('../../backend/dbconn.php');
 require('../../backend/middleware/pipes.php');
 require('../../backend/middleware/authorize.php');
 
-authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] == "HEAD");
+if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] == "HEAD")) {
+    $authId = $_SESSION['user']['id'];
+    $authUsername = $_SESSION['user']['username'];
+    $authFullName = $_SESSION['user']['full_name'];
+    $authRole = $_SESSION['user']['role'];
+    $authPP = $_SESSION['user']['profile_picture'];
+    $authDepartment = $_SESSION['user']['department'];
 
-$authId = $_SESSION['user']['id'];
-$authUsername = $_SESSION['user']['username'];
-$authFullName = $_SESSION['user']['full_name'];
-$authRole = $_SESSION['user']['role'];
-$authPP = $_SESSION['user']['profile_picture'];
-$authDepartment = $_SESSION['user']['department'];
+    $authorizations = setAuthorizations($_SESSION['user']);
+} else {
+    header("Location: ../../index.php");
+}
 
-$pendingTotalSql = "SELECT COUNT(*) AS pending_count FROM tickets_record_tbl WHERE ticket_requestor_id = $authId AND ticket_status = 'PENDING'";
+$pendingTotalSql = "SELECT COUNT(*) AS pending_count FROM ticket_records_tbl WHERE ticket_requestor_id = $authId AND ticket_status = 'PENDING'";
 
 $pendingTotal = $conn->query($pendingTotalSql)->fetch_assoc()['pending_count'];
 $approvalTotal = 0;
