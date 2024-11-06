@@ -28,3 +28,19 @@
 #removeFileBtn {
     cursor: pointer;
 }
+
+.table td {
+    vertical-align: middle !important;
+    text-align: center;
+}
+.table thead th {
+    vertical-align: middle;
+    text-align: left;
+}
+.table th,
+.table td {
+    padding: 0.3rem 0.5rem;
+}
+.remarks-column {
+    font-size: 0.75rem;
+}

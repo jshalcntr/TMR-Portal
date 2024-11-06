@@ -63,7 +63,48 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    <div class="row">
+                         <!-- Begin Ticket Form -->
+                        <div class="col-md-4 card card-body shadow">
+                            <form action="" method="post">
+                                <h3>New Ticket</h3>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <select name="ticket_category" id="ticket_category" class="form-control form-select" required>
+                                            <option value="" disabled selected style="display: none; color:#6e6c6b;">Category</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <input type="text" name="ticket_subject" id="ticket_subject" class="form-control" placeholder="Subject" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <textarea name="ticket_content" id="ticket_content" class="form-control" rows="5" placeholder="Description" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 text-right">
+                                        <button type="submit" name="submit_ticket" class="btn btn-primary btn-sm">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!--End of Ticket Form-->
 
+                        <div class="col-md-4 card card-body shadow">
+                            <h3 class="page-header">3 Tickets Pending</h3>
+                            <button class="dropdown-item align-items-center" >
+                                <div class="font-weight-bold">
+                                    <div class="text-truncate">Ticket Title</div>
+                                    <div class="small text-gray-500 text-truncate">Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -101,6 +142,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
 <script src="../../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="../../../assets/js/sb-admin-2.min.js"></script>
+<script src="../../../assets/js/sb-admin-2.js"></script>
+<script src="../../../assets/js/user/ticketing-system/userTicketing.js"></script>
 
 </html>

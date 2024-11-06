@@ -60,11 +60,11 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                             <h6 class="m-0 font-weight-bold text-primary">Inventory</h6>
                             <div class="actions d-flex flex-row-reverse gap-3">
                                 <?php if ($authorizations['inventory_edit']): ?>
-                                    <button class="btn btn-primary modalBtn" data-bs-toggle="modal" data-bs-target="#createInventoryModal"><i class="fas fa-circle-plus"></i> Add Item</button>
-                                    <button class="btn btn-success modalBtn" data-bs-toggle="modal" data-bs-target="#importInventoryModal"><i class="fas fa-file-import"></i> Import Data</button>
+                                    <button class="btn btn-primary createInventoryModalBtn" data-bs-toggle="modal" data-bs-target="#createInventoryModal"><i class="fas fa-circle-plus"></i> Add Item</button>
+                                    <button class="btn btn-success importInventoryModalBtn" data-bs-toggle="modal" data-bs-target="#importInventoryModal"><i class="fas fa-file-import"></i> Import Data</button>
                                 <?php endif; ?>
-                                <button class="btn btn-warning modalBtn" data-bs-toggle="modal" data-bs-target="#exportInventoryModal" id="exportInventoryModalBtn"><i class="fas fa-file-export"></i> Export Data</button>
-                                <button class="btn btn-secondary modalBtn" data-bs-toggle="modal" data-bs-target="#createInventoryModal"><i class="fas fa-print"></i> Print</button>
+                                <button class="btn btn-warning exportInventoryModalBtn" data-bs-toggle="modal" data-bs-target="#exportInventoryModal" id="exportInventoryModalBtn"><i class="fas fa-file-export"></i> Export Data</button>
+                                <!-- <button class="btn btn-secondary modalBtn" data-bs-toggle="modal" data-bs-target="#createInventoryModal"><i class="fas fa-print"></i> Print</button> -->
                             </div>
                         </div>
                         <div class="card-body">
@@ -129,7 +129,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                                         <td><?= $department ?></td>
                                                         <td><?= $status ?></td>
                                                         <td><?= convertToPhp($price) ?></td>
-                                                        <td><?= $remarks ?></td>
+                                                        <td class="remarks-column"><?= $remarks ?></td>
                                                         <td><i class="fas fa-eye text-primary" role="button" data-inventory-id="<?= $id ?>"></i></td>
                                                     </tr>
                                         <?php }
@@ -196,16 +196,16 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                         <label for="department" class="col-form-label">Department</label>
                                         <select name="department" id="department" class="form-control form-select" required>
                                             <option value="" selected hidden>--Select Department--</option>
-                                            <option value="Vehicle Sales Admin">Vehicle Sales Admin</option>
+                                            <option value="VSA">VSA</option>
                                             <option value="Marketing">Marketing</option>
-                                            <option value="Executive Office Department">Executive Office Department</option>
-                                            <option value="Service Department">Service Department</option>
-                                            <option value="Parts & Accessories Department">Parts and Accessories Department</option>
-                                            <option value="Human Resources and Administration Department">Human Resources and Administration Department</option>
-                                            <option value="Finance & Insurance Department">Finance & Insurance Department</option>
-                                            <option value="Accounting Department">Accounting Department</option>
-                                            <option value="Management Information System Department">Management Information System Department</option>
-                                            <option value="Customer Relations Department">Customer Relations Department</option>
+                                            <option value="EOD">EOD</option>
+                                            <option value="Service">Service</option>
+                                            <option value="Parts & Accessories">Parts and Accessories</option>
+                                            <option value="HRAD">HRAD</option>
+                                            <option value="F&I">F&I</option>
+                                            <option value="Accounting">Accounting</option>
+                                            <option value="MIS">MIS</option>
+                                            <option value="CRD">CRD</option>
                                         </select>
                                         <div class="invalid-feedback">Please Select Department</div>
                                     </div>
@@ -323,10 +323,84 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                         <div class="row">
                             <div class="col">
                                 <label class="h5" for="itemType_export">Choose Item Type</label>
-                                <div class="form-group">
-                                    <select name="itemType_export" id="itemType_export" class="form-control form-select" required>
-                                        <option value="all" selected>All Items</option>
-                                    </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="all_itemType" id="all_itemType" class="form-check-input" value="all">
+                                    <label for="all_itemType" class="form-check-label">Select All</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="itemType_export[]" id="printer_itemType" class="form-check-input item-checkbox" value="Printer">
+                                    <label for="printer_itemType" class="form-check-label">Printer</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="itemType_export[]" id="desktop_itemType" class="form-check-input item-checkbox" value="Desktop">
+                                    <label for="desktop_itemType" class="form-check-label">Desktop</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="itemType_export[]" id="laptop_itemType" class="form-check-input item-checkbox" value="Laptop">
+                                    <label for="laptop_itemType" class="form-check-label">Laptop</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="itemType_export[]" id="tools_itemType" class="form-check-input item-checkbox" value="Tools">
+                                    <label for="tools_itemType" class="form-check-label">Tools</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="itemType_export[]" id="accessories_itemType" class="form-check-input item-checkbox" value="Accessories">
+                                    <label for="accessories_itemType" class="form-check-label">Accessories</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label class="h5" for="status_export">Choose Status</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="all_status" id="all_status" class="form-check-input" value="all">
+                                    <label for="all_status" class="form-check-label">Select All</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="status_export[]" id="active_status" class="form-check-input status-checkbox" value="Active">
+                                    <label for="active_status" class="form-check-label">Active</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="status_export[]" id="repaired_status" class="form-check-input status-checkbox" value="Repaired">
+                                    <label for="repaired_status" class="form-check-label">Repaired</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="status_export[]" id="under_repair_status" class="form-check-input status-checkbox" value="Under Repair">
+                                    <label for="under_repair_status" class="form-check-label">Under Repair</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check mb1">
+                                    <input type="checkbox" name="status_export[]" id="retired_status" class="form-check-input status-checkbox" value="Retired">
+                                    <label for="retired_status" class="form-check-label">Retired</label>
                                 </div>
                             </div>
                         </div>
@@ -372,15 +446,15 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
 <script src="../../../assets/vendor/jquery/jquery.min.js"></script>
 <script src="../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
-<script src="../../../assets/js/sb-admin-2.min.js"></script>
+<script src="../../../assets/js/sb-admin-2.js"></script>
 <script src="http://172.16.14.44/dependencies/javascript/sweetalert2-11.14.2/dist/sweetalert2.all.min.js"></script>
 <script src="../../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="../../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="../../../assets/js/inventory.js"></script>
+<script src="../../../assets/js/admin/inventory-management/inventory.js"></script>
 <?php if ($authorizations['inventory_edit']): ?>
-    <script src="../../../assets/js/addInventory.js"></script>
-    <script src="../../../assets/js/importFile.js"></script>
+    <script src="../../../assets/js/admin/inventory-management/addInventory.js"></script>
+    <script src="../../../assets/js/admin/inventory-management/importFile.js"></script>
 <?php endif; ?>
-<script src="../../../assets/js/exportFile.js"></script>
+<script src="../../../assets/js/admin/inventory-management/exportFile.js"></script>
 
 </html>

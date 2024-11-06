@@ -19,9 +19,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
     }
 
-    if (!empty($_POST['itemType_export']) && $_POST['itemType_export'] !== "all") {
-        $itemType = $conn->real_escape_string($_POST['itemType_export']);
-        $sql .= " AND item_type = '$itemType'";
+    if (isset($_POST['itemType_export']) && count($_POST['itemType_export']) > 0) {
+        $selectedItemTypes = $_POST['itemType_export'];
+        $escapedItemTypes = array_map(function ($itemType) use ($conn) {
+            return "'" . $conn->real_escape_string(strtolower($itemType)) . "'";
+        }, $selectedItemTypes);
+
+        $sql .= " AND LOWER(item_type) IN (" . implode(',', $escapedItemTypes) . ")";
+    }
+
+    if (isset($_POST['status_export']) && count($_POST['status_export']) > 0) {
+        $selectedStatus = $_POST['status_export'];
+        $escapedStatus = array_map(function ($status) use ($conn) {
+            return "'" . $conn->real_escape_string(strtolower($status)) . "'";
+        }, $selectedStatus);
+
+        $sql .= " AND LOWER(status) IN (" . implode(',', $escapedStatus) . ")";
     }
 
     if (empty($_POST['exportAllDate'])) {
@@ -125,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $dateTimeNow = new DateTime();
     $dateTimeNow->setTimezone(new DateTimeZone('Asia/Manila'));
     $dateTimeNow = $dateTimeNow->format('YmdHis');
-    $fileName = "inventory$dateTimeNow.xlsx";
+    $fileName = "inventory-$dateTimeNow.xlsx";
     $writer = new Xlsx($spreadsheet);
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment;filename="' . $fileName . '"');

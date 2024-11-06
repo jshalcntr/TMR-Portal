@@ -13,13 +13,13 @@ function convertToReadableDate($date)
     if ($date == "0000-00-00" || $date == null) {
         return "No Date Recorded Yet";
     } else {
-        return date("F d, Y", strtotime($date));
+        return date("M d, Y", strtotime($date));
     }
-    return date("F d, Y", strtotime($date));
+    return date("M d, Y", strtotime($date));
 }
 function convertFromReadableDate($date)
 {
-    $date = DateTime::createFromFormat("F d, Y", $date);
+    $date = DateTime::createFromFormat("M d, Y", $date);
     return $date->format("Y-m-d");
 }
 

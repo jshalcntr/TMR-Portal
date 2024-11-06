@@ -84,6 +84,12 @@ removeFileBtn.addEventListener("click", (e) => {
     toggleDragFile();
 });
 
+$(".importInventoryModalBtn").click(function (e) { 
+    e.preventDefault();
+    $("#importFile").val("");
+    console.log($("#importFile").val());
+    toggleDragFile();
+});
 $(document).ready(function () {
     $("#importInventoryForm").on("submit",function (e) { 
         e.preventDefault();

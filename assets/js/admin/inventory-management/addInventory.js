@@ -1,31 +1,26 @@
-
 $(document).ready(function () {
     let createInventoryValidationTimeout;
 
-    $(".modalBtn").click(function (e) { 
+    $(".createInventoryModalBtn").click(function (e) { 
         e.preventDefault();
         
-        const modalId = $(this).data('bsTarget');
-
-        if(modalId === "#createInventoryModal"){
-
-            if(createInventoryValidationTimeout){
-                clearTimeout(createInventoryValidationTimeout);
-            }
-            $("#createInventoryForm").removeClass('was-validated');3
-
-            $("#itemType").val("");
-            $("#itemName").val("");
-            $("#itemBrand").val("");
-            $("#itemModel").val("");
-            $("#user").val("");
-            $("#department").val("");
-            $("#supplierName").val("");
-            $("#serialNumber").val("");
-            $("#price").val("");
-            $("#status").val("");
-            $("#remarks").val("");
+        if(createInventoryValidationTimeout){
+            clearTimeout(createInventoryValidationTimeout);
         }
+        $("#createInventoryForm").removeClass('was-validated');
+
+        $("#itemType").val("");
+        $("#itemName").val("");
+        $("#itemBrand").val("");
+        $("#itemModel").val("");
+        $("#user").val("");
+        $("#department").val("");
+        $("#supplierName").val("");
+        $("#serialNumber").val("");
+        $("#price").val("");
+        $("#status").val("");
+        $("#remarks").val("");
+        $("#dateAcquired").val(new Date().toISOString().split('T')[0]);
     });
 
     const createInventoryForm = $('#createInventoryForm');

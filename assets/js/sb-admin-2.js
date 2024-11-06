@@ -7,7 +7,10 @@
     $(".sidebar").toggleClass("toggled");
     if ($(".sidebar").hasClass("toggled")) {
       $('.sidebar .collapse').collapse('hide');
-    };
+      $(".fixed-bottom-left").css("left", "1.5%");
+    } else {
+      $(".fixed-bottom-left").css("left", "4.5%");
+  };
   });
 
   // Close any open menu accordions when window is resized below 768px
