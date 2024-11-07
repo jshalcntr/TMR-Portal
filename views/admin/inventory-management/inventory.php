@@ -130,7 +130,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                                         <td><?= $status ?></td>
                                                         <td><?= convertToPhp($price) ?></td>
                                                         <td class="remarks-column"><?= $remarks ?></td>
-                                                        <td><i class="fas fa-eye text-primary" role="button" data-inventory-id="<?= $id ?>"></i></td>
+                                                        <td><i class="fas fa-eye text-primary viewInventoryBtn" role="button" data-inventory-id="<?= $id ?>" data-bs-toggle="modal" data-bs-target="#viewInventoryModal"></i></td>
                                                     </tr>
                                         <?php }
                                             }
@@ -155,7 +155,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                     </div>
                     <div class="modal-body">
                         <form id="createInventoryForm" class="container needs-validation" novalidate>
-                            <div class="row mb-lg-3">
+                            <div class="row mb-lg-2">
                                 <div class="col">
                                     <h4 class="mb-2">Item Details</h4>
                                     <div class="mb-2 form-group">
@@ -294,7 +294,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
             </div>
         </div>
     <?php endif; ?>
-    <div class="modal fade" id="exportInventoryModal">
+    <div class="modal fade" id="exportInventoryModal" tabindex="-1" aria-labelledby="exportInventoryModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-between align-items-center px-4">
@@ -430,7 +430,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                         <div class="row">
                             <div class="col d-flex justify-content-end">
                                 <button type="submit" class="btn btn-lg btn-primary">
-                                    <div class="fas fa-download"></div> Export Data
+                                    <i class="fas fa-download"></i> Export Data
                                 </button>
                             </div>
                         </div>
@@ -439,10 +439,130 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
             </div>
         </div>
     </div>
+    <div class="modal fade" id="viewInventoryModal" tabindex="-1" aria-labelledby="viewInventoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-between align-items-center px-4">
+                    <h3 class="modal-title" id="viewInventoryModalLabel">Item View | Asset #: <span id="assetNumber_edit"></span></h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-xl-3">
+                    <form id="editInventoryForm" class="container needs-validation" novalidate>
+                        <div class="row mb-lg-3">
+                            <div class="col">
+                                <h4 class="mb-2">Item Details</h4>
+                                <div class="mb-2 form-group">
+                                    <label for="itemType_edit" class="col-form-label">Item Type</label>
+                                    <select name="itemType" id="itemType_edit" class="form-control form-select" required disabled>
+                                        <option value="" selected hidden>--Select Item Type--</option>
+                                        <option value="Printer">Printer</option>
+                                        <option value="Desktop">Desktop</option>
+                                        <option value="Laptop">Laptop</option>
+                                        <option value="Tools">Tools</option>
+                                        <option value="Accessories">Accessories</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please Select Item Type</div>
+                                </div>
+                                <div class="mb-2 form-group">
+                                    <label for="itemName_edit" class="col-form-label">Item Name</label>
+                                    <input type="text" name="itemName" id="itemName_edit" class="form-control" required disabled></input>
+                                    <div class="invalid-feedback">Please Input Item Name</div>
+                                </div>
+                                <div class="mb-2 form-group">
+                                    <label for="itemBrand_edit" class="col-form-label">Item Brand</label>
+                                    <input type="text" name="itemBrand" id="itemBrand_edit" class="form-control" required disabled></input>
+                                    <div class="invalid-feedback">Please Input Item Brand</div>
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label for="itemModel_edit" class="col-form-label">Item Model</label>
+                                    <input type="text" name="itemModel" id="itemModel_edit" class="form-control" required disabled></input>
+                                    <div class="invalid-feedback">Please Input Item Model</div>
+                                </div>
+                                <hr class="sidebar-divider">
+                                <h4 class="mb-2">Item User Information</h4>
+                                <div class="mb-2 form-group">
+                                    <label for="user_edit" class="col-form-label">User Name</label>
+                                    <input type="text" name="user" id="user_edit" class="form-control" required disabled>
+                                    <div class="invalid-feedback">Please Input User Name</div>
+                                </div>
+                                <div class="mb-2 form-group">
+                                    <label for="department_edit" class="col-form-label">Department</label>
+                                    <select name="department" id="department_edit" class="form-control form-select" required disabled>
+                                        <option value="" selected hidden>--Select Department--</option>
+                                        <option value="VSA">VSA</option>
+                                        <option value="Marketing">Marketing</option>
+                                        <option value="EOD">EOD</option>
+                                        <option value="Service">Service</option>
+                                        <option value="Parts & Accessories">Parts and Accessories</option>
+                                        <option value="HRAD">HRAD</option>
+                                        <option value="F&I">F&I</option>
+                                        <option value="Accounting">Accounting</option>
+                                        <option value="MIS">MIS</option>
+                                        <option value="CRD">CRD</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please Select Department</div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <h4 class="mb-2">Supply Details</h4>
+                                <div class="mb-2 form-group">
+                                    <label for="dateAcquired_edit" class="col-form-label">Date Acquired</label>
+                                    <input type="date" name="dateAcquired" id="dateAcquired_edit" class="form-control" max="<?= date('Y-m-d') ?>" required disabled>
+                                    <div class="invalid-feedback">Please Input Date Acquired</div>
+                                </div>
+                                <div class="mb-2 form-group">
+                                    <label for="supplierName_edit" class="col-form-label">Supplier Name</label>
+                                    <input type="text" name="supplierName" id="supplierName_edit" class="form-control" required disabled>
+                                    <div class="invalid-feedback">Please Input Supplier Name</div>
+                                </div>
+                                <div class="mb-2 form-group">
+                                    <label for="serialNumber_edit" class="col-form-label">Serial Number</label>
+                                    <input type="text" name="serialNumber" id="serialNumber_edit" class="form-control" required disabled>
+                                    <div class="invalid-feedback">Please Input Serial Number</div>
+                                </div>
+                                <div class="mb-2 form-group">
+                                    <label for="price_edit" class="col-form-label">Price</label>
+                                    <input type="number" name="price" id="price_edit" class="form-control" required disabled>
+                                    <div class="invalid-feedback">Please Input Valid price</div>
+                                </div>
+                                <div class="mb-2 form-group">
+                                    <label for="status_edit" class="col-form-label">Status</label>
+                                    <select name="status" id="status_edit" class="form-control form-select" required disabled>
+                                        <option value="" hidden>--Select Item Status--</option>
+                                        <option value="Active">Active</option>
+                                        <option value="Under Repair" hidden>Under Repair</option>
+                                        <option value="Repaired">Repaired</option>
+                                        <option value="Retired">Retired</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please Select Item Status</div>
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label for="remarks_edit" class="col-form-label">Remarks</label>
+                                    <textarea name="remarks" id="remarks_edit" class="form-control" disabled></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <?php if ($authorizations['inventory_edit']): ?>
+                            <div class="row action-row">
+                                <div class="col d-flex justify-content-end align-items-end action-column" id="viewActionsRow">
+                                    <button type="button" class="btn btn-primary" id="editButton"><i class="fas fa-pen"></i> Edit</button>
+                                </div>
+                                <div class="col d-none justify-content-end align-items-end action-column" id="editActionsRow">
+                                    <button type="submit" class="btn btn-primary" id="saveButton"><i class="fas fa-floppy-disk"></i> Save</button>
+                                    <button type="button" class="btn btn-danger" id="cancelButton"><i class="fas fa-ban"></i> Cancel</button>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <input type="hidden" name="id" id="id_edit">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 
-<script src="http://172.16.14.44/dependencies/javascript/bootstrap/v5.3.3/bootstrap.bundle.js"></script>
+<script src="http://172.16.14.44/dependencies/javascript/bootstrap/v5.3.3/bootstrap.bundle.min.js"></script>
 <script src="../../../assets/vendor/jquery/jquery.min.js"></script>
 <script src="../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -456,5 +576,6 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
     <script src="../../../assets/js/admin/inventory-management/importFile.js"></script>
 <?php endif; ?>
 <script src="../../../assets/js/admin/inventory-management/exportFile.js"></script>
+<script src="../../../assets/js/admin/inventory-management/viewInventory.js"></script>
 
 </html>

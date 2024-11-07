@@ -44,7 +44,6 @@ $(document).ready(function () {
                     confirmButtonText: 'Yes',
                     cancelButtonText: 'No'
                 }).then((result) => {
-                    console.log(result);
                     if (result.isConfirmed) {
                         const formData = $(this).serialize();
                         $.ajax({

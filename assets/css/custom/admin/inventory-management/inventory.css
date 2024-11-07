@@ -12,9 +12,9 @@
     border: 5px dashed var(--text-gray);
     border-radius: 5px;
 }
-#importFile {
-    /* display: none; */
-}
+/* #importFile {
+    display: none; 
+} */
 #dragZone {
     transition: border-width 0.2s;
     cursor: pointer;
@@ -43,4 +43,8 @@
 }
 .remarks-column {
     font-size: 0.75rem;
+}
+
+.action-column {
+    gap: 8px;
 }
