@@ -4,7 +4,7 @@ date_default_timezone_set('Asia/Manila');
 
 <!-- Topbar -->
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
+<div class="sidebar-brand-text mx-2">TMR PORTAL</div>
     <!-- Sidebar Toggle (Topbar) -->
     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
         <i class="fa fa-bars"></i>
@@ -13,6 +13,7 @@ date_default_timezone_set('Asia/Manila');
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
         <!-- Nav Item - Alerts -->
+         
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -79,7 +80,7 @@ date_default_timezone_set('Asia/Manila');
                 </h6>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                     <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                        <img class="rounded-circle" src=""
                             alt="...">
                         <div class="status-indicator bg-success"></div>
                     </div>
@@ -91,7 +92,7 @@ date_default_timezone_set('Asia/Manila');
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                     <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                        <img class="rounded-circle" src=""
                             alt="...">
                         <div class="status-indicator"></div>
                     </div>
@@ -103,7 +104,7 @@ date_default_timezone_set('Asia/Manila');
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                     <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                        <img class="rounded-circle" src=""
                             alt="...">
                         <div class="status-indicator bg-warning"></div>
                     </div>
@@ -136,8 +137,7 @@ date_default_timezone_set('Asia/Manila');
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $authFullName ?></span>
-                <img class="img-profile rounded-circle"
-                    src="img/undraw_profile.svg">
+                
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

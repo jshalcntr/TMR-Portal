@@ -11,7 +11,6 @@ $(document).ready(function () {
         $("#editInventoryForm").removeClass('was-validated');
 
         const queriedId = $(this).data('inventory-id');
-        console.log(queriedId);
 
         $.ajax({
             type: "GET",
@@ -28,9 +27,7 @@ $(document).ready(function () {
                         confirmButtonColor: 'var(--bs-danger)'
                     });
                 }else{
-                    
                     const inventoryData = response.data[0];
-                    console.log(response);
                     
                     $("#assetNumber_edit").text((inventoryData.fa_number) ? inventoryData.fa_number : "Non-Fixed Asset");
                     $("#itemType_edit").val(inventoryData.item_type);
@@ -46,6 +43,45 @@ $(document).ready(function () {
                     $("#price_edit").val(inventoryData.price);
                     $("#remarks_edit").val(inventoryData.remarks);
                     $("#id_edit").val(queriedId);
+
+                    if(inventoryData.status === "Active" || inventoryData.status === "Repaired"){
+                        if($("#noRepairColumn").hasClass('d-none')){
+                            $("#noRepairColumn").removeClass('d-none');
+                        }
+                        if(!$("#underRepairColumn").hasClass("d-none")){
+                            $("#underRepairColumn").addClass('d-none');
+                        }
+                    }else if(inventoryData.status === "Under Repair"){
+                        $.ajax({
+                            type: "GET",
+                            url: "../../../backend/admin/inventory-management/getLatestRepair.php",
+                            data: {
+                                inventoryId: queriedId
+                            },
+                            success: function (response) {
+                                if(response.status === "internal-error"){
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: `${response.message}`,
+                                        icon: 'error',
+                                        confirmButtonColor: 'var(--bs-danger)'
+                                    });
+                                }else if(response.status === "success"){
+                                    const latestRepair = response.data[0];
+                                    $("#repairId_edit").val(latestRepair.repair_id);
+                                    $("#repairDescription_edit").val(latestRepair.repair_description);
+                                    $("#gatepassNumber_edit").val(latestRepair.gatepass_number);
+                                    $("#repairDate_edit").val(latestRepair.start_date);
+                                }
+                            }
+                        });
+                        if($("#underRepairColumn").hasClass('d-none')){
+                            $("#underRepairColumn").removeClass('d-none');
+                        }
+                        if(!$("#noRepairColumn").hasClass("d-none")){
+                            $("#noRepairColumn").addClass('d-none');
+                        }
+                    }
                 }
             },
             error: function (xhr, status, error) {
@@ -100,7 +136,6 @@ $(document).ready(function () {
                 }else{
                     
                     const inventoryData = response.data[0];
-                    console.log(inventoryData);
                     
                     $("#assetNumber_edit").text((inventoryData.fa_number) ? inventoryData.fa_number : "Non-Fixed Asset");
                     $("#itemType_edit").val(inventoryData.item_type);
@@ -142,7 +177,6 @@ $(document).ready(function () {
                     confirmButtonText: 'Confirm',
                     cancelButtonText: 'Cancel'
                 }).then((result) => {
-                    console.log(result.isConfirmed);
                     if(result.isConfirmed) {
                         const formData = $(this).serialize();
                         $.ajax({

@@ -293,6 +293,74 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="repairItemModal" tabindex="-1" aria-labelledby="repairItemModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-between align-items-center px-4">
+                        <h3 class="modal-title" id="repairItemModalLabel">Repair Item</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-lg-4 container">
+                        <div class="row">
+                            <div class="col d-none" id="noRepairColumn">
+                                <form id="repairItemForm" class="needs-validation" novalidate>
+                                    <h3>Add To Repair</h3>
+                                    <div class="mb-2 form-group">
+                                        <label for="repairDescription" class="col-form-label">Repair Description</label>
+                                        <input type="text" name="repairDescription" id="repairDescription" class="form-control" required>
+                                        <div class="invalid-feedback">Please Input Repair Description</div>
+                                    </div>
+                                    <div class="mb-2 form-group">
+                                        <label for="gatepassNumber" class="col-form-label">Gatepass Number</label>
+                                        <input type="text" name="gatepassNumber" id="gatepassNumber" class="form-control" required>
+                                        <div class="invalid-feedback">Please Input Gatepass Number</div>
+                                    </div>
+                                    <div class="mb-2 form-group">
+                                        <label for="repairDate" class="col-form-label">Repair Date</label>
+                                        <input type="date" name="repairDate" id="repairDate" class="form-control" value="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d') ?>" required>
+                                    </div>
+                                    <div class="mb-2 form-group d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary"><i class="fas fa-truck-fast"></i> Repair</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col d-none" id="underRepairColumn">
+                                <form id="editRepairItemForm" class="needs-validation" novalidate>
+                                    <h3>Current Repair</h3>
+                                    <div class="mb-2 form-group">
+                                        <label for="repairDescription_edit" class="col-form-label">Repair Description</label>
+                                        <input type="text" name="repairDescription" id="repairDescription_edit" class="form-control" required disabled>
+                                        <div class="invalid-feedback">Please Input Repair Description</div>
+                                    </div>
+                                    <div class="mb-2 form-group">
+                                        <label for="gatepassNumber_edit" class="col-form-label">Gatepass Number</label>
+                                        <input type="text" name="gatepassNumber" id="gatepassNumber_edit" class="form-control" required disabled>
+                                        <div class="invalid-feedback">Please Input Gatepass Number</div>
+                                    </div>
+                                    <div class="mb-2 form-group">
+                                        <label for="repairDate_edit" class="col-form-label">Repair Date</label>
+                                        <input type="date" name="repairDate" id="repairDate_edit" class="form-control" value="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d') ?>" required disabled>
+                                    </div>
+                                    <div class="mb-2 form-group d-flex justify-content-end action-column" id="viewRepairButtonGroup">
+                                        <button type="button" id="finishRepairButton" class="btn btn-info"><i class="fas fa-circle-check"></i> Finish Repair</button>
+                                        <button type="button" id="editRepairButton" class="btn btn-primary"><i class="fas fa-pen"></i> Edit</button>
+                                    </div>
+                                    <div class="mb-2 form-group d-none justify-content-end action-column" id="editRepairButtonGroup">
+                                        <button type="submit" id="saveRepairButton" class="btn btn-primary"><i class="fas fa-floppy-disk"></i> Save</button>
+                                        <button type="button" id="cancelEditRepairButton" class="btn btn-danger"><i class="fas fa-ban"></i> Cancel</button>
+                                    </div>
+                                    <input type="hidden" name="repairId" id="repairId_edit">
+                                </form>
+                            </div>
+                            <div class="col">
+                                <h3>Repair History</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     <?php endif; ?>
     <div class="modal fade" id="exportInventoryModal" tabindex="-1" aria-labelledby="exportInventoryModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md">
@@ -546,6 +614,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                             <div class="row action-row">
                                 <div class="col d-flex justify-content-end align-items-end action-column" id="viewActionsRow">
                                     <button type="button" class="btn btn-primary" id="editButton"><i class="fas fa-pen"></i> Edit</button>
+                                    <button type="button" class="btn btn-info" id="repairButton"><i class="fas fa-screwdriver-wrench"></i> For Repair</button>
                                 </div>
                                 <div class="col d-none justify-content-end align-items-end action-column" id="editActionsRow">
                                     <button type="submit" class="btn btn-primary" id="saveButton"><i class="fas fa-floppy-disk"></i> Save</button>
@@ -562,18 +631,19 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
 </body>
 
 
-<script src="http://172.16.14.44/dependencies/javascript/bootstrap/v5.3.3/bootstrap.bundle.min.js"></script>
+<script src="/dependencies/javascript/bootstrap/v5.3.3/bootstrap.bundle.min.js"></script>
 <script src="../../../assets/vendor/jquery/jquery.min.js"></script>
 <script src="../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="../../../assets/js/sb-admin-2.js"></script>
-<script src="http://172.16.14.44/dependencies/javascript/sweetalert2-11.14.2/dist/sweetalert2.all.min.js"></script>
+<script src="/dependencies/javascript/sweetalert2-11.14.2/dist/sweetalert2.all.min.js"></script>
 <script src="../../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="../../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="../../../assets/js/admin/inventory-management/inventory.js"></script>
 <?php if ($authorizations['inventory_edit']): ?>
     <script src="../../../assets/js/admin/inventory-management/addInventory.js"></script>
     <script src="../../../assets/js/admin/inventory-management/importFile.js"></script>
+    <script src="../../../assets/js/admin/inventory-management/repairItem.js"></script>
 <?php endif; ?>
 <script src="../../../assets/js/admin/inventory-management/exportFile.js"></script>
 <script src="../../../assets/js/admin/inventory-management/viewInventory.js"></script>

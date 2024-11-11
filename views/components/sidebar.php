@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/tmr-portal/index.php">
@@ -7,45 +7,89 @@
             <!-- <i class="fas fa-ticket"></i> -->
             <img src="/tmr-portal/assets/img/tmrlogo.png" alt="" srcset="" width="50px">
         </div>
-        <div class="sidebar-brand-text mx-2">TMR PORTAL</div>
+        
     </a>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'dashboard.php') != false ? 'active' : '' ?> ?>">
+    <!-- <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'dashboard.php') != false ? 'active' : '' ?>">
         <a class="nav-link" href="/tmr-portal/index.php">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
-    </li>
+    </li> -->
+    <div class="side-item">
+            <ul>
+                <li class="iso-pro <?= strpos($_SERVER['REQUEST_URI'], 'dashboard.php') != false ? 'active' : '' ?>">
+                    <a href="/tmr-portal/index.php">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <i class="fas fa-fw fa-tachometer-alt svg"></i>
+                        <div class="text">Dashboard</div>
+                    </a>
+                    
+                </li>
+
+            </ul>
+        </div>
 
     <?php if ($authRole == "ADMIN" && $authorizations['inventory_view']): ?>
         <hr class="sidebar-divider">
 
         <div class="sidebar-heading">Inventory Management</div>
 
-        <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'inventory.php') != false ? 'active' : '' ?> ?>">
+        <!-- <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'inventory.php') != false ? 'active' : '' ?> ?>">
             <a class="nav-link" href="/tmr-portal/views/admin/inventory-management/inventory.php">
-                <i class="fas fa-fw fa-warehouse"></i>
+                <i class="fas fa-warehouse"></i>
                 <span>Inventory</span></a>
-        </li>
+        </li> -->
+        <div class="side-item">
+            <ul>
+                <li class="iso-pro <?= strpos($_SERVER['REQUEST_URI'], 'ticketing.php') !== false ? 'active' : '' ?>">
+                    <a href="/tmr-portal/views/admin/inventory-management/inventory.php">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <i class="fas fa-fw fa-warehouse svg"></i>
+                        <div class="text">Inventory</div>
+                    </a>
+                    
+                </li>
+
+            </ul>
+        </div>
     <?php endif; ?>
 
     <hr class="sidebar-divider">
 
     <div class="sidebar-heading">Ticketing System</div>
 
-    <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'ticketing.php') !== false ? 'active' : '' ?>">
+    <!-- <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'ticketing.php') !== false ? 'active' : '' ?>">
         <a href="<?= $authRole == "ADMIN" ? "/tmr-portal/views/admin/ticketing-system/ticketing.php" : "/tmr-portal/views/user/ticketing-system/ticketing.php" ?>" class="nav-link">
             <i class="fas fa-ticket"></i>
             <span>Ticketing System</span>
         </a>
-    </li>
+    </li> -->
 
-    <?php
+    <!-- /* From Uiverse.io by MijailVillegas */  -->
+    <div class="side-item">
+        <ul>
+            <li class="iso-pro <?= strpos($_SERVER['REQUEST_URI'], 'ticketing.php') !== false ? 'active' : '' ?>">
 
-    ?>
+                <a href="<?= $authRole == "ADMIN" ? "/tmr-portal/views/admin/ticketing-system/ticketing.php" : "/tmr-portal/views/user/ticketing-system/ticketing.php" ?>">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="fas fa-ticket svg"></i>
+                    <div class="text">Ticketing</div>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+    <!-- End From Uiverse.io by MijailVillega -->
 
     <!-- Divider -->
     <!-- <hr class="sidebar-divider"> -->
@@ -137,9 +181,9 @@
     <!-- <hr class="sidebar-divider d-none d-md-block"> -->
 
     <!-- Sidebar Toggler (Sidebar) -->
-    <div class="text-center d-none d-md-inline fixed-bottom-left">
+    <!-- <div class="text-center d-none d-md-inline fixed-bottom-left">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div>
+    </div> -->
 
     <!-- Sidebar Message -->
     <!-- <div class="sidebar-card d-none d-lg-flex">

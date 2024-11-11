@@ -48,3 +48,22 @@
 .action-column {
     gap: 8px;
 }
+
+/* #repairItemModal {
+    z-index: 1070;
+} */
+
+#inventoryTable tbody tr:nth-child(odd) {
+    background-color: var(--bs-white);
+}
+
+#inventoryTable tbody tr:nth-child(even) {
+    background-color: var(--bs-table-bg);
+}
+#inventoryTable {
+    --bs-table-bg: none;
+}
+#inventoryTable thead th {
+    background-color: var(--primary);
+    color: var(--text-white);
+}

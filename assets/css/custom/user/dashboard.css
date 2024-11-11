@@ -1,0 +1,28 @@
+/* #ticket_category {
+    text-transform: uppercase;
+} */
+
+#ticket_subject {
+    text-transform: capitalize;
+}
+
+.similar-ticket {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+.similar-ticket .ticket-item {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.similar-ticket .ticket-item:hover {
+    background-color: #e9ecef;
+}
+
+.hidden {
+    display: none;
+}
