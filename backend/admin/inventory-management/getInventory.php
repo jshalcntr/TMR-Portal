@@ -6,7 +6,7 @@ $queriedId = $_GET['id'];
 $sql = "SELECT * FROM inventory_records_tbl WHERE id = ?";
 $stmt = $conn->prepare($sql);
 
-if ($stmt == false) {
+if (!$stmt) {
     header('Content-Type: application/json');
     echo json_encode([
         "status" => "internal-error",
@@ -20,7 +20,7 @@ if ($stmt == false) {
         echo json_encode([
             "status" => "internal-error",
             "message" => "Failed to fetch Inventory. Please Contact MIS",
-            "data" => $conn->error
+            "data" => $stmt->error
         ]);
         $stmt->close();
         exit;

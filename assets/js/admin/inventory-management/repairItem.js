@@ -1,33 +1,59 @@
 $(document).ready(function () {
     $(document).on('click', '#repairButton', function () {
         $("#repairItemForm").removeClass('was-validated');
-        $("#repairItemModal").modal({
-            backdrop: true,
-            keyboard: true
-        }).modal('show');
-        
-        $("#viewInventoryModal").css('z-index', '1040').modal('hide');
+        $("#repairItemModal").modal('show');
+
+        $("#viewInventoryModal").modal('hide');
         $("#repairDate").attr('min', $("#dateAcquired_edit").val())
     });
+    $(document).on('click', '#finishRepairButton', function () {
+        $.ajax({
+            type: "GET",
+            url: "../../../backend/admin/inventory-management/getRepair.php",
+            data: {
+                repairId: $("#repairId_edit").val()
+            },
+            success: function (response) {
+                if (response.status === "internal-error") {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: `${response.message}`,
+                        icon: 'error',
+                        confirmButtonColor: 'var(--bs-danger)'
+                    });
+                } else {
+                    const repairData = response.data[0];
+                    $("#repairId_finish").val(repairData.repair_id);
+                    $("#date_repaired").attr("min", repairData.start_date);
+                    $("#date_repaired").val(new Date().toISOString().split('T')[0]);
+                    $("#repair_remarks").val("");
+                }
+            }
+        });
 
-    $('#repairItemModal').on('hidden.bs.modal', function () {
-        $("#viewInventoryModal").css('z-index', '1050').modal({
-            backdrop: true,
-            keyboard: true
-        }).modal('show');
+        $("#repairItemModal").modal('hide');
+        $("#finishRepairModal").modal('show');
     });
+    $("#repairItemModal").on('hidden.bs.modal', function () {
+        if ($("#finishRepairModal").attr("aria-hidden")) {
+            $("#viewInventoryModal").modal('show');
+        }
+    });
+    $("#finishRepairModal").on('hidden.bs.modal', function () {
+        $("#repairItemModal").modal('show');
+    })
 
     let repairItemValidationTimeout;
 
-    $("#repairItemForm").submit(function (e) { 
+    $("#repairItemForm").submit(function (e) {
         e.preventDefault();
-        
-        if(repairItemValidationTimeout){
+
+        if (repairItemValidationTimeout) {
             clearTimeout(repairItemValidationTimeout);
         }
-        if(!this.checkValidity()){
+        if (!this.checkValidity()) {
             e.stopPropagation();
-        }else{
+        } else {
             const formData = $(this).serialize();
 
             const inventoryId = $("#id_edit").val();
@@ -39,14 +65,14 @@ $(document).ready(function () {
                 url: "../../../backend/admin/inventory-management/addRepair.php",
                 data: fullData,
                 success: function (response) {
-                    if(response.status === 'internal-error'){
+                    if (response.status === 'internal-error') {
                         Swal.fire({
                             title: 'Error!',
                             text: `${response.message}`,
                             icon: 'error',
                             confirmButtonColor: 'var(--bs-danger)'
                         })
-                    }else if(response.status === 'success'){
+                    } else if (response.status === 'success') {
                         Swal.fire({
                             title: 'Success!',
                             text: `${response.message}`,
@@ -85,15 +111,15 @@ $(document).ready(function () {
 
     let editRepairValidationTimeout;
 
-    $("#editRepairItemForm").submit(function (e) { 
+    $("#editRepairItemForm").submit(function (e) {
         e.preventDefault();
-        
-        if(editRepairValidationTimeout){
+
+        if (editRepairValidationTimeout) {
             clearTimeout(editRepairValidationTimeout);
         }
-        if(!this.checkValidity()){
+        if (!this.checkValidity()) {
             e.stopPropagation();
-        }else{
+        } else {
             Swal.fire({
                 title: "Edit Inventory?",
                 text: "Are you sure you want to edit this inventory?",
@@ -104,7 +130,7 @@ $(document).ready(function () {
                 confirmButtonText: 'Confirm',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
-                if(result.isConfirmed) {
+                if (result.isConfirmed) {
                     const formData = $(this).serialize();
 
                     const inventoryId = $("#id_edit").val();
@@ -115,17 +141,17 @@ $(document).ready(function () {
                         type: "POST",
                         url: "../../../backend/admin/inventory-management/editRepair.php",
                         data: fullData,
-                        success: function(response) {
-                            if(response.status === 'success'){
+                        success: function (response) {
+                            if (response.status === 'success') {
                                 Swal.fire({
                                     title: 'Success!',
                                     text: `${response.message}`,
                                     icon: 'success',
                                     confirmButtonColor: 'var(--bs-success)'
-                                }).then(()=>{
+                                }).then(() => {
                                     window.location.reload();
                                 })
-                            }else if(response.status === 'internal-error'){
+                            } else if (response.status === 'internal-error') {
                                 Swal.fire({
                                     title: 'Error!',
                                     text: `${response.message}`,
@@ -134,7 +160,7 @@ $(document).ready(function () {
                                 })
                             }
                         },
-                        error: function(xhr, status, error) {
+                        error: function (xhr, status, error) {
                             console.log(xhr.responseText);
                             console.log(status);
                             console.log(error);
@@ -148,13 +174,14 @@ $(document).ready(function () {
                     });
                 }
             })
-            
+
         }
     });
-    $("#finishRepairButton").on('click', function () {
+    $("#finishRepairForm").on('submit', function (e) {
+        e.preventDefault();
         Swal.fire({
             title: "Finish Repair?",
-            text: "Are you sure you want to finish this Repair?",
+            text: "Are you sure you want to finish this repair?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: 'var(--bs-success)',
@@ -168,7 +195,9 @@ $(document).ready(function () {
                     url: "../../../backend/admin/inventory-management/finishRepair.php",
                     data: {
                         repairId: $("#repairId_edit").val(),
-                        inventoryId: $("#id_edit").val()
+                        inventoryId: $("#id_edit").val(),
+                        date_repaired: $("#date_repaired").val(),
+                        repair_remarks: $("#repair_remarks").val()
                     },
                     success: function(response) {
                         if(response.status === 'success'){
@@ -212,14 +241,14 @@ $(document).ready(function () {
                 repairId: $("#repairId_edit").val()
             },
             success: function (response) {
-                if(response.status === "internal-error"){
+                if (response.status === "internal-error") {
                     Swal.fire({
                         title: 'Error!',
                         text: `${response.message}`,
                         icon: 'error',
                         confirmButtonColor: 'var(--bs-danger)'
                     });
-                }else{
+                } else {
                     const repairData = response.data[0];
                     $("#repairDescription_edit").val(repairData.repair_description);
                     $("#gatepassNumber_edit").val(repairData.gatepass_number);

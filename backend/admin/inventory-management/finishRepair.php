@@ -4,11 +4,12 @@ date_default_timezone_set("Asia/Manila");
 
 $repairId = $_POST['repairId'];
 $inventoryId = $_POST['inventoryId'];
-$endDate = date("Y-m-d");
+$endDate = $_POST['date_repaired'];
+$remarks = $_POST['repair_remarks'];
 
-$sql = "UPDATE inventory_repairs_tbl SET end_date = ? WHERE repair_id = ?";
+$sql = "UPDATE inventory_repairs_tbl SET end_date = ?, remarks = ? WHERE repair_id = ?";
 $stmt = $conn->prepare($sql);
-if ($stmt == false) {
+if (!$stmt) {
     header('Content-Type: application/json');
     echo json_encode([
         "status" => "internal-error",
@@ -16,7 +17,7 @@ if ($stmt == false) {
         "data" => $conn->error
     ]);
 } else {
-    $stmt->bind_param("si", $endDate, $repairId);
+    $stmt->bind_param("ssi", $endDate, $remarks, $repairId);
     if (!$stmt->execute()) {
         header('Content-Type: application/json');
         echo json_encode([

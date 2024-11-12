@@ -1,8 +1,8 @@
 <?php
 require '../../dbconn.php';
 
-$repairId = $_GET['repairId'];
-$sql = "SELECT * FROM inventory_repairs_tbl WHERE repair_id = ?";
+$inventoryId = $_GET['inventoryId'];
+$sql = "SELECT * FROM inventory_repairs_tbl WHERE repaired_item = ? AND end_date IS NOT NULL";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {
@@ -13,7 +13,7 @@ if (!$stmt) {
         "data" => $conn->error
     ]);
 } else {
-    $stmt->bind_param("i", $repairId);
+    $stmt->bind_param("i", $inventoryId);
     if (!$stmt->execute()) {
         header("Content-type: application/json");
         echo json_encode([

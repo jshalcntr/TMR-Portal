@@ -4,7 +4,7 @@ include('../../dbconn.php');
 $getOldestDateSql = "SELECT MIN(date_acquired) AS oldest_date FROM inventory_records_tbl";
 $stmt = $conn->prepare($getOldestDateSql);
 
-if ($stmt == false) {
+if (!$stmt) {
     header('Content-Type: application/json');
     echo json_encode([
         "status" => "internal-error",
@@ -17,7 +17,7 @@ if ($stmt == false) {
         echo json_encode([
             "status" => "error",
             "message" => "Failed to fetch Item Types. Please Contact MIS",
-            "data" => $conn->error
+            "data" => $stmt->error
         ]);
         $stmt->close();
         exit;

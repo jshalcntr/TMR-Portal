@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #42855B !important;
+    --primary-color: #42855b !important;
     --primary-color-dark: #356b49 !important;
 
     --text-white: #f6f6f6 !important;
@@ -22,9 +22,6 @@
     align-items: center;
     justify-content: center;
 }
-
-
-
 
 /* From Uiverse.io by MijailVillegas */
 /* .side-item {
@@ -71,7 +68,7 @@
     font-size: 17px;
     border-radius: 100%;
     color: #fff;
-    background-color: #42855B;
+    background-color: #42855b;
     fill: currentColor;
     box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.3),
         inset 0 0 5px rgba(255, 255, 255, 0.5), 0 5px 5px rgba(0, 0, 0, 0.164);
@@ -98,7 +95,7 @@
     transition: 0.5s;
 }
 
-.iso-pro:hover a>.svg {
+.iso-pro:hover a > .svg {
     transform: translate(15px, -15px);
     color: #356b49;
     background-color: rgba(255, 255, 255, 0.5);
@@ -141,4 +138,8 @@
 .iso-pro:hover span:nth-child(3) {
     opacity: 0.6;
     transform: translate(10px, -10px);
+}
+
+.modal.fade .modal-dialog {
+    transition: transform 150ms ease-in, opacity 150ms ease-in;
 }

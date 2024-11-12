@@ -1,13 +1,12 @@
 <?php
-require '../../dbconn.php';
+include('../../dbconn.php');
 
-$repairDescription = $_POST['repairDescription'];
-$gatePassNumber = $_POST['gatepassNumber'];
-$repairDate = $_POST['repairDate'];
-$repairId = $_POST['repairId'];
+$id = $_POST['id'];
+$status = 'Retired';
 
-$sql = "UPDATE inventory_repairs_tbl SET repair_description = ?, gatepass_number = ?, start_date = ? WHERE repair_id = ?";
+$sql = "UPDATE inventory_records_tbl SET status = ? WHERE id = ?";
 $stmt = $conn->prepare($sql);
+
 if (!$stmt) {
     header('Content-Type: application/json');
     echo json_encode([
@@ -16,7 +15,7 @@ if (!$stmt) {
         "data" => $conn->error
     ]);
 } else {
-    $stmt->bind_param("sssi", $repairDescription, $gatePassNumber, $repairDate, $repairId);
+    $stmt->bind_param("si", $status, $id);
     if (!$stmt->execute()) {
         header('Content-Type: application/json');
         echo json_encode([
@@ -28,7 +27,7 @@ if (!$stmt) {
         header('Content-Type: application/json');
         echo json_encode([
             "status" => "success",
-            "message" => "Item Repair Edited Successfully!"
+            "message" => "Inventory Retired Successfully!",
         ]);
     }
 }

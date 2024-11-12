@@ -45,7 +45,7 @@ if ($itemPrice > 9999.4) {
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($addItemSql);
 
-    if ($stmt == false) {
+    if (!$stmt) {
         header('Content-Type: application/json');
         echo json_encode([
             "status" => "internal-error",
@@ -73,7 +73,7 @@ if ($itemPrice > 9999.4) {
     $addItemSql = "INSERT INTO inventory_records_tbl(item_type, item_name, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($addItemSql);
-    if ($stmt == false) {
+    if (!$stmt) {
         header('Content-Type: application/json');
         echo json_encode([
             "status" => "internal-error",

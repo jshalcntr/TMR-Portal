@@ -53,17 +53,21 @@
     z-index: 1070;
 } */
 
-#inventoryTable tbody tr:nth-child(odd) {
+#inventoryTable tbody tr:nth-child(odd),
+#repairHistoryTable tbody tr:nth-child(odd) {
     background-color: var(--bs-white);
 }
 
-#inventoryTable tbody tr:nth-child(even) {
+#inventoryTable tbody tr:nth-child(even),
+#repairHistoryTable tbody tr:nth-child(even) {
     background-color: var(--bs-table-bg);
 }
-#inventoryTable {
+#inventoryTable,
+#repairHistoryTable {
     --bs-table-bg: none;
 }
-#inventoryTable thead th {
+#inventoryTable thead th,
+#repairHistoryTable thead th {
     background-color: var(--primary);
     color: var(--text-white);
 }

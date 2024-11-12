@@ -2,10 +2,10 @@
 require '../../dbconn.php';
 
 $inventoryId = $_GET['inventoryId'];
-$sql = "SELECT * FROM inventory_repairs_tbl WHERE repaired_item = ? ORDER BY start_date DESC LIMIT 1";
+$sql = "SELECT * FROM inventory_repairs_tbl WHERE repaired_item = ? ORDER BY repair_id DESC LIMIT 1";
 $stmt = $conn->prepare($sql);
 
-if ($stmt == false) {
+if (!$stmt) {
     header('Content-Type: application/json');
     echo json_encode([
         "status" => "internal-error",

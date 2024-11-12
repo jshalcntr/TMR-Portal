@@ -294,7 +294,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
             </div>
         </div>
         <div class="modal fade" id="repairItemModal" tabindex="-1" aria-labelledby="repairItemModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header d-flex justify-content-between align-items-center px-4">
                         <h3 class="modal-title" id="repairItemModalLabel">Repair Item</h3>
@@ -302,7 +302,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                     </div>
                     <div class="modal-body p-lg-4 container">
                         <div class="row">
-                            <div class="col d-none" id="noRepairColumn">
+                            <div class="col-5 d-none" id="noRepairColumn">
                                 <form id="repairItemForm" class="needs-validation" novalidate>
                                     <h3>Add To Repair</h3>
                                     <div class="mb-2 form-group">
@@ -324,7 +324,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     </div>
                                 </form>
                             </div>
-                            <div class="col d-none" id="underRepairColumn">
+                            <div class="col-5 d-none" id="underRepairColumn">
                                 <form id="editRepairItemForm" class="needs-validation" novalidate>
                                     <h3>Current Repair</h3>
                                     <div class="mb-2 form-group">
@@ -346,18 +346,59 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                         <button type="button" id="editRepairButton" class="btn btn-primary"><i class="fas fa-pen"></i> Edit</button>
                                     </div>
                                     <div class="mb-2 form-group d-none justify-content-end action-column" id="editRepairButtonGroup">
-                                        <button type="submit" id="saveRepairButton" class="btn btn-primary"><i class="fas fa-floppy-disk"></i> Save</button>
                                         <button type="button" id="cancelEditRepairButton" class="btn btn-danger"><i class="fas fa-ban"></i> Cancel</button>
+                                        <button type="submit" id="saveRepairButton" class="btn btn-primary"><i class="fas fa-floppy-disk"></i> Save</button>
                                     </div>
                                     <input type="hidden" name="repairId" id="repairId_edit">
                                 </form>
                             </div>
-                            <div class="col">
+                            <div class="col-7">
                                 <h3>Repair History</h3>
+                                <div class="table-responsive">
+                                    <table class="table" id="repairHistoryTable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Repair Description</th>
+                                                <th scope="col">Gatepass Number</th>
+                                                <th scope="col">Start Date</th>
+                                                <th scope="col">Finished Date</th>
+                                                <th scope="col">Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="repairHistory">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="finishRepairModal" tabindex="-1" aria-labelledby="finishRepairModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-between align-items-center px-4">
+                        <h3 class="modal-title" id="finishRepairModalLabel">Finish Repair</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-lg-4">
+                        <form class="container" id="finishRepairForm">
+                            <div class="form-group mb-3">
+                                <label for="date_repaired">Date Repaired</label>
+                                <input type="date" id="date_repaired" class="form-control" value="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d') ?>" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="repair_remarks">Remarks</label>
+                                <textarea id="repair_remarks" class="form-control" required></textarea>
+                            </div>
+                            <div class="d-flex justify-content-end action-column">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-xmark"></i> Close</button>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Finish</button>
+                            </div>
+                    </div>
+                    <input type="hidden" name="repairId" id="repairId_finish">
+                    </form>
                 </div>
             </div>
         </div>
@@ -613,12 +654,16 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                         <?php if ($authorizations['inventory_edit']): ?>
                             <div class="row action-row">
                                 <div class="col d-flex justify-content-end align-items-end action-column" id="viewActionsRow">
+                                    <button type="button" class="btn btn-danger" id="retireInventoryButton"><i class="fas fa-calendar-xmark"></i> Retire</button>
+                                    <button type="button" class="btn btn-info" id="repairButton"><i class="fas fa-screwdriver-wrench"></i> Repair</button>
                                     <button type="button" class="btn btn-primary" id="editButton"><i class="fas fa-pen"></i> Edit</button>
-                                    <button type="button" class="btn btn-info" id="repairButton"><i class="fas fa-screwdriver-wrench"></i> For Repair</button>
                                 </div>
                                 <div class="col d-none justify-content-end align-items-end action-column" id="editActionsRow">
-                                    <button type="submit" class="btn btn-primary" id="saveButton"><i class="fas fa-floppy-disk"></i> Save</button>
                                     <button type="button" class="btn btn-danger" id="cancelButton"><i class="fas fa-ban"></i> Cancel</button>
+                                    <button type="submit" class="btn btn-primary" id="saveButton"><i class="fas fa-floppy-disk"></i> Save</button>
+                                </div>
+                                <div class="col d-none justify-content-end align-items-end action-column" id="retiredActionsRow">
+                                    <button type="button" class="btn btn-danger" id="disposeButton"><i class="fas fa-dumpster"></i> Dispose</button>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -639,6 +684,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
 <script src="/dependencies/javascript/sweetalert2-11.14.2/dist/sweetalert2.all.min.js"></script>
 <script src="../../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="../../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="../../../assets/js/pipes.js"></script>
 <script src="../../../assets/js/admin/inventory-management/inventory.js"></script>
 <?php if ($authorizations['inventory_edit']): ?>
     <script src="../../../assets/js/admin/inventory-management/addInventory.js"></script>

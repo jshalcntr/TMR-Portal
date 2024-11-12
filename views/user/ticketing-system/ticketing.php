@@ -43,7 +43,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
     <!-- Custom styles for this template-->
     <link href="../../../assets/css/sb-admin-2.css" rel="stylesheet">
     <link href="../../../assets/vendor/jquery/jquery-ui.css" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="../../../assets/css/custom/global.css">
     <link rel="stylesheet" href="../../../assets/css/custom/user/dashboard.css">
 
@@ -67,10 +67,10 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <div class="row">
-                         <!-- Begin Ticket Form -->
+                        <!-- Begin Ticket Form -->
                         <div class="<?= $divsize ?>">
                             <div class="card card-body shadow">
-                                <form action="" method="post">
+                                <form id="ticketForm" enctype="multipart/form-data">
                                     <h3>New Ticket</h3>
                                     <div class="form-row">
                                         <div class="form-group col-md-12">
@@ -95,7 +95,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                     <div class="form-row">
                                         <div class="form-group col-md-12">
                                             <input type="text" name="ticket_subject" id="ticket_subject" class="form-control" placeholder="Subject" required>
-                                            
+
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -108,13 +108,17 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                             <label for="ticket_attachment">Attachment</label>
                                             <input type="file" name="ticket_attachment" id="ticket_attachment" class="form-control-file">
                                             <small class="form-text text-muted">Allowed file types: .jpg, .png, .pdf, .docx</small>
+                                            <div id="file-error" class="text-danger mt-1"></div>
                                         </div>
                                     </div>
+                                    <!-- Success/Error Message -->
+                                    <div id="form-message" class="text-center"></div>
                                     <div class="form-row">
                                         <div class="form-group col-md-12 text-right">
                                             <button type="submit" name="submit_ticket" class="btn btn-primary btn-sm">Submit</button>
                                         </div>
                                     </div>
+
                                 </form>
                             </div>
                         </div>
@@ -123,7 +127,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                         <div class="<?= $divsize . $divhidden ?>">
                             <div class="card card-body shadow">
                                 <h3 class="page-header">For Approval</h3>
-                                <button class="dropdown-item align-items-center" >
+                                <button class="dropdown-item align-items-center">
                                     <div class="font-weight-bold">
                                         <div class="text-truncate">Ticket Title</div>
                                         <div class="small text-gray-500 text-truncate">Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, </div>
@@ -136,7 +140,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                         <div class="<?= $divsize ?>">
                             <div class="card card-body shadow">
                                 <h3 class="page-header">3 Tickets Pending</h3>
-                                <button class="dropdown-item align-items-center" >
+                                <button class="dropdown-item align-items-center">
                                     <div class="font-weight-bold">
                                         <div class="text-truncate">Ticket Title</div>
                                         <div class="small text-gray-500 text-truncate">Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, </div>
@@ -149,7 +153,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                         <div class="<?= $divsize ?>">
                             <div class="card card-body shadow">
                                 <h3 class="page-header">My Ticket History</h3>
-                                <button class="dropdown-item align-items-center" >
+                                <button class="dropdown-item align-items-center">
                                     <div class="font-weight-bold">
                                         <div class="text-truncate">Ticket Title</div>
                                         <div class="small text-gray-500 text-truncate">Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, </div>
@@ -198,6 +202,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
 <!-- Custom scripts for all pages-->
 <script src="../../../assets/js/sb-admin-2.js"></script>
 <script src="../../../assets/js/user/ticketing-system/userTicketing.js"></script>
-<script src="../../../assets/js/user/ticketing-system/ticket-cetegory.js"></script>
+<script src="../../../assets/js/user/ticketing-system/addTicket.js"></script>
+<!-- <script src="../../../assets/js/user/ticketing-system/ticket-cetegory.js"></script> -->
 
 </html>

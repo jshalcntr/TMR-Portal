@@ -4,7 +4,7 @@ include('../../dbconn.php');
 $getItemTypesSql = "SELECT DISTINCT item_type FROM inventory_records_tbl";
 $stmt = $conn->prepare($getItemTypesSql);
 
-if ($stmt == false) {
+if (!$stmt) {
     header('Content-Type: application/json');
     echo json_encode([
         "status" => "internal-error",
@@ -17,7 +17,7 @@ if ($stmt == false) {
         echo json_encode([
             "status" => "error",
             "message" => "Failed to fetch Date Required. Please Contact MIS",
-            "data" => $conn->error
+            "data" => $stmt->error
         ]);
         $stmt->close();
         exit;

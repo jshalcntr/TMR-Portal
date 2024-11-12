@@ -9,7 +9,7 @@ $inventoryId = $_POST['inventoryId'];
 $sql = "INSERT INTO inventory_repairs_tbl (repaired_item, repair_description, gatepass_number, start_date)
 VALUES (?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
-if ($stmt == false) {
+if (!$stmt) {
     header('Content-Type: application/json');
     echo json_encode([
         "status" => "internal-error",

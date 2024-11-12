@@ -169,7 +169,7 @@ if (isset($_FILES['importFile']) && $_FILES['importFile']['error'] == 0) {
                 echo json_encode([
                     "status" => "internal-error",
                     "message" => "Internal Error. Please Contact MIS",
-                    "data" => $conn->error,
+                    "data" => $stmt->error,
                 ]);
                 break;
                 exit;

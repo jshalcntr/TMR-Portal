@@ -64,3 +64,43 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+
+
+// Validate ticket attachement
+$(document).ready(function () {
+    $('#ticket_attachment').on('change', function () {
+        const allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf', 'docx'];
+        const maxFileSize = 2 * 1024 * 1024; // 2 MB in bytes
+        const file = this.files[0];
+
+        // Reset error message
+        $('#file-error').text('');
+
+        if (file) {
+            // Get file extension
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            // Check if the file extension is allowed
+            if (!allowedExtensions.includes(fileExtension)) {
+                $('#file-error').text('Invalid file type. Allowed types: .jpg, .png, .pdf, .docx');
+                this.value = ''; // Clear the file input
+                return;
+            }
+
+            // Check if the file size is within the limit
+            if (file.size > maxFileSize) {
+                $('#file-error').text('File size exceeds 2 MB. Please choose a smaller file.');
+                this.value = ''; // Clear the file input
+                return;
+            }
+        }
+    });
+
+    // Form submission
+    $('#ticketForm').on('submit', function (e) {
+        if ($('#file-error').text()) {
+            e.preventDefault(); // Stop form submission if there's an error
+            alert('Please resolve the file upload issue before submitting.');
+        }
+    });
+});
