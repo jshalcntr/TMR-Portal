@@ -7,7 +7,7 @@
             <!-- <i class="fas fa-ticket"></i> -->
             <img src="/tmr-portal/assets/img/tmrlogo.png" alt="" srcset="" width="50px">
         </div>
-        
+
     </a>
 
     <!-- Divider -->
@@ -20,20 +20,20 @@
             <span>Dashboard</span></a>
     </li> -->
     <div class="side-item">
-            <ul>
-                <li class="iso-pro <?= strpos($_SERVER['REQUEST_URI'], 'dashboard.php') != false ? 'active' : '' ?>">
-                    <a href="/tmr-portal/index.php">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <i class="fas fa-fw fa-tachometer-alt svg"></i>
-                        <div class="text">Dashboard</div>
-                    </a>
-                    
-                </li>
+        <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'dashboard.php') !== false ? 'active' : '' ?>">
+            <li class="iso-pro ">
+                <a href="/tmr-portal/index.php">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="fas fa-fw fa-tachometer-alt svg"></i>
+                    <div class="text">Dashboard</div>
+                </a>
 
-            </ul>
-        </div>
+            </li>
+
+        </ul>
+    </div>
 
     <?php if ($authRole == "ADMIN" && $authorizations['inventory_view']): ?>
         <hr class="sidebar-divider">
@@ -46,8 +46,8 @@
                 <span>Inventory</span></a>
         </li> -->
         <div class="side-item">
-            <ul>
-                <li class="iso-pro <?= strpos($_SERVER['REQUEST_URI'], 'ticketing.php') !== false ? 'active' : '' ?>">
+            <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'inventory.php') !== false ? 'active' : '' ?>">
+                <li class="iso-pro ">
                     <a href="/tmr-portal/views/admin/inventory-management/inventory.php">
                         <span></span>
                         <span></span>
@@ -55,9 +55,20 @@
                         <i class="fas fa-fw fa-warehouse svg"></i>
                         <div class="text">Inventory</div>
                     </a>
-                    
                 </li>
-
+            </ul>
+        </div>
+        <div class="side-item">
+            <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'disposal.php') !== false ? 'active' : '' ?>">
+                <li class="iso-pro">
+                    <a href="/tmr-portal/views/admin/inventory-management/disposal.php">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <i class="fa-solid fa-trash-can-clock svg fa-fw fa-2x"></i>
+                        <div class="text">Disposal</div>
+                    </a>
+                </li>
             </ul>
         </div>
     <?php endif; ?>
@@ -75,8 +86,8 @@
 
     <!-- /* From Uiverse.io by MijailVillegas */  -->
     <div class="side-item">
-        <ul>
-            <li class="iso-pro <?= strpos($_SERVER['REQUEST_URI'], 'ticketing.php') !== false ? 'active' : '' ?>">
+        <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'ticketing.php') !== false ? 'active' : '' ?>">
+            <li class="iso-pro">
 
                 <a href="<?= $authRole == "ADMIN" ? "/tmr-portal/views/admin/ticketing-system/ticketing.php" : "/tmr-portal/views/user/ticketing-system/ticketing.php" ?>">
                     <span></span>

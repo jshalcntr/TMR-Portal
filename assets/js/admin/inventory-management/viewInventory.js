@@ -53,6 +53,35 @@ $(document).ready(function () {
                             $("#retiredActionsRow").removeClass("d-none");
                             $("#retiredActionsRow").addClass("d-flex");
                         }
+
+                        $.ajax({
+                            type: "GET",
+                            url: "../../../backend/admin/inventory-management/getDisposal.php",
+                            data: {
+                                inventoryId: queriedId
+                            },
+                            success: function (response) {
+                                if (response.status === "internal-error") {
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: `${response.message}`,
+                                        icon: 'error',
+                                        confirmButtonColor: 'var(--bs-danger)'
+                                    });
+                                } else if (response.status === "success") {
+                                    const disposalData = response.data;
+                                    if (disposalData.length == 0) {
+                                        if ($("#disposeButton").hasClass("d-none")) {
+                                            $("#disposeButton").removeClass("d-none");
+                                        }
+                                    } else {
+                                        if (!$("#disposeButton").hasClass("d-none")) {
+                                            $("#disposeButton").addClass("d-none");
+                                        }
+                                    }
+                                }
+                            }
+                        });
                     } else {
                         if ($("#viewActionsRow").hasClass('d-none')) {
                             $("#viewActionsRow").removeClass('d-none');
@@ -326,5 +355,58 @@ $(document).ready(function () {
                 });
             }
         })
+    });
+
+    $("#disposeButton").on('click', function () {
+        $("#viewInventoryModal").modal('hide');
+        $("#disposeInventoryModal").modal('show');
+    });
+
+    $("#disposeInventoryModal").on('hidden.bs.modal', function () {
+        $("#viewInventoryModal").modal('show');
+    });
+
+    $("#addToDisposalForm").on('submit', function (e) {
+        e.preventDefault();
+
+        const inventoryId = $("#id_edit").val();
+        const formData = $(this).serialize();
+        const fullData = `${formData}&inventoryId=${encodeURIComponent(inventoryId)}`
+
+        $.ajax({
+            type: "POST",
+            url: "../../../backend/admin/inventory-management/disposeInventory.php",
+            data: fullData,
+            success: function (response) {
+                if (response.status === 'success') {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: `${response.message}`,
+                        icon: 'success',
+                        confirmButtonColor: 'var(--bs-success)'
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                } else if (response.status === 'internal-error') {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: `${response.message}`,
+                        icon: 'error',
+                        confirmButtonColor: 'var(--bs-danger)'
+                    })
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(status);
+                console.log(error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'An internal error occurred. Please contact MIS.',
+                    icon: 'error',
+                    confirmButtonColor: 'var(--bs-danger)'
+                })
+            }
+        });
     });
 });

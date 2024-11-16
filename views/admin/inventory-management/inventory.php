@@ -34,7 +34,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
     <title>Invertory Management</title>
 
 
-    <link rel="stylesheet" href="http://172.16.14.44/dependencies/css/bootstrap/v5.3.3/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="http://172.16.14.44/dependencies/css/bootstrap/v5.3.3/bootstrap.min.css">
     <link rel="stylesheet" href="../../../assets/vendor/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="http://172.16.14.44/dependencies/javascript/sweetalert2-11.14.2/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -43,7 +43,8 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
         rel="stylesheet">
     <link rel="stylesheet" href="../../../assets/css/sb-admin-2.css">
     <link rel="stylesheet" href="../../../assets/vendor/datatables/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="../../../assets/css/custom/global.css">
+    <link rel="stylesheet" href="../../../assets/css/custom/global.css"> -->
+    <?php include "../../components/external-css-import.php" ?>
     <link rel="stylesheet" href="../../../assets/css/custom/admin/inventory-management/inventory.css">
 </head>
 
@@ -402,6 +403,29 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="disposeInventoryModal" tabindex="-1" aria-labelledby="disposeInventoryModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-between align-items-center px-4">
+                        <h3 class="modal-title" id="disposeInventoryModalLabel">Add to Disposal</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-lg-4">
+                        <form class="container" id="addToDisposalForm">
+                            <div class="form-group mb-3">
+                                <label for="repair_remarks">Remarks</label>
+                                <textarea id="repair_remarks" class="form-control"></textarea>
+                            </div>
+                            <div class="d-flex justify-content-end action-column">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-xmark"></i> Close</button>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-trash-plus"></i> Add To Disposal</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <?php endif; ?>
     <div class="modal fade" id="exportInventoryModal" tabindex="-1" aria-labelledby="exportInventoryModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md">
@@ -675,16 +699,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
     </div>
 </body>
 
-
-<script src="/dependencies/javascript/bootstrap/v5.3.3/bootstrap.bundle.min.js"></script>
-<script src="../../../assets/vendor/jquery/jquery.min.js"></script>
-<script src="../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
-<script src="../../../assets/js/sb-admin-2.js"></script>
-<script src="/dependencies/javascript/sweetalert2-11.14.2/dist/sweetalert2.all.min.js"></script>
-<script src="../../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="../../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="../../../assets/js/pipes.js"></script>
+<?php include '../../components/external-js-import.php'; ?>
 <script src="../../../assets/js/admin/inventory-management/inventory.js"></script>
 <?php if ($authorizations['inventory_edit']): ?>
     <script src="../../../assets/js/admin/inventory-management/addInventory.js"></script>

@@ -49,6 +49,17 @@
     gap: 8px;
 }
 
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid var(--gray-dark);
+    margin: 0 !important;
+    color: var(--dark);
+}
+#inventoryTable {
+    border-left: 1px solid var(--gray-dark);
+    border-bottom: 1px solid var(--gray-dark);
+}
+
 /* #repairItemModal {
     z-index: 1070;
 } */

@@ -33,18 +33,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
 
     <title>Dashboard</title>
 
-    <!-- Custom fonts for this template-->
-    <link href="../../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Custom styles for this template-->
-    <link href="../../../assets/css/sb-admin-2.css" rel="stylesheet">
-    <link href="../../../assets/vendor/jquery/jquery-ui.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="../../../assets/css/custom/global.css">
+    <?php include '../../components/external-css-import.php' ?>
     <link rel="stylesheet" href="../../../assets/css/custom/user/dashboard.css">
 
 </head>
@@ -71,13 +60,12 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                         <div class="<?= $divsize ?>">
                             <div class="card card-body shadow">
                                 <form id="ticketForm" enctype="multipart/form-data">
+                                    <!-- <form action="../../../backend/user/ticketing-system/newticket.php" method="POST" enctype="multipart/form-data"> -->
                                     <h3>New Ticket</h3>
                                     <div class="form-row">
                                         <div class="form-group col-md-12">
                                             <!-- <input type="text" name="ticket_category" id="ticket_category" class="form-control" placeholder="Category" required> -->
-
                                             <?php include "../../../backend/user/ticketing-system/ticketcategory.php" ?>
-
                                             <select name="ticket_category" id="ticket_category" class="form-control" required>
                                                 <option value="" disabled selected>Select a Category</option>
                                                 <?php foreach ($categories as $mainCategory => $subCategories): ?>
@@ -113,6 +101,9 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                     </div>
                                     <!-- Success/Error Message -->
                                     <div id="form-message" class="text-center"></div>
+                                    <div id="loading-spinner" class="spinner-border text-info text-center" role="status" style="display: none;">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-12 text-right">
                                             <button type="submit" name="submit_ticket" class="btn btn-primary btn-sm">Submit</button>
@@ -124,7 +115,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                         </div>
                         <!--End of Ticket Form-->
                         <!-- Heads for approval ticket -->
-                        <div class="<?= $divsize . $divhidden ?>">
+                        <div class="<?= $divsize . " " . $divhidden ?>">
                             <div class="card card-body shadow">
                                 <h3 class="page-header">For Approval</h3>
                                 <button class="dropdown-item align-items-center">
@@ -191,16 +182,8 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
 
 
 </body>
-<!-- Bootstrap core JavaScript-->
-<script src="../../../assets/vendor/jquery/jquery.min.js"></script>
-<script src="../../../assets/vendor/jquery/jquery-ui.min.js"></script>
-<script src="../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="../../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="../../../assets/js/sb-admin-2.js"></script>
+<?php include "../../components/external-js-import.php" ?>
 <script src="../../../assets/js/user/ticketing-system/userTicketing.js"></script>
 <script src="../../../assets/js/user/ticketing-system/addTicket.js"></script>
 <!-- <script src="../../../assets/js/user/ticketing-system/ticket-cetegory.js"></script> -->
