@@ -118,7 +118,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                                     $remarks = $inventoryRow['remarks'];
                                         ?>
                                                     <tr>
-                                                        <td><?= $faNumber ?></td>
+                                                        <td><?= $faNumber == true ? $faNumber : "N/A" ?></td>
                                                         <td><?= $itemType ?></td>
                                                         <td><?= $itemName ?></td>
                                                         <td><?= $brand ?></td>
@@ -130,7 +130,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                                         <td><?= $department ?></td>
                                                         <td><?= $status ?></td>
                                                         <td><?= convertToPhp($price) ?></td>
-                                                        <td class="remarks-column"><?= $remarks ?></td>
+                                                        <td class="remarks-column"><?= $remarks == true ? $remarks : "No Remarks" ?></td>
                                                         <td><i class="fas fa-eye text-primary viewInventoryBtn" role="button" data-inventory-id="<?= $id ?>" data-bs-toggle="modal" data-bs-target="#viewInventoryModal"></i></td>
                                                     </tr>
                                         <?php }
@@ -354,7 +354,10 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                 </form>
                             </div>
                             <div class="col-7">
-                                <h3>Repair History</h3>
+                                <div class="d-flex justify-content-between align-items-center px-4">
+                                    <h3>Repair History</h3>
+                                    <h3>Total Repair/s: <span id="totalRepairs"></span></h3>
+                                </div>
                                 <div class="table-responsive">
                                     <table class="table" id="repairHistoryTable">
                                         <thead>
@@ -414,7 +417,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                         <form class="container" id="addToDisposalForm">
                             <div class="form-group mb-3">
                                 <label for="repair_remarks">Remarks</label>
-                                <textarea id="repair_remarks" class="form-control"></textarea>
+                                <textarea id="repair_remarks" class="form-control" name="remarks"></textarea>
                             </div>
                             <div class="d-flex justify-content-end action-column">
                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-xmark"></i> Close</button>

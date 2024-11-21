@@ -132,9 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $sheet->getStyle('A2:N' . $highestRow)->getFont()->setName('ToyotaType')->setSize(11);
     $sheet->getStyle('N3:N' . $highestRow)->getAlignment()->setHorizontal('left')->setVertical('center');
 
-
-
-
     $dateTimeNow = new DateTime();
     $dateTimeNow->setTimezone(new DateTimeZone('Asia/Manila'));
     $dateTimeNow = $dateTimeNow->format('YmdHis');

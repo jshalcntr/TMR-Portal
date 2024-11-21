@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="http://172.16.14.44/dependencies/css/bootstrap/v5.3.3/bootstrap.min.css">
 <link rel="stylesheet" href="/tmr-portal/assets/vendor/fontawesome-pro-6.5.1-web/css/all.min.css">
-<!-- <link rel="stylesheet" href="/tmr-portal/assets/vendor/fontawesome-free/css/all.min.css"> -->
 <link rel="stylesheet" href="http://172.16.14.44/dependencies/javascript/sweetalert2-11.14.2/dist/sweetalert2.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link

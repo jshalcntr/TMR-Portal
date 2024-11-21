@@ -4,7 +4,7 @@ $(document).ready(function () {
         $("#repairItemModal").modal('show');
 
         $("#viewInventoryModal").modal('hide');
-        $("#repairDate").attr('min', $("#dateAcquired_edit").val())
+        $("#repairDate").attr('min', $("#dateAcquired_edit").val());
     });
     $(document).on('click', '#finishRepairButton', function () {
         $.ajax({

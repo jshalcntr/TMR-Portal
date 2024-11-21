@@ -5,7 +5,7 @@
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/tmr-portal/index.php">
         <div class="sidebar-brand-icon rotate-n-15">
             <!-- <i class="fas fa-ticket"></i> -->
-            <img src="/tmr-portal/assets/img/tmrlogo.png" alt="" srcset="" width="50px">
+            <img src="/tmr-portal/assets/img/tmr-logo.png" alt="" srcset="" width="50px">
         </div>
 
     </a>

@@ -41,9 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (in_array($file_extension, $allowed_extensions) && $file['size'] <= $max_file_size) {
             $file_name = uniqid('ticket_', true) . '.' . $file_extension;
             $target_path = $upload_dir . $file_name;
-
+            $move_file = move_uploaded_file($file['tmp_name'], $target_path);
             // Attempt to move the uploaded file
-            if (!move_uploaded_file($file['tmp_name'], $target_path)) {
+            if (!$move_file) {
                 echo json_encode(["status" => "error", "message" => "File upload failed. Please try again."]);
                 exit;
             } else {

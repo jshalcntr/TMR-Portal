@@ -1,0 +1,44 @@
+.remarks-column {
+    font-size: 0.75rem;
+}
+.table td {
+    vertical-align: middle !important;
+    text-align: center;
+}
+.table thead th {
+    vertical-align: middle;
+    text-align: left;
+}
+.table th,
+.table td {
+    padding: 0.5rem 0.5rem;
+}
+.remarks-column {
+    font-size: 0.75rem;
+}
+
+.action-column {
+    gap: 8px;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid var(--gray-dark);
+    margin: 0 !important;
+    color: var(--dark);
+}
+
+#forDisposalTable tbody tr:nth-child(odd) {
+    background-color: var(--bs-white);
+}
+
+#forDisposalTable tbody tr:nth-child(even) {
+    background-color: var(--bs-table-bg);
+}
+#forDisposalTable {
+    --bs-table-bg: none;
+}
+#forDisposalTable thead th {
+    background-color: var(--primary);
+    color: var(--text-white);
+}

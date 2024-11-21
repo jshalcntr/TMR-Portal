@@ -4,10 +4,10 @@ require '../../dbconn.php';
 date_default_timezone_set('Asia/Manila');
 
 $inventoryId = $_POST['inventoryId'];
-$remarks = $_POST['remarks'] ?? "";
+$remarks = $_POST['remarks'] ? $_POST['remarks'] : "";
 $date = date('Y-m-d');
 
-$sql = "INSERT INTO inventory_disposal_tbl (inventory_id, dateAdded, remarks) VALUES (?, ?, ?)";
+$sql = "INSERT INTO inventory_disposal_tbl (inventory_id, date_added, remarks) VALUES (?, ?, ?)";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {

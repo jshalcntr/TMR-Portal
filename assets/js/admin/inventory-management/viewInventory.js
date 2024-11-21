@@ -116,9 +116,10 @@ $(document).ready(function () {
                                                 <td>${allRepairs[i].gatepass_number}</td>
                                                 <td>${convertToReadableDate(allRepairs[i].start_date)}</td>
                                                 <td>${convertToReadableDate(allRepairs[i].end_date)}</td>
-                                                <td>${allRepairs[i].remarks === null ? "N/A" : allRepairs[i].remarks}</td>
+                                                <td class="remarks-column">${allRepairs[i].remarks === null ? "N/A" : allRepairs[i].remarks}</td>
                                             </tr>`;
                                 }
+                                $("#totalRepairs").text(allRepairs.length);
                                 $("#repairHistory").html(html);
                             }
                         }
