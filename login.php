@@ -43,7 +43,7 @@ session_start();
                     <div class="card-body p-0">
                         <div class="row">
                             <div class="col-lg-6 d-none bg-login-image d-flex justify-content-center align-items-center">
-                                <img src="assets/img/tmrlogo.png" alt="" width="250px">
+                                <img src="assets/img/tmr-logo.png" alt="" width="250px">
                             </div>
                             <div class="col-lg-6">
                                 <div class="p-5">

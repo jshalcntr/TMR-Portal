@@ -1,5 +1,5 @@
+let queriedId;
 $(document).ready(function () {
-
     let editInventoryValidationTimeout;
     $(document).on('click', '.viewInventoryBtn', function (e) {
         e.preventDefault();
@@ -11,7 +11,7 @@ $(document).ready(function () {
         }
         $("#editInventoryForm").removeClass('was-validated');
 
-        const queriedId = $(this).data('inventory-id');
+        queriedId = $(this).data('inventory-id');
 
         $.ajax({
             type: "GET",
@@ -31,7 +31,6 @@ $(document).ready(function () {
                     const inventoryData = response.data[0];
                     $("#assetNumber_edit").text((inventoryData.fa_number) ? inventoryData.fa_number : "Non-Fixed Asset");
                     $("#itemType_edit").val(inventoryData.item_type);
-                    $("#itemName_edit").val(inventoryData.item_name);
                     $("#itemBrand_edit").val(inventoryData.brand);
                     $("#itemModel_edit").val(inventoryData.model);
                     $("#user_edit").val(inventoryData.user);
@@ -175,7 +174,6 @@ $(document).ready(function () {
 
     const toggleEditModal = () => {
         $("#itemType_edit").prop('disabled', !$("#itemType_edit").prop('disabled'));
-        $("#itemName_edit").prop('disabled', !$("#itemName_edit").prop('disabled'));
         $("#itemBrand_edit").prop('disabled', !$("#itemBrand_edit").prop('disabled'));
         $("#itemModel_edit").prop('disabled', !$("#itemModel_edit").prop('disabled'));
         $("#user_edit").prop('disabled', !$("#user_edit").prop('disabled'));
@@ -219,7 +217,6 @@ $(document).ready(function () {
 
                     $("#assetNumber_edit").text((inventoryData.fa_number) ? inventoryData.fa_number : "Non-Fixed Asset");
                     $("#itemType_edit").val(inventoryData.item_type);
-                    $("#itemName_edit").val(inventoryData.item_name);
                     $("#itemBrand_edit").val(inventoryData.brand);
                     $("#itemModel_edit").val(inventoryData.model);
                     $("#user_edit").val(inventoryData.user);
@@ -271,7 +268,10 @@ $(document).ready(function () {
                                         icon: 'success',
                                         confirmButtonColor: 'var(--bs-success)'
                                     }).then(() => {
-                                        window.location.reload();
+                                        populateTable();
+                                        fetchAllRepairs(queriedId);
+                                        toggleEditModal();
+                                        // $("#viewInventoryModal").modal('hide');
                                     })
                                 } else if (response.status === 'internal-error') {
                                     Swal.fire({
@@ -331,7 +331,9 @@ $(document).ready(function () {
                                 icon: 'success',
                                 confirmButtonColor: 'var(--bs-success)'
                             }).then(() => {
-                                window.location.reload();
+                                populateTable();
+                                fetchAllRepairs(queriedId);
+                                // $("#viewInventoryModal").modal('hide');
                             })
                         } else if (response.status === 'internal-error') {
                             Swal.fire({
@@ -386,7 +388,13 @@ $(document).ready(function () {
                         icon: 'success',
                         confirmButtonColor: 'var(--bs-success)'
                     }).then(() => {
-                        window.location.reload();
+                        populateTable();
+                        fetchAllRepairs(queriedId);
+                        $("#disposeInventoryModal").modal('hide');
+                        $("#viewInventoryModal").on('shown.bs.modal', function () {
+                            $("#viewInventoryModal").modal('hide');
+                            $(this).off('shown.bs.modal');
+                        });
                     })
                 } else if (response.status === 'internal-error') {
                     Swal.fire({

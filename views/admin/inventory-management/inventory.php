@@ -74,8 +74,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <thead>
                                         <tr>
                                             <th>Asset No.</th>
-                                            <th>Item type</th>
-                                            <th>Item name</th>
+                                            <th>Item Type</th>
                                             <th>Brand</th>
                                             <th>Model</th>
                                             <th>Date Acquired</th>
@@ -89,55 +88,6 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                             <th>View</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <?php
-                                        $inventorySql = "SELECT * FROM inventory_records_tbl";
-                                        $stmt = $conn->prepare($inventorySql);
-
-                                        if ($stmt == false) {
-                                            echo $conn->error;
-                                        } else {
-                                            if (!$stmt->execute()) {
-                                                echo $stmt->error;
-                                            } else {
-                                                $inventoryResult = $stmt->get_result();
-                                                while ($inventoryRow = $inventoryResult->fetch_assoc()) {
-                                                    $id = $inventoryRow['id'];
-                                                    $faNumber = $inventoryRow['fa_number'];
-                                                    $itemType = $inventoryRow['item_type'];
-                                                    $itemName = $inventoryRow['item_name'];
-                                                    $brand = $inventoryRow['brand'];
-                                                    $model = $inventoryRow['model'];
-                                                    $dateAcquired = $inventoryRow['date_acquired'];
-                                                    $supplier = $inventoryRow['supplier'];
-                                                    $serialNumber = $inventoryRow['serial_number'];
-                                                    $user = $inventoryRow['user'];
-                                                    $department = $inventoryRow['department'];
-                                                    $status = $inventoryRow['status'];
-                                                    $price = $inventoryRow['price'];
-                                                    $remarks = $inventoryRow['remarks'];
-                                        ?>
-                                                    <tr>
-                                                        <td><?= $faNumber == true ? $faNumber : "N/A" ?></td>
-                                                        <td><?= $itemType ?></td>
-                                                        <td><?= $itemName ?></td>
-                                                        <td><?= $brand ?></td>
-                                                        <td><?= $model ?></td>
-                                                        <td data-order="<?= convertToDate($dateAcquired) ?>"><?= convertToReadableDate($dateAcquired) ?></td>
-                                                        <td><?= $supplier ?></td>
-                                                        <td><?= $serialNumber ?></td>
-                                                        <td><?= $user ?></td>
-                                                        <td><?= $department ?></td>
-                                                        <td><?= $status ?></td>
-                                                        <td><?= convertToPhp($price) ?></td>
-                                                        <td class="remarks-column"><?= $remarks == true ? $remarks : "No Remarks" ?></td>
-                                                        <td><i class="fas fa-eye text-primary viewInventoryBtn" role="button" data-inventory-id="<?= $id ?>" data-bs-toggle="modal" data-bs-target="#viewInventoryModal"></i></td>
-                                                    </tr>
-                                        <?php }
-                                            }
-                                        }
-                                        ?>
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -155,7 +105,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="createInventoryForm" class="container needs-validation" novalidate>
+                        <form id="createInventoryForm" class="container needs-validation" novalidate autocomplete="off">
                             <div class="row mb-lg-2">
                                 <div class="col">
                                     <h4 class="mb-2">Item Details</h4>
@@ -163,18 +113,19 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                         <label for="itemType" class="col-form-label">Item Type</label>
                                         <select name="itemType" id="itemType" class="form-control form-select" required>
                                             <option value="" selected hidden>--Select Item Type--</option>
-                                            <option value="Printer">Printer</option>
                                             <option value="Desktop">Desktop</option>
                                             <option value="Laptop">Laptop</option>
-                                            <option value="Tools">Tools</option>
-                                            <option value="Accessories">Accessories</option>
+                                            <option value="Printer">Printer</option>
+                                            <option value="Mouse">Mouse</option>
+                                            <option value="Keyboard">Keyboard</option>
+                                            <option value="Hardisk">Hardisk</option>
+                                            <option value="RAM">RAM</option>
+                                            <option value="Video Card">Video Card</option>
+                                            <option value="UPS">UPS</option>
+                                            <option value="UPS Battery">UPS Battery</option>
+                                            <option value="Router">Router</option>
                                         </select>
                                         <div class="invalid-feedback">Please Select Item Type</div>
-                                    </div>
-                                    <div class="mb-2 form-group">
-                                        <label for="itemName" class="col-form-label">Item Name</label>
-                                        <input type="text" name="itemName" id="itemName" class="form-control" required></input>
-                                        <div class="invalid-feedback">Please Input Item Name</div>
                                     </div>
                                     <div class="mb-2 form-group">
                                         <label for="itemBrand" class="col-form-label">Item Brand</label>
@@ -235,11 +186,8 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     </div>
                                     <div class="mb-2 form-group">
                                         <label for="status" class="col-form-label">Status</label>
-                                        <select name="status" id="status" class="form-control form-select" required>
-                                            <option value="" hidden>--Select Item Status--</option>
+                                        <select name="status" id="status" class="form-control form-select" required value="Active">
                                             <option value="Active">Active</option>
-                                            <option value="Repaired">Repaired</option>
-                                            <option value="Retired">Retired</option>
                                         </select>
                                         <div class="invalid-feedback">Please Select Item Status</div>
                                     </div>
@@ -267,7 +215,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-xl-5">
-                        <form class="container" id="importInventoryForm" enctype="multipart/form-data">
+                        <form class="container" id="importInventoryForm" enctype="multipart/form-data" autocomplete="off">
                             <div class="row mb-3">
                                 <div class="col">
                                     <div class="file-upload-contain">
@@ -279,7 +227,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                         <div id="filePreview" class="d-none align-items-center justify-content-center p-xl-5">
                                             <i class="fas fa-table fa-2x text-info mr-1"></i>
                                             <p class="h3 mb-0" id="fileName">No File Selected</p>
-                                            <i class="fas fa-trash text-danger " id="removeFileBtn"></i>
+                                            <i class="fas fa-trash text-danger" id="removeFileBtn"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -304,7 +252,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                     <div class="modal-body p-lg-4 container">
                         <div class="row">
                             <div class="col-5 d-none" id="noRepairColumn">
-                                <form id="repairItemForm" class="needs-validation" novalidate>
+                                <form id="repairItemForm" class="needs-validation" novalidate autocomplete="off">
                                     <h3>Add To Repair</h3>
                                     <div class="mb-2 form-group">
                                         <label for="repairDescription" class="col-form-label">Repair Description</label>
@@ -326,7 +274,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                 </form>
                             </div>
                             <div class="col-5 d-none" id="underRepairColumn">
-                                <form id="editRepairItemForm" class="needs-validation" novalidate>
+                                <form id="editRepairItemForm" class="needs-validation" novalidate autocomplete="off">
                                     <h3>Current Repair</h3>
                                     <div class="mb-2 form-group">
                                         <label for="repairDescription_edit" class="col-form-label">Repair Description</label>
@@ -387,7 +335,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-lg-4">
-                        <form class="container" id="finishRepairForm">
+                        <form class="container" id="finishRepairForm" autocomplete="off">
                             <div class="form-group mb-3">
                                 <label for="date_repaired">Date Repaired</label>
                                 <input type="date" id="date_repaired" class="form-control" value="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d') ?>" required>
@@ -414,7 +362,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-lg-4">
-                        <form class="container" id="addToDisposalForm">
+                        <form class="container" id="addToDisposalForm" autocomplete="off">
                             <div class="form-group mb-3">
                                 <label for="repair_remarks">Remarks</label>
                                 <textarea id="repair_remarks" class="form-control" name="remarks"></textarea>
@@ -438,7 +386,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-xl-5">
-                    <form class="container" id="exportInventoryForm" method="POST" action="../../../backend/admin/inventory-management/exportInventory.php">
+                    <form class="container" id="exportInventoryForm" method="POST" action="../../../backend/admin/inventory-management/exportInventory.php" autocomplete="off">
                         <div class="row">
                             <div class="col">
                                 <h3 class="h5">Choose Asset Type</h3>
@@ -583,7 +531,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-xl-3">
-                    <form id="editInventoryForm" class="container needs-validation" novalidate>
+                    <form id="editInventoryForm" class="container needs-validation" novalidate autocomplete="off">
                         <div class="row mb-lg-3">
                             <div class="col">
                                 <h4 class="mb-2">Item Details</h4>
@@ -591,18 +539,19 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <label for="itemType_edit" class="col-form-label">Item Type</label>
                                     <select name="itemType" id="itemType_edit" class="form-control form-select" required disabled>
                                         <option value="" selected hidden>--Select Item Type--</option>
-                                        <option value="Printer">Printer</option>
                                         <option value="Desktop">Desktop</option>
                                         <option value="Laptop">Laptop</option>
-                                        <option value="Tools">Tools</option>
-                                        <option value="Accessories">Accessories</option>
+                                        <option value="Printer">Printer</option>
+                                        <option value="Mouse">Mouse</option>
+                                        <option value="Keyboard">Keyboard</option>
+                                        <option value="Hardisk">Hardisk</option>
+                                        <option value="RAM">RAM</option>
+                                        <option value="Video Card">Video Card</option>
+                                        <option value="UPS">UPS</option>
+                                        <option value="UPS Battery">UPS Battery</option>
+                                        <option value="Router">Router</option>
                                     </select>
                                     <div class="invalid-feedback">Please Select Item Type</div>
-                                </div>
-                                <div class="mb-2 form-group">
-                                    <label for="itemName_edit" class="col-form-label">Item Name</label>
-                                    <input type="text" name="itemName" id="itemName_edit" class="form-control" required disabled></input>
-                                    <div class="invalid-feedback">Please Input Item Name</div>
                                 </div>
                                 <div class="mb-2 form-group">
                                     <label for="itemBrand_edit" class="col-form-label">Item Brand</label>

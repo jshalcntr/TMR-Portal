@@ -2,10 +2,10 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/tmr-portal/index.php">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/tmr-portal_dev/index.php">
         <div class="sidebar-brand-icon rotate-n-15">
             <!-- <i class="fas fa-ticket"></i> -->
-            <img src="/tmr-portal/assets/img/tmr-logo.png" alt="" srcset="" width="50px">
+            <img src="/tmr-portal_dev/assets/img/tmr-logo.png" alt="" srcset="" width="50px">
         </div>
 
     </a>
@@ -15,14 +15,14 @@
 
     <!-- Nav Item - Dashboard -->
     <!-- <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'dashboard.php') != false ? 'active' : '' ?>">
-        <a class="nav-link" href="/tmr-portal/index.php">
+        <a class="nav-link" href="/tmr-portal_dev/index.php">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li> -->
     <div class="side-item">
         <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'dashboard.php') !== false ? 'active' : '' ?>">
             <li class="iso-pro ">
-                <a href="/tmr-portal/index.php">
+                <a href="/tmr-portal_dev/index.php">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -41,14 +41,14 @@
         <div class="sidebar-heading">Inventory Management</div>
 
         <!-- <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'inventory.php') != false ? 'active' : '' ?> ?>">
-            <a class="nav-link" href="/tmr-portal/views/admin/inventory-management/inventory.php">
+            <a class="nav-link" href="/tmr-portal_dev/views/admin/inventory-management/inventory.php">
                 <i class="fas fa-warehouse"></i>
                 <span>Inventory</span></a>
         </li> -->
         <div class="side-item">
             <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'inventory.php') !== false ? 'active' : '' ?>">
                 <li class="iso-pro ">
-                    <a href="/tmr-portal/views/admin/inventory-management/inventory.php">
+                    <a href="/tmr-portal_dev/views/admin/inventory-management/inventory.php">
                         <span></span>
                         <span></span>
                         <span></span>
@@ -61,7 +61,7 @@
         <div class="side-item">
             <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'disposal.php') !== false ? 'active' : '' ?>">
                 <li class="iso-pro">
-                    <a href="/tmr-portal/views/admin/inventory-management/disposal.php">
+                    <a href="/tmr-portal_dev/views/admin/inventory-management/disposal.php">
                         <span></span>
                         <span></span>
                         <span></span>
@@ -78,7 +78,7 @@
     <div class="sidebar-heading">Ticketing System</div>
 
     <!-- <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'ticketing.php') !== false ? 'active' : '' ?>">
-        <a href="<?= $authRole == "ADMIN" ? "/tmr-portal/views/admin/ticketing-system/ticketing.php" : "/tmr-portal/views/user/ticketing-system/ticketing.php" ?>" class="nav-link">
+        <a href="<?= $authRole == "ADMIN" ? "/tmr-portal_dev/views/admin/ticketing-system/ticketing.php" : "/tmr-portal_dev/views/user/ticketing-system/ticketing.php" ?>" class="nav-link">
             <i class="fas fa-ticket"></i>
             <span>Ticketing System</span>
         </a>
@@ -89,7 +89,7 @@
         <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'ticketing.php') !== false ? 'active' : '' ?>">
             <li class="iso-pro">
 
-                <a href="<?= $authRole == "ADMIN" ? "/tmr-portal/views/admin/ticketing-system/ticketing.php" : "/tmr-portal/views/user/ticketing-system/ticketing.php" ?>">
+                <a href="<?= $authRole == "ADMIN" ? "/tmr-portal_dev/views/admin/ticketing-system/ticketing.php" : "/tmr-portal_dev/views/user/ticketing-system/ticketing.php" ?>">
                     <span></span>
                     <span></span>
                     <span></span>

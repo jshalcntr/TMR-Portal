@@ -1,12 +1,12 @@
 const dragZone = document.getElementById("dragZone");
-const fileInput = document.getElementById("importFile");
+const fileInput = document.getElementById("disposalFormFile");
 const droppingLogo = document.getElementById("droppingLogo");
 const filePreview = document.getElementById("filePreview");
 const filePreviewname = document.getElementById("fileName");
 const removeFileBtn = document.getElementById("removeFileBtn");
 const actionGroup = document.getElementById("actionGroup");
 
-const allowedExtensions = /(\.csv|\.xls|\.xlsx)$/i;
+const allowedExtensions = /(\.pdf)$/i;
 let previousFile;
 
 const toggleDragFile = () => {
@@ -60,7 +60,7 @@ dragZone.addEventListener('drop', (e) => {
     if (!allowedExtensions.exec(files[0].name)) {
         Swal.fire({
             title: 'Error!',
-            text: 'Invalid file type. Only Excel files are allowed.',
+            text: 'Invalid file type. Only PDF files are allowed.',
             icon: 'warning',
             confirmButtonColor: 'var(--bs-danger)',
             confirmButtonText: 'OK'
@@ -84,58 +84,8 @@ removeFileBtn.addEventListener("click", (e) => {
     toggleDragFile();
 });
 
-$(".importInventoryModalBtn").click(function (e) {
+$(".disposeItemsBtn").click(function (e) {
     e.preventDefault();
-    $("#importFile").val("");
+    $("#disposalFormFile").val("");
     toggleDragFile();
-});
-$(document).ready(function () {
-    $("#importInventoryForm").on("submit", function (e) {
-        e.preventDefault();
-
-        let formData = new FormData(this);
-        $.ajax({
-            url: "../../../backend/admin/inventory-management/importInventory.php",
-            type: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            beforeSend: function () {
-                Swal.fire({
-                    title: "Uploading...",
-                    text: "Please wait while the file is being uploaded.",
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    },
-                });
-            },
-            success: function (response) {
-                console.log(response);
-                if (response.status === 'success') {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: `${response.message}`,
-                        icon: 'success',
-                        confirmButtonColor: 'var(--bs-success)'
-                    }).then(() => {
-                        populateTable();
-                        $("#importInventoryModal").modal('hide');
-                    })
-                } else {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: `${response.message}`,
-                        icon: 'error',
-                        confirmButtonColor: 'var(--bs-danger)'
-                    })
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error(`Error: ${error}`);
-                console.error(`XHR: ${xhr}`);
-                console.error(`Status: ${status}`);
-            }
-        });
-    });
 });

@@ -25,6 +25,7 @@ $(document).ready(function () {
                 if (response.status === 'success') {
                     $('#ticketForm')[0].reset(); // Reset the form on success
                     $('#loading-spinner').hide();
+                    fetchTickets();
                 }
 
             },

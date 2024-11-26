@@ -3,7 +3,6 @@ include('../../dbconn.php');
 
 $id = $_POST['id'];
 $itemType = $_POST['itemType'];
-$itemName = $_POST['itemName'];
 $itemBrand = $_POST['itemBrand'];
 $itemModel = $_POST['itemModel'];
 $user = $_POST['user'];
@@ -14,7 +13,7 @@ $serialNumber = $_POST['serialNumber'];
 $itemPrice = $_POST['price'];
 $remarks = $_POST['remarks'];
 
-$sql = "UPDATE inventory_records_tbl SET item_type = ?, item_name = ?, brand = ?, model = ?, date_acquired = ?, supplier = ?, serial_number = ?, remarks = ?, user = ?, department = ?, price = ? WHERE id = ?";
+$sql = "UPDATE inventory_records_tbl SET item_type = ?, brand = ?, model = ?, date_acquired = ?, supplier = ?, serial_number = ?, remarks = ?, user = ?, department = ?, price = ? WHERE id = ?";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {
@@ -25,7 +24,7 @@ if (!$stmt) {
         "data" => $conn->error
     ]);
 } else {
-    $stmt->bind_param("ssssssssssdi", $itemType, $itemName, $itemBrand, $itemModel, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $separtment, $itemPrice, $id);
+    $stmt->bind_param("sssssssssdi", $itemType, $itemBrand, $itemModel, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $separtment, $itemPrice, $id);
     if (!$stmt->execute()) {
         header('Content-Type: application/json');
         echo json_encode([

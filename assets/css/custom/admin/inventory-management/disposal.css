@@ -28,17 +28,48 @@
     color: var(--dark);
 }
 
-#forDisposalTable tbody tr:nth-child(odd) {
+#forDisposalTable tbody tr:nth-child(odd),
+#disposableItemsTable tbody tr:nth-child(odd) {
     background-color: var(--bs-white);
 }
 
-#forDisposalTable tbody tr:nth-child(even) {
+#forDisposalTable tbody tr:nth-child(even),
+#disposableItemsTable tbody tr:nth-child(even) {
     background-color: var(--bs-table-bg);
 }
-#forDisposalTable {
+#forDisposalTable,
+#disposableItemsTable {
     --bs-table-bg: none;
 }
-#forDisposalTable thead th {
+#forDisposalTable thead th,
+#disposableItemsTable thead th {
     background-color: var(--primary);
     color: var(--text-white);
+}
+
+.custom-upload-dropzone {
+    border: 5px dashed var(--text-gray);
+    border-radius: 5px;
+}
+.file-upload-contain {
+    height: 90%;
+}
+#dragZone {
+    transition: border-width 0.2s;
+    cursor: pointer;
+    height: 100%;
+}
+#dragZone.drag-over {
+    border-width: 7px;
+}
+#filePreview {
+    gap: 8px;
+}
+#removeFileBtn {
+    cursor: pointer;
+}
+#disposableItemsTable_wrapper > div:nth-child(2) {
+    max-height: 372px;
+    min-height: 372px;
+    overflow: scroll;
 }

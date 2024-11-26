@@ -54,7 +54,6 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-
                 </div>
                 <!-- /.container-fluid -->
             </div>

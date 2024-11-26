@@ -61,10 +61,11 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">For Disposal</h6>
-                                    <div class="actions d-flex flex-row-reverse gap-3">
+                                    <div class="actions d-flex flex-row-reverse gap-2">
                                         <form action="../../../backend/admin/inventory-management/createDisposalForm.php" method="post">
                                             <button type="submit" class="btn btn-primary createDisposalFormBtn"><i class="fas fa-file-lines"></i> Create Disposal Form</button>
                                         </form>
+                                        <button type="button" class="btn btn-info disposeItemsBtn" data-bs-toggle="modal" data-bs-target="#disposeItemsModal"><i class="fas fa-dumpster"></i> Dispose All Items</button>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -74,59 +75,12 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                                 <tr>
                                                     <th>Asset No.</th>
                                                     <th>Item type</th>
-                                                    <th>Item name</th>
                                                     <th>User</th>
                                                     <th>Department</th>
                                                     <th>Date Retired</th>
                                                     <th>Remarks</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <?php
-                                                $forDisposalSql = "SELECT inventory_records_tbl.fa_number,
-                                                                    inventory_records_tbl.item_type,
-                                                                    inventory_records_tbl.item_name,
-                                                                    inventory_records_tbl.user,
-                                                                    inventory_records_tbl.department,
-                                                                    inventory_disposal_tbl.date_added,
-                                                                    inventory_disposal_tbl.remarks
-                                                                    FROM inventory_records_tbl
-                                                                    JOIN inventory_disposal_tbl ON inventory_records_tbl.id = inventory_disposal_tbl.inventory_id
-                                                                    WHERE inventory_disposal_tbl.isDisposed = 0";
-
-                                                $stmt = $conn->prepare($forDisposalSql);
-
-                                                if ($stmt == false) {
-                                                    echo $conn->error;
-                                                } else {
-                                                    if (!$stmt->execute()) {
-                                                        echo $stmt->error;
-                                                    } else {
-                                                        $forDisposalResult = $stmt->get_result();
-                                                        while ($forDisposalRow = $forDisposalResult->fetch_assoc()) {
-                                                            $faNumber = $forDisposalRow['fa_number'];
-                                                            $itemType = $forDisposalRow['item_type'];
-                                                            $itemName = $forDisposalRow['item_name'];
-                                                            $user = $forDisposalRow['user'];
-                                                            $department = $forDisposalRow['department'];
-                                                            $dateRetired = $forDisposalRow['date_added'];
-                                                            $remarks = $forDisposalRow['remarks'];
-                                                ?>
-                                                            <tr>
-                                                                <td><?= $faNumber == true ? $faNumber : "N/A" ?></td>
-                                                                <td><?= $itemType ?></td>
-                                                                <td><?= $itemName ?></td>
-                                                                <td><?= $user ?></td>
-                                                                <td><?= $department ?></td>
-                                                                <td data-order="<?= convertToDate($dateRetired) ?>"><?= convertToReadableDate($dateRetired) ?></td>
-                                                                <td class="remarks-column"><?= $remarks == true ? $remarks : "No Remarks" ?></td>
-                                                            </tr>
-                                                <?php
-                                                        }
-                                                    }
-                                                }
-                                                ?>
-                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -146,9 +100,62 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
             </div>
         </div>
     </div>
+
+    <?php if ($authorizations['inventory_edit']): ?>
+        <div class="modal fade" id="disposeItemsModal" tabindex="-1" aria-labelledby="disposeItemsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-between align-items-center px-4">
+                        <h3 class="modal-title" id="disposeItemsModalLabel">Dispose Items</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <form class="col" id="disposeItemsForm" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <h3 class="h3">Disposal Form: </h3>
+                                    </div>
+                                    <div class="file-upload-contain row">
+                                        <label for="disposalFormFile" id="dragZone" class="custom-upload-dropzone d-flex align-items-center justify-content-center flex-column p-xl-5">
+                                            <i class="fas fa-cloud-arrow-up fa-3x" id="droppingLogo"></i>
+                                            <p class="h2">Drag and Drop File Here</p>
+                                        </label>
+                                        <input type="file" id="disposalFormFile" name="disposalFormFile" accept=".pdf" class="d-none">
+                                        <div id="filePreview" class="d-none align-items-center justify-content-center p-xl-5">
+                                            <i class="fas fa-table fa-2x text-info mr-1"></i>
+                                            <p class="h3 mb-0" id="fileName">No File Selected</p>
+                                            <i class="fas fa-trash text-danger" id="removeFileBtn"></i>
+                                        </div>
+                                        <div class="d-none justify-content-end align-items-end" id="actionGroup">
+                                            <button type="submit" class="btn-lg btn btn-primary"><i class="fas fa-trash-can-list"></i> Dispose Items</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="col mb-3 table-responsive">
+                                    <table class="table" id="disposableItemsTable" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Asset No.</th>
+                                                <th>Item Type</th>
+                                                <th>Item Name</th>
+                                                <th>User</th>
+                                                <th>Department</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
 </body>
 
 <?php include '../../components/external-js-import.php'; ?>
 <script src="../../../assets/js/admin/inventory-management/forDisposal.js"></script>
+<script src="../../../assets/js/admin/inventory-management/uploadDisposalForm.js"></script>
 
 </html>

@@ -88,7 +88,7 @@
     color: #356b49;
     background-color: rgba(255, 255, 255, 0.5);
     position: absolute;
-    z-index: 9999;
+    z-index: 1;
     box-shadow: -5px 0 1px rgba(153, 153, 153, 0.2),
         -10px 0 1px rgba(153, 153, 153, 0.2),
         inset 0 0 20px rgba(255, 255, 255, 0.3),
@@ -155,4 +155,8 @@
 .far,
 .fas {
     font-family: "Font Awesome 6 Pro" !important;
+}
+
+#ticketModalTitle {
+    text-transform: capitalize;
 }

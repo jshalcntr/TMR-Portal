@@ -1,16 +1,15 @@
 $(document).ready(function () {
     let createInventoryValidationTimeout;
 
-    $(".createInventoryModalBtn").click(function (e) { 
+    $(".createInventoryModalBtn").click(function (e) {
         e.preventDefault();
-        
-        if(createInventoryValidationTimeout){
+
+        if (createInventoryValidationTimeout) {
             clearTimeout(createInventoryValidationTimeout);
         }
         $("#createInventoryForm").removeClass('was-validated');
 
         $("#itemType").val("");
-        $("#itemName").val("");
         $("#itemBrand").val("");
         $("#itemModel").val("");
         $("#user").val("");
@@ -18,22 +17,22 @@ $(document).ready(function () {
         $("#supplierName").val("");
         $("#serialNumber").val("");
         $("#price").val("");
-        $("#status").val("");
+        $("#status").val("Active");
         $("#remarks").val("");
         $("#dateAcquired").val(new Date().toISOString().split('T')[0]);
     });
 
     const createInventoryForm = $('#createInventoryForm');
 
-    createInventoryForm.each(function() {
-        $(this).submit(function (e) { 
+    createInventoryForm.each(function () {
+        $(this).submit(function (e) {
             e.preventDefault();
-            if(createInventoryValidationTimeout){
+            if (createInventoryValidationTimeout) {
                 clearTimeout(createInventoryValidationTimeout);
             }
-            if(!this.checkValidity()){
+            if (!this.checkValidity()) {
                 e.stopPropagation();
-            }else{
+            } else {
                 Swal.fire({
                     title: 'Add to Inventory?',
                     text: "Are you sure you want to add this inventory?",
@@ -50,17 +49,20 @@ $(document).ready(function () {
                             type: 'POST',
                             url: '../../../backend/admin/inventory-management/addInventory.php',
                             data: formData,
-                            success: function(response) {
-                                if(response.status === 'success'){
+                            success: function (response) {
+                                if (response.status === 'success') {
                                     Swal.fire({
                                         title: 'Success!',
                                         text: `${response.message}`,
                                         icon: 'success',
                                         confirmButtonColor: 'var(--bs-success)'
-                                    }).then(()=>{
-                                        window.location.reload();
+                                    }).then(() => {
+                                        populateTable();
+                                        setTimeout(() => {
+                                            $("#createInventoryModal").modal('hide');
+                                        }, 150);
                                     })
-                                }else if(response.status === 'internal-error'){
+                                } else if (response.status === 'internal-error') {
                                     Swal.fire({
                                         title: 'Error!',
                                         text: `${response.message}`,
@@ -69,7 +71,7 @@ $(document).ready(function () {
                                     })
                                 }
                             },
-                            error: function(xhr, status, error) {
+                            error: function (xhr, status, error) {
                                 console.log(xhr.responseText);
                                 console.log(status);
                                 console.log(error);

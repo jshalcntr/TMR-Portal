@@ -1,8 +1,10 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Content-Type');
+header('Content-Type: application/json'); // Ensure JSON responses for all cases
 include('../../dbconn.php');
 session_start();
-
-header('Content-Type: application/json'); // Ensure JSON responses for all cases
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -20,8 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Initialize variables for file upload
     $allowed_extensions = ['jpg', 'jpeg', 'png', 'pdf', 'docx'];
     $max_file_size = 2 * 1024 * 1024; // 2 MB
-    $upload_dir = "/tmr-portal/backend/uploads/tickets/";
+    $upload_dir = "../../uploads/tickets/";
 
+    // Ensure upload directory exists
     if (!is_dir($upload_dir) && !mkdir($upload_dir, 0777, true)) {
         echo json_encode(["status" => "error", "message" => "Failed to create upload directory."]);
         exit;
@@ -31,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $date_created = date("Y-m-d H:i:s");
     $ticket_status = 'Open';
     $file_name = '';
+    $new_target_path = '';
 
     // Process file upload if a file is uploaded
     if (isset($_FILES['ticket_attachment']) && $_FILES['ticket_attachment']['error'] == UPLOAD_ERR_OK) {
@@ -40,14 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Validate file type and size
         if (in_array($file_extension, $allowed_extensions) && $file['size'] <= $max_file_size) {
             $file_name = uniqid('ticket_', true) . '.' . $file_extension;
-            $target_path = $upload_dir . $file_name;
-            $move_file = move_uploaded_file($file['tmp_name'], $target_path);
+            $new_target_path = $upload_dir . $file_name;
+
             // Attempt to move the uploaded file
-            if (!$move_file) {
+            if (!move_uploaded_file($file['tmp_name'], $new_target_path)) {
                 echo json_encode(["status" => "error", "message" => "File upload failed. Please try again."]);
                 exit;
-            } else {
-                $new_target_path = $upload_dir . $file_name;
             }
         } else {
             echo json_encode(["status" => "error", "message" => "Invalid file type or size. Upload .jpg, .png, .pdf, or .docx files under 2 MB."]);
@@ -62,7 +64,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt = $conn->prepare($sql);
 
     if ($stmt) {
-        $stmt->bind_param("issssss", $ticket_requestor_id, $ticket_subject, $ticket_category, $ticket_content, $ticket_status, $date_created, $new_target_path);
+        $stmt->bind_param(
+            "issssss",
+            $ticket_requestor_id,
+            $ticket_subject,
+            $ticket_category,
+            $ticket_content,
+            $ticket_status,
+            $date_created,
+            $new_target_path
+        );
 
         if ($stmt->execute()) {
             echo json_encode(["status" => "success", "message" => "Ticket submitted successfully."]);

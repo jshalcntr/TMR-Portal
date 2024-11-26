@@ -118,25 +118,44 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                         <div class="<?= $divsize . " " . $divhidden ?>">
                             <div class="card card-body shadow">
                                 <h3 class="page-header">For Approval</h3>
-                                <button class="dropdown-item align-items-center">
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Ticket Title</div>
-                                        <div class="small text-gray-500 text-truncate">Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, </div>
+                                <div id="forApprovalContainer">
+                                    <!-- Tickets will be dynamically populated here -->
+                                    <p>Loading tickets...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ticket Details Modal -->
+                        <div class="modal fade" id="forApprovalticketModal" tabindex="-1" role="dialog" aria-labelledby="ticketModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="ticketModalTitle">Ticket Details</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
-                                </button>
+                                    <div class="modal-body">
+                                        <p><strong>Description:</strong> <span id="ticketModalDescription"></span></p>
+                                        <p><strong>Date Created:</strong> <span id="ticketModalDate"></span></p>
+                                        <p><strong>Handler:</strong> <span id="ticketModalHandler"></span></p>
+                                        <p><strong>Requestor:</strong> <span id="ticketModalRequestor"></span></p>
+                                        <div id="ticketModalAttachment"></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- End of for approval ticket -->
                         <!-- Pending Tickets -->
-                        <div class="<?= $divsize ?>">
+                        <div id="pendingTickets" class="<?= $divsize ?>">
                             <div class="card card-body shadow">
-                                <h3 class="page-header">3 Tickets Pending</h3>
-                                <button class="dropdown-item align-items-center">
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Ticket Title</div>
-                                        <div class="small text-gray-500 text-truncate">Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, </div>
-                                    </div>
-                                </button>
+                                <h3 class="page-header">Pending Tickets</h3>
+                                <div id="pendingTicketList">
+                                    <!-- Tickets will be populated here dynamically -->
+                                </div>
                             </div>
                         </div>
                         <!-- End of pending tickets -->
@@ -144,12 +163,33 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                         <div class="<?= $divsize ?>">
                             <div class="card card-body shadow">
                                 <h3 class="page-header">My Ticket History</h3>
-                                <button class="dropdown-item align-items-center">
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Ticket Title</div>
-                                        <div class="small text-gray-500 text-truncate">Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, Ticket description, </div>
+                                <div id="closedTicketList">
+                                    <!-- Tickets will be populated here dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of ticket history -->
+                        <!-- Modal -->
+                        <div class="modal fade" id="ticketsModal" tabindex="-1" aria-labelledby="ticketModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="ticketModalLabel">Ticket Details</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                </button>
+                                    <div class="modal-body">
+                                        <p><strong>Title:</strong> <span id="ticketTitle"></span></p>
+                                        <p><strong>Description:</strong> <span id="ticketDescription"></span></p>
+                                        <p><strong>Attachment:</strong> <span id="ticketAttachment"></span></p>
+                                        <p><strong>Date Created:</strong> <span id="ticketDate"></span></p>
+                                        <div id="actionButtons" class="text-center">
+                                            <!-- Action buttons will be populated dynamically -->
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

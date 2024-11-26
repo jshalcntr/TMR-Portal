@@ -43,34 +43,33 @@ if (isset($_FILES['importFile']) && $_FILES['importFile']['error'] == 0) {
             $id = $sheet->getCell('A' . $row->getRowIndex())->getValue();
             $faNumber = $sheet->getCell('B' . $row->getRowIndex())->getValue();
             $itemType = $sheet->getCell('C' . $row->getRowIndex())->getValue();
-            $itemName = $sheet->getCell('D' . $row->getRowIndex())->getValue();
-            $brand = $sheet->getCell('E' . $row->getRowIndex())->getValue();
-            $model = $sheet->getCell('F' . $row->getRowIndex())->getValue();
-            $dateAcquired = $sheet->getCell('G' . $row->getRowIndex())->getValue() ? convertFromReadableDate($sheet->getCell('G' . $row->getRowIndex())->getValue()) : null;
-            $supplier = $sheet->getCell('H' . $row->getRowIndex())->getValue();
-            $serialNumber = $sheet->getCell('I' . $row->getRowIndex())->getValue();
-            $remarks = $sheet->getCell('J' . $row->getRowIndex())->getValue();
-            $user = $sheet->getCell('K' . $row->getRowIndex())->getValue();
-            $department = $sheet->getCell('L' . $row->getRowIndex())->getValue();
-            $status = $sheet->getCell('M' . $row->getRowIndex())->getValue();
-            $price = $sheet->getCell('N' . $row->getRowIndex())->getValue() ? convertFromPhp($sheet->getCell('N' . $row->getRowIndex())->getValue()) : null;
+            $brand = $sheet->getCell('D' . $row->getRowIndex())->getValue();
+            $model = $sheet->getCell('E' . $row->getRowIndex())->getValue();
+            $dateAcquired = $sheet->getCell('F' . $row->getRowIndex())->getValue() ? convertFromReadableDate($sheet->getCell('F' . $row->getRowIndex())->getValue()) : null;
+            $supplier = $sheet->getCell('G' . $row->getRowIndex())->getValue();
+            $serialNumber = $sheet->getCell('H' . $row->getRowIndex())->getValue();
+            $remarks = $sheet->getCell('I' . $row->getRowIndex())->getValue();
+            $user = $sheet->getCell('J' . $row->getRowIndex())->getValue();
+            $department = $sheet->getCell('K' . $row->getRowIndex())->getValue();
+            $status = $sheet->getCell('L' . $row->getRowIndex())->getValue();
+            $price = $sheet->getCell('M' . $row->getRowIndex())->getValue() ? convertFromPhp($sheet->getCell('M' . $row->getRowIndex())->getValue()) : null;
 
-            if (!$itemType && !$itemName && !$brand && !$model && !$dateAcquired && !$supplier && !$serialNumber && !$remarks && !$user && !$department && !$status) {
+            if (!$itemType && !$brand && !$model && !$dateAcquired && !$supplier && !$serialNumber && !$remarks && !$user && !$department && !$status) {
                 continue;
             } else if (!$id) {
                 if (!$faNumber) {
                     if ($price > 9999.4) {
                         $faNumber = createNewFaNumber($conn, $dateAcquired);
 
-                        $addItemSql = "INSERT INTO inventory_records_tbl(item_type, item_name, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
-                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                        $stmt = $conn->prepare($addItemSql);
-                        $stmt->bind_param("sssssssssssds", $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber);
-                    } else {
-                        $addItemSql = "INSERT INTO inventory_records_tbl(item_type, item_name, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price)
+                        $addItemSql = "INSERT INTO inventory_records_tbl(item_type, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
                                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         $stmt = $conn->prepare($addItemSql);
-                        $stmt->bind_param("sssssssssssd", $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price);
+                        $stmt->bind_param("ssssssssssds", $itemType, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber);
+                    } else {
+                        $addItemSql = "INSERT INTO inventory_records_tbl(item_type, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price)
+                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        $stmt = $conn->prepare($addItemSql);
+                        $stmt->bind_param("ssssssssssd", $itemType, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price);
                     }
                 } else {
                     $faNumberPattern = '/^TMRMIS\d{2}-\d{4}$/';
@@ -83,22 +82,22 @@ if (isset($_FILES['importFile']) && $_FILES['importFile']['error'] == 0) {
                         $stmt2->close();
 
                         if ($result->num_rows > 0) {
-                            $updateItemSql = "UPDATE inventory_records_tbl SET item_type = ?, item_name = ?, brand = ?, model = ?, date_acquired = ?, supplier = ?, serial_number = ?, remarks = ?, user = ?, department = ?, status = ?, price = ? WHERE fa_number = ?";
+                            $updateItemSql = "UPDATE inventory_records_tbl SET item_type = ?, brand = ?, model = ?, date_acquired = ?, supplier = ?, serial_number = ?, remarks = ?, user = ?, department = ?, price = ? WHERE fa_number = ?";
                             $stmt = $conn->prepare($updateItemSql);
-                            $stmt->bind_param("sssssssssssds", $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber);
+                            $stmt->bind_param("sssssssssds", $itemType, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $price, $faNumber);
                         } else {
-                            $addItemSql = "INSERT INTO inventory_records_tbl(item_type, item_name, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                            $addItemSql = "INSERT INTO inventory_records_tbl(item_type, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                             $stmt = $conn->prepare($addItemSql);
-                            $stmt->bind_param("sssssssssssds", $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber);
+                            $stmt->bind_param("ssssssssssds", $itemType, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber);
                         }
                     } else {
                         $faNumber = createNewFaNumber($conn, $dateAcquired);
 
-                        $addItemSql = "INSERT INTO inventory_records_tbl(item_type, item_name, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        $addItemSql = "INSERT INTO inventory_records_tbl(item_type, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         $stmt = $conn->prepare($addItemSql);
-                        $stmt->bind_param("sssssssssssds", $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber);
+                        $stmt->bind_param("ssssssssssds", $itemType, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber);
                     }
                 }
             } else {
@@ -113,45 +112,45 @@ if (isset($_FILES['importFile']) && $_FILES['importFile']['error'] == 0) {
                 if ($result->num_rows > 0) {
                     if (!$faNumber) {
                         if ($price > 9999.4) {
-                            $updateItemSql = "UPDATE inventory_records_tbl SET item_type = ?, item_name = ?, brand = ?, model = ?, date_acquired = ?, supplier = ?, serial_number = ?, remarks = ?, user = ?, department = ?, status = ?, price = ?, fa_number = ? WHERE id = ?";
+                            $updateItemSql = "UPDATE inventory_records_tbl SET item_type = ?, brand = ?, model = ?, date_acquired = ?, supplier = ?, serial_number = ?, remarks = ?, user = ?, department = ?,, price = ?, fa_number = ? WHERE id = ?";
                             $stmt = $conn->prepare($updateItemSql);
-                            $stmt->bind_param("sssssssssssdsi", $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber, $id);
+                            $stmt->bind_param("sssssssssdsi", $itemType, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $price, $faNumber, $id);
                         }
-                        $updateItemSql = "UPDATE inventory_records_tbl SET item_type = ?, item_name = ?, brand = ?, model = ?, date_acquired = ?, supplier = ?, serial_number = ?, remarks = ?, user = ?, department = ?, status = ?, price = ? WHERE id = ?";
+                        $updateItemSql = "UPDATE inventory_records_tbl SET item_type = ?, brand = ?, model = ?, date_acquired = ?, supplier = ?, serial_number = ?, remarks = ?, user = ?, department = ?, price = ? WHERE id = ?";
                         $stmt = $conn->prepare($updateItemSql);
-                        $stmt->bind_param("sssssssssssdi", $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $id);
+                        $stmt->bind_param("sssssssssdi", $itemType, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $price, $id);
                     } else {
                         $faNumberPattern = '/^TMRMIS\d{2}-\d{4}$/';
 
                         if (preg_match($faNumberPattern, $faNumber)) {
-                            $updateItemSql = "UPDATE inventory_records_tbl SET item_type = ?, item_name = ?, brand = ?, model = ?, date_acquired = ?, supplier = ?, serial_number = ?, remarks = ?, user = ?, department = ?, status = ?, price = ?, fa_number = ? WHERE id = ?";
+                            $updateItemSql = "UPDATE inventory_records_tbl SET item_type = ?, brand = ?, model = ?, date_acquired = ?, supplier = ?, serial_number = ?, remarks = ?, user = ?, department = ?, price = ?, fa_number = ? WHERE id = ?";
                             $stmt = $conn->prepare($updateItemSql);
-                            $stmt->bind_param("sssssssssssdsi", $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber, $id);
+                            $stmt->bind_param("sssssssssdsi", $itemType, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $price, $faNumber, $id);
                         } else {
-                            $updateItemSql = "UPDATE inventory_records_tbl SET item_type = ?, item_name = ?, brand = ?, model = ?, date_acquired = ?, supplier = ?, serial_number = ?, remarks = ?, user = ?, department = ?, status = ?, price = ? WHERE id = ?";
+                            $updateItemSql = "UPDATE inventory_records_tbl SET item_type = ?, brand = ?, model = ?, date_acquired = ?, supplier = ?, serial_number = ?, remarks = ?, user = ?, department = ?, price = ? WHERE id = ?";
                             $stmt = $conn->prepare($updateItemSql);
-                            $stmt->bind_param("sssssssssssdi", $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $id);
+                            $stmt->bind_param("sssssssssdi", $itemType, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $price, $id);
                         }
                     }
                 } else {
                     if (!$faNumber) {
                         if ($price > 9999.4) {
                             $faNumber = createNewFaNumber($conn, $dateAcquired);
-                            $addItemSql = "INSERT INTO inventory_records_tbl(id, item_type, item_name, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                            $stmt = $conn->prepare($addItemSql);
-                            $stmt->bind_param("isssssssssssds", $id, $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber);
-                        } else {
-                            $addItemSql = "INSERT INTO inventory_records_tbl(id, item_type, item_name, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price)
+                            $addItemSql = "INSERT INTO inventory_records_tbl(id, item_type, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                             $stmt = $conn->prepare($addItemSql);
-                            $stmt->bind_param("isssssssssssd", $id, $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price);
+                            $stmt->bind_param("issssssssssds", $id, $itemType, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber);
+                        } else {
+                            $addItemSql = "INSERT INTO inventory_records_tbl(id, item_type, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                            $stmt = $conn->prepare($addItemSql);
+                            $stmt->bind_param("issssssssssd", $id, $itemType, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price);
                         }
                     } else {
-                        $addItemSql = "INSERT INTO inventory_records_tbl(id, item_type, item_name, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
-                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        $addItemSql = "INSERT INTO inventory_records_tbl(id, item_type, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
+                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         $stmt = $conn->prepare($addItemSql);
-                        $stmt->bind_param("isssssssssssds", $id, $itemType, $itemName, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber);
+                        $stmt->bind_param("issssssssssds", $id, $itemType, $brand, $model, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $department, $status, $price, $faNumber);
                     }
                 }
             }
