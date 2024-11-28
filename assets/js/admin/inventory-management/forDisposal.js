@@ -12,7 +12,21 @@ $(document).ready(function () {
     $('#forDisposalTable').DataTable({
         "ajax": {
             "url": "../../../backend/admin/inventory-management/getAllForDisposals.php",
-            "type": "GET"
+            "type": "GET",
+            "dataSrc": function (json) {
+                if (!json.data || json.data.length === 0) {
+                    if ($("#forDisposalActions").hasClass("d-flex")) {
+                        $("#forDisposalActions").removeClass("d-flex");
+                        $("#forDisposalActions").addClass("d-none");
+                    }
+                } else {
+                    if ($("#forDisposalActions").hasClass("d-none")) {
+                        $("#forDisposalActions").addClass("d-flex");
+                        $("#forDisposalActions").removeClass("d-none");
+                    }
+                }
+                return json.data;
+            }
         },
         "columns": [
             { "data": "faNumber" },
@@ -40,7 +54,12 @@ $(document).ready(function () {
     $('#disposableItemsTable').DataTable({
         "ajax": {
             "url": "../../../backend/admin/inventory-management/getAllForDisposals.php",
-            "type": "GET"
+            "type": "GET",
+            "dataSrc": function (json) {
+                const ids = json.data.map(item => item.id);
+                $("#disposableItemIds").val(JSON.stringify(ids));
+                return json.data;
+            }
         },
         "columns": [
             { "data": "faNumber" },
@@ -90,9 +109,9 @@ $(document).ready(function () {
                         icon: 'success',
                         confirmButtonColor: 'var(--bs-success)'
                     }).then(() => {
-                        console.log(response);
                         $('#disposableItemsTable').DataTable().ajax.reload();
                         $('#forDisposalTable').DataTable().ajax.reload();
+                        $('#disposedListTable').DataTable().ajax.reload();
                     });
                 } else if (response.status === 'error') {
                     Swal.fire({

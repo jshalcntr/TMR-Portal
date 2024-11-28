@@ -1,7 +1,9 @@
 <?php
 require('../../dbconn.php');
 date_default_timezone_set('Asia/Manila');
-$date = date('Ymd');
+$date = date('Ymdhis');
+$dateNow = date('Y-m-d');
+$disposasbleItemIds = isset($_POST['disposableItemIds']) ? json_decode($_POST['disposableItemIds'], true) : [];
 
 if (isset($_FILES['disposalFormFile']) && $_FILES['disposalFormFile']['error'] === UPLOAD_ERR_OK) {
     $file = $_FILES['disposalFormFile'];
@@ -17,12 +19,111 @@ if (isset($_FILES['disposalFormFile']) && $_FILES['disposalFormFile']['error'] =
 
     if (move_uploaded_file($fileTmpPath, $newFilePath)) {
         $fullFilePath = "/tmr-portal_dev/backend/uploads/inventory/" . $fileName . '.' . $fileExtension;
-        header('Content-Type: application/json');
-        echo json_encode([
-            "status" => "success",
-            "message" => "File uploaded successfully",
-            "data" => $fullFilePath
-        ]);
+        // header('Content-Type: application/json');
+        // echo json_encode([
+        //     "status" => "success",
+        //     "message" => "File uploaded successfully",
+        //     "data" => $fullFilePath
+        // ]);
+        $createDisposedRecordSql = "INSERT INTO inventory_disposed_tbl (disposed_date, scanned_form_file) VALUES (?, ?)";
+        $createDisposedRecordStmt = $conn->prepare($createDisposedRecordSql);
+
+        if (!$createDisposedRecordStmt) {
+            header('Content-Type: application/json');
+            echo json_encode([
+                "status" => "error",
+                "message" => "Failed to create disposed record. Please Contact MIS",
+                "data" => $conn->error
+            ]);
+        } else {
+            $createDisposedRecordStmt->bind_param("ss", $dateNow, $fullFilePath);
+            if (!$createDisposedRecordStmt->execute()) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    "status" => "error",
+                    "message" => "Failed to create disposed record. Please Contact MIS",
+                    "data" => $createDisposedRecordStmt->error
+                ]);
+            } else {
+                $disposedId = $conn->insert_id;
+                foreach ($disposasbleItemIds as $disposableItemId) {
+                    $disposeItemSql = "INSERT INTO inventory_disposed_items_tbl (disposed_id, inventory_id) VALUES (?, ?)";
+                    $disposeItemStmt = $conn->prepare($disposeItemSql);
+                    if (!$disposeItemStmt) {
+                        header('Content-Type: application/json');
+                        echo json_encode([
+                            "status" => "error",
+                            "message" => "Failed to dispose item. Please Contact MIS",
+                            "data" => $conn->error
+                        ]);
+                        // continue;
+                    } else {
+                        $disposeItemStmt->bind_param("ii", $disposedId, $disposableItemId);
+                        if (!$disposeItemStmt->execute()) {
+                            header('Content-Type: application/json');
+                            echo json_encode([
+                                "status" => "error",
+                                "message" => "Failed to dispose item. Please Contact MIS",
+                                "data" => $disposeItemStmt->error
+                            ]);
+                            // continue;
+                        } else {
+                            $updateItemInfoSql = "UPDATE inventory_records_tbl SET status = 'Disposed' WHERE id = ?";
+                            $updateItemInfoStmt = $conn->prepare($updateItemInfoSql);
+                            if (!$updateItemInfoStmt) {
+                                header('Content-Type: application/json');
+                                echo json_encode([
+                                    "status" => "error",
+                                    "message" => "Failed to update item info. Please Contact MIS",
+                                    "data" => $conn->error
+                                ]);
+                                // continue;
+                            } else {
+                                $updateItemInfoStmt->bind_param("i", $disposableItemId);
+                                if (!$updateItemInfoStmt->execute()) {
+                                    header('Content-Type: application/json');
+                                    echo json_encode([
+                                        "status" => "error",
+                                        "message" => "Failed to update item info. Please Contact MIS",
+                                        "data" => $updateItemInfoStmt->error
+                                    ]);
+                                    // continue;
+                                } else {
+                                    $updateDisposalSql = "UPDATE inventory_disposal_tbl SET isDisposed = 1, date_disposed = ? WHERE inventory_id = ?";
+                                    $updateDisposalStmt = $conn->prepare($updateDisposalSql);
+                                    if (!$updateDisposalStmt) {
+                                        header('Content-Type: application/json');
+                                        echo json_encode([
+                                            "status" => "error",
+                                            "message" => "Failed to update disposal info. Please Contact MIS",
+                                            "data" => $conn->error
+                                        ]);
+                                        // continue;
+                                    } else {
+                                        $updateDisposalStmt->bind_param("si", $dateNow, $disposableItemId);
+                                        if (!$updateDisposalStmt->execute()) {
+                                            header('Content-Type: application/json');
+                                            echo json_encode([
+                                                "status" => "error",
+                                                "message" => "Failed to update disposal info. Please Contact MIS",
+                                                "data" => $updateDisposalStmt->error
+                                            ]);
+                                            // continue;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                header('Content-Type: application/json');
+                echo json_encode([
+                    "status" => "success",
+                    "message" => "File uploaded successfully",
+                    "data" => $fullFilePath
+                ]);
+            }
+        }
     } else {
         header('Content-Type: application/json');
         echo json_encode([

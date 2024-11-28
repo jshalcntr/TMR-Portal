@@ -3,7 +3,9 @@
 require('../../dbconn.php');
 require('../../middleware/pipes.php');
 
-$forDisposalSql = "SELECT inventory_records_tbl.fa_number,
+$forDisposalSql = "SELECT 
+                    inventory_records_tbl.id,
+                    inventory_records_tbl.fa_number,
                     inventory_records_tbl.item_type,
                     inventory_records_tbl.user,
                     inventory_records_tbl.department,
@@ -33,6 +35,7 @@ if ($stmt == false) {
         $forDisposalResult = $stmt->get_result();
         $forDisposal = [];
         while ($forDisposalRow = $forDisposalResult->fetch_assoc()) {
+            $id = $forDisposalRow['id'];
             $faNumber = $forDisposalRow['fa_number'];
             $itemType = $forDisposalRow['item_type'];
             $user = $forDisposalRow['user'];
@@ -41,13 +44,14 @@ if ($stmt == false) {
             $remarks = $forDisposalRow['remarks'];
 
             $forDisposal[] = [
+                "id" => $id,
                 "faNumber" => $faNumber == true ? $faNumber : "N/A",
                 "itemType" => $itemType,
                 "user" => $user,
                 "department" => $department,
                 "dateRetired" => $dateRetired,
                 "dateRetiredReadable" => convertToReadableDate($dateRetired),
-                "remarks" => $remarks
+                "remarks" => $remarks ? $remarks : "No Remarks"
             ];
         }
         header("Content-type: application/json");

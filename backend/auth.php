@@ -10,7 +10,9 @@ if (!isset($_SESSION["user"])) {
 if ($_SESSION['user']['role'] == "HEAD") {
     $divsize = "col-md-3";
     $divhidden = "";
+    $forApprovalId = "departmentticketCountDisplay";
 } else {
     $divsize = "col-md-4";
     $divhidden = "hidden";
+    $forApprovalId = "userticketCountDisplay";
 }

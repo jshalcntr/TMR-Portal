@@ -29,22 +29,37 @@
 }
 
 #forDisposalTable tbody tr:nth-child(odd),
-#disposableItemsTable tbody tr:nth-child(odd) {
+#disposableItemsTable tbody tr:nth-child(odd),
+#disposedListTable tbody tr:nth-child(odd),
+#disposedItemsTable tbody tr:nth-child(odd) {
     background-color: var(--bs-white);
 }
 
 #forDisposalTable tbody tr:nth-child(even),
-#disposableItemsTable tbody tr:nth-child(even) {
+#disposableItemsTable tbody tr:nth-child(even),
+#disposedListTable tbody tr:nth-child(even),
+#disposedItemsTable tbody tr:nth-child(even) {
     background-color: var(--bs-table-bg);
 }
 #forDisposalTable,
-#disposableItemsTable {
+#disposableItemsTable,
+#disposedListTable,
+#disposedItemsTable {
     --bs-table-bg: none;
 }
 #forDisposalTable thead th,
-#disposableItemsTable thead th {
+#disposableItemsTable thead th,
+#disposedListTable thead th,
+#disposedItemsTable thead th {
     background-color: var(--primary);
     color: var(--text-white);
+}
+#forDisposalTable,
+#disposableItemsTable,
+#disposedListTable,
+#disposedItemsTable {
+    border-left: 1px solid var(--gray-dark);
+    border-bottom: 1px solid var(--gray-dark);
 }
 
 .custom-upload-dropzone {
@@ -72,4 +87,8 @@
     max-height: 372px;
     min-height: 372px;
     overflow: scroll;
+}
+
+a.text-danger {
+    transition: color 150ms ease-out;
 }

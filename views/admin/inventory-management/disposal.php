@@ -61,16 +61,18 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">For Disposal</h6>
-                                    <div class="actions d-flex flex-row-reverse gap-2">
-                                        <form action="../../../backend/admin/inventory-management/createDisposalForm.php" method="post">
-                                            <button type="submit" class="btn btn-primary createDisposalFormBtn"><i class="fas fa-file-lines"></i> Create Disposal Form</button>
-                                        </form>
-                                        <button type="button" class="btn btn-info disposeItemsBtn" data-bs-toggle="modal" data-bs-target="#disposeItemsModal"><i class="fas fa-dumpster"></i> Dispose All Items</button>
-                                    </div>
+                                    <?php if ($authorizations['inventory_edit']): ?>
+                                        <div class="actions d-flex flex-row-reverse gap-2" id="forDisposalActions">
+                                            <form action="../../../backend/admin/inventory-management/createDisposalForm.php" method="post">
+                                                <button type="submit" class="btn btn-primary createDisposalFormBtn"><i class="fas fa-file-lines"></i> Create Disposal Form</button>
+                                            </form>
+                                            <button type="button" class="btn btn-info disposeItemsBtn" data-bs-toggle="modal" data-bs-target="#disposeItemsModal"><i class="fas fa-dumpster"></i> Dispose All Items</button>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table teble-bordered" id="forDisposalTable" width="100%" cellspacing="0">
+                                        <table class="table table-bordered" id="forDisposalTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th>Asset No.</th>
@@ -92,6 +94,17 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <h6 class="m-0 font-weight-bold text-primary">Disposed Items</h6>
                                 </div>
                                 <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="disposedListTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Date Disposed</th>
+                                                    <th>Disposal Form</th>
+                                                    <th>View Items Disposed</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -110,9 +123,9 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="container">
+                        <form class="container" id="disposeItemsForm" enctype="multipart/form-data">
                             <div class="row">
-                                <form class="col" id="disposeItemsForm" enctype="multipart/form-data">
+                                <div class="col">
                                     <div class="row">
                                         <h3 class="h3">Disposal Form: </h3>
                                     </div>
@@ -131,21 +144,45 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                             <button type="submit" class="btn-lg btn btn-primary"><i class="fas fa-trash-can-list"></i> Dispose Items</button>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
                                 <div class="col mb-3 table-responsive">
-                                    <table class="table" id="disposableItemsTable" style="width: 100%;">
+                                    <table class="table table-bordered" id="disposableItemsTable" style="width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th>Asset No.</th>
                                                 <th>Item Type</th>
-                                                <th>Item Name</th>
                                                 <th>User</th>
                                                 <th>Department</th>
                                             </tr>
                                         </thead>
                                     </table>
+                                    <input type="hidden" name="disposableItemIds" id="disposableItemIds" value="">
                                 </div>
                             </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="viewDisposedInventoryModal" tabindex="-1" aria-labelledby="viewDisposeItemsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-between align-item-center">
+                        <h3 class="modal-title" id="viewDisposeItemsModalLabel">Disposed Items</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive mb-3">
+                            <table class="table table-bordered" id="disposedItemsTable" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Asset No.</th>
+                                        <th>Item Type</th>
+                                        <th>User</th>
+                                        <th>Department</th>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -156,6 +193,9 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
 
 <?php include '../../components/external-js-import.php'; ?>
 <script src="../../../assets/js/admin/inventory-management/forDisposal.js"></script>
-<script src="../../../assets/js/admin/inventory-management/uploadDisposalForm.js"></script>
+<?php if ($authorizations['inventory_edit']): ?>
+    <script src="../../../assets/js/admin/inventory-management/uploadDisposalForm.js"></script>
+<?php endif; ?>
+<script src="../../../assets/js/admin/inventory-management/disposedItems.js"></script>
 
 </html>

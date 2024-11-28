@@ -111,12 +111,14 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                     </div>
 
                                 </form>
+                                <hr>
+                                <div class="similar-ticket card card-body shadow hidden"></div>
                             </div>
                         </div>
                         <!--End of Ticket Form-->
                         <!-- Heads for approval ticket -->
                         <div class="<?= $divsize . " " . $divhidden ?>">
-                            <div class="card card-body shadow">
+                            <div class="card card-body shadow overflow-auto">
                                 <h3 class="page-header">For Approval</h3>
                                 <div id="forApprovalContainer">
                                     <!-- Tickets will be dynamically populated here -->
@@ -125,6 +127,28 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                             </div>
                         </div>
 
+
+                        <!-- End of for approval ticket -->
+                        <!-- Pending Tickets -->
+                        <div id="pendingTickets" class="<?= $divsize ?>">
+                            <div class="card card-body shadow overflow-auto">
+                                <h3 class="page-header">Pending Tickets</h3>
+                                <div id="pendingTicketList">
+                                    <!-- Tickets will be populated here dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of pending tickets -->
+                        <!-- ticket history -->
+                        <div class="<?= $divsize ?>">
+                            <div class="card card-body shadow overflow-auto">
+                                <h3 class="page-header">My Ticket History</h3>
+                                <div id="closedTicketList">
+                                    <!-- Tickets will be populated here dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of ticket history -->
                         <!-- Ticket Details Modal -->
                         <div class="modal fade" id="forApprovalticketModal" tabindex="-1" role="dialog" aria-labelledby="ticketModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -137,10 +161,14 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                     </div>
                                     <div class="modal-body">
                                         <p><strong>Description:</strong> <span id="ticketModalDescription"></span></p>
-                                        <p><strong>Date Created:</strong> <span id="ticketModalDate"></span></p>
+                                        <p><strong>Date Created:</strong> <span id="ticketModalDate"></span> <span id="ticketModalTime"></span></p>
                                         <p><strong>Handler:</strong> <span id="ticketModalHandler"></span></p>
                                         <p><strong>Requestor:</strong> <span id="ticketModalRequestor"></span></p>
-                                        <div id="ticketModalAttachment"></div>
+                                        <p><strong>Attachment:</strong> <span id="ticketModalAttachment"></span></p>
+                                        <div class="text-center">
+                                            <button id="approveButton" class="btn btn-success">Approve</button>
+                                            <button id="rejectButton" class="btn btn-danger">Reject</button>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -148,27 +176,6 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                 </div>
                             </div>
                         </div>
-                        <!-- End of for approval ticket -->
-                        <!-- Pending Tickets -->
-                        <div id="pendingTickets" class="<?= $divsize ?>">
-                            <div class="card card-body shadow">
-                                <h3 class="page-header">Pending Tickets</h3>
-                                <div id="pendingTicketList">
-                                    <!-- Tickets will be populated here dynamically -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of pending tickets -->
-                        <!-- ticket history -->
-                        <div class="<?= $divsize ?>">
-                            <div class="card card-body shadow">
-                                <h3 class="page-header">My Ticket History</h3>
-                                <div id="closedTicketList">
-                                    <!-- Tickets will be populated here dynamically -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of ticket history -->
                         <!-- Modal -->
                         <div class="modal fade" id="ticketsModal" tabindex="-1" aria-labelledby="ticketModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -181,7 +188,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                         <p><strong>Title:</strong> <span id="ticketTitle"></span></p>
                                         <p><strong>Description:</strong> <span id="ticketDescription"></span></p>
                                         <p><strong>Attachment:</strong> <span id="ticketAttachment"></span></p>
-                                        <p><strong>Date Created:</strong> <span id="ticketDate"></span></p>
+                                        <p><strong>Date Created:</strong> <span id="ticketDate"></span> <span id="ticketTime"></span></p>
                                         <div id="actionButtons" class="text-center">
                                             <!-- Action buttons will be populated dynamically -->
                                         </div>
@@ -193,7 +200,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                             </div>
                         </div>
                     </div>
-                    <div class="similar-ticket card card-body shadow hidden"></div>
+
                 </div>
                 <!-- /.container-fluid -->
             </div>

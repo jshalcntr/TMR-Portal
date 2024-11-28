@@ -1,0 +1,231 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box
+}
+
+
+.ticket-div {
+    max-height: calc(100vh - 100px);
+    /* Adjust based on layout */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    padding: 10px;
+    border: 1px solid #e3e6f0;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+/* Customize scrollbar for Webkit-based browsers (Chrome, Edge, Safari) */
+.ticket-div::-webkit-scrollbar {
+    width: 4px;
+    border-radius: 10%;
+    /* Width of the scrollbar */
+}
+
+.ticket-div::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    /* Background color of the scrollbar track */
+    border-radius: 5px;
+    /* Optional: Rounded track */
+}
+
+.ticket-div::-webkit-scrollbar-thumb {
+    background: #888;
+    /* Color of the scrollbar thumb */
+    border-radius: 5px;
+    /* Optional: Rounded thumb */
+}
+
+.ticket-div::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    /* Color on hover */
+}
+
+/* For Firefox */
+.ticket-div {
+    scrollbar-width: thin;
+    /* Makes the scrollbar thinner */
+    scrollbar-color: #888 #f1f1f1;
+    /* Thumb color and track color */
+}
+
+.fl-left {
+    float: left
+}
+
+.fl-right {
+    float: right
+}
+
+.page-header {
+    text-transform: uppercase;
+    font-weight: 800;
+    border-left: 10px solid #356b49;
+    padding-left: 10px;
+    margin-bottom: 30px
+}
+
+
+
+.row {
+    overflow: hidden
+}
+
+.card2 {
+    display: table-row;
+    color: #989898;
+    margin-bottom: 10px;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    border-radius: 4px;
+    width: 100%;
+    position: relative
+}
+
+
+
+.date {
+    display: table-cell;
+    width: 25%;
+    position: relative;
+    text-align: center;
+    border-right: 2px dashed #e3e6f0
+}
+
+.date:before,
+.date:after {
+    content: "";
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-color: #f8f9fc;
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    z-index: 1;
+
+}
+
+.date:before {
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border-bottom: 2px solid #e3e6f0;
+}
+
+.date:after {
+    top: auto;
+    bottom: -15px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-top: 2px solid #e3e6f0;
+}
+
+.date time {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%)
+}
+
+.date time span {
+    display: block
+}
+
+.date time span:first-child {
+    color: #2b2b2b;
+    font-weight: 600;
+    font-size: 250%
+}
+
+.date time span:last-child {
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: -10px
+}
+
+.card-cont {
+    display: table-cell;
+    width: 75%;
+    font-size: 85%;
+    padding: 10px 10px 30px 50px
+}
+
+.card-cont h3 {
+    color: #3C3C3C;
+    font-size: 130%
+}
+
+.row:last-child .card:last-of-type .card-cont h3 {
+    text-decoration: line-through
+}
+
+.card-cont>div {
+    display: table-row
+}
+
+.card-cont .even-date i,
+.card-cont .even-info i,
+.card-cont .even-date time,
+.card-cont .even-info p {
+    display: table-cell
+}
+
+.card-cont .even-date i,
+.card-cont .even-info i {
+    padding: 5% 5% 0 0
+}
+
+.card-cont .even-info p {
+    padding: 30px 50px 0 0
+}
+
+.card-cont .even-date time span {
+    display: block
+}
+
+.card-cont button {
+    display: block;
+    text-decoration: none;
+    width: 80px;
+    height: 30px;
+    background-color: #D8DDE0;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 2px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px
+}
+
+.row:last-child .card:first-child .card-cont a {
+    background-color: #037FDD
+}
+
+.row:last-child .card:last-child .card-cont a {
+    background-color: #F8504C
+}
+
+@media screen and (max-width: 860px) {
+    .card2 {
+        display: block;
+        float: none;
+        width: 100%;
+        margin-bottom: 10px
+    }
+
+    .card2+.card2 {
+        margin-left: 0
+    }
+
+    .card-cont .even-date,
+    .card-cont .even-info {
+        font-size: 75%
+    }
+}

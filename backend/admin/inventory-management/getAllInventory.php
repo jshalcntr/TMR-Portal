@@ -2,7 +2,7 @@
 require "../../dbconn.php";
 require "../../middleware/pipes.php";
 
-$sql = "SELECT * FROM inventory_records_tbl";
+$sql = "SELECT * FROM inventory_records_tbl WHERE status <> 'Disposed'";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     header('Content-Type: application/json');

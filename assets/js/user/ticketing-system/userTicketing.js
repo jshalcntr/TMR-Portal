@@ -20,7 +20,6 @@ textarea.addEventListener("input", function () {
 
 
 // populate from similar tickets 
-
 document.addEventListener('DOMContentLoaded', function () {
     const ticketCategoryInput = document.getElementById('ticket_category');
     const ticketSubjectInput = document.getElementById('ticket_subject');
@@ -41,17 +40,52 @@ document.addEventListener('DOMContentLoaded', function () {
                         similarTicketDiv.classList.remove('hidden');
 
                         data.forEach(ticket => {
-                            const ticketItem = document.createElement('div');
-                            ticketItem.textContent = ticket.ticket_subject + " | " + ticket.requestor_name;
-                            ticketItem.className = 'ticket-item';
-                            similarTicketDiv.appendChild(ticketItem);
+                            // Format the date and time from the database
+                            const dateTime = new Date(ticket.date_created.replace(' ', 'T'));
+                            const date = dateTime.toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                            });
+                            const time = dateTime.toLocaleTimeString('en-US', {
+                                hour: 'numeric',
+                                minute: 'numeric',
+                                hour12: true,
+                            });
 
-                            // Make ticket item clickable to populate fields
-                            ticketItem.addEventListener('click', function () {
-                                ticketCategoryInput.value = ticket.ticket_type;
-                                ticketSubjectInput.value = ticket.ticket_subject;
-                                ticketContentInput.value = ticket.ticket_description;
-                                similarTicketDiv.classList.add('hidden'); // Hide suggestions after selection
+                            // Create the ticket HTML
+                            const ticketHtml = `
+                                <div class=" align-items-center" 
+                                    data-id="${ticket.ticket_id}" 
+                                    data-subject="${ticket.ticket_subject}" 
+                                    data-description="${ticket.ticket_description}" 
+                                    data-date="${date}" 
+                                    data-handler="${ticket.handler_name || 'N/A'}" 
+                                    data-requestor="${ticket.requestor_name || 'N/A'}"
+                                    data-attachment="${ticket.ticket_attachment || ''}">
+                                    <div class="text-truncate">${ticket.ticket_subject}</div>
+                                    <div class="small text-gray-500 ">${ticket.ticket_description}</div>
+                                    <div class="small text-gray-500 text-truncate">
+                                        <strong>Created:</strong> ${date} | 
+                                        <strong>Requestor:</strong> ${ticket.requestor_name} | 
+                                        <button class="btn btn-light btn-sm btn-right similar-ticket-items">Select</button>
+                                    </div>
+                                    
+                                </div>
+                                <hr>
+                            `;
+
+                            // Append the HTML to the container
+                            similarTicketDiv.insertAdjacentHTML('beforeend', ticketHtml);
+
+                            // Add click event to populate fields
+                            similarTicketDiv.querySelectorAll('.similar-ticket-items').forEach(item => {
+                                item.addEventListener('click', function () {
+                                    ticketCategoryInput.value = ticket.ticket_type;
+                                    ticketSubjectInput.value = ticket.ticket_subject;
+                                    ticketContentInput.value = ticket.ticket_description;
+                                    similarTicketDiv.classList.add('hidden'); // Hide suggestions after selection
+                                });
                             });
                         });
                     } else {
@@ -106,7 +140,27 @@ $(document).ready(function () {
 });
 
 
+// Separate date and time
+function formatDateTime(dateString) {
+    // Ensure the date string is ISO compatible by replacing the space with 'T'
+    const date = new Date(dateString.replace(' ', 'T'));
 
+    // Format date as "Nov 27, 2024"
+    const formattedDate = date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+    });
+
+    // Format time as "08:30 AM"
+    const formattedTime = date.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+    });
+
+    return { date: formattedDate, time: formattedTime };
+}
 $(document).ready(function () {
     // Fetch "For Approval" tickets
     function forApprovalTickets() {
@@ -121,6 +175,7 @@ $(document).ready(function () {
 
                     if (tickets.length > 0) {
                         tickets.forEach(ticket => {
+                            const { date, time } = formatDateTime(ticket.date_created); // Get separate date and time
                             const attachmentLink = ticket.ticket_attachment
                                 ? `<a href="${ticket.ticket_attachment}" target="_blank" class="badge badge-info">Attachment</a>`
                                 : '';
@@ -130,19 +185,20 @@ $(document).ready(function () {
                                 data-id="${ticket.ticket_id}" 
                                 data-subject="${ticket.ticket_subject}" 
                                 data-description="${ticket.ticket_description}" 
-                                data-date="${ticket.date_created}" 
+                                data-date="${date}" 
+                                data-time="${time}" 
                                 data-handler="${ticket.handler_name || 'N/A'}" 
                                 data-requestor="${ticket.requestor_name || 'N/A'}"
                                 data-attachment="${ticket.ticket_attachment || ''}">
                                 <div class="text-truncate">${ticket.ticket_subject}</div>
                                 <div class="small text-gray-500 text-truncate">${ticket.ticket_description}</div>
-                                <div class="small text-muted text-truncate">
-                                    <strong>Created:</strong> ${ticket.date_created} | 
+                                <div class="small text-gray-500 text-truncate">
+                                    <strong>Created:</strong> ${date}, ${time} | 
                                     <strong>Requestor:</strong> ${ticket.requestor_name} | 
                                     ${attachmentLink}
                                 </div>
                             </button>
-                        `;
+                            <hr>`;
                             approvalContainer.append(ticketHtml);
                         });
 
@@ -152,10 +208,13 @@ $(document).ready(function () {
                             $('#ticketModalTitle').text(ticketData.subject);
                             $('#ticketModalDescription').text(ticketData.description);
                             $('#ticketModalDate').text(ticketData.date);
+                            $('#ticketModalTime').text(ticketData.time);
                             $('#ticketModalHandler').text(ticketData.handler);
                             $('#ticketModalRequestor').text(ticketData.requestor);
+                            $('#approveButton').data('id', ticketData.id); // Add ticket ID to approve button
+                            $('#rejectButton').data('id', ticketData.id); // Add ticket ID to reject button
                             if (ticketData.attachment) {
-                                $('#ticketModalAttachment').html(`<a href="${ticketData.attachment}" target="_blank" class="btn btn-info">View Attachment</a>`);
+                                $('#ticketModalAttachment').html(`<a href="${ticketData.attachment}" target="_blank" class="text-primary">View Attachment</a>`);
                             } else {
                                 $('#ticketModalAttachment').text('No attachment available.');
                             }
@@ -175,6 +234,53 @@ $(document).ready(function () {
             }
         });
     }
+
+    // Approve ticket
+    $('#approveButton').on('click', function () {
+        const ticketId = $(this).data('id');
+        $.ajax({
+            url: '../../../backend/user/ticketing-system/update_ticket_status.php',
+            type: 'POST',
+            data: { ticket_id: ticketId, status: 'Approved' },
+            success: function (response) {
+                if (response.status === 'success') {
+                    alert('Ticket approved successfully!');
+                    $('#forApprovalticketModal').modal('hide');
+                    forApprovalTickets(); // Refresh the ticket list
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+                alert('Error approving ticket. Please try again later.');
+            }
+        });
+    });
+
+    // Reject ticket
+    $('#rejectButton').on('click', function () {
+        const ticketId = $(this).data('id');
+        $.ajax({
+            url: '../../../backend/user/ticketing-system/update_ticket_status.php',
+            type: 'POST',
+            data: { ticket_id: ticketId, status: 'Rejected' },
+            success: function (response) {
+                if (response.status === 'success') {
+                    alert('Ticket rejected successfully!');
+                    $('#forApprovalticketModal').modal('hide');
+                    forApprovalTickets(); // Refresh the ticket list
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+                alert('Error rejecting ticket. Please try again later.');
+            }
+        });
+    });
+
     setInterval(forApprovalTickets, 5000);
     forApprovalTickets();
 });
@@ -205,6 +311,7 @@ function populateTickets(tickets, containerSelector, type) {
     const container = $(containerSelector);
     container.empty();
     tickets.forEach(ticket => {
+        const { date, time } = formatDateTime(ticket.date_created); // Get separate date and time
         const attachmentLink = ticket.ticket_attachment
             ? `<a href="${ticket.ticket_attachment}" target="_blank" class="badge badge-info">Attachment</a>`
             : '';
@@ -215,13 +322,14 @@ function populateTickets(tickets, containerSelector, type) {
                     data-title="${ticket.ticket_subject}" 
                     data-description="${ticket.ticket_description}" 
                     data-attachment="${ticket.ticket_attachment}" 
-                    data-date="${ticket.date_created}" 
+                    data-date="${date}" 
+                    data-time="${time}" 
                     data-handler="${handlerName}" 
                     data-status="${type}">
                     <div class="text-truncate">${ticket.ticket_subject}</div>
                     <div class="small text-gray-500 text-truncate">${ticket.ticket_description}</div>
-                    <div class="small text-muted text-truncate">
-                        <strong>Created:</strong> ${ticket.date_created} | 
+                    <div class="small text-gray-500 text-truncate">
+                        <strong>Created:</strong> ${date}, ${time} | 
                         <strong>Handler:</strong> ${handlerName} | 
                         ${attachmentLink}
                     </div>
@@ -249,6 +357,7 @@ $(document).ready(function () {
         const description = $(this).data('description');
         const attachment = $(this).data('attachment');
         const date = $(this).data('date');
+        const time = $(this).data('time');
         const status = $(this).data('status');
         const handlerName = $(this).data('handler');
 
@@ -261,6 +370,7 @@ $(document).ready(function () {
         }
 
         $('#ticketDate').text(date);
+        $('#ticketTime').text(time);
 
         const actionButtons = $('#actionButtons');
         actionButtons.empty();
@@ -276,6 +386,10 @@ $(document).ready(function () {
         } else if (status === 'Closed') {
             actionButtons.append(`
                 <button class="btn btn-outline-primary btn-sm" id="reopenTicket" data-id="${ticketId}">Re-open Ticket</button>
+            `);
+        } else if (status === 'Rejected') {
+            actionButtons.append(`
+                <button class="btn btn-outline-primary btn-sm" disabled data-id="${ticketId}">Re-open Ticket</button>    
             `);
         }
 
