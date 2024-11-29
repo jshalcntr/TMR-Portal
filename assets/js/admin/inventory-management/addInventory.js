@@ -9,7 +9,8 @@ $(document).ready(function () {
         }
         $("#createInventoryForm").removeClass('was-validated');
 
-        $("#itemType").val("");
+        $("#itemType").val("").trigger('change');
+        $("#itemCategory").val("");
         $("#itemBrand").val("");
         $("#itemModel").val("");
         $("#user").val("");
@@ -22,6 +23,16 @@ $(document).ready(function () {
         $("#dateAcquired").val(new Date().toISOString().split('T')[0]);
     });
 
+    $("#itemType").on('change', function () {
+        if ($(this).val() === 'Accessories') {
+            $("#itemCategory").val('');
+            $("#itemCategory").prop('disabled', false);
+        } else {
+            $("#itemCategory").val($(this).val());
+            $("#itemCategory").prop('disabled', true);
+        }
+    })
+
     const createInventoryForm = $('#createInventoryForm');
 
     createInventoryForm.each(function () {
@@ -33,6 +44,7 @@ $(document).ready(function () {
             if (!this.checkValidity()) {
                 e.stopPropagation();
             } else {
+                $("#itemCategory").prop('disabled', false);
                 Swal.fire({
                     title: 'Add to Inventory?',
                     text: "Are you sure you want to add this inventory?",
@@ -70,6 +82,7 @@ $(document).ready(function () {
                                         confirmButtonColor: 'var(--bs-danger)'
                                     })
                                 }
+                                $("#itemCategory").prop('disabled', true);
                             },
                             error: function (xhr, status, error) {
                                 console.log(xhr.responseText);

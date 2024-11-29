@@ -1,0 +1,58 @@
+#ticketModalTitle {
+    text-transform: capitalize;
+}
+
+#pendingTicketList,
+#closedTicketList,
+#forApprovalContainer {
+    overflow: auto;
+    max-height: 700px;
+}
+
+/* Customize the scrollbar */
+.similar-ticket::-webkit-scrollbar,
+#pendingTicketList::-webkit-scrollbar,
+#closedTicketList::-webkit-scrollbar,
+#forApprovalContainer::-webkit-scrollbar {
+    width: 4px;
+    /* Set the scrollbar width */
+}
+
+.similar-ticket::-webkit-scrollbar-thumb #pendingTicketList::-webkit-scrollbar-thumb,
+#closedTicketList::-webkit-scrollbar-thumb,
+#forApprovalContainer::-webkit-scrollbar-thumb {
+    background-color: var(--gray);
+    /* Thumb color */
+    border-radius: 4px;
+    /* Rounded corners for the scrollbar thumb */
+}
+
+.similar-ticket::-webkit-scrollbar-track #pendingTicketList::-webkit-scrollbar-track,
+#closedTicketList::-webkit-scrollbar-track,
+#forApprovalContainer::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    /* Track background color */
+}
+
+.similar-ticket::-webkit-scrollbar-button #pendingTicketList::-webkit-scrollbar-button,
+#closedTicketList::-webkit-scrollbar-button,
+#forApprovalContainer::-webkit-scrollbar-button {
+    display: none;
+    /* Remove the arrows */
+}
+
+/* Firefox scrollbar customization (optional, modern browsers only) */
+.similar-ticket,
+#pendingTicketList,
+#closedTicketList,
+#forApprovalContainer {
+    scrollbar-width: thin;
+    /* Makes the scrollbar thin */
+    scrollbar-color: var(--gray) #f1f1f1;
+    /* Thumb and track color */
+}
+
+.similar-ticket {
+    overflow: auto;
+    max-height: 400px;
+}

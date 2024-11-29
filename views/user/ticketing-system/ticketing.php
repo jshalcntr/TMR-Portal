@@ -35,6 +35,8 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
 
     <?php include '../../components/external-css-import.php' ?>
     <link rel="stylesheet" href="../../../assets/css/custom/user/dashboard.css">
+    <link rel="stylesheet" href="../../../assets/css/custom/ticketing-system/ticketing.css">
+
 
 </head>
 

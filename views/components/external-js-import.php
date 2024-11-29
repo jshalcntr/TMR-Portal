@@ -7,3 +7,4 @@
 <script src="/tmr-portal_dev/assets/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="/tmr-portal_dev/assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="/tmr-portal_dev/assets/js/pipes.js"></script>
+<script src="/tmr-portal_dev/assets/vendor/chart.js/Chart.js"></script>

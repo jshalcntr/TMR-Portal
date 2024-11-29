@@ -6,6 +6,7 @@ $(document).ready(function () {
         if (!$("#itemType_edit").prop('disabled')) {
             toggleEditModal();
         }
+        $("#itemCategory_edit").prop('disabled', true);
         if (editInventoryValidationTimeout) {
             clearTimeout(editInventoryValidationTimeout);
         }
@@ -31,8 +32,10 @@ $(document).ready(function () {
                     const inventoryData = response.data[0];
                     $("#assetNumber_edit").text((inventoryData.fa_number) ? inventoryData.fa_number : "Non-Fixed Asset");
                     $("#itemType_edit").val(inventoryData.item_type);
+                    $("#itemCategory_edit").val(inventoryData.item_category);
                     $("#itemBrand_edit").val(inventoryData.brand);
                     $("#itemModel_edit").val(inventoryData.model);
+                    $("#itemSpecification_edit").val(inventoryData.item_specification);
                     $("#user_edit").val(inventoryData.user);
                     $("#department_edit").val(inventoryData.department);
                     $("#dateAcquired_edit").val(inventoryData.date_acquired);
@@ -176,6 +179,7 @@ $(document).ready(function () {
         $("#itemType_edit").prop('disabled', !$("#itemType_edit").prop('disabled'));
         $("#itemBrand_edit").prop('disabled', !$("#itemBrand_edit").prop('disabled'));
         $("#itemModel_edit").prop('disabled', !$("#itemModel_edit").prop('disabled'));
+        $("#itemSpecification_edit").prop('disabled', !$("#itemSpecification_edit").prop('disabled'));
         $("#user_edit").prop('disabled', !$("#user_edit").prop('disabled'));
         $("#department_edit").prop('disabled', !$("#department_edit").prop('disabled'));
         $("#dateAcquired_edit").prop('disabled', !$("#dateAcquired_edit").prop('disabled'));
@@ -189,11 +193,26 @@ $(document).ready(function () {
         $("#editActionsRow").toggleClass('d-flex');
         $("#editActionsRow").toggleClass('d-none');
     }
+    $("#itemType_edit").on('change', function () {
+        if ($(this).val() === 'Accessories') {
+            $("#itemCategory_edit").val('');
+            $("#itemCategory_edit").prop('disabled', false);
+        } else {
+            $("#itemCategory_edit").val($(this).val());
+            $("#itemCategory_edit").prop('disabled', true);
+        }
+    })
     $("#editButton").on('click', function () {
         toggleEditModal();
+        if ($("#itemType_edit").val() === "Accessories") {
+            $("#itemCategory_edit").prop('disabled', false);
+        } else {
+            $("#itemCategory_edit").prop('disabled', true);
+        }
     });
     $("#cancelButton").on('click', function () {
         toggleEditModal();
+        $("#itemCategory_edit").prop('disabled', true);
 
         const queriedId = $("#id_edit").val();
 
@@ -217,8 +236,10 @@ $(document).ready(function () {
 
                     $("#assetNumber_edit").text((inventoryData.fa_number) ? inventoryData.fa_number : "Non-Fixed Asset");
                     $("#itemType_edit").val(inventoryData.item_type);
+                    $("#itemCategory_edit").val(inventoryData.item_category);
                     $("#itemBrand_edit").val(inventoryData.brand);
                     $("#itemModel_edit").val(inventoryData.model);
+                    $("#itemSpecification_edit").val(inventoryData.item_specification);
                     $("#user_edit").val(inventoryData.user);
                     $("#department_edit").val(inventoryData.department);
                     $("#dateAcquired_edit").val(inventoryData.date_acquired);
@@ -238,6 +259,7 @@ $(document).ready(function () {
     editInventoryForm.each(function () {
         $(this).submit(function (e) {
             e.preventDefault();
+            $("#itemCategory_edit").prop('disabled', false);
             if (editInventoryValidationTimeout) {
                 clearTimeout(editInventoryValidationTimeout);
             }
@@ -268,6 +290,7 @@ $(document).ready(function () {
                                         icon: 'success',
                                         confirmButtonColor: 'var(--bs-success)'
                                     }).then(() => {
+                                        $("#itemCategory_edit").prop('disabled', true);
                                         populateTable();
                                         fetchAllRepairs(queriedId);
                                         toggleEditModal();

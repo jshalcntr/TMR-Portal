@@ -10,13 +10,24 @@ const populateTable = () => {
                     text: `${response.message}`,
                     icon: 'error',
                     confirmButtonColor: 'var(--bs-danger)'
-                })
+                });
             } else {
+                if ($.fn.DataTable.isDataTable("#inventoryTable")) {
+                    $("#inventoryTable").DataTable().destroy();
+                }
+
+                $.fn.dataTable.ext.order['dom-data-order-num'] = function (settings, col) {
+                    return this.api().column(col, { order: 'index' }).nodes().map(function (td) {
+                        return parseFloat($(td).data('order')) || 0;
+                    });
+                };
+
                 $("#inventoryTable").DataTable({
                     data: response.data,
                     columns: [
                         { data: "faNumber" },
                         { data: "itemType" },
+                        { data: "itemCategory" },
                         { data: "brand" },
                         { data: "model" },
                         { data: "dateAcquiredReadable" },
@@ -25,7 +36,7 @@ const populateTable = () => {
                         { data: "user" },
                         { data: "department" },
                         { data: "status" },
-                        { data: "price" },
+                        { data: "pricePhp" },
                         { data: "remarks" },
                         {
                             data: "id",
@@ -41,18 +52,19 @@ const populateTable = () => {
                     serverSide: false,
                     processing: true,
                     columnDefs: [{
-                        targets: [4],
+                        targets: [5],
                         type: "date",
                         orderDataType: "dom-data-order"
                     }],
                     order: [
-                        [4, "desc"]
+                        [5, "desc"]
                     ],
-                })
+                });
             }
         }
     });
 }
+
 const fetchAllRepairs = (queriedId) => {
     $.ajax({
         type: "GET",
@@ -72,8 +84,10 @@ const fetchAllRepairs = (queriedId) => {
                 const inventoryData = response.data[0];
                 $("#assetNumber_edit").text((inventoryData.fa_number) ? inventoryData.fa_number : "Non-Fixed Asset");
                 $("#itemType_edit").val(inventoryData.item_type);
+                $("#itemCategory_edit").val(inventoryData.item_category);
                 $("#itemBrand_edit").val(inventoryData.brand);
                 $("#itemModel_edit").val(inventoryData.model);
+                $("#itemSpecification_edit").val(inventoryData.item_specification);
                 $("#user_edit").val(inventoryData.user);
                 $("#department_edit").val(inventoryData.department);
                 $("#dateAcquired_edit").val(inventoryData.date_acquired);

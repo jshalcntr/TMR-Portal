@@ -2,6 +2,8 @@
 include('../../dbconn.php');
 
 $itemType = $_POST['itemType'];
+$itemCategory = $_POST['itemCategory'];
+$itemSpecification = $_POST['itemSpecification'];
 $itemBrand = $_POST['itemBrand'];
 $itemModel = $_POST['itemModel'];
 $user = $_POST['user'];
@@ -40,8 +42,8 @@ if ($itemPrice > 9999.4) {
 
     $newFaNumber = sprintf("TMRMIS%s-%04d", $currentYear, $newNumber);
 
-    $addItemSql = "INSERT INTO inventory_records_tbl(item_type, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $addItemSql = "INSERT INTO inventory_records_tbl(item_type, item_category, item_specification, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($addItemSql);
 
     if (!$stmt) {
@@ -52,7 +54,7 @@ if ($itemPrice > 9999.4) {
             "data" => $conn->error
         ]);
     } else {
-        $stmt->bind_param("ssssssssssds", $itemType, $itemBrand, $itemModel, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $separtment, $status, $itemPrice, $newFaNumber);
+        $stmt->bind_param("ssssssssssssds", $itemType, $itemCategory, $itemSpecification, $itemBrand, $itemModel, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $separtment, $status, $itemPrice, $newFaNumber);
         if (!$stmt->execute()) {
             header('Content-Type: application/json');
             echo json_encode([
@@ -69,8 +71,8 @@ if ($itemPrice > 9999.4) {
         }
     }
 } else {
-    $addItemSql = "INSERT INTO inventory_records_tbl(item_type, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $addItemSql = "INSERT INTO inventory_records_tbl(item_type, item_category, item_specification, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($addItemSql);
     if (!$stmt) {
         header('Content-Type: application/json');
@@ -80,7 +82,7 @@ if ($itemPrice > 9999.4) {
             "data" => $conn->error
         ]);
     } else {
-        $stmt->bind_param("ssssssssssd", $itemType, $itemBrand, $itemModel, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $separtment, $status, $itemPrice);
+        $stmt->bind_param("ssssssssssssd", $itemType, $itemSpecification, $itemCategory, $itemBrand, $itemModel, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $separtment, $status, $itemPrice);
         if (!$stmt->execute()) {
             header('Content-Type: application/json');
             echo json_encode([

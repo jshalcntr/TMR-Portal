@@ -31,7 +31,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
     <meta name="author" content="">
 
     <title>Dashboard</title>
-
+    <link rel="stylesheet" href="../../../assets/css/custom/ticketing-system/ticketing.css">
     <?php include '../../components/external-css-import.php' ?>
 
 </head>
@@ -53,7 +53,34 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
+                    <div class="row">
+                        <!-- line Chart -->
+                        <div class="col-md-8">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Closed Tickets</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="ticketAreaChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Pie Chart -->
+                        <div class="col-md-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Department Tickets</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="ticketPieChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.container-fluid -->
             </div>
@@ -83,5 +110,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
 
 </body>
 <?php include "../../components/external-js-import.php" ?>
+<script src="../../../assets/js/admin/ticketing-system/ticket-chart-area.js"></script>
+<script src="../../../assets/js/admin/ticketing-system/ticket-chart-pie.js"></script>
 
 </html>

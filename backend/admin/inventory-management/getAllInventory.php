@@ -28,7 +28,7 @@ if (!$stmt) {
             $id = $inventoryRow['id'];
             $faNumber = $inventoryRow['fa_number'];
             $itemType = $inventoryRow['item_type'];
-            $itemName = $inventoryRow['item_name'];
+            $itemCategory = $inventoryRow['item_category'];
             $brand = $inventoryRow['brand'];
             $model = $inventoryRow['model'];
             $dateAcquired = $inventoryRow['date_acquired'];
@@ -45,7 +45,7 @@ if (!$stmt) {
                 "id" => $id,
                 "faNumber" => $faNumber == true ? $faNumber : "N/A",
                 "itemType" => $itemType,
-                "itemName" => $itemName,
+                "itemCategory" => $itemCategory,
                 "brand" => $brand,
                 "model" => $model,
                 "dateAcquired" => $dateAcquired,
@@ -55,7 +55,8 @@ if (!$stmt) {
                 "user" => $user,
                 "department" => $department,
                 "status" => $status,
-                "price" => convertToPhp($price),
+                "price" => floatval($price),
+                "pricePhp" => convertToPhp($price),
                 "remarks" => $remarks == true ? $remarks : "No Remarks"
             ];
         }

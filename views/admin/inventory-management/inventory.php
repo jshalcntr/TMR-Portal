@@ -75,6 +75,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                         <tr>
                                             <th>Asset No.</th>
                                             <th>Item Type</th>
+                                            <th>Item Category</th>
                                             <th>Brand</th>
                                             <th>Model</th>
                                             <th>Date Acquired</th>
@@ -116,16 +117,38 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                             <option value="Desktop">Desktop</option>
                                             <option value="Laptop">Laptop</option>
                                             <option value="Printer">Printer</option>
-                                            <option value="Mouse">Mouse</option>
-                                            <option value="Keyboard">Keyboard</option>
                                             <option value="Hardisk">Hardisk</option>
                                             <option value="RAM">RAM</option>
                                             <option value="Video Card">Video Card</option>
                                             <option value="UPS">UPS</option>
                                             <option value="UPS Battery">UPS Battery</option>
                                             <option value="Router">Router</option>
+                                            <option value="Accessories">Accessories</option>
                                         </select>
                                         <div class="invalid-feedback">Please Select Item Type</div>
+                                    </div>
+                                    <div class="mb-2 form-group">
+                                        <label for="itemCategory" class="col-form-label">Item Category</label>
+                                        <select name="itemCategory" id="itemCategory" class="form-control form-select" required>
+                                            <option value="" selected hidden>--Select Item Category--</option>
+                                            <option value="Desktop" hidden>Desktop</option>
+                                            <option value="Laptop" hidden>Laptop</option>
+                                            <option value="Printer" hidden>Printer</option>
+                                            <option value="Hardisk" hidden>Hardisk</option>
+                                            <option value="RAM" hidden>RAM</option>
+                                            <option value="Video Card" hidden>Video Card</option>
+                                            <option value="UPS" hidden>UPS</option>
+                                            <option value="UPS Battery" hidden>UPS Battery</option>
+                                            <option value="Router" hidden>Router</option>
+                                            <option value="Keyboard">Keyboard</option>
+                                            <option value="Mouse">Mouse</option>
+                                            <option value="Headset">Headset</option>
+                                            <option value="Webcam">Webcam</option>
+                                            <option value="Scanner">Scanner</option>
+                                            <option value="Wireless HDMI">Wireless HDMI</option>
+                                            <option value="External Drive">External Drive</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please Select Item Category</div>
                                     </div>
                                     <div class="mb-2 form-group">
                                         <label for="itemBrand" class="col-form-label">Item Brand</label>
@@ -136,6 +159,10 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                         <label for="itemModel" class="col-form-label">Item Model</label>
                                         <input type="text" name="itemModel" id="itemModel" class="form-control" required></input>
                                         <div class="invalid-feedback">Please Input Item Model</div>
+                                    </div>
+                                    <div class="mb-3 form-group">
+                                        <label for="itemSpecification" class="col-form-label">Item Specification</label>
+                                        <textarea name="itemSpecification" id="itemSpecification" class="form-control"></textarea>
                                     </div>
                                     <hr class="sidebar-divider">
                                     <h4 class="mb-2">Item User Information</h4>
@@ -542,17 +569,40 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                         <option value="Desktop">Desktop</option>
                                         <option value="Laptop">Laptop</option>
                                         <option value="Printer">Printer</option>
-                                        <option value="Mouse">Mouse</option>
-                                        <option value="Keyboard">Keyboard</option>
                                         <option value="Hardisk">Hardisk</option>
                                         <option value="RAM">RAM</option>
                                         <option value="Video Card">Video Card</option>
                                         <option value="UPS">UPS</option>
                                         <option value="UPS Battery">UPS Battery</option>
                                         <option value="Router">Router</option>
+                                        <option value="Accessories">Accessories</option>
                                     </select>
                                     <div class="invalid-feedback">Please Select Item Type</div>
                                 </div>
+                                <div class="mb-2 form-group">
+                                    <label for="itemCategory_edit" class="col-form-label">Item Category</label>
+                                    <select name="itemCategory" id="itemCategory_edit" class="form-control form-select" disabled required>
+                                        <option value="" selected hidden>--Select Item Category--</option>
+                                        <option value="Desktop" hidden>Desktop</option>
+                                        <option value="Laptop" hidden>Laptop</option>
+                                        <option value="Printer" hidden>Printer</option>
+                                        <option value="Hardisk" hidden>Hardisk</option>
+                                        <option value="RAM" hidden>RAM</option>
+                                        <option value="Video Card" hidden>Video Card</option>
+                                        <option value="UPS" hidden>UPS</option>
+                                        <option value="UPS Battery" hidden>UPS Battery</option>
+                                        <option value="Router" hidden>Router</option>
+                                        <option value="Keyboard">Keyboard</option>
+                                        <option value="Mouse">Mouse</option>
+                                        <option value="Headset">Headset</option>
+                                        <option value="Webcam">Webcam</option>
+                                        <option value="Scanner">Scanner</option>
+                                        <option value="Wireless HDMI">Wireless HDMI</option>
+                                        <option value="External Drive">External Drive</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please Select Item Category</div>
+                                </div>
+
                                 <div class="mb-2 form-group">
                                     <label for="itemBrand_edit" class="col-form-label">Item Brand</label>
                                     <input type="text" name="itemBrand" id="itemBrand_edit" class="form-control" required disabled></input>
@@ -562,6 +612,10 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <label for="itemModel_edit" class="col-form-label">Item Model</label>
                                     <input type="text" name="itemModel" id="itemModel_edit" class="form-control" required disabled></input>
                                     <div class="invalid-feedback">Please Input Item Model</div>
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label for="itemSpecification_edit" class="col-form-label">Item Specification</label>
+                                    <textarea name="itemSpecification" id="itemSpecification_edit" class="form-control" disabled></textarea>
                                 </div>
                                 <hr class="sidebar-divider">
                                 <h4 class="mb-2">Item User Information</h4>
