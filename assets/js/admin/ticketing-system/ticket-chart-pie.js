@@ -6,32 +6,41 @@ $(document).ready(function () {
     function renderChart(labels, data) {
         const ctx = document.getElementById('ticketPieChart').getContext('2d');
         new Chart(ctx, {
-            type: 'bar',
+            type: 'pie', // Change the chart type to 'pie'
             data: {
                 labels: labels, // Department names
                 datasets: [{
                     label: 'Closed Tickets',
                     data: data, // Ticket counts
-                    backgroundColor: 'rgba(78, 115, 223, 0.5)',
-                    borderColor: 'rgba(78, 115, 223, 1)',
+                    backgroundColor: [
+                        'rgba(78, 115, 223, 0.7)',  // Blue
+                        'rgba(28, 200, 138, 0.7)', // Green
+                        'rgba(54, 185, 204, 0.7)', // Cyan
+                        'rgba(246, 194, 62, 0.7)', // Yellow
+                        'rgba(231, 74, 59, 0.7)',  // Red
+                        'rgba(133, 135, 150, 0.7)', // Gray
+                        'rgba(93, 123, 247, 0.7)',  // Light Blue
+                        'rgba(255, 99, 132, 0.7)', // Pink
+                        'rgba(102, 102, 255, 0.7)', // Purple
+                        'rgba(153, 204, 255, 0.7)'  // Light Sky Blue
+                    ],
+                    borderColor: 'rgba(255, 255, 255, 1)',
                     borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Number of Tickets'
-                        }
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
                     },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Departments'
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return `${tooltipItem.label}: ${tooltipItem.raw}`;
+                            }
                         }
                     }
                 }
@@ -48,6 +57,7 @@ $(document).ready(function () {
                 const labels = response.data.map(item => item.department);
                 const data = response.data.map(item => item.ticket_count);
                 renderChart(labels, data);
+
             } else {
                 console.error('Error:', response.message);
             }

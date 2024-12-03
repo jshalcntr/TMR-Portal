@@ -3,7 +3,7 @@ $(document).ready(function () {
         //! CHANGE ITEM TYPES VALUE
         // $('#itemType_export').find('option').not('[value="all"]').remove();
         // $('#itemType_export').val('all');
-        
+
         // $.ajax({
         //     type: "GET",
         //     url: "../../../backend/admin/inventory-management/getItemTypes.php",
@@ -29,21 +29,20 @@ $(document).ready(function () {
         //         }
         //     }
         // });
-
         //! FETCH OLDEST DATE ACQUIRED
         $.ajax({
             type: "GET",
             url: "../../../backend/admin/inventory-management/getOldestDateAcquired.php",
             dataType: "json",
             success: function (response) {
-                if(response.status === 'internal-error'){
+                if (response.status === 'internal-error') {
                     Swal.fire({
                         title: 'Error!',
                         text: `${response.message}`,
                         icon: 'error',
                         confirmButtonColor: 'var(--bs-danger)'
                     })
-                }else{
+                } else {
                     $('#dateFrom').attr('min', response);
                     $('#dateTo').attr('min', response);
                 }
@@ -55,9 +54,9 @@ $(document).ready(function () {
         $('.item-checkbox').prop('checked', $(this).is(':checked'));
     });
     $(".item-checkbox").on('change', function () {
-        if($('.item-checkbox:checked').length !== $('.item-checkbox').length){
+        if ($('.item-checkbox:checked').length !== $('.item-checkbox').length) {
             $("#all_itemType").prop('checked', false);
-        }else{
+        } else {
             $("#all_itemType").prop('checked', true);
         }
     });
@@ -65,56 +64,56 @@ $(document).ready(function () {
         $('.status-checkbox').prop('checked', $(this).is(':checked'));
     });
     $(".status-checkbox").on('change', function () {
-        if($('.status-checkbox:checked').length !== $('.status-checkbox').length){
+        if ($('.status-checkbox:checked').length !== $('.status-checkbox').length) {
             $("#all_status").prop('checked', false);
-        }else{
+        } else {
             $("#all_status").prop('checked', true);
         }
     });
 
     $("#dateFrom").on('change', function () {
-        if($(this).val() === ''){
+        if ($(this).val() === '') {
             $.ajax({
                 type: "GET",
                 url: "../../../backend/admin/inventory-management/getOldestDateAcquired.php",
                 dataType: "json",
                 success: function (response) {
-                    if(response.status === 'internal-error'){
+                    if (response.status === 'internal-error') {
                         Swal.fire({
                             title: 'Error!',
                             text: `${response.message}`,
                             icon: 'error',
                             confirmButtonColor: 'var(--bs-danger)'
                         })
-                    }else{
+                    } else {
                         $('#dateTo').attr('min', response);
                     }
                 }
             });
-        }else{
+        } else {
             $('#dateTo').attr('min', $(this).val());
         }
     });
     $("#dateTo").on('change', function () {
-        if($(this).val() === ''){
+        if ($(this).val() === '') {
             let today = new Date();
 
             let formattedDate = today.getFullYear() + '-' +
-                        String(today.getMonth() + 1).padStart(2, '0') + '-' +
-                        String(today.getDate()).padStart(2, '0');
+                String(today.getMonth() + 1).padStart(2, '0') + '-' +
+                String(today.getDate()).padStart(2, '0');
             $('#dateFrom').attr('max', formattedDate);
-        }else{
+        } else {
             $('#dateFrom').attr('max', $(this).val());
         }
     });
     $("#exportAllDate").on('change', function () {
-        if($(this).is(':checked')){
+        if ($(this).is(':checked')) {
             $('#dateFrom').attr('disabled', true);
             $('#dateTo').attr('disabled', true);
 
             $('#dateFrom').val('');
             $('#dateTo').val('');
-        }else{
+        } else {
             $('#dateFrom').attr('disabled', false);
             $('#dateTo').attr('disabled', false);
         }

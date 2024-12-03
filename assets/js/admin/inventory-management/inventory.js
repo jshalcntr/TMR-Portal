@@ -4,25 +4,18 @@ const populateTable = () => {
         type: "GET",
         url: "../../../backend/admin/inventory-management/getAllInventory.php",
         success: function (response) {
-            if (response.status === 'internal-error') {
+            if (response.status === "internal-error") {
                 Swal.fire({
-                    title: 'Error!',
+                    title: "Error!",
                     text: `${response.message}`,
-                    icon: 'error',
-                    confirmButtonColor: 'var(--bs-danger)'
+                    icon: "error",
+                    confirmButtonColor: "var(--bs-danger)",
                 });
             } else {
                 if ($.fn.DataTable.isDataTable("#inventoryTable")) {
                     $("#inventoryTable").DataTable().destroy();
                 }
-
-                $.fn.dataTable.ext.order['dom-data-order-num'] = function (settings, col) {
-                    return this.api().column(col, { order: 'index' }).nodes().map(function (td) {
-                        return parseFloat($(td).data('order')) || 0;
-                    });
-                };
-
-                $("#inventoryTable").DataTable({
+                const table = $("#inventoryTable").DataTable({
                     data: response.data,
                     columns: [
                         { data: "faNumber" },
@@ -40,30 +33,106 @@ const populateTable = () => {
                         { data: "remarks" },
                         {
                             data: "id",
-                            render: function (data, type, row) {
+                            render: function (data) {
                                 return `<i class="fas fa-eye text-primary viewInventoryBtn" 
                                         role="button" data-inventory-id="${data}" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#viewInventoryModal"></i>`;
-                            }
-                        }
+                            },
+                        },
                     ],
                     destroy: true,
                     serverSide: false,
                     processing: true,
-                    columnDefs: [{
-                        targets: [5],
-                        type: "date",
-                        orderDataType: "dom-data-order"
-                    }],
-                    order: [
-                        [5, "desc"]
+                    order: [[5, "desc"]],
+                    columnDefs: [
+                        {
+                            targets: [1, 2, 9, 10],
+                            orderable: false
+                        },
+                        {
+                            targets: [5],
+                            type: "date",
+                            orderDataType: "dom-data-order"
+                        }
                     ],
+                    createdRow: function (row, data) {
+                        $('td', row).eq(5).attr('data-order', data.dateAcquired);
+                    }
                 });
+
+                populateDropdown("#filterItemType", table, 1);
+                populateDropdown("#filterDepartment", table, 9);
+                populateDropdown("#filterStatus", table, 10);
+                populateDropdown("#filterCategory", table, 2);
+
+                $("#filterItemType, #filterCategory, #filterDepartment, #filterStatus").on("change", function () {
+                    if ($("#filterItemType").val() === 'Accessories') {
+                        $("#filterCategory").prop('hidden', false);
+                    } else {
+                        $("#filterCategory").prop('hidden', true).val('');
+                    }
+                    table.draw();
+                });
+
+                $("#filterCategory").empty().append(
+                    `
+                    <option value="">All</option>
+                    `
+                );
+
+
+                $.ajax({
+                    type: "GET",
+                    url: "../../../backend/admin/inventory-management/getCategories.php",
+                    success: function (response) {
+                        if (response.status === "internal-error") {
+                            Swal.fire({
+                                title: "Error!",
+                                text: `${response.message}`,
+                                icon: "error",
+                                confirmButtonColor: "var(--bs-danger)",
+                            });
+                        } else {
+                            const categories = response.data;
+                            categories.forEach((category) => {
+                                $("#filterCategory").append(
+                                    $('<option>', {
+                                        value: category.item_category,
+                                        text: category.item_category,
+                                    })
+                                );
+                            });
+                        }
+                    }
+                });
+
+                $.fn.dataTable.ext.search = [
+                    function (settings, data) {
+                        const itemType = $("#filterItemType").val();
+                        const itemCategory = $("#filterCategory").val();
+                        const department = $("#filterDepartment").val();
+                        const status = $("#filterStatus").val();
+
+                        const matchesItemType = itemType === "" || data[1] === itemType; // Column 1: Item Type
+                        const matchesCategory = itemCategory === "" || data[2] === itemCategory; // Column 2: Item Category
+                        const matchesDepartment = department === "" || data[9] === department; // Column 9: Department
+                        const matchesStatus = status === "" || data[10] === status; // Column 10: Status
+
+                        return matchesItemType && matchesCategory && matchesDepartment && matchesStatus;
+                    },
+                ];
             }
-        }
+        },
     });
-}
+};
+
+const populateDropdown = (selector, table, columnIndex) => {
+    const columnData = table.column(columnIndex).data().unique().sort();
+    columnData.each((value) => {
+        $(selector).append(new Option(value, value));
+    });
+};
 
 const fetchAllRepairs = (queriedId) => {
     $.ajax({

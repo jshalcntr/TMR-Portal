@@ -9,7 +9,7 @@ $sql = "
         a.department AS department, 
         COUNT(t.ticket_id) AS ticket_count
     FROM ticket_records_tbl AS t
-    LEFT JOIN accounts_tbl AS a ON t.ticket_handler_id = a.id
+    LEFT JOIN accounts_tbl AS a ON t.ticket_requestor_id = a.id
     WHERE t.ticket_status = 'closed'
     GROUP BY a.department
     ORDER BY ticket_count DESC

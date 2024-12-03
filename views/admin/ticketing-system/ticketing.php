@@ -80,6 +80,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <!-- /.container-fluid -->

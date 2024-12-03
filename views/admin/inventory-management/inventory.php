@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+require('../../../vendor/autoload.php');
 require('../../../backend/dbconn.php');
 require('../../../backend/middleware/pipes.php');
 require('../../../backend/middleware/authorize.php');
@@ -74,16 +75,44 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <thead>
                                         <tr>
                                             <th>Asset No.</th>
-                                            <th>Item Type</th>
-                                            <th>Item Category</th>
+                                            <th>
+                                                Item Type
+                                                <select id="filterItemType" class="form-select form-select-sm">
+                                                    <option value="">All</option>
+                                                </select>
+                                            </th>
+                                            <th>
+                                                Item Category
+                                                <select id="filterCategory" class="form-select form-select-sm" hidden>
+                                                    <option value="">All</option>
+                                                    <option value="Keyboard">Keyboard</option>
+                                                    <option value="Mouse">Mouse</option>
+                                                    <option value="Headset">Headset</option>
+                                                    <option value="Webcam">Webcam</option>
+                                                    <option value="Scanner">Scanner</option>
+                                                    <option value="Wireless HDMI">Wireless HDMI</option>
+                                                    <option value="External Drive">External Drive</option>
+                                                </select>
+                                            </th>
                                             <th>Brand</th>
                                             <th>Model</th>
                                             <th>Date Acquired</th>
                                             <th>Supplier</th>
                                             <th>Serial Number</th>
-                                            <th>User</th>
-                                            <th>Department</th>
-                                            <th>Status</th>
+                                            <th>
+                                                User
+                                            </th>
+                                            <th>Department
+                                                <select id="filterDepartment" class="form-select form-select-sm">
+                                                    <option value="">All</option>
+                                                </select>
+                                            </th>
+                                            <th>
+                                                Status
+                                                <select id="filterStatus" class="form-select form-select-sm">
+                                                    <option value="">All</option>
+                                                </select>
+                                            </th>
                                             <th>Price</th>
                                             <th>Remarks</th>
                                             <th>View</th>
@@ -162,7 +191,8 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     </div>
                                     <div class="mb-3 form-group">
                                         <label for="itemSpecification" class="col-form-label">Item Specification</label>
-                                        <textarea name="itemSpecification" id="itemSpecification" class="form-control"></textarea>
+                                        <textarea name="itemSpecification" id="itemSpecification" class="form-control" required></textarea>
+                                        <div class="invalid-feedback">Please Input Item Specification</div>
                                     </div>
                                     <hr class="sidebar-divider">
                                     <h4 class="mb-2">Item User Information</h4>
@@ -406,7 +436,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
 
     <?php endif; ?>
     <div class="modal fade" id="exportInventoryModal" tabindex="-1" aria-labelledby="exportInventoryModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-between align-items-center px-4">
                     <h3 class="modal-title" id="exportInventoryModalLabel">Export File</h3>
@@ -439,14 +469,8 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                         <div class="row">
                             <div class="col">
                                 <div class="form-check mb-1">
-                                    <input type="checkbox" name="all_itemType" id="all_itemType" class="form-check-input" value="all">
+                                    <input type="checkbox" name="itemType_export[]" id="all_itemType" class="form-check-input item-checkbox" value="all">
                                     <label for="all_itemType" class="form-check-label">Select All</label>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-check mb-1">
-                                    <input type="checkbox" name="itemType_export[]" id="printer_itemType" class="form-check-input item-checkbox" value="Printer">
-                                    <label for="printer_itemType" class="form-check-label">Printer</label>
                                 </div>
                             </div>
                             <div class="col">
@@ -455,8 +479,6 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <label for="desktop_itemType" class="form-check-label">Desktop</label>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col">
                                 <div class="form-check mb-1">
                                     <input type="checkbox" name="itemType_export[]" id="laptop_itemType" class="form-check-input item-checkbox" value="Laptop">
@@ -465,8 +487,48 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                             </div>
                             <div class="col">
                                 <div class="form-check mb-1">
-                                    <input type="checkbox" name="itemType_export[]" id="tools_itemType" class="form-check-input item-checkbox" value="Tools">
-                                    <label for="tools_itemType" class="form-check-label">Tools</label>
+                                    <input type="checkbox" name="itemType_export[]" id="printer_itemType" class="form-check-input item-checkbox" value="Printer">
+                                    <label for="printer_itemType" class="form-check-label">Printer</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="itemType_export[]" id="hardisk_itemType" class="form-check-input item-checkbox" value="Hardisk">
+                                    <label for="hardisk_itemType" class="form-check-label">Hardisk</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="itemType_export[]" id="ram_itemType" class="form-check-input item-checkbox" value="RAM">
+                                    <label for="ram_itemType" class="form-check-label">RAM</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="itemType_export[]" id="videoCard_itemType" class="form-check-input item-checkbox" value="Video Card">
+                                    <label for="videoCard_itemType" class="form-check-label">Video Card</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="itemType_export[]" id="ups_itemType" class="form-check-input item-checkbox" value="UPS">
+                                    <label for="ups_itemType" class="form-check-label">UPS</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="itemType_export[]" id="hardisk_itemType" class="form-check-input item-checkbox" value="UPS Battery">
+                                    <label for="hardisk_itemType" class="form-check-label">UPS Battery</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="itemType_export[]" id="router_itemType" class="form-check-input item-checkbox" value="Router">
+                                    <label for="router_itemType" class="form-check-label">Router</label>
                                 </div>
                             </div>
                             <div class="col">
@@ -475,6 +537,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <label for="accessories_itemType" class="form-check-label">Accessories</label>
                                 </div>
                             </div>
+                            <div class="col"></div>
                         </div>
                         <div class="row">
                             <div class="col">
@@ -512,6 +575,12 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                 <div class="form-check mb1">
                                     <input type="checkbox" name="status_export[]" id="retired_status" class="form-check-input status-checkbox" value="Retired">
                                     <label for="retired_status" class="form-check-label">Retired</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check mb1">
+                                    <input type="checkbox" name="status_export[]" id="disposed_status" class="form-check-input status-checkbox" value="Disposed">
+                                    <label for="disposed_status" class="form-check-label">Disposed</label>
                                 </div>
                             </div>
                         </div>
@@ -615,7 +684,8 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                 </div>
                                 <div class="mb-3 form-group">
                                     <label for="itemSpecification_edit" class="col-form-label">Item Specification</label>
-                                    <textarea name="itemSpecification" id="itemSpecification_edit" class="form-control" disabled></textarea>
+                                    <textarea name="itemSpecification" id="itemSpecification_edit" class="form-control" required disabled></textarea>
+                                    <div class="invalid-feedback">Please Input Item Specification</div>
                                 </div>
                                 <hr class="sidebar-divider">
                                 <h4 class="mb-2">Item User Information</h4>
