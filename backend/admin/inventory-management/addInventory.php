@@ -82,7 +82,7 @@ if ($itemPrice > 9999.4) {
             "data" => $conn->error
         ]);
     } else {
-        $stmt->bind_param("ssssssssssssd", $itemType, $itemSpecification, $itemCategory, $itemBrand, $itemModel, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $separtment, $status, $itemPrice);
+        $stmt->bind_param("ssssssssssssd", $itemType, $itemCategory, $itemSpecification,  $itemBrand, $itemModel, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $separtment, $status, $itemPrice);
         if (!$stmt->execute()) {
             header('Content-Type: application/json');
             echo json_encode([

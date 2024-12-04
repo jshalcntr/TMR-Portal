@@ -62,11 +62,11 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                             <h6 class="m-0 font-weight-bold text-primary">Inventory</h6>
                             <div class="actions d-flex flex-row-reverse gap-3">
                                 <?php if ($authorizations['inventory_edit']): ?>
-                                    <button class="btn btn-primary createInventoryModalBtn" data-bs-toggle="modal" data-bs-target="#createInventoryModal"><i class="fas fa-circle-plus"></i> Add Item</button>
-                                    <button class="btn btn-success importInventoryModalBtn" data-bs-toggle="modal" data-bs-target="#importInventoryModal"><i class="fas fa-file-import"></i> Import Data</button>
+                                    <button class="btn btn-sm shadow-sm btn-primary createInventoryModalBtn" data-bs-toggle="modal" data-bs-target="#createInventoryModal"><i class="fas fa-circle-plus"></i> Add Item</button>
+                                    <button class="btn btn-sm shadow-sm btn-sm shadow-sm btn-success importInventoryModalBtn" data-bs-toggle="modal" data-bs-target="#importInventoryModal"><i class="fas fa-file-import"></i> Import Data</button>
                                 <?php endif; ?>
-                                <button class="btn btn-warning exportInventoryModalBtn" data-bs-toggle="modal" data-bs-target="#exportInventoryModal" id="exportInventoryModalBtn"><i class="fas fa-file-export"></i> Export Data</button>
-                                <!-- <button class="btn btn-secondary modalBtn" data-bs-toggle="modal" data-bs-target="#createInventoryModal"><i class="fas fa-print"></i> Print</button> -->
+                                <button class="btn btn-sm shadow-sm btn-warning exportInventoryModalBtn" data-bs-toggle="modal" data-bs-target="#exportInventoryModal" id="exportInventoryModalBtn"><i class="fas fa-file-export"></i> Export Data</button>
+                                <!-- <button class="btn btn-sm shadow-sm btn-secondary modalBtn" data-bs-toggle="modal" data-bs-target="#createInventoryModal"><i class="fas fa-print"></i> Print</button> -->
                             </div>
                         </div>
                         <div class="card-body">
@@ -141,7 +141,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <h4 class="mb-2">Item Details</h4>
                                     <div class="mb-2 form-group">
                                         <label for="itemType" class="col-form-label">Item Type</label>
-                                        <select name="itemType" id="itemType" class="form-control form-select" required>
+                                        <select name="itemType" id="itemType" class="form-select form-select-sm" required>
                                             <option value="" selected hidden>--Select Item Type--</option>
                                             <option value="Desktop">Desktop</option>
                                             <option value="Laptop">Laptop</option>
@@ -158,7 +158,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     </div>
                                     <div class="mb-2 form-group">
                                         <label for="itemCategory" class="col-form-label">Item Category</label>
-                                        <select name="itemCategory" id="itemCategory" class="form-control form-select" required>
+                                        <select name="itemCategory" id="itemCategory" class="form-control form-control-sm form-select" required>
                                             <option value="" selected hidden>--Select Item Category--</option>
                                             <option value="Desktop" hidden>Desktop</option>
                                             <option value="Laptop" hidden>Laptop</option>
@@ -181,29 +181,29 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     </div>
                                     <div class="mb-2 form-group">
                                         <label for="itemBrand" class="col-form-label">Item Brand</label>
-                                        <input type="text" name="itemBrand" id="itemBrand" class="form-control" required></input>
+                                        <input type="text" name="itemBrand" id="itemBrand" class="form-control form-control-sm" required></input>
                                         <div class="invalid-feedback">Please Input Item Brand</div>
                                     </div>
                                     <div class="mb-3 form-group">
                                         <label for="itemModel" class="col-form-label">Item Model</label>
-                                        <input type="text" name="itemModel" id="itemModel" class="form-control" required></input>
+                                        <input type="text" name="itemModel" id="itemModel" class="form-control form-control-sm" required></input>
                                         <div class="invalid-feedback">Please Input Item Model</div>
                                     </div>
                                     <div class="mb-3 form-group">
                                         <label for="itemSpecification" class="col-form-label">Item Specification</label>
-                                        <textarea name="itemSpecification" id="itemSpecification" class="form-control" required></textarea>
+                                        <textarea name="itemSpecification" id="itemSpecification" class="form-control form-control-sm" required></textarea>
                                         <div class="invalid-feedback">Please Input Item Specification</div>
                                     </div>
                                     <hr class="sidebar-divider">
                                     <h4 class="mb-2">Item User Information</h4>
                                     <div class="mb-2 form-group">
                                         <label for="user" class="col-form-label">User Name</label>
-                                        <input type="text" name="user" id="user" class="form-control" required>
+                                        <input type="text" name="user" id="user" class="form-control form-control-sm" required>
                                         <div class="invalid-feedback">Please Input User Name</div>
                                     </div>
                                     <div class="mb-2 form-group">
                                         <label for="department" class="col-form-label">Department</label>
-                                        <select name="department" id="department" class="form-control form-select" required>
+                                        <select name="department" id="department" class="form-select form-select-sm" required>
                                             <option value="" selected hidden>--Select Department--</option>
                                             <option value="VSA">VSA</option>
                                             <option value="Marketing">Marketing</option>
@@ -223,40 +223,40 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <h4 class="mb-2">Supply Details</h4>
                                     <div class="mb-2 form-group">
                                         <label for="dateAcquired" class="col-form-label">Date Acquired</label>
-                                        <input type="date" name="dateAcquired" id="dateAcquired" class="form-control" max="<?= date('Y-m-d') ?>" value="<?= date('Y-m-d') ?>" required>
+                                        <input type="date" name="dateAcquired" id="dateAcquired" class="form-control form-control-sm" max="<?= date('Y-m-d') ?>" value="<?= date('Y-m-d') ?>" required>
                                         <div class="invalid-feedback">Please Input Date Acquired</div>
                                     </div>
                                     <div class="mb-2 form-group">
                                         <label for="supplierName" class="col-form-label">Supplier Name</label>
-                                        <input type="text" name="supplierName" id="supplierName" class="form-control" required>
+                                        <input type="text" name="supplierName" id="supplierName" class="form-control form-control-sm" required>
                                         <div class="invalid-feedback">Please Input Supplier Name</div>
                                     </div>
                                     <div class="mb-2 form-group">
                                         <label for="serialNumber" class="col-form-label">Serial Number</label>
-                                        <input type="text" name="serialNumber" id="serialNumber" class="form-control" required>
+                                        <input type="text" name="serialNumber" id="serialNumber" class="form-control form-control-sm" required>
                                         <div class="invalid-feedback">Please Input Serial Number</div>
                                     </div>
                                     <div class="mb-2 form-group">
                                         <label for="price" class="col-form-label">Price</label>
-                                        <input type="number" name="price" id="price" class="form-control" required>
+                                        <input type="number" name="price" id="price" class="form-control form-control-sm" required>
                                         <div class="invalid-feedback">Please Input Valid price</div>
                                     </div>
                                     <div class="mb-2 form-group">
                                         <label for="status" class="col-form-label">Status</label>
-                                        <select name="status" id="status" class="form-control form-select" required value="Active">
+                                        <select name="status" id="status" class="form-select form-select-sm" required value="Active">
                                             <option value="Active">Active</option>
                                         </select>
                                         <div class="invalid-feedback">Please Select Item Status</div>
                                     </div>
                                     <div class="mb-3 form-group">
                                         <label for="remarks" class="col-form-label">Remarks</label>
-                                        <textarea name="remarks" id="remarks" class="form-control"></textarea>
+                                        <textarea name="remarks" id="remarks" class="form-control form-control-sm"></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="row action-row">
                                 <div class="col d-flex justify-content-end align-items-end">
-                                    <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk"></i> Add to Inventory</button>
+                                    <button type="submit" class="btn btn-sm shadow-sm btn-primary"><i class="fas fa-floppy-disk"></i> Add to Inventory</button>
                                 </div>
                             </div>
                         </form>
@@ -271,7 +271,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                         <h3 class="modal-title" id="importInventoryModalLabel">Import File</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body p-xl-5">
+                    <div class="modal-body p-lg-3">
                         <form class="container" id="importInventoryForm" enctype="multipart/form-data" autocomplete="off">
                             <div class="row mb-3">
                                 <div class="col">
@@ -283,7 +283,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                         <input type="file" id="importFile" name="importFile" accept=".csv, .xls, .xlsx" class="d-none">
                                         <div id="filePreview" class="d-none align-items-center justify-content-center p-xl-5">
                                             <i class="fas fa-table fa-2x text-info mr-1"></i>
-                                            <p class="h3 mb-0" id="fileName">No File Selected</p>
+                                            <p class="h5 mb-0" id="fileName">No File Selected</p>
                                             <i class="fas fa-trash text-danger" id="removeFileBtn"></i>
                                         </div>
                                     </div>
@@ -291,7 +291,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                             </div>
                             <div class="row d-none" id="actionGroup">
                                 <div class="col d-flex justify-content-end align-items-end">
-                                    <button type="submit" class="btn-lg btn btn-primary"><i class="fas fa-floppy-disk"></i> Import</button>
+                                    <button type="submit" class="btn-sm shadow-sm btn btn-primary"><i class="fas fa-floppy-disk"></i> Import</button>
                                 </div>
                             </div>
                         </form>
@@ -313,20 +313,20 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <h3>Add To Repair</h3>
                                     <div class="mb-2 form-group">
                                         <label for="repairDescription" class="col-form-label">Repair Description</label>
-                                        <input type="text" name="repairDescription" id="repairDescription" class="form-control" required>
+                                        <input type="text" name="repairDescription" id="repairDescription" class="form-control form-control-sm" required>
                                         <div class="invalid-feedback">Please Input Repair Description</div>
                                     </div>
                                     <div class="mb-2 form-group">
                                         <label for="gatepassNumber" class="col-form-label">Gatepass Number</label>
-                                        <input type="text" name="gatepassNumber" id="gatepassNumber" class="form-control" required>
+                                        <input type="text" name="gatepassNumber" id="gatepassNumber" class="form-control form-control-sm" required>
                                         <div class="invalid-feedback">Please Input Gatepass Number</div>
                                     </div>
                                     <div class="mb-2 form-group">
                                         <label for="repairDate" class="col-form-label">Repair Date</label>
-                                        <input type="date" name="repairDate" id="repairDate" class="form-control" value="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d') ?>" required>
+                                        <input type="date" name="repairDate" id="repairDate" class="form-control form-control-sm" value="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d') ?>" required>
                                     </div>
                                     <div class="mb-2 form-group d-flex justify-content-end">
-                                        <button type="submit" class="btn btn-primary"><i class="fas fa-truck-fast"></i> Repair</button>
+                                        <button type="submit" class="btn btn-sm shadow-sm btn-primary"><i class="fas fa-truck-fast"></i> Repair</button>
                                     </div>
                                 </form>
                             </div>
@@ -335,25 +335,25 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <h3>Current Repair</h3>
                                     <div class="mb-2 form-group">
                                         <label for="repairDescription_edit" class="col-form-label">Repair Description</label>
-                                        <input type="text" name="repairDescription" id="repairDescription_edit" class="form-control" required disabled>
+                                        <input type="text" name="repairDescription" id="repairDescription_edit" class="form-control form-control-sm" required disabled>
                                         <div class="invalid-feedback">Please Input Repair Description</div>
                                     </div>
                                     <div class="mb-2 form-group">
                                         <label for="gatepassNumber_edit" class="col-form-label">Gatepass Number</label>
-                                        <input type="text" name="gatepassNumber" id="gatepassNumber_edit" class="form-control" required disabled>
+                                        <input type="text" name="gatepassNumber" id="gatepassNumber_edit" class="form-control form-control-sm" required disabled>
                                         <div class="invalid-feedback">Please Input Gatepass Number</div>
                                     </div>
                                     <div class="mb-2 form-group">
                                         <label for="repairDate_edit" class="col-form-label">Repair Date</label>
-                                        <input type="date" name="repairDate" id="repairDate_edit" class="form-control" value="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d') ?>" required disabled>
+                                        <input type="date" name="repairDate" id="repairDate_edit" class="form-control form-control-sm" value="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d') ?>" required disabled>
                                     </div>
                                     <div class="mb-2 form-group d-flex justify-content-end action-column" id="viewRepairButtonGroup">
-                                        <button type="button" id="finishRepairButton" class="btn btn-info"><i class="fas fa-circle-check"></i> Finish Repair</button>
-                                        <button type="button" id="editRepairButton" class="btn btn-primary"><i class="fas fa-pen"></i> Edit</button>
+                                        <button type="button" id="finishRepairButton" class="btn btn-sm shadow-sm btn-info"><i class="fas fa-circle-check"></i> Finish Repair</button>
+                                        <button type="button" id="editRepairButton" class="btn btn-sm shadow-sm btn-primary"><i class="fas fa-pen"></i> Edit</button>
                                     </div>
                                     <div class="mb-2 form-group d-none justify-content-end action-column" id="editRepairButtonGroup">
-                                        <button type="button" id="cancelEditRepairButton" class="btn btn-danger"><i class="fas fa-ban"></i> Cancel</button>
-                                        <button type="submit" id="saveRepairButton" class="btn btn-primary"><i class="fas fa-floppy-disk"></i> Save</button>
+                                        <button type="button" id="cancelEditRepairButton" class="btn btn-sm shadow-sm btn-danger"><i class="fas fa-ban"></i> Cancel</button>
+                                        <button type="submit" id="saveRepairButton" class="btn btn-sm shadow-sm btn-primary"><i class="fas fa-floppy-disk"></i> Save</button>
                                     </div>
                                     <input type="hidden" name="repairId" id="repairId_edit">
                                 </form>
@@ -395,15 +395,15 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                         <form class="container" id="finishRepairForm" autocomplete="off">
                             <div class="form-group mb-3">
                                 <label for="date_repaired">Date Repaired</label>
-                                <input type="date" id="date_repaired" class="form-control" value="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d') ?>" required>
+                                <input type="date" id="date_repaired" class="form-control form-control-sm" value="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d') ?>" required>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="repair_remarks">Remarks</label>
-                                <textarea id="repair_remarks" class="form-control" required></textarea>
+                                <textarea id="repair_remarks" class="form-control form-control-sm" required></textarea>
                             </div>
                             <div class="d-flex justify-content-end action-column">
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-xmark"></i> Close</button>
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Finish</button>
+                                <button type="button" class="btn btn-sm shadow-sm btn-danger" data-bs-dismiss="modal"><i class="fas fa-xmark"></i> Close</button>
+                                <button type="submit" class="btn btn-sm shadow-sm btn-primary"><i class="fas fa-check"></i> Finish</button>
                             </div>
                     </div>
                     <input type="hidden" name="repairId" id="repairId_finish">
@@ -422,11 +422,11 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                         <form class="container" id="addToDisposalForm" autocomplete="off">
                             <div class="form-group mb-3">
                                 <label for="repair_remarks">Remarks</label>
-                                <textarea id="repair_remarks" class="form-control" name="remarks"></textarea>
+                                <textarea id="repair_remarks" class="form-control form-control-sm" name="remarks"></textarea>
                             </div>
                             <div class="d-flex justify-content-end action-column">
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-xmark"></i> Close</button>
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-trash-plus"></i> Add To Disposal</button>
+                                <button type="button" class="btn btn-sm shadow-sm btn-danger" data-bs-dismiss="modal"><i class="fas fa-xmark"></i> Close</button>
+                                <button type="submit" class="btn btn-sm shadow-sm btn-primary"><i class="fas fa-trash-plus"></i> Add To Disposal</button>
                             </div>
                         </form>
                     </div>
@@ -442,7 +442,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                     <h3 class="modal-title" id="exportInventoryModalLabel">Export File</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body p-xl-5">
+                <div class="modal-body p-lg-3">
                     <form class="container" id="exportInventoryForm" method="POST" action="../../../backend/admin/inventory-management/exportInventory.php" autocomplete="off">
                         <div class="row">
                             <div class="col">
@@ -469,7 +469,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                         <div class="row">
                             <div class="col">
                                 <div class="form-check mb-1">
-                                    <input type="checkbox" name="itemType_export[]" id="all_itemType" class="form-check-input item-checkbox" value="all">
+                                    <input type="checkbox" name="itemType_export[]" id="all_itemType" class="form-check-input" value="all">
                                     <label for="all_itemType" class="form-check-label">Select All</label>
                                 </div>
                             </div>
@@ -521,8 +521,8 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                         <div class="row">
                             <div class="col">
                                 <div class="form-check mb-1">
-                                    <input type="checkbox" name="itemType_export[]" id="hardisk_itemType" class="form-check-input item-checkbox" value="UPS Battery">
-                                    <label for="hardisk_itemType" class="form-check-label">UPS Battery</label>
+                                    <input type="checkbox" name="itemType_export[]" id="upsBattery_itemType" class="form-check-input item-checkbox" value="UPS Battery">
+                                    <label for="upsBattery_itemType" class="form-check-label">UPS Battery</label>
                                 </div>
                             </div>
                             <div class="col">
@@ -589,13 +589,13 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="dateFrom" class="col-form-label">Acquired From</label>
-                                    <input type="date" name="dateFrom" id="dateFrom" class="form-control" max="<?= date('Y-m-d') ?>">
+                                    <input type="date" name="dateFrom" id="dateFrom" class="form-control form-control-sm" max="<?= date('Y-m-d') ?>">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="dateTo" class="col-form-label">Aquired To</label>
-                                    <input type="date" name="dateTo" id="dateTo" class="form-control" max="<?= date('Y-m-d') ?>">
+                                    <input type="date" name="dateTo" id="dateTo" class="form-control form-control-sm" max="<?= date('Y-m-d') ?>">
                                 </div>
                             </div>
                         </div>
@@ -609,7 +609,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                         </div>
                         <div class="row">
                             <div class="col d-flex justify-content-end">
-                                <button type="submit" class="btn btn-lg btn-primary">
+                                <button type="submit" class="btn btn-sm shadow-sm btn-lg btn-primary">
                                     <i class="fas fa-download"></i> Export Data
                                 </button>
                             </div>
@@ -633,7 +633,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                 <h4 class="mb-2">Item Details</h4>
                                 <div class="mb-2 form-group">
                                     <label for="itemType_edit" class="col-form-label">Item Type</label>
-                                    <select name="itemType" id="itemType_edit" class="form-control form-select" required disabled>
+                                    <select name="itemType" id="itemType_edit" class="form-select form-select-sm" required disabled>
                                         <option value="" selected hidden>--Select Item Type--</option>
                                         <option value="Desktop">Desktop</option>
                                         <option value="Laptop">Laptop</option>
@@ -650,7 +650,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                 </div>
                                 <div class="mb-2 form-group">
                                     <label for="itemCategory_edit" class="col-form-label">Item Category</label>
-                                    <select name="itemCategory" id="itemCategory_edit" class="form-control form-select" disabled required>
+                                    <select name="itemCategory" id="itemCategory_edit" class="form-select form-select-sm" disabled required>
                                         <option value="" selected hidden>--Select Item Category--</option>
                                         <option value="Desktop" hidden>Desktop</option>
                                         <option value="Laptop" hidden>Laptop</option>
@@ -674,29 +674,29 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
 
                                 <div class="mb-2 form-group">
                                     <label for="itemBrand_edit" class="col-form-label">Item Brand</label>
-                                    <input type="text" name="itemBrand" id="itemBrand_edit" class="form-control" required disabled></input>
+                                    <input type="text" name="itemBrand" id="itemBrand_edit" class="form-control form-control-sm" required disabled></input>
                                     <div class="invalid-feedback">Please Input Item Brand</div>
                                 </div>
                                 <div class="mb-3 form-group">
                                     <label for="itemModel_edit" class="col-form-label">Item Model</label>
-                                    <input type="text" name="itemModel" id="itemModel_edit" class="form-control" required disabled></input>
+                                    <input type="text" name="itemModel" id="itemModel_edit" class="form-control form-control-sm" required disabled></input>
                                     <div class="invalid-feedback">Please Input Item Model</div>
                                 </div>
                                 <div class="mb-3 form-group">
                                     <label for="itemSpecification_edit" class="col-form-label">Item Specification</label>
-                                    <textarea name="itemSpecification" id="itemSpecification_edit" class="form-control" required disabled></textarea>
+                                    <textarea name="itemSpecification" id="itemSpecification_edit" class="form-control form-control-sm" required disabled></textarea>
                                     <div class="invalid-feedback">Please Input Item Specification</div>
                                 </div>
                                 <hr class="sidebar-divider">
                                 <h4 class="mb-2">Item User Information</h4>
                                 <div class="mb-2 form-group">
                                     <label for="user_edit" class="col-form-label">User Name</label>
-                                    <input type="text" name="user" id="user_edit" class="form-control" required disabled>
+                                    <input type="text" name="user" id="user_edit" class="form-control form-control-sm" required disabled>
                                     <div class="invalid-feedback">Please Input User Name</div>
                                 </div>
                                 <div class="mb-2 form-group">
                                     <label for="department_edit" class="col-form-label">Department</label>
-                                    <select name="department" id="department_edit" class="form-control form-select" required disabled>
+                                    <select name="department" id="department_edit" class="form-select form-select-sm" required disabled>
                                         <option value="" selected hidden>--Select Department--</option>
                                         <option value="VSA">VSA</option>
                                         <option value="Marketing">Marketing</option>
@@ -716,27 +716,27 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                 <h4 class="mb-2">Supply Details</h4>
                                 <div class="mb-2 form-group">
                                     <label for="dateAcquired_edit" class="col-form-label">Date Acquired</label>
-                                    <input type="date" name="dateAcquired" id="dateAcquired_edit" class="form-control" max="<?= date('Y-m-d') ?>" required disabled>
+                                    <input type="date" name="dateAcquired" id="dateAcquired_edit" class="form-control form-control-sm" max="<?= date('Y-m-d') ?>" required disabled>
                                     <div class="invalid-feedback">Please Input Date Acquired</div>
                                 </div>
                                 <div class="mb-2 form-group">
                                     <label for="supplierName_edit" class="col-form-label">Supplier Name</label>
-                                    <input type="text" name="supplierName" id="supplierName_edit" class="form-control" required disabled>
+                                    <input type="text" name="supplierName" id="supplierName_edit" class="form-control form-control-sm" required disabled>
                                     <div class="invalid-feedback">Please Input Supplier Name</div>
                                 </div>
                                 <div class="mb-2 form-group">
                                     <label for="serialNumber_edit" class="col-form-label">Serial Number</label>
-                                    <input type="text" name="serialNumber" id="serialNumber_edit" class="form-control" required disabled>
+                                    <input type="text" name="serialNumber" id="serialNumber_edit" class="form-control form-control-sm" required disabled>
                                     <div class="invalid-feedback">Please Input Serial Number</div>
                                 </div>
                                 <div class="mb-2 form-group">
                                     <label for="price_edit" class="col-form-label">Price</label>
-                                    <input type="number" name="price" id="price_edit" class="form-control" required disabled>
+                                    <input type="number" name="price" id="price_edit" class="form-control form-control-sm" required disabled>
                                     <div class="invalid-feedback">Please Input Valid price</div>
                                 </div>
                                 <div class="mb-2 form-group">
                                     <label for="status_edit" class="col-form-label">Status</label>
-                                    <select name="status" id="status_edit" class="form-control form-select" required disabled>
+                                    <select name="status" id="status_edit" class="form-select form-select-sm" required disabled>
                                         <option value="" hidden>--Select Item Status--</option>
                                         <option value="Active">Active</option>
                                         <option value="Under Repair" hidden>Under Repair</option>
@@ -747,23 +747,23 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                 </div>
                                 <div class="mb-3 form-group">
                                     <label for="remarks_edit" class="col-form-label">Remarks</label>
-                                    <textarea name="remarks" id="remarks_edit" class="form-control" disabled></textarea>
+                                    <textarea name="remarks" id="remarks_edit" class="form-control form-control-sm" disabled></textarea>
                                 </div>
                             </div>
                         </div>
                         <?php if ($authorizations['inventory_edit']): ?>
                             <div class="row action-row">
                                 <div class="col d-flex justify-content-end align-items-end action-column" id="viewActionsRow">
-                                    <button type="button" class="btn btn-danger" id="retireInventoryButton"><i class="fas fa-calendar-xmark"></i> Retire</button>
-                                    <button type="button" class="btn btn-info" id="repairButton"><i class="fas fa-screwdriver-wrench"></i> Repair</button>
-                                    <button type="button" class="btn btn-primary" id="editButton"><i class="fas fa-pen"></i> Edit</button>
+                                    <button type="button" class="btn btn-sm shadow-sm btn-danger" id="retireInventoryButton"><i class="fas fa-calendar-xmark"></i> Retire</button>
+                                    <button type="button" class="btn btn-sm shadow-sm btn-info" id="repairButton"><i class="fas fa-screwdriver-wrench"></i> Repair</button>
+                                    <button type="button" class="btn btn-sm shadow-sm btn-primary" id="editButton"><i class="fas fa-pen"></i> Edit</button>
                                 </div>
                                 <div class="col d-none justify-content-end align-items-end action-column" id="editActionsRow">
-                                    <button type="button" class="btn btn-danger" id="cancelButton"><i class="fas fa-ban"></i> Cancel</button>
-                                    <button type="submit" class="btn btn-primary" id="saveButton"><i class="fas fa-floppy-disk"></i> Save</button>
+                                    <button type="button" class="btn btn-sm shadow-sm btn-danger" id="cancelButton"><i class="fas fa-ban"></i> Cancel</button>
+                                    <button type="submit" class="btn btn-sm shadow-sm btn-primary" id="saveButton"><i class="fas fa-floppy-disk"></i> Save</button>
                                 </div>
                                 <div class="col d-none justify-content-end align-items-end action-column" id="retiredActionsRow">
-                                    <button type="button" class="btn btn-danger" id="disposeButton"><i class="fas fa-dumpster"></i> Dispose</button>
+                                    <button type="button" class="btn btn-sm shadow-sm btn-danger" id="disposeButton"><i class="fas fa-dumpster"></i> Dispose</button>
                                 </div>
                             </div>
                         <?php endif; ?>

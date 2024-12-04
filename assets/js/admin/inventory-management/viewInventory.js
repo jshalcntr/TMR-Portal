@@ -317,6 +317,8 @@ $(document).ready(function () {
                                 })
                             }
                         });
+                    } else {
+                        $("#itemCategory_edit").prop('disabled', true);
                     }
                 })
             }

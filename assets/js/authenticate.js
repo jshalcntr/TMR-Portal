@@ -14,7 +14,7 @@ $("#loginForm").submit(async function (e) {
             }else if(userData.role === "USER" || userData.role === "HEAD"){
                 window.location.href = "views/user/dashboard.php"
             }else if(userData.role === "S-ADMIN"){
-                console.log(userData.role);
+                window.location.href = "views/s-admin/dashboard.php"
             }
         }else if(loginStatus.status === "failed"){
             $("#errorModal").empty();

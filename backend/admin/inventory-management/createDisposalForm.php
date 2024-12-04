@@ -16,7 +16,7 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 
 $forDisposalSql = "SELECT inventory_records_tbl.fa_number,
                     inventory_records_tbl.item_type,
-                    inventory_records_tbl.item_name,
+                    inventory_records_tbl.item_category,
                     inventory_records_tbl.user,
                     inventory_records_tbl.department,
                     inventory_records_tbl.date_acquired,
@@ -70,7 +70,7 @@ $sheet->setCellValue('A5', 'DISPOSAL FORM');
 $sheet->setCellValue('A6', 'ITEM');
 $sheet->setCellValue('B6', 'ITEM USER');
 $sheet->setCellValue('C6', 'DEPARTMENT');
-$sheet->setCellValue('D6', 'ITEM NAME');
+$sheet->setCellValue('D6', 'ITEM CATEGORY');
 $sheet->setCellValue('E6', 'DATE ACQUIRED');
 $sheet->getStyle('A6:E6')->getFont()->setBold(true)->setName('Toyota Type')->setSize(10);
 $sheet->getStyle('A6:E6')->getAlignment()->setHorizontal('center')->setVertical('center');
@@ -81,7 +81,7 @@ foreach ($data as $row) {
     $sheet->setCellValue('A' . $rowIndex, $itemNumber);
     $sheet->setCellValue('B' . $rowIndex, $row['user']);
     $sheet->setCellValue('C' . $rowIndex, $row['department']);
-    $sheet->setCellValue('D' . $rowIndex, $row['item_name']);
+    $sheet->setCellValue('D' . $rowIndex, $row['item_category']);
     $sheet->setCellValue('E' . $rowIndex, convertToReadableDate($row['date_acquired']));
     $rowIndex++;
     $itemNumber++;
@@ -99,11 +99,11 @@ $sheet->getStyle('A5:E' . $highestRow)->applyFromArray([
     ]
 ]);
 
-$itemNameSql = "SELECT item_name, COUNT(item_name) AS quantity
+$itemNameSql = "SELECT item_category, COUNT(item_category) AS quantity
                 FROM inventory_records_tbl
                 JOIN inventory_disposal_tbl ON inventory_records_tbl.id = inventory_disposal_tbl.inventory_id
                 WHERE inventory_disposal_tbl.isDisposed = 0
-                GROUP BY item_name";
+                GROUP BY item_category";
 $stmt2 = $conn->prepare($itemNameSql);
 $itemNames = [];
 
@@ -136,7 +136,7 @@ $sheet->getStyle('H6:J6')->applyFromArray([
     ]
 ]);
 $sheet->setCellValue('H6', 'ITEM');
-$sheet->setCellValue('I6', 'ITEM NAME');
+$sheet->setCellValue('I6', 'ITEM CATEGORY');
 $sheet->setCellValue('J6', 'QUANTITY');
 
 $rowIndex = 7;
@@ -144,7 +144,7 @@ $itemNumber = 1;
 $totalQuantity = 0;
 foreach ($itemNames as $itemName) {
     $sheet->setCellValue('H' . $rowIndex, $itemNumber);
-    $sheet->setCellValue('I' . $rowIndex, $itemName['item_name']);
+    $sheet->setCellValue('I' . $rowIndex, $itemName['item_category']);
     $sheet->setCellValue('J' . $rowIndex, $itemName['quantity']);
     $sheet->getStyle('H' . $rowIndex . ':J' . $rowIndex)->getAlignment()->setHorizontal('center')->setVertical('center');
     $sheet->getStyle('H' . $rowIndex . ':J' . $rowIndex)->getFont()->setName('Toyota Type')->setSize(10);

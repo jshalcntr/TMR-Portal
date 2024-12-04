@@ -73,6 +73,25 @@
         </div>
     <?php endif; ?>
 
+    <?php if ($authRole == "S-ADMIN" || $authorizations['accounts_view']): ?>
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">Accounts Management</div>
+        <div class="side-item">
+            <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'accounts.php') !== false ? 'active' : '' ?>">
+                <li class="iso-pro">
+                    <a href="/tmr-portal_dev/views/s-admin/account-management/accounts.php">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <i class="fas fa-users-cog svg"></i>
+                        <div class="text">Accounts</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    <?php endif; ?>
+
     <hr class="sidebar-divider">
 
     <div class="sidebar-heading">Ticketing System</div>
@@ -89,7 +108,7 @@
         <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'ticketing.php') !== false ? 'active' : '' ?>">
             <li class="iso-pro">
 
-                <a href="<?= $authRole == "ADMIN" ? "/tmr-portal_dev/views/admin/ticketing-system/ticketing.php" : "/tmr-portal_dev/views/user/ticketing-system/ticketing.php" ?>">
+                <a href="<?= $authRole == "ADMIN" ? "/tmr-portal_dev/views/admin/ticketing-system/ticketing.php" : ($authRole == "USER" ? "/tmr-portal_dev/views/user/ticketing-system/ticketing.php" : "/tmr-portal_dev/views/s-admin/ticketing-system/ticketing.php") ?>">
                     <span></span>
                     <span></span>
                     <span></span>

@@ -64,9 +64,9 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <?php if ($authorizations['inventory_edit']): ?>
                                         <div class="actions d-flex flex-row-reverse gap-2" id="forDisposalActions">
                                             <form action="../../../backend/admin/inventory-management/createDisposalForm.php" method="post">
-                                                <button type="submit" class="btn btn-primary createDisposalFormBtn"><i class="fas fa-file-lines"></i> Create Disposal Form</button>
+                                                <button type="submit" class="btn btn-sm shadow-sm btn-primary createDisposalFormBtn"><i class="fas fa-file-lines"></i> Create Disposal Form</button>
                                             </form>
-                                            <button type="button" class="btn btn-info disposeItemsBtn" data-bs-toggle="modal" data-bs-target="#disposeItemsModal"><i class="fas fa-dumpster"></i> Dispose All Items</button>
+                                            <button type="button" class="btn btn-sm shadow-sm btn-info disposeItemsBtn" data-bs-toggle="modal" data-bs-target="#disposeItemsModal"><i class="fas fa-dumpster"></i> Dispose All Items</button>
                                         </div>
                                     <?php endif; ?>
                                 </div>
@@ -136,12 +136,12 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                         </label>
                                         <input type="file" id="disposalFormFile" name="disposalFormFile" accept=".pdf" class="d-none">
                                         <div id="filePreview" class="d-none align-items-center justify-content-center p-xl-5">
-                                            <i class="fas fa-table fa-2x text-info mr-1"></i>
-                                            <p class="h3 mb-0" id="fileName">No File Selected</p>
+                                            <i class="fas fa-file-pdf fa-2x text-info mr-1"></i>
+                                            <p class="h5 mb-0" id="fileName">No File Selected</p>
                                             <i class="fas fa-trash text-danger" id="removeFileBtn"></i>
                                         </div>
                                         <div class="d-none justify-content-end align-items-end" id="actionGroup">
-                                            <button type="submit" class="btn-lg btn btn-primary"><i class="fas fa-trash-can-list"></i> Dispose Items</button>
+                                            <button type="submit" class="btn-sm shadow-sm btn btn-primary"><i class="fas fa-trash-can-list"></i> Dispose Items</button>
                                         </div>
                                     </div>
                                 </div>
