@@ -34,8 +34,26 @@
 
         </ul>
     </div>
+    <?php if ($authRole == "S-ADMIN" || $authorizations['accounts_view']): ?>
+        <hr class="sidebar-divider">
 
-    <?php if ($authRole == "ADMIN" && $authorizations['inventory_view']): ?>
+        <div class="sidebar-heading">Accounts Management</div>
+        <div class="side-item">
+            <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'accounts.php') !== false ? 'active' : '' ?>">
+                <li class="iso-pro">
+                    <a href="/tmr-portal_dev/views/s-admin/account-management/accounts.php">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <i class="fas fa-users-cog svg"></i>
+                        <div class="text">Accounts</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($authorizations['inventory_view']): ?>
         <hr class="sidebar-divider">
 
         <div class="sidebar-heading">Inventory Management</div>
@@ -67,25 +85,6 @@
                         <span></span>
                         <i class="fa-solid fa-trash-can-clock svg fa-fw fa-2x"></i>
                         <div class="text">Disposal</div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    <?php endif; ?>
-
-    <?php if ($authRole == "S-ADMIN" || $authorizations['accounts_view']): ?>
-        <hr class="sidebar-divider">
-
-        <div class="sidebar-heading">Accounts Management</div>
-        <div class="side-item">
-            <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'accounts.php') !== false ? 'active' : '' ?>">
-                <li class="iso-pro">
-                    <a href="/tmr-portal_dev/views/s-admin/account-management/accounts.php">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <i class="fas fa-users-cog svg"></i>
-                        <div class="text">Accounts</div>
                     </a>
                 </li>
             </ul>

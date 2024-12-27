@@ -14,7 +14,7 @@ if (!$stmt) {
     header('Content-Type: application/json');
     echo json_encode([
         "status" => "internal-error",
-        "message" => "Internal Error. Please Contact MIS",
+        "message" => "Failed to add to Disposal. Please Contact the Programmer",
         "data" => $conn->error
     ]);
 } else {
@@ -23,7 +23,7 @@ if (!$stmt) {
         header('Content-Type: application/json');
         echo json_encode([
             "status" => "internal-error",
-            "message" => "Internal Error. Please Contact MIS",
+            "message" => "Failed to Add to Disposal. Please Contact the Programmer",
             "data" => $stmt->error
         ]);
     } else {

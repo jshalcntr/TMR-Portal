@@ -10,7 +10,7 @@ if (!$stmt) {
     header('Content-Type: application/json');
     echo json_encode([
         "status" => "internal-error",
-        "message" => "Failed to fetch Inventory. Please Contact MIS",
+        "message" => "Failed to fetch Inventory. Please Contact the Programmer",
         "data" => $conn->error
     ]);
 } else {
@@ -19,7 +19,7 @@ if (!$stmt) {
         header("Content-type: application/json");
         echo json_encode([
             "status" => "internal-error",
-            "message" => "Failed to fetch Inventory. Please Contact MIS",
+            "message" => "Failed to fetch Inventory. Please Contact the Programmer",
             "data" => $stmt->error
         ]);
         $stmt->close();

@@ -1,33 +1,32 @@
 <?php
-include('../../dbconn.php');
+require '../../dbconn.php';
 
-$id = $_POST['id'];
-$status = 'Retired';
+$username = trim($_GET['username']);
 
-$sql = "UPDATE inventory_records_tbl SET status = ? WHERE id = ?";
-$stmt = $conn->prepare($sql);
-
+$stmt = $conn->prepare("SELECT COUNT(*) FROM accounts_tbl WHERE username = ?");
 if (!$stmt) {
     header('Content-Type: application/json');
     echo json_encode([
         "status" => "internal-error",
-        "message" => "Failed to Retire Inventory. Please Contact the Programmer",
+        "message" => "Failed to Check Username Existence. Please Contact the Programmer",
         "data" => $conn->error
     ]);
 } else {
-    $stmt->bind_param("si", $status, $id);
+    $stmt->bind_param("s", $username);
     if (!$stmt->execute()) {
         header('Content-Type: application/json');
         echo json_encode([
             "status" => "internal-error",
-            "message" => "Failed to Retire Inventory. Please Contact the Programmer",
+            "message" => "Failed to Check Username Existence. Please Contact the Programmer",
             "data" => $stmt->error
         ]);
     } else {
+        $stmt->bind_result($count);
+        $stmt->fetch();
         header('Content-Type: application/json');
         echo json_encode([
             "status" => "success",
-            "message" => "Inventory Retired Successfully!",
+            "exists" => $count > 0,
         ]);
     }
 }

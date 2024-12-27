@@ -13,7 +13,7 @@ if (!$stmt) {
     header('Content-Type: application/json');
     echo json_encode([
         "status" => "internal-error",
-        "message" => "Internal Error. Please Contact MIS",
+        "message" => "Failed to Add Repair. Please Contact the Programmer",
         "data" => $conn->error
     ]);
 } else {
@@ -22,7 +22,7 @@ if (!$stmt) {
         header('Content-Type: application/json');
         echo json_encode([
             "status" => "internal-error",
-            "message" => "Internal Error. Please Contact MIS",
+            "message" => "Failed to Add Repair. Please Contact the Programmer",
             "data" => $stmt->error
         ]);
     } else {
@@ -32,7 +32,7 @@ if (!$stmt) {
             header('Content-Type: application/json');
             echo json_encode([
                 "status" => "internal-error",
-                "message" => "Internal Error. Please Contact MIS",
+                "message" => "Failed to Update Inventory Status. Please Contact the Programmer",
                 "data" => $conn->error
             ]);
         } else {
@@ -41,14 +41,14 @@ if (!$stmt) {
                 header('Content-Type: application/json');
                 echo json_encode([
                     "status" => "internal-error",
-                    "message" => "Internal Error. Please Contact MIS",
+                    "message" => "Failed to Add Repair. Please Contact the Programmer",
                     "data" => $stmt2->error
                 ]);
             } else {
                 header('Content-Type: application/json');
                 echo json_encode([
                     "status" => "success",
-                    "message" => "Item Repaired Successfully!"
+                    "message" => "Item Added to Repair Successfully!"
                 ]);
             }
         }

@@ -6,7 +6,7 @@ require('../../../backend/dbconn.php');
 require('../../../backend/middleware/pipes.php');
 require('../../../backend/middleware/authorize.php');
 
-if (authorize($_SESSION['user']['role'] == "ADMIN")) {
+if (authorize($_SESSION['user']['role'] == "ADMIN") || authorize($_SESSION['user']['role'] == "S-ADMIN")) {
     $authId = $_SESSION['user']['id'];
     $authUsername = $_SESSION['user']['username'];
     $authFullName = $_SESSION['user']['full_name'];
@@ -74,14 +74,16 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                 <table class="table table-bordered" id="inventoryTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Asset No.</th>
-                                            <th>
+                                            <th scope="col">Asset No.</th>
+                                            <th scope="col">User</th>
+                                            <th scope="col">PC Name</th>
+                                            <th scope="col">
                                                 Item Type
                                                 <select id="filterItemType" class="form-select form-select-sm">
                                                     <option value="">All</option>
                                                 </select>
                                             </th>
-                                            <th>
+                                            <th scope="col">
                                                 Item Category
                                                 <select id="filterCategory" class="form-select form-select-sm" hidden>
                                                     <option value="">All</option>
@@ -94,28 +96,25 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                                     <option value="External Drive">External Drive</option>
                                                 </select>
                                             </th>
-                                            <th>Brand</th>
-                                            <th>Model</th>
-                                            <th>Date Acquired</th>
-                                            <th>Supplier</th>
-                                            <th>Serial Number</th>
-                                            <th>
-                                                User
-                                            </th>
-                                            <th>Department
+                                            <th scope="col">Brand</th>
+                                            <th scope="col">Model</th>
+                                            <th scope="col">Date Acquired</th>
+                                            <th scope="col">Supplier</th>
+                                            <th scope="col">Serial Number</th>
+                                            <th scope="col">Department
                                                 <select id="filterDepartment" class="form-select form-select-sm">
                                                     <option value="">All</option>
                                                 </select>
                                             </th>
-                                            <th>
+                                            <th scope="col">
                                                 Status
                                                 <select id="filterStatus" class="form-select form-select-sm">
                                                     <option value="">All</option>
                                                 </select>
                                             </th>
-                                            <th>Price</th>
-                                            <th>Remarks</th>
-                                            <th>View</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Remarks</th>
+                                            <th scope="col">View</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -145,6 +144,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                             <option value="" selected hidden>--Select Item Type--</option>
                                             <option value="Desktop">Desktop</option>
                                             <option value="Laptop">Laptop</option>
+                                            <option value="Monitor">Monitor</option>
                                             <option value="Printer">Printer</option>
                                             <option value="Hardisk">Hardisk</option>
                                             <option value="RAM">RAM</option>
@@ -162,6 +162,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                             <option value="" selected hidden>--Select Item Category--</option>
                                             <option value="Desktop" hidden>Desktop</option>
                                             <option value="Laptop" hidden>Laptop</option>
+                                            <option value="Monitor" hidden>Monitor</option>
                                             <option value="Printer" hidden>Printer</option>
                                             <option value="Hardisk" hidden>Hardisk</option>
                                             <option value="RAM" hidden>RAM</option>
@@ -200,6 +201,11 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                         <label for="user" class="col-form-label">User Name</label>
                                         <input type="text" name="user" id="user" class="form-control form-control-sm" required>
                                         <div class="invalid-feedback">Please Input User Name</div>
+                                    </div>
+                                    <div class="mb-2 form-group">
+                                        <label for="computerName" class="col-form-label">Computer Name</label>
+                                        <input type="text" name="computerName" id="computerName" class="form-control form-control-sm" required>
+                                        <div class="invalid-feedback">Please Input Computer Name</div>
                                     </div>
                                     <div class="mb-2 form-group">
                                         <label for="department" class="col-form-label">Department</label>
@@ -487,12 +493,18 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                             </div>
                             <div class="col">
                                 <div class="form-check mb-1">
-                                    <input type="checkbox" name="itemType_export[]" id="printer_itemType" class="form-check-input item-checkbox" value="Printer">
-                                    <label for="printer_itemType" class="form-check-label">Printer</label>
+                                    <input type="checkbox" name="itemType_export[]" id="monitor_itemType" class="form-check-input item-checkbox" value="Monitor">
+                                    <label for="monitor_itemType" class="form-check-label">Monitor</label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col">
+                                <div class="form-check mb-1">
+                                    <input type="checkbox" name="itemType_export[]" id="printer_itemType" class="form-check-input item-checkbox" value="Printer">
+                                    <label for="printer_itemType" class="form-check-label">Printer</label>
+                                </div>
+                            </div>
                             <div class="col">
                                 <div class="form-check mb-1">
                                     <input type="checkbox" name="itemType_export[]" id="hardisk_itemType" class="form-check-input item-checkbox" value="Hardisk">
@@ -511,14 +523,14 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <label for="videoCard_itemType" class="form-check-label">Video Card</label>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col">
                                 <div class="form-check mb-1">
                                     <input type="checkbox" name="itemType_export[]" id="ups_itemType" class="form-check-input item-checkbox" value="UPS">
                                     <label for="ups_itemType" class="form-check-label">UPS</label>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col">
                                 <div class="form-check mb-1">
                                     <input type="checkbox" name="itemType_export[]" id="upsBattery_itemType" class="form-check-input item-checkbox" value="UPS Battery">
@@ -537,7 +549,6 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <label for="accessories_itemType" class="form-check-label">Accessories</label>
                                 </div>
                             </div>
-                            <div class="col"></div>
                         </div>
                         <div class="row">
                             <div class="col">
@@ -637,6 +648,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                         <option value="" selected hidden>--Select Item Type--</option>
                                         <option value="Desktop">Desktop</option>
                                         <option value="Laptop">Laptop</option>
+                                        <option value="Monitor">Monitor</option>
                                         <option value="Printer">Printer</option>
                                         <option value="Hardisk">Hardisk</option>
                                         <option value="RAM">RAM</option>
@@ -654,6 +666,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                         <option value="" selected hidden>--Select Item Category--</option>
                                         <option value="Desktop" hidden>Desktop</option>
                                         <option value="Laptop" hidden>Laptop</option>
+                                        <option value="Monitor" hidden>Monitor</option>
                                         <option value="Printer" hidden>Printer</option>
                                         <option value="Hardisk" hidden>Hardisk</option>
                                         <option value="RAM" hidden>RAM</option>
@@ -693,6 +706,11 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <label for="user_edit" class="col-form-label">User Name</label>
                                     <input type="text" name="user" id="user_edit" class="form-control form-control-sm" required disabled>
                                     <div class="invalid-feedback">Please Input User Name</div>
+                                </div>
+                                <div class="mb-2 form-group">
+                                    <label for="computerName_edit" class="col-form-label">Computer Name</label>
+                                    <input type="text" name="computerName" id="computerName_edit" class="form-control form-control-sm" required disabled>
+                                    <div class="invalid-feedback">Please Input Computer Name</div>
                                 </div>
                                 <div class="mb-2 form-group">
                                     <label for="department_edit" class="col-form-label">Department</label>

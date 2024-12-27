@@ -37,6 +37,7 @@ $(document).ready(function () {
                     $("#itemModel_edit").val(inventoryData.model);
                     $("#itemSpecification_edit").val(inventoryData.item_specification);
                     $("#user_edit").val(inventoryData.user);
+                    $("#computerName_edit").val(inventoryData.computer_name);
                     $("#department_edit").val(inventoryData.department);
                     $("#dateAcquired_edit").val(inventoryData.date_acquired);
                     $("#supplierName_edit").val(inventoryData.supplier);
@@ -181,6 +182,7 @@ $(document).ready(function () {
         $("#itemModel_edit").prop('disabled', !$("#itemModel_edit").prop('disabled'));
         $("#itemSpecification_edit").prop('disabled', !$("#itemSpecification_edit").prop('disabled'));
         $("#user_edit").prop('disabled', !$("#user_edit").prop('disabled'));
+        $("#computerName_edit").prop('disabled', !$("#computerName_edit").prop('disabled'));
         $("#department_edit").prop('disabled', !$("#department_edit").prop('disabled'));
         $("#dateAcquired_edit").prop('disabled', !$("#dateAcquired_edit").prop('disabled'));
         $("#supplierName_edit").prop('disabled', !$("#supplierName_edit").prop('disabled'));
@@ -241,6 +243,7 @@ $(document).ready(function () {
                     $("#itemModel_edit").val(inventoryData.model);
                     $("#itemSpecification_edit").val(inventoryData.item_specification);
                     $("#user_edit").val(inventoryData.user);
+                    $("#computerName_edit").val(inventoryData.computer_name);
                     $("#department_edit").val(inventoryData.department);
                     $("#dateAcquired_edit").val(inventoryData.date_acquired);
                     $("#supplierName_edit").val(inventoryData.supplier);

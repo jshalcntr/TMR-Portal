@@ -8,7 +8,7 @@ if (!$stmt) {
     header('Content-Type: application/json');
     echo json_encode([
         "status" => "internal-error",
-        "message" => "Failed to fetch Inventory. Please Contact MIS",
+        "message" => "Failed to fetch Inventory. Please Contact the Programmer",
         "data" => $conn->error
     ]);
 } else {
@@ -16,7 +16,7 @@ if (!$stmt) {
         header("Content-type: application/json");
         echo json_encode([
             "status" => "internal-error",
-            "message" => "Failed to fetch Inventory. Please Contact MIS",
+            "message" => "Failed to fetch Inventory. Please Contact the Programmer",
             "data" => $stmt->error
         ]);
         $stmt->close();
@@ -29,13 +29,14 @@ if (!$stmt) {
             $faNumber = $inventoryRow['fa_number'];
             $itemType = $inventoryRow['item_type'];
             $itemCategory = $inventoryRow['item_category'];
+            $user = $inventoryRow['user'];
+            $computerName = $inventoryRow['computer_name'];
             $brand = $inventoryRow['brand'];
             $model = $inventoryRow['model'];
             $dateAcquired = $inventoryRow['date_acquired'];
             $dateAcquiredReadable = convertToReadableDate($dateAcquired);
             $supplier = $inventoryRow['supplier'];
             $serialNumber = $inventoryRow['serial_number'];
-            $user = $inventoryRow['user'];
             $department = $inventoryRow['department'];
             $status = $inventoryRow['status'];
             $price = $inventoryRow['price'];
@@ -46,13 +47,14 @@ if (!$stmt) {
                 "faNumber" => $faNumber == true ? $faNumber : "N/A",
                 "itemType" => $itemType,
                 "itemCategory" => $itemCategory,
+                "user" => $user,
+                "computerName" => $computerName,
                 "brand" => $brand,
                 "model" => $model,
                 "dateAcquired" => $dateAcquired,
                 "dateAcquiredReadable" => $dateAcquiredReadable,
                 "supplier" => $supplier,
                 "serialNumber" => $serialNumber,
-                "user" => $user,
                 "department" => $department,
                 "status" => $status,
                 "price" => floatval($price),

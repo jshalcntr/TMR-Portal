@@ -10,14 +10,14 @@ if ($stmt == false) {
     header("Content-type: application/json");
     echo json_encode([
         "status" => "internal-error",
-        "message" => "Internal Error. Please Contact MIS",
+        "message" => "Failed to Fetch Inventory. Please Contact the Programmer",
         "data" => $conn->error
     ]);
 } else {
     if (!$stmt->execute()) {
         echo json_encode([
             "status" => "internal-error",
-            "message" => "Failed to fetch Inventory. Please Contact MIS",
+            "message" => "Failed to Fetch Inventory. Please Contact the Programmer",
             "data" => $stmt->error
         ]);
     } else {

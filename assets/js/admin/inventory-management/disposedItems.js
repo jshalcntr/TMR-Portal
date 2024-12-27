@@ -57,6 +57,7 @@ $(document).on('click', '.view-disposed-modal', function () {
             { data: "faNumber" },
             { data: "itemType" },
             { data: "user" },
+            { data: "computerName" },
             { data: "department" }
         ],
         order: [

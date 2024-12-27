@@ -32,6 +32,7 @@ $(document).ready(function () {
             { "data": "faNumber" },
             { "data": "itemType" },
             { "data": "user" },
+            { "data": "computerName" },
             { "data": "department" },
             { "data": "dateRetiredReadable" },
             { "data": "remarks" }

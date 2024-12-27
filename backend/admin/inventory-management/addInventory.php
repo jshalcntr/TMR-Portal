@@ -7,6 +7,7 @@ $itemSpecification = $_POST['itemSpecification'];
 $itemBrand = $_POST['itemBrand'];
 $itemModel = $_POST['itemModel'];
 $user = $_POST['user'];
+$computerName = $_POST['computerName'];
 $separtment = $_POST['department'];
 $dateAcquired = $_POST['dateAcquired'];
 $supplier = $_POST['supplierName'];
@@ -42,24 +43,24 @@ if ($itemPrice > 9999.4) {
 
     $newFaNumber = sprintf("TMRMIS%s-%04d", $currentYear, $newNumber);
 
-    $addItemSql = "INSERT INTO inventory_records_tbl(item_type, item_category, item_specification, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price, fa_number)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $addItemSql = "INSERT INTO inventory_records_tbl(item_type, item_category, item_specification, brand, model, date_acquired, supplier, serial_number, remarks,user, computer_name, department, status, price, fa_number)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($addItemSql);
 
     if (!$stmt) {
         header('Content-Type: application/json');
         echo json_encode([
             "status" => "internal-error",
-            "message" => "Internal Error. Please Contact MIS",
+            "message" => "Internal Error. Please Contact the Programmer",
             "data" => $conn->error
         ]);
     } else {
-        $stmt->bind_param("ssssssssssssds", $itemType, $itemCategory, $itemSpecification, $itemBrand, $itemModel, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $separtment, $status, $itemPrice, $newFaNumber);
+        $stmt->bind_param("sssssssssssssds", $itemType, $itemCategory, $itemSpecification, $itemBrand, $itemModel, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $computerName, $separtment, $status, $itemPrice, $newFaNumber);
         if (!$stmt->execute()) {
             header('Content-Type: application/json');
             echo json_encode([
                 "status" => "internal-error",
-                "message" => "Internal Error. Please Contact MIS",
+                "message" => "Internal Error. Please Contact the Programmer",
                 "data" => $stmt->error
             ]);
         } else {
@@ -71,23 +72,23 @@ if ($itemPrice > 9999.4) {
         }
     }
 } else {
-    $addItemSql = "INSERT INTO inventory_records_tbl(item_type, item_category, item_specification, brand, model, date_acquired, supplier, serial_number, remarks, user, department, status, price)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $addItemSql = "INSERT INTO inventory_records_tbl(item_type, item_category, item_specification, brand, model, date_acquired, supplier, serial_number, remarks, user, computer_name, department, status, price)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($addItemSql);
     if (!$stmt) {
         header('Content-Type: application/json');
         echo json_encode([
             "status" => "internal-error",
-            "message" => "Internal Error. Please Contact MIS",
+            "message" => "Internal Error. Please Contact the Programmer",
             "data" => $conn->error
         ]);
     } else {
-        $stmt->bind_param("ssssssssssssd", $itemType, $itemCategory, $itemSpecification,  $itemBrand, $itemModel, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $separtment, $status, $itemPrice);
+        $stmt->bind_param("sssssssssssssd", $itemType, $itemCategory, $itemSpecification,  $itemBrand, $itemModel, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $computerName, $separtment, $status, $itemPrice);
         if (!$stmt->execute()) {
             header('Content-Type: application/json');
             echo json_encode([
                 "status" => "internal-error",
-                "message" => "Internal Error. Please Contact MIS",
+                "message" => "Internal Error. Please Contact the Programmer",
                 "data" => $stmt->error
             ]);
         } else {

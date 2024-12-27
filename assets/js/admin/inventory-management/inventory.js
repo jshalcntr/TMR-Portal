@@ -19,6 +19,8 @@ const populateTable = () => {
                     data: response.data,
                     columns: [
                         { data: "faNumber" },
+                        { data: "user" },
+                        { data: "computerName" },
                         { data: "itemType" },
                         { data: "itemCategory" },
                         { data: "brand" },
@@ -26,7 +28,6 @@ const populateTable = () => {
                         { data: "dateAcquiredReadable" },
                         { data: "supplier" },
                         { data: "serialNumber" },
-                        { data: "user" },
                         { data: "department" },
                         { data: "status" },
                         { data: "pricePhp" },
@@ -44,27 +45,27 @@ const populateTable = () => {
                     destroy: true,
                     serverSide: false,
                     processing: true,
-                    order: [[5, "desc"]],
+                    order: [[7, "desc"]],
                     columnDefs: [
                         {
-                            targets: [1, 2, 9, 10],
+                            targets: [3, 4, 10, 11],
                             orderable: false
                         },
                         {
-                            targets: [5],
+                            targets: [7],
                             type: "date",
                             orderDataType: "dom-data-order"
                         }
                     ],
                     createdRow: function (row, data) {
-                        $('td', row).eq(5).attr('data-order', data.dateAcquired);
+                        $('td', row).eq(7).attr('data-order', data.dateAcquired);
                     }
                 });
 
-                populateDropdown("#filterItemType", table, 1);
-                populateDropdown("#filterDepartment", table, 9);
-                populateDropdown("#filterStatus", table, 10);
-                populateDropdown("#filterCategory", table, 2);
+                populateDropdown("#filterItemType", table, 3);
+                populateDropdown("#filterCategory", table, 4);
+                populateDropdown("#filterDepartment", table, 10);
+                populateDropdown("#filterStatus", table, 11);
 
                 $("#filterItemType, #filterCategory, #filterDepartment, #filterStatus").on("change", function () {
                     if ($("#filterItemType").val() === 'Accessories') {
@@ -114,10 +115,10 @@ const populateTable = () => {
                         const department = $("#filterDepartment").val();
                         const status = $("#filterStatus").val();
 
-                        const matchesItemType = itemType === "" || data[1] === itemType; // Column 1: Item Type
-                        const matchesCategory = itemCategory === "" || data[2] === itemCategory; // Column 2: Item Category
-                        const matchesDepartment = department === "" || data[9] === department; // Column 9: Department
-                        const matchesStatus = status === "" || data[10] === status; // Column 10: Status
+                        const matchesItemType = itemType === "" || data[3] === itemType; // Column 1: Item Type
+                        const matchesCategory = itemCategory === "" || data[4] === itemCategory; // Column 2: Item Category
+                        const matchesDepartment = department === "" || data[10] === department; // Column 9: Department
+                        const matchesStatus = status === "" || data[11] === status; // Column 10: Status
 
                         return matchesItemType && matchesCategory && matchesDepartment && matchesStatus;
                     },
@@ -129,6 +130,7 @@ const populateTable = () => {
 
 const populateDropdown = (selector, table, columnIndex) => {
     const columnData = table.column(columnIndex).data().unique().sort();
+    $(selector).empty().append(new Option("All", ""));
     columnData.each((value) => {
         $(selector).append(new Option(value, value));
     });
@@ -158,6 +160,7 @@ const fetchAllRepairs = (queriedId) => {
                 $("#itemModel_edit").val(inventoryData.model);
                 $("#itemSpecification_edit").val(inventoryData.item_specification);
                 $("#user_edit").val(inventoryData.user);
+                $("#computerName_edit").val(inventoryData.computer_name);
                 $("#department_edit").val(inventoryData.department);
                 $("#dateAcquired_edit").val(inventoryData.date_acquired);
                 $("#supplierName_edit").val(inventoryData.supplier);

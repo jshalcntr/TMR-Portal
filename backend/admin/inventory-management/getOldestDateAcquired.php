@@ -8,7 +8,7 @@ if (!$stmt) {
     header('Content-Type: application/json');
     echo json_encode([
         "status" => "internal-error",
-        "message" => "Failed to fetch Item Types. Please Contact MIS",
+        "message" => "Faile to Fetch Oldest Date. Please Contact the Programmer",
         "data" => $conn->error
     ]);
 } else {
@@ -16,7 +16,7 @@ if (!$stmt) {
         header("Content-type: application/json");
         echo json_encode([
             "status" => "error",
-            "message" => "Failed to fetch Item Types. Please Contact MIS",
+            "message" => "Faile to Fetch Oldest Date. Please Contact the Programmer",
             "data" => $stmt->error
         ]);
         $stmt->close();

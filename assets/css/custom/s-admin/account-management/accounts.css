@@ -1,0 +1,92 @@
+.table td {
+    vertical-align: middle !important;
+    text-align: center;
+}
+.table thead th {
+    vertical-align: middle;
+    text-align: center;
+}
+.table th,
+.table td {
+    padding: 0.3rem 0.5rem;
+}
+.remarks-column {
+    font-size: 0.75rem;
+}
+
+.action-column {
+    gap: 8px;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid var(--gray-dark);
+    margin: 0 !important;
+    color: var(--dark);
+}
+#accountsTable {
+    border-left: 1px solid var(--gray-dark);
+    border-bottom: 1px solid var(--gray-dark);
+}
+
+#accountsTable tbody tr:nth-child(odd) {
+    background-color: var(--bs-white);
+}
+
+#accountsTable tbody tr:nth-child(even) {
+    background-color: var(--bs-table-bg);
+}
+#accountsTable {
+    --bs-table-bg: none;
+}
+#accountsTable thead th {
+    background-color: var(--primary);
+    color: var(--text-white);
+}
+
+#toggleRow {
+    position: relative;
+}
+
+#toggleRow > .line {
+    background-color: var(--text-gray);
+    height: 1px;
+    width: 86%;
+    border-radius: 20px;
+    position: absolute;
+    top: 0px;
+    right: 39px;
+}
+
+#toggleRow > p {
+    position: absolute;
+    top: -10px;
+    right: 166px;
+    background-color: var(--text-white);
+    width: fit-content;
+    padding: 0px 4px !important;
+}
+#toggleRow > button {
+    width: 0;
+    padding: 8px !important;
+    height: 0;
+    background: none;
+    border: 1px solid var(--text-gray);
+    outline: none;
+    color: var(--text-gray);
+    position: absolute;
+    top: -9px;
+    right: 22px;
+}
+
+#toggleRow > button[data-toggle="collapse"]::after {
+    content: "+";
+    font-size: 16px;
+}
+#toggleRow > button[data-toggle="collapse"][aria-expanded="true"]::after {
+    content: "-";
+}
+
+.fa-2x {
+    font-size: 1.5em !important;
+}

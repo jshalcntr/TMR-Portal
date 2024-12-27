@@ -12,7 +12,7 @@ if (!$stmt) {
     header('Content-Type: application/json');
     echo json_encode([
         "status" => "internal-error",
-        "message" => "Internal Error. Please Contact MIS",
+        "message" => "Failed to Update Repair. Please Contact the Programmer",
         "data" => $conn->error
     ]);
 } else {
@@ -21,7 +21,7 @@ if (!$stmt) {
         header('Content-Type: application/json');
         echo json_encode([
             "status" => "internal-error",
-            "message" => "Internal Error. Please Contact MIS",
+            "message" => "Failed to Update Repair. Please Contact the Programmer",
             "data" => $stmt->error
         ]);
     } else {

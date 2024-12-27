@@ -92,11 +92,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $sheet->mergeCells('L2:L3');
     $sheet->setCellValue('L2', 'User');
     $sheet->mergeCells('M2:M3');
-    $sheet->setCellValue('M2', 'Department');
+    $sheet->setCellValue('M2', 'Computer Name');
     $sheet->mergeCells('N2:N3');
-    $sheet->setCellValue('N2', 'Status');
+    $sheet->setCellValue('N2', 'Department');
     $sheet->mergeCells('O2:O3');
-    $sheet->setCellValue('O2', 'Price');
+    $sheet->setCellValue('O2', 'Status');
+    $sheet->mergeCells('P2:P3');
+    $sheet->setCellValue('P2', 'Price');
 
     $rowIndex = 4;
 
@@ -113,27 +115,28 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $sheet->setCellValue('J' . $rowIndex, $row['serial_number']);
         $sheet->setCellValue('K' . $rowIndex, $row['remarks']);
         $sheet->setCellValue('L' . $rowIndex, $row['user']);
-        $sheet->setCellValue('M' . $rowIndex, $row['department']);
-        $sheet->setCellValue('N' . $rowIndex, $row['status']);
-        $sheet->setCellValue('O' . $rowIndex, convertToPhp($row['price']));
+        $sheet->setCellValue('M' . $rowIndex, $row['computer_name']);
+        $sheet->setCellValue('N' . $rowIndex, $row['department']);
+        $sheet->setCellValue('O' . $rowIndex, $row['status']);
+        $sheet->setCellValue('P' . $rowIndex, convertToPhp($row['price']));
         $rowIndex++;
     }
 
-    foreach (range('A', 'O') as $columnId) {
+    foreach (range('A', 'P') as $columnId) {
         $sheet->getColumnDimension($columnId)->setAutoSize(true);
     }
     $sheet->getStyle('A1')->getFont()->setBold(true);
     $sheet->getStyle('A1')->getAlignment()->setHorizontal('center')->setVertical('center');
     $sheet->getStyle('A1')->getFont()->setName('ToyotaType')->setSize(19);
-    $sheet->getStyle('A2:O2')->getFont()->setBold(true);
-    $sheet->setAutoFilter('A2:O2');
+    $sheet->getStyle('A2:P2')->getFont()->setBold(true);
+    $sheet->setAutoFilter('A2:P2');
 
     $highestRow = $sheet->getHighestRow();
 
-    $sheet->getStyle('A2:O' . $highestRow)->getAlignment()->setHorizontal('center')->setVertical('center');
+    $sheet->getStyle('A2:P' . $highestRow)->getAlignment()->setHorizontal('center')->setVertical('center');
     $sheet->getStyle('N2')->getAlignment()->setHorizontal('center')->setVertical('center');
-    $sheet->getStyle('A2:O' . $highestRow)->getFont()->setName('ToyotaType')->setSize(11);
-    $sheet->getStyle('O4:O' . $highestRow)->getAlignment()->setHorizontal('left')->setVertical('center');
+    $sheet->getStyle('A2:P' . $highestRow)->getFont()->setName('ToyotaType')->setSize(11);
+    $sheet->getStyle('P4:P' . $highestRow)->getAlignment()->setHorizontal('left')->setVertical('center');
 
     $dateTimeNow = new DateTime();
     $dateTimeNow->setTimezone(new DateTimeZone('Asia/Manila'));

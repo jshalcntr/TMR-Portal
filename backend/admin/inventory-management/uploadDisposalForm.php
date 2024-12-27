@@ -32,7 +32,7 @@ if (isset($_FILES['disposalFormFile']) && $_FILES['disposalFormFile']['error'] =
             header('Content-Type: application/json');
             echo json_encode([
                 "status" => "error",
-                "message" => "Failed to create disposed record. Please Contact MIS",
+                "message" => "Failed to create disposed record. Please Contact the Programmer",
                 "data" => $conn->error
             ]);
         } else {
@@ -41,7 +41,7 @@ if (isset($_FILES['disposalFormFile']) && $_FILES['disposalFormFile']['error'] =
                 header('Content-Type: application/json');
                 echo json_encode([
                     "status" => "error",
-                    "message" => "Failed to create disposed record. Please Contact MIS",
+                    "message" => "Failed to create disposed record. Please Contact the Programmer",
                     "data" => $createDisposedRecordStmt->error
                 ]);
             } else {
@@ -53,7 +53,7 @@ if (isset($_FILES['disposalFormFile']) && $_FILES['disposalFormFile']['error'] =
                         header('Content-Type: application/json');
                         echo json_encode([
                             "status" => "error",
-                            "message" => "Failed to dispose item. Please Contact MIS",
+                            "message" => "Failed to dispose item. Please Contact the Programmer",
                             "data" => $conn->error
                         ]);
                         // continue;
@@ -63,7 +63,7 @@ if (isset($_FILES['disposalFormFile']) && $_FILES['disposalFormFile']['error'] =
                             header('Content-Type: application/json');
                             echo json_encode([
                                 "status" => "error",
-                                "message" => "Failed to dispose item. Please Contact MIS",
+                                "message" => "Failed to dispose item. Please Contact the Programmer",
                                 "data" => $disposeItemStmt->error
                             ]);
                             // continue;
@@ -74,7 +74,7 @@ if (isset($_FILES['disposalFormFile']) && $_FILES['disposalFormFile']['error'] =
                                 header('Content-Type: application/json');
                                 echo json_encode([
                                     "status" => "error",
-                                    "message" => "Failed to update item info. Please Contact MIS",
+                                    "message" => "Failed to update item info. Please Contact the Programmer",
                                     "data" => $conn->error
                                 ]);
                                 // continue;
@@ -84,7 +84,7 @@ if (isset($_FILES['disposalFormFile']) && $_FILES['disposalFormFile']['error'] =
                                     header('Content-Type: application/json');
                                     echo json_encode([
                                         "status" => "error",
-                                        "message" => "Failed to update item info. Please Contact MIS",
+                                        "message" => "Failed to update item info. Please Contact the Programmer",
                                         "data" => $updateItemInfoStmt->error
                                     ]);
                                     // continue;
@@ -95,7 +95,7 @@ if (isset($_FILES['disposalFormFile']) && $_FILES['disposalFormFile']['error'] =
                                         header('Content-Type: application/json');
                                         echo json_encode([
                                             "status" => "error",
-                                            "message" => "Failed to update disposal info. Please Contact MIS",
+                                            "message" => "Failed to update disposal info. Please Contact the Programmer",
                                             "data" => $conn->error
                                         ]);
                                         // continue;
@@ -105,7 +105,7 @@ if (isset($_FILES['disposalFormFile']) && $_FILES['disposalFormFile']['error'] =
                                             header('Content-Type: application/json');
                                             echo json_encode([
                                                 "status" => "error",
-                                                "message" => "Failed to update disposal info. Please Contact MIS",
+                                                "message" => "Failed to update disposal info. Please Contact the Programmer",
                                                 "data" => $updateDisposalStmt->error
                                             ]);
                                             // continue;

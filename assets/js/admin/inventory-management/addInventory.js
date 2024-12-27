@@ -13,7 +13,9 @@ $(document).ready(function () {
         $("#itemCategory").val("");
         $("#itemBrand").val("");
         $("#itemModel").val("");
+        $("#itemSpecification").val("");
         $("#user").val("");
+        $("#computerName").val("");
         $("#department").val("");
         $("#supplierName").val("");
         $("#serialNumber").val("");
@@ -96,6 +98,8 @@ $(document).ready(function () {
                                 })
                             }
                         })
+                    } else {
+                        $("#itemCategory").prop('disabled', true);
                     }
                 })
             }

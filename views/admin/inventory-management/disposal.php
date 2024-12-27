@@ -5,7 +5,7 @@ require('../../../backend/dbconn.php');
 require('../../../backend/middleware/pipes.php');
 require('../../../backend/middleware/authorize.php');
 
-if (authorize($_SESSION['user']['role'] == "ADMIN")) {
+if (authorize($_SESSION['user']['role'] == "ADMIN") || authorize($_SESSION['user']['role'] == "S-ADMIN")) {
     $authId = $_SESSION['user']['id'];
     $authUsername = $_SESSION['user']['username'];
     $authFullName = $_SESSION['user']['full_name'];
@@ -75,12 +75,13 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                         <table class="table table-bordered" id="forDisposalTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
-                                                    <th>Asset No.</th>
-                                                    <th>Item type</th>
-                                                    <th>User</th>
-                                                    <th>Department</th>
-                                                    <th>Date Retired</th>
-                                                    <th>Remarks</th>
+                                                    <th scope="col">Asset No.</th>
+                                                    <th scope="col">Item type</th>
+                                                    <th scope="col">User</th>
+                                                    <th scope="col">Computer Name</th>
+                                                    <th scope="col">Department</th>
+                                                    <th scope="col">Date Retired</th>
+                                                    <th scope="col">Remarks</th>
                                                 </tr>
                                             </thead>
                                         </table>
@@ -179,6 +180,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                         <th>Asset No.</th>
                                         <th>Item Type</th>
                                         <th>User</th>
+                                        <th>ComputerName</th>
                                         <th>Department</th>
                                     </tr>
                                 </thead>

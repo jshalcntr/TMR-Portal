@@ -8,6 +8,7 @@ $forDisposalSql = "SELECT
                     inventory_records_tbl.fa_number,
                     inventory_records_tbl.item_type,
                     inventory_records_tbl.user,
+                    inventory_records_tbl.computer_name,
                     inventory_records_tbl.department,
                     inventory_disposal_tbl.date_added,
                     inventory_disposal_tbl.remarks
@@ -21,14 +22,14 @@ if ($stmt == false) {
     header("Content-type: application/json");
     echo json_encode([
         "status" => "internal-error",
-        "message" => "Internal Error. Please Contact MIS",
+        "message" => "Failed to Fetch Items for Disposal. Please Contact the Programmer",
         "data" => $conn->error
     ]);
 } else {
     if (!$stmt->execute()) {
         echo json_encode([
             "status" => "internal-error",
-            "message" => "Failed to fetch Inventory. Please Contact MIS",
+            "message" => "Failed to Fetch Items for Disposal. Please Contact the Programmer",
             "data" => $stmt->error
         ]);
     } else {
@@ -39,6 +40,7 @@ if ($stmt == false) {
             $faNumber = $forDisposalRow['fa_number'];
             $itemType = $forDisposalRow['item_type'];
             $user = $forDisposalRow['user'];
+            $computerName = $forDisposalRow['computer_name'];
             $department = $forDisposalRow['department'];
             $dateRetired = $forDisposalRow['date_added'];
             $remarks = $forDisposalRow['remarks'];
@@ -48,6 +50,7 @@ if ($stmt == false) {
                 "faNumber" => $faNumber == true ? $faNumber : "N/A",
                 "itemType" => $itemType,
                 "user" => $user,
+                "computerName" => $computerName,
                 "department" => $department,
                 "dateRetired" => $dateRetired,
                 "dateRetiredReadable" => convertToReadableDate($dateRetired),

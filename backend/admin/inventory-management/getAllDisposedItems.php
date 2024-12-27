@@ -9,6 +9,7 @@ $getDisposedItemsSql = "SELECT
                         inventory_records_tbl.fa_number,
                         inventory_records_tbl.item_type,
                         inventory_records_tbl.user,
+                        inventory_records_tbl.computer_name,
                         inventory_records_tbl.department
                         FROM inventory_disposed_items_tbl
                         JOIN inventory_records_tbl ON inventory_disposed_items_tbl.inventory_id = inventory_records_tbl.id
@@ -19,7 +20,7 @@ if (!$stmt) {
     header("Content-type: application/json");
     echo json_encode([
         "status" => "internal-error",
-        "message" => "Internal Error. Please Contact MIS",
+        "message" => "Failed to Fetch Disposed Items. Please Contact the Programmer",
         "data" => $conn->error
     ]);
 } else {
@@ -27,7 +28,7 @@ if (!$stmt) {
     if (!$stmt->execute()) {
         echo json_encode([
             "status" => "internal-error",
-            "message" => "Failed to fetch Inventory. Please Contact MIS",
+            "message" => "Failed to Fetch Disposed Items. Please Contact the Programmer",
             "data" => $stmt->error
         ]);
     } else {
@@ -37,12 +38,14 @@ if (!$stmt) {
             $faNumber = $disposedItemsRow['fa_number'];
             $itemType = $disposedItemsRow['item_type'];
             $user = $disposedItemsRow['user'];
+            $computerName = $disposedItemsRow['computer_name'];
             $department = $disposedItemsRow['department'];
 
             $disposedItems[] = [
                 "faNumber" => $faNumber == true ? $faNumber : "N/A",
                 "itemType" => $itemType,
                 "user" => $user,
+                "computerName" => $computerName,
                 "department" => $department
             ];
         }
