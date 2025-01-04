@@ -774,7 +774,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN") || authorize($_SESSION['user
                                 <div class="col d-flex justify-content-end align-items-end action-column" id="viewActionsRow">
                                     <button type="button" class="btn btn-sm shadow-sm btn-danger" id="retireInventoryButton"><i class="fas fa-calendar-xmark"></i> Retire</button>
                                     <button type="button" class="btn btn-sm shadow-sm btn-info" id="repairButton"><i class="fas fa-screwdriver-wrench"></i> Repair</button>
-                                    <button type="button" class="btn btn-sm shadow-sm btn-primary" id="editButton"><i class="fas fa-pen"></i> Edit</button>
+                                    <button type="button" class="btn btn-sm shadow-sm btn-primary" id="editButton"><i class="fas fa-pencil"></i> Edit</button>
                                 </div>
                                 <div class="col d-none justify-content-end align-items-end action-column" id="editActionsRow">
                                     <button type="button" class="btn btn-sm shadow-sm btn-danger" id="cancelButton"><i class="fas fa-ban"></i> Cancel</button>

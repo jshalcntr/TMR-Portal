@@ -6,6 +6,7 @@ include('../../middleware/pipes.php');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\NumberFormat;
 
 // var_dump($_POST);
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -137,6 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $sheet->getStyle('N2')->getAlignment()->setHorizontal('center')->setVertical('center');
     $sheet->getStyle('A2:P' . $highestRow)->getFont()->setName('ToyotaType')->setSize(11);
     $sheet->getStyle('P4:P' . $highestRow)->getAlignment()->setHorizontal('left')->setVertical('center');
+    $sheet->getStyle('H4:H' . $highestRow)->getNumberFormat()->setFormatCode('MMM DD, YYYY');
 
     $dateTimeNow = new DateTime();
     $dateTimeNow->setTimezone(new DateTimeZone('Asia/Manila'));

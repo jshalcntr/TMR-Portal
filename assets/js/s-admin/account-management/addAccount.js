@@ -44,7 +44,7 @@ $(document).ready(function () {
                             // $("#createAccountForm").addClass('was-validated');
                         } else {
                             $("#username")[0].setCustomValidity('');
-                            console.log(`Data: ${$("#createAccountForm").serialize()}`);
+                            // console.log(`Data: ${$("#createAccountForm").serialize()}`);
                             $.ajax({
                                 type: "POST",
                                 url: "../../../backend/s-admin/account-management/addAccount.php",
@@ -53,7 +53,7 @@ $(document).ready(function () {
                                     if (response.status === 'success') {
                                         Swal.fire({
                                             title: 'Success!',
-                                            text: `${response.message}`,
+                                            html: `${response.message}`,
                                             icon: 'success',
                                             confirmButtonColor: 'var(--bs-success)'
                                         }).then(() => {

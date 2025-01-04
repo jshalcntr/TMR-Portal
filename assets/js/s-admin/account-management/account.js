@@ -48,7 +48,7 @@ $(document).ready(function () {
                 data: "id",
                 render: function (data, type, row) {
                     return `<div class="d-flex align-items-center justify-content-center" style="gap: 16px;">
-                                <i class="fas fa-2x fa-eye text-primary"
+                                <i class="fas fa-2x fa-eye text-primary viewAccountBtn"
                                     role="button"
                                     data-toggle="tooltip"
                                     data-placement="top"
