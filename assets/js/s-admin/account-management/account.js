@@ -54,7 +54,7 @@ $(document).ready(function () {
                                     data-placement="top"
                                     title="View Account"
                                     data-account-id="${data}" 
-                                    data-bs-toggle="modal"]
+                                    data-bs-toggle="modal"
                                     data-bs-target="#viewAccountModal">
                                 </i>
                                     <i class="fas fa-2x ${row.status === "Active" ? "fa-lock-keyhole text-warning" : "fa-lock-keyhole-open"}"
@@ -62,18 +62,18 @@ $(document).ready(function () {
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     title="${row.status === "Active" ? "Lock Account" : "Unlock Account"}"
-                                    data-account-id="${data}" 
-                                    data-bs-toggle="modal"]
-                                    data-bs-target="${row.status === "Active" ? "#lockAccountModal" : "#unlockAccountModal"}">
+                                    data-account-id="${data}"
+                                    id="${row.status === "Active" ? "lockAccountBtn" : "unlockAccountBtn"}"
+                                    >
                                 </i>
                                     <i class="fas fa-2x fa-key text-danger"
                                     role="button"
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     title="Reset Password"
-                                    data-account-id="${data}" 
-                                    data-bs-toggle="modal"]
-                                    data-bs-target="#resetPasswordModal">
+                                    data-account-id="${data}"
+                                    id="resetPasswordBtn"
+                                    >
                                 </i>
                             </div>`;
                 }

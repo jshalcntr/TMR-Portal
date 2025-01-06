@@ -320,7 +320,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN")) {
                                         <div class="col">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" id="inventoryView_edit" name="inventoryView" value="1" disabled>
-                                                <label class="form-check-label" for="inventoryView_edit">View</label>
+                                                <label clas s="form-check-label" for="inventoryView_edit">View</label>
                                             </div>
                                         </div>
                                         <div class="col">

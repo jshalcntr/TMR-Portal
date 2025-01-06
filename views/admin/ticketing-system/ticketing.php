@@ -54,14 +54,53 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <div class="row">
-
-                        <div class="col-md-12">
-                            <div class="card shadow mb-4">
+                        <div class="col-md-12 row">
+                            <div class="card shadow mb-4 col-md-2">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Tickets</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Overdue Tasks</h6>
                                 </div>
-                                <div class="card-body">
-
+                                <div class="card-body text-center">
+                                    <h1 class="card-title font-weight-bold" id="overdue-tasks">0</h1>
+                                </div>
+                            </div>
+                            <div class="card shadow mb-4 col-md-2">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Tickets Due Today</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h1 class="card-title font-weight-bold" id="today-due-tickets">0</h1>
+                                </div>
+                            </div>
+                            <div class="card shadow mb-4 col-md-2">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Open Tickets</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h1 class="card-title font-weight-bold" id="open-tickets">0</h1>
+                                </div>
+                            </div>
+                            <div class="card shadow mb-4 col-md-2">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">For Approval Tickets</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h1 class="card-title font-weight-bold" id="for-approval-tickets">0</h1>
+                                </div>
+                            </div>
+                            <div class="card shadow mb-4 col-md-2">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Unassigned Tickets</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h1 class="card-title font-weight-bold" id="unassigned-tickets">0</h1>
+                                </div>
+                            </div>
+                            <div class="card shadow mb-4 col-md-2">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">All Tickets</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h1 class="card-title font-weight-bold" id="all-tickets">0</h1>
                                 </div>
                             </div>
                         </div>

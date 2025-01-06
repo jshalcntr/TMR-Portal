@@ -105,4 +105,125 @@ $(document).ready(function () {
         $("#accountsView_edit").prop('disabled', !$("#accountsView_edit").prop('disabled'));
         $("#accountsEdit_edit").prop('disabled', !$("#accountsEdit_edit").prop('disabled'));
     }
+
+    $(document).on('click', '#lockAccountBtn', function () {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to lock this account?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'var(--bs-danger)',
+            cancelButtonColor: 'var(--bs-secondary)',
+            confirmButtonText: 'Yes, lock it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "../../../backend/s-admin/account-management/lockAccount.php",
+                    data: {
+                        id: $(this).data('account-id')
+                    },
+                    success: function (response) {
+                        if (response.status === "internal-error") {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: `${response.message}`,
+                                icon: 'error',
+                                confirmButtonColor: 'var(--bs-danger)'
+                            });
+                        } else if (response.status === "success") {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: `${response.message}`,
+                                icon: 'success',
+                                confirmButtonColor: 'var(--bs-success)'
+                            }).then(() => {
+                                $('#accountsTable').DataTable().ajax.reload();
+                            });
+                        }
+                    }
+                });
+            }
+        })
+    });
+    $(document).on('click', '#unlockAccountBtn', function () {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to unlock this account?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'var(--bs-success)',
+            cancelButtonColor: 'var(--bs-danger)',
+            confirmButtonText: 'Yes, unlock it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "../../../backend/s-admin/account-management/unlockAccount.php",
+                    data: {
+                        id: $(this).data('account-id')
+                    },
+                    success: function (response) {
+                        if (response.status === "internal-error") {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: `${response.message}`,
+                                icon: 'error',
+                                confirmButtonColor: 'var(--bs-danger)'
+                            });
+                        } else if (response.status === "success") {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: `${response.message}`,
+                                icon: 'success',
+                                confirmButtonColor: 'var(--bs-success)'
+                            }).then(() => {
+                                $('#accountsTable').DataTable().ajax.reload();
+                            });
+                        }
+                    }
+                });
+            }
+        })
+    });
+    $(document).on('click', '#resetPasswordBtn', function () {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to reset the password of this account?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'var(--bs-success)',
+            cancelButtonColor: 'var(--bs-danger)',
+            confirmButtonText: 'Yes, reset it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "../../../backend/s-admin/account-management/resetPassword.php",
+                    data: {
+                        id: $(this).data('account-id')
+                    },
+                    success: function (response) {
+                        if (response.status === "internal-error") {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: `${response.message}`,
+                                icon: 'error',
+                                confirmButtonColor: 'var(--bs-danger)'
+                            });
+                        } else if (response.status === "success") {
+                            Swal.fire({
+                                title: 'Success!',
+                                html: `${response.message}`,
+                                icon: 'success',
+                                confirmButtonColor: 'var(--bs-success)'
+                            }).then(() => {
+                                $('#accountsTable').DataTable().ajax.reload();
+                            });
+                        }
+                    }
+                });
+            }
+        })
+    });
 });
