@@ -56,3 +56,30 @@
     overflow: auto;
     max-height: 400px;
 }
+
+#ticketTable tbody tr {
+    cursor: pointer;
+}
+
+#overdue-tasks,
+#today-due-tickets,
+#open-tickets,
+#for-approval-tickets,
+#unassigned-tickets,
+#all-tickets {
+    cursor: pointer;
+}
+
+#overdue-tasks:hover,
+#today-due-tickets:hover,
+#open-tickets:hover,
+#for-approval-tickets:hover,
+#unassigned-tickets:hover,
+#all-tickets:hover {
+    color: #42855b;
+    text-decoration: underline;
+}
+
+#overdue-tasks {
+    color: red;
+}

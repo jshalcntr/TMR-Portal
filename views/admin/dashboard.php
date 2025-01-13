@@ -5,7 +5,7 @@ require('../../backend/dbconn.php');
 require('../../backend/middleware/pipes.php');
 require('../../backend/middleware/authorize.php');
 
-if (authorize($_SESSION['user']['role'] == "ADMIN")) {
+if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
     $authId = $_SESSION['user']['id'];
     $authUsername = $_SESSION['user']['username'];
     $authFullName = $_SESSION['user']['full_name'];
@@ -71,7 +71,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                                 Pending Tickets</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= 0 ?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="open-tickets"><?= 0 ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-clock fa-2x text-gray-300"></i>
@@ -88,7 +88,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 <?= $authRole == "USER" ? "Tickets for Approval" : "Waiting For Your Approval" ?>
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= 0 ?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="for-approval-tickets"><?= 0 ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-circle-exclamation fa-2x text-gray-300"></i>
@@ -106,7 +106,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?= 0 ?></div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="closed-tickets"><?= 0 ?></div>
                                                 </div>
                                             </div>
                                         </div>

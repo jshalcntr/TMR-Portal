@@ -1,5 +1,5 @@
 <?php
-include('../../dbconn.php');
+require('../../dbconn.php');
 $id = $_POST['id'];
 $fullName = $_POST['fullName'];
 $username = $_POST['username'];

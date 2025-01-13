@@ -77,3 +77,30 @@ $(document).ready(function () {
     // Optionally refresh counts periodically (every 5 seconds)
     setInterval(fetchTicketCounts, 5000);
 });
+
+$(document).ready(function () {
+    // Fetch ticket counts from the backend
+    $.ajax({
+        url: '../../backend/admin/ticketing-system/fetch_ticket_counts.php', // Adjust the path as needed
+        method: 'GET',
+        success: function (response) {
+            if (response.status === 'success') {
+                const data = response.data;
+
+                // Update the numbers in the cards
+                $('#overdue-tasks').text(data.overdue || 0);
+                $('#today-due-tickets').text(data.today_due || 0);
+                $('#open-tickets').text(data.open || 0);
+                $('#for-approval-tickets').text(data.for_approval || 0);
+                $('#unassigned-tickets').text(data.unassigned || 0);
+                $('#closed-tickets').text(data.finished || 0);
+                $('#all-tickets').text(data.all || 0);
+            } else {
+                console.error('Error:', response.message);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('AJAX error:', error);
+        }
+    });
+});

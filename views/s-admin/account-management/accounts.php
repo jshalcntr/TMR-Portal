@@ -5,7 +5,7 @@ require('../../../backend/dbconn.php');
 require('../../../backend/middleware/pipes.php');
 require('../../../backend/middleware/authorize.php');
 
-if (authorize($_SESSION['user']['role'] == "S-ADMIN")) {
+if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
     $authId = $_SESSION['user']['id'];
     $authUsername = $_SESSION['user']['username'];
     $authFullName = $_SESSION['user']['full_name'];

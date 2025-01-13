@@ -33,6 +33,7 @@ if (!$stmt) {
             $computerName = $inventoryRow['computer_name'];
             $brand = $inventoryRow['brand'];
             $model = $inventoryRow['model'];
+            // var_dump($inventoryRow['date_acquired']);
             $dateAcquired = $inventoryRow['date_acquired'];
             $dateAcquiredReadable = convertToReadableDate($dateAcquired);
             $supplier = $inventoryRow['supplier'];

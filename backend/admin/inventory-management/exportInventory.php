@@ -6,7 +6,8 @@ include('../../middleware/pipes.php');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 // var_dump($_POST);
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -111,7 +112,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $sheet->setCellValue('E' . $rowIndex, $row['brand']);
         $sheet->setCellValue('F' . $rowIndex, $row['model']);
         $sheet->setCellValue('G' . $rowIndex, $row['item_specification']);
-        $sheet->setCellValue('H' . $rowIndex, convertToReadableDate($row['date_acquired']));
+        $sheet->setCellValue('H' . $rowIndex, Date::PHPToExcel(new DateTime($row['date_acquired'])));
+        $sheet->getStyle('H' . $rowIndex)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD2);
         $sheet->setCellValue('I' . $rowIndex, $row['supplier']);
         $sheet->setCellValue('J' . $rowIndex, $row['serial_number']);
         $sheet->setCellValue('K' . $rowIndex, $row['remarks']);

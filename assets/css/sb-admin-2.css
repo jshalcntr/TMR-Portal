@@ -10,7 +10,7 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
- :root {
+:root {
     --blue: var(--primary-color);
     --indigo: #6610f2;
     --purple: #6f42c1;
@@ -619,7 +619,7 @@ pre code {
     }
 }
 
-@media (min-width: 1200px) {
+/* @media (min-width: 1200px) {
     .container,
     .container-sm,
     .container-md,
@@ -627,7 +627,7 @@ pre code {
     .container-xl {
         max-width: 1140px;
     }
-}
+} */
 
 .row {
     display: flex;

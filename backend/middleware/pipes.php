@@ -19,8 +19,8 @@ function convertToReadableDate($date)
 }
 function convertFromReadableDate($date)
 {
-    $date = DateTime::createFromFormat("M d, Y", $date);
-    return $date->format("Y-m-d");
+    $unixTimestamp = ($date - 25569) * 86400;
+    return date("Y-m-d", $unixTimestamp);
 }
 
 function convertToPhp($integer)

@@ -1,0 +1,48 @@
+.profile-picture-col {
+    position: relative;
+}
+.profile-picture-col > button {
+    position: absolute;
+    border: none;
+    outline: none;
+    top: 68px;
+    right: calc(47% + 3px);
+}
+
+.col-2 > button {
+    border: none;
+    outline: none;
+}
+
+#editFullNameBtnGroup {
+    gap: 8px;
+    padding-left: 0px !important;
+}
+#viewFullNameBtnGroup,
+#editFullNameBtnGroup {
+    padding-left: 0px !important;
+}
+
+#dpPreview {
+    width: 256px;
+}
+
+#profilePicture,
+#dpPreview {
+    aspect-ratio: 1/1;
+    padding: 0 !important;
+    object-fit: cover;
+}
+
+#editProfilePictureModalBody {
+    gap: 8px;
+}
+
+#dpUploadRow {
+    position: relative;
+}
+#dpUploadRow > #unattachFile {
+    position: absolute;
+    left: 92%;
+    cursor: pointer;
+}

@@ -5,7 +5,7 @@ require('../../../backend/dbconn.php');
 require('../../../backend/middleware/pipes.php');
 require('../../../backend/middleware/authorize.php');
 
-if (authorize($_SESSION['user']['role'] == "ADMIN")) {
+if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
     $authId = $_SESSION['user']['id'];
     $authUsername = $_SESSION['user']['username'];
     $authFullName = $_SESSION['user']['full_name'];
@@ -55,7 +55,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12 row">
-                            <div class="card shadow mb-4 col-md-2">
+                            <div class="card shadow mb-4 col-md-2" data-category="overdue" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Overdue Tasks</h6>
                                 </div>
@@ -63,7 +63,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <h1 class="card-title font-weight-bold" id="overdue-tasks">0</h1>
                                 </div>
                             </div>
-                            <div class="card shadow mb-4 col-md-2">
+                            <div class="card shadow mb-4 col-md-2" data-category="today-due" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Tickets Due Today</h6>
                                 </div>
@@ -71,7 +71,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <h1 class="card-title font-weight-bold" id="today-due-tickets">0</h1>
                                 </div>
                             </div>
-                            <div class="card shadow mb-4 col-md-2">
+                            <div class="card shadow mb-4 col-md-2" data-category="open" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Open Tickets</h6>
                                 </div>
@@ -79,7 +79,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <h1 class="card-title font-weight-bold" id="open-tickets">0</h1>
                                 </div>
                             </div>
-                            <div class="card shadow mb-4 col-md-2">
+                            <div class="card shadow mb-4 col-md-2" data-category="for-approval" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">For Approval Tickets</h6>
                                 </div>
@@ -87,7 +87,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <h1 class="card-title font-weight-bold" id="for-approval-tickets">0</h1>
                                 </div>
                             </div>
-                            <div class="card shadow mb-4 col-md-2">
+                            <div class="card shadow mb-4 col-md-2" data-category="unassigned" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Unassigned Tickets</h6>
                                 </div>
@@ -95,15 +95,126 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
                                     <h1 class="card-title font-weight-bold" id="unassigned-tickets">0</h1>
                                 </div>
                             </div>
-                            <div class="card shadow mb-4 col-md-2">
+                            <div class="card shadow mb-4 col-md-2" data-category="finished" onclick="fetchAndShowTickets(this)">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Closed Tickets</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h1 class="card-title font-weight-bold" id="closed-tickets">0</h1>
+                                </div>
+                            </div>
+                            <!-- <div class="card shadow mb-4 col-md-2" data-category="all" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">All Tickets</h6>
                                 </div>
                                 <div class="card-body text-center">
                                     <h1 class="card-title font-weight-bold" id="all-tickets">0</h1>
                                 </div>
+                            </div> -->
+                        </div>
+
+                        <!-- Modal for Tickets Table -->
+                        <div class="modal fade" id="ticketModal" tabindex="-1" aria-labelledby="ticketModalLabel" aria-hidden="true" data-bs-backdrop="static">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="ticketModalLabel">Tickets</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-bordered table-hover" id="ticketTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ticket ID</th>
+                                                    <th>Subject</th>
+                                                    <th>Status</th>
+                                                    <th>Due Date</th>
+                                                    <th>Attachment</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Rows will be dynamically inserted -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+                        <!-- Modal for Ticket Details -->
+                        <div class="modal fade" id="ticketDetailsModal" tabindex="-1" aria-labelledby="ticketDetailsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="ticketDetailsModalLabel">Ticket Details</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong>Ticket ID:</strong> <span id="ticketId"></span></p>
+                                        <p><strong>Requestor:</strong> <span id="ticketRequestorId"></span></p>
+                                        <p><strong>Department:</strong> <span id="ticketRequestorDepartment"></span></p>
+                                        <p><strong>Subject:</strong> <span id="ticketSubject"></span></p>
+                                        <p><strong>Description:</strong> <span id="ticketDescription"></span></p>
+                                        <p><strong>Type:</strong> <span id="ticketType"></span></p>
+                                        <p><strong>Attachment:</strong> <span id="ticketAttachment"></span></p>
+                                        <p><strong>Handler:</strong>
+                                            <select id="ticketHandlerId" disabled>
+                                                <!-- Options will be dynamically inserted -->
+                                            </select>
+                                        </p>
+                                        <p><strong>Status:</strong>
+                                            <select id="ticketStatus" disabled>
+                                                <!-- Options will be dynamically inserted -->
+                                            </select>
+                                        </p>
+                                        <p><strong>Due Date:</strong>
+                                            <input type="datetime-local" id="ticketDueDate" disabled>
+                                        </p>
+                                        <p><strong>Conclusion:</strong> <span id="ticketConclusion"></span></p>
+                                        <button id="editButton" class="btn btn-primary" onclick="enableEditing()">Edit</button>
+                                        <button id="saveButton" class="btn btn-success" onclick="saveTicketDetails()" style="display: none;">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal for Closed Ticket Details -->
+                        <div class="modal fade" id="closedTicketDetailsModal" tabindex="-1" aria-labelledby="ticketDetailsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="ticketDetailsModalLabel">Ticket Details</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong>Ticket ID:</strong> <span id="closedticketId"></span></p>
+                                        <p><strong>Requestor:</strong> <span id="closedticketRequestorId"></span></p>
+                                        <p><strong>Department:</strong> <span id="closedticketRequestorDepartment"></span></p>
+                                        <p><strong>Subject:</strong> <span id="closedticketSubject"></span></p>
+                                        <p><strong>Description:</strong> <span id="closedticketDescription"></span></p>
+                                        <p><strong>Type:</strong> <span id="closedticketType"></span></p>
+                                        <p><strong>Attachment:</strong> <span id="closedticketAttachment"></span></p>
+                                        <p><strong>Handler:</strong>
+                                            <select id="closedticketHandlerId" disabled>
+                                                <!-- Options will be dynamically inserted -->
+                                            </select>
+                                        </p>
+                                        <p><strong>Status:</strong>
+                                            <select id="closedticketStatus" disabled>
+                                                <!-- Options will be dynamically inserted -->
+                                            </select>
+                                        </p>
+                                        <p><strong>Due Date:</strong>
+                                            <input type="datetime-local" id="closedticketDueDate" disabled>
+                                        </p>
+                                        <p><strong>Conclusion:</strong> <span id="closedticketConclusion"></span></p>
+                                        <button id="requestReopemButton" class="btn btn-outline-info" onclick="requestReopen()">Request Reopen</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
 
                         <!-- line Chart -->
                         <div class="col-md-8">
@@ -164,5 +275,6 @@ if (authorize($_SESSION['user']['role'] == "ADMIN")) {
 <?php include "../../components/external-js-import.php" ?>
 <script src="../../../assets/js/admin/ticketing-system/ticket-chart-area.js"></script>
 <script src="../../../assets/js/admin/ticketing-system/ticket-chart-pie.js"></script>
+<script src="../../../assets/js/admin/ticketing-system/admin-tickets.js"></script>
 
 </html>

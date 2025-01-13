@@ -55,7 +55,7 @@ if (isset($_FILES['importFile']) && $_FILES['importFile']['error'] == 0) {
             $computerName = $sheet->getCell('M' . $row->getRowIndex())->getValue();
             $department = $sheet->getCell('N' . $row->getRowIndex())->getValue();
             $status = $sheet->getCell('O' . $row->getRowIndex())->getValue();
-            $price = $sheet->getCell('P' . $row->getRowIndex())->getValue() ? convertFromPhp($sheet->getCell('O' . $row->getRowIndex())->getValue()) : null;
+            $price = $sheet->getCell('P' . $row->getRowIndex())->getValue() ? convertFromPhp($sheet->getCell('P' . $row->getRowIndex())->getValue()) : null;
 
             if (!$itemType && $itemCategory && !$brand && !$model && !$itemSpecification && !$dateAcquired && !$supplier && !$serialNumber && !$remarks && !$user && !$department && !$status) {
                 continue;

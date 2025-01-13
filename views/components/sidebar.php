@@ -223,3 +223,5 @@
 
 </ul>
 <!-- End of Sidebar -->
+
+<div id="notification-container" class="notification-container"></div>

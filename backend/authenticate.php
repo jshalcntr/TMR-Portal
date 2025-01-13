@@ -13,6 +13,7 @@ $authenticateSql = "SELECT accounts_tbl.id,
                     accounts_tbl.role,
                     accounts_tbl.profile_picture,
                     accounts_tbl.department,
+                    accounts_tbl.status,
                     authorizations_tbl.*
                     FROM accounts_tbl
                     JOIN authorizations_tbl ON accounts_tbl.id = authorizations_tbl.account_id
@@ -39,14 +40,22 @@ if ($accountResult->num_rows > 0) {
     $authenticatedId = $accountRes['id'];
 
     if (password_verify($password, $authenticatedPassword)) {
-        $_SESSION['user'] = $accountRes;
+        if ($accountRes['status'] == 'Active') {
+            $_SESSION['user'] = $accountRes;
 
-        header("Content-type: application/json");
-        echo json_encode([
-            "status" => "success",
-            "message" => "Login Successful",
-            "data" => $accountRes
-        ]);
+            header("Content-type: application/json");
+            echo json_encode([
+                "status" => "success",
+                "message" => "Login Successful",
+                "data" => $accountRes
+            ]);
+        } else {
+            header("Content-type: application/json");
+            echo json_encode([
+                "status" => "failed",
+                "message" => "Account is Inactive, Please Contact Administrator"
+            ]);
+        }
     } else {
         header("Content-type: application/json");
         echo json_encode([

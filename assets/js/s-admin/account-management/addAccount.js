@@ -44,25 +44,37 @@ $(document).ready(function () {
                             // $("#createAccountForm").addClass('was-validated');
                         } else {
                             $("#username")[0].setCustomValidity('');
-                            // console.log(`Data: ${$("#createAccountForm").serialize()}`);
-                            $.ajax({
-                                type: "POST",
-                                url: "../../../backend/s-admin/account-management/addAccount.php",
-                                data: $("#createAccountForm").serialize(),
-                                success: function (response) {
-                                    if (response.status === 'success') {
-                                        Swal.fire({
-                                            title: 'Success!',
-                                            html: `${response.message}`,
-                                            icon: 'success',
-                                            confirmButtonColor: 'var(--bs-success)'
-                                        }).then(() => {
-                                            $("#createAccountModal").modal('hide');
-                                            $('#accountsTable').DataTable().ajax.reload();
-                                        });
-                                    }
+                            Swal.fire({
+                                title: 'Save Account Details?',
+                                text: 'Are you sure you want to save the account details?',
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonColor: 'var(--bs-success)',
+                                cancelButtonColor: 'var(--bs-danger)',
+                                confirmButtonText: 'Confirm',
+                                cancelButtonText: 'Cancel',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "../../../backend/s-admin/account-management/addAccount.php",
+                                        data: $("#createAccountForm").serialize(),
+                                        success: function (response) {
+                                            if (response.status === 'success') {
+                                                Swal.fire({
+                                                    title: 'Success!',
+                                                    html: `${response.message}`,
+                                                    icon: 'success',
+                                                    confirmButtonColor: 'var(--bs-success)'
+                                                }).then(() => {
+                                                    $("#createAccountModal").modal('hide');
+                                                    $('#accountsTable').DataTable().ajax.reload();
+                                                });
+                                            }
+                                        }
+                                    });
                                 }
-                            });
+                            })
                         }
                     }
                 }
