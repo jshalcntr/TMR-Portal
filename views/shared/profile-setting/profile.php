@@ -109,10 +109,11 @@ if (authorize(true, $conn)) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form class="modal-body px-lg-5 py-3 container d-flex flex-column" id="editProfilePictureModalBody" enctype="multipart/form-data">
-                    <div class="row justify-content-center align-items-center" id="dpPreviewRow">
-                        <label class="d-flex align-items-center justify-content-center" for="profilePictureFile">
+                    <div class="row justify-content-center align-items-center" id="dpPreviewRow" style="position: relative;">
+                        <label class="d-flex align-items-center justify-content-center" for="profilePictureFile" style="width: auto; cursor: pointer">
                             <img src="" id="dpPreview" class="rounded-circle border border-dark">
                         </label>
+                        <a id="removeProfilePicture" class="text-danger fw-bold d-none" style="cursor: pointer; position: absolute; top: 12px; left:73%;">Remove Profile Picture</a>
                     </div>
                     <div class="row justify-content-center align-items-center" id="dpUploadRow">
                         <input class="form-control form-control-sm" type="file" name="profilePictureFile" id="profilePictureFile" accept="image/*" required>

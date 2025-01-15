@@ -57,7 +57,7 @@ if (isset($_FILES['importFile']) && $_FILES['importFile']['error'] == 0) {
             $status = $sheet->getCell('O' . $row->getRowIndex())->getValue();
             $price = $sheet->getCell('P' . $row->getRowIndex())->getValue() ? convertFromPhp($sheet->getCell('P' . $row->getRowIndex())->getValue()) : null;
 
-            if (!$itemType && $itemCategory && !$brand && !$model && !$itemSpecification && !$dateAcquired && !$supplier && !$serialNumber && !$remarks && !$user && !$department && !$status) {
+            if (!$itemType && !$itemCategory && !$brand && !$model && !$itemSpecification && !$dateAcquired && !$supplier && !$serialNumber && !$remarks && !$user && !$department && !$status) {
                 continue;
             } else if (!$id) {
                 if (!$faNumber) {

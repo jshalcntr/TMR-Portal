@@ -204,7 +204,11 @@ function showTicketDetails(ticket) {
 
     // Set the value of the date-time picker
     document.getElementById('ticketDueDate').value = ticket.ticket_due_date || '';
-
+    if (ticket.ticket_due_date === null || ticket.ticket_due_date === '0000-00-00 00:00:00' || ticket.ticket_due_date === '') {
+        document.getElementById('closeTicketButton').style.display = 'none';
+    } else {
+        document.getElementById('closeTicketButton').style.display = 'inline-block';
+    }
     // Populate status select options
     const statusSelect = document.getElementById('ticketStatus');
     const statuses = ['OPEN', 'PENDING', 'ON GOING', 'FOR APPROVAL', 'PRIORITY', 'REJECTED', 'APPROVED', 'FINISHED', 'CLOSED', 'CANCELLED'];
@@ -257,9 +261,21 @@ function enableEditing() {
     document.getElementById('ticketStatus').disabled = false;
     document.getElementById('ticketHandlerId').disabled = false;
     document.getElementById('editButton').style.display = 'none';
+    document.getElementById('closeTicketButton').style.display = 'none';
     document.getElementById('saveButton').style.display = 'inline-block';
+    document.getElementById('cancelsaveButton').style.display = 'inline-block';
 }
 
+// Function to cancel enable editing of ticket details
+function cancelTicketDetails() {
+    document.getElementById('ticketDueDate').disabled = true;
+    document.getElementById('ticketStatus').disabled = true;
+    document.getElementById('ticketHandlerId').disabled = true;
+    document.getElementById('editButton').style.display = 'inline-block';
+    document.getElementById('closeTicketButton').style.display = 'inline-block';
+    document.getElementById('saveButton').style.display = 'none';
+    document.getElementById('cancelsaveButton').style.display = 'none';
+}
 
 // Function to save edited ticket details
 function saveTicketDetails() {
@@ -296,6 +312,45 @@ function saveTicketDetails() {
     document.getElementById('ticketHandlerId').disabled = true;
     document.getElementById('editButton').style.display = 'inline-block';
     document.getElementById('saveButton').style.display = 'none';
+}
+
+// Function to show the conclusion text area
+function showConclusionTextArea() {
+    document.getElementById('conclusionTextArea').style.display = 'block';
+    document.getElementById('saveConclusionButton').style.display = 'inline-block';
+    document.getElementById('closeTicketButton').style.display = 'none';
+}
+
+// Function to save the conclusion and update the ticket status to "CLOSED"
+function saveConclusion() {
+    const ticketId = document.getElementById('ticketId').innerText;
+    const conclusion = document.getElementById('conclusionTextArea').value;
+
+    // Send updated details to the backend
+    $.ajax({
+        url: '../../../backend/admin/ticketing-system/close_ticket.php', // Adjust the path as needed
+        method: 'POST',
+        data: {
+            ticket_id: ticketId,
+            ticket_status: 'CLOSED',
+            ticket_conclusion: conclusion
+        },
+        success: function (response) {
+            if (response.status === 'success') {
+                alert('Ticket closed successfully');
+                $('#ticketDetailsModal').modal('hide');
+                refreshTicketList();
+            } else {
+                console.error('Error:', response.message);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('AJAX error:', error);
+        }
+    });
+    document.getElementById('conclusionTextArea').style.display = 'none';
+    document.getElementById('saveConclusionButton').style.display = 'none';
+    document.getElementById('closeTicketButton').style.display = 'inline-block';
 }
 
 // Function to refresh the list of ticket details

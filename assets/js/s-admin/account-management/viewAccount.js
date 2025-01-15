@@ -3,7 +3,7 @@ let editAccountValidationTimeout;
 $(document).ready(function () {
     $(document).on('click', '.viewAccountBtn', function (e) {
         e.preventDefault();
-        $("#editAccountForm")[0].reset();
+        // $("#editAccountForm")[0].reset();
         if (editAccountValidationTimeout) {
             clearTimeout(editAccountValidationTimeout);
         }

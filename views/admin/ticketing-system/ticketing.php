@@ -158,21 +158,26 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                         <p><strong>Type:</strong> <span id="ticketType"></span></p>
                                         <p><strong>Attachment:</strong> <span id="ticketAttachment"></span></p>
                                         <p><strong>Handler:</strong>
-                                            <select id="ticketHandlerId" disabled>
+                                            <select id="ticketHandlerId" class="form-control" disabled>
                                                 <!-- Options will be dynamically inserted -->
                                             </select>
                                         </p>
                                         <p><strong>Status:</strong>
-                                            <select id="ticketStatus" disabled>
+                                            <select id="ticketStatus" class="form-control" disabled>
                                                 <!-- Options will be dynamically inserted -->
                                             </select>
                                         </p>
                                         <p><strong>Due Date:</strong>
-                                            <input type="datetime-local" id="ticketDueDate" disabled>
+                                            <input type="datetime-local" id="ticketDueDate" class="form-control" disabled>
                                         </p>
                                         <p><strong>Conclusion:</strong> <span id="ticketConclusion"></span></p>
-                                        <button id="editButton" class="btn btn-primary" onclick="enableEditing()">Edit</button>
-                                        <button id="saveButton" class="btn btn-success" onclick="saveTicketDetails()" style="display: none;">Save</button>
+                                        <textarea id="conclusionTextArea" style="display: none;" class="form-control" placeholder="Enter conclusion here..."></textarea>
+                                        <hr>
+                                        <button id="editButton" class="btn btn-outline-info" onclick="enableEditing()">Edit</button>
+                                        <button id="saveButton" class="btn btn-outline-primary" onclick="saveTicketDetails()" style="display: none;">Save</button>
+                                        <button id="cancelsaveButton" class="btn btn-outline-danger" onclick="cancelTicketDetails()" style="display: none;">Cancel</button>
+                                        <button id="closeTicketButton" class="btn btn-outline-danger" onclick="showConclusionTextArea()">Close Ticket</button>
+                                        <button id="saveConclusionButton" class="btn btn-outline-primary" onclick="saveConclusion()" style="display: none;">Save Conclusion</button>
                                     </div>
                                 </div>
                             </div>

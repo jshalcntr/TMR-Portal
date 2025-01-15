@@ -34,7 +34,7 @@ $(document).ready(function () {
                 render: function (data, type, row) {
                     return `
                     <div class="d-flex align-items-center" style="gap: 8px;">
-                        <img width="50px" class="rounded-circle" src="${row.profilePic ? row.profilePic : '../../../assets/img/no-profile.png'}"/>
+                        <img width="50px" class="rounded-circle" src="${row.profilePicture == "no-link" ? "../../../assets/img/no-profile.png" : row.profilePicture}" style="aspect-ratio: 1/1; padding: 0 !important; object-fit: cover;"/>
                         ${data}
                     </div>
                     `;

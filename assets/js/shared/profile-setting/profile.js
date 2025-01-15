@@ -110,6 +110,11 @@ $(document).ready(function () {
                     $("#authFullName").text(accountInfo.full_name);
                     $('#authPP').attr('src', accountInfo.profile_picture !== 'no-link' ? accountInfo.profile_picture : "../../../assets/img/no-profile.png");
                     $("#profilePicture").attr('src', accountInfo.profile_picture !== 'no-link' ? accountInfo.profile_picture : "../../../assets/img/no-profile.png");
+                    if (accountInfo.profile_picture === 'no-link') {
+                        $("#removeProfilePicture").addClass('d-none');
+                    } else {
+                        $("#removeProfilePicture").removeClass('d-none');
+                    }
                 }
             }
         });
@@ -120,6 +125,8 @@ $(document).ready(function () {
         const accountId = $("#accountId").val();
 
         $("#profilePictureFile").val("");
+
+        fetchProfileInformation();
 
         $.ajax({
             type: "GET",
@@ -164,26 +171,6 @@ $(document).ready(function () {
         const accountId = $("#accountId").val();
 
         $("#profilePictureFile").val("");
-        $.ajax({
-            type: "GET",
-            url: "../../../backend/shared/profile-setting/getProfileInformation.php",
-            data: {
-                accountId: accountId
-            },
-            success: function (response) {
-                if (response.status === "internal-error") {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: `${response.message}`,
-                        icon: 'error',
-                        confirmButtonColor: 'var(--bs-danger)'
-                    });
-                } else {
-                    const accountInfo = response.data[0];
-                    $("#dpPreview").attr('src', accountInfo.profile_picture !== 'no-link' ? accountInfo.profile_picture : "../../../assets/img/no-profile.png");
-                }
-            }
-        });
         $("#dpSubmitFormBtn").addClass("d-none");
         $(this).addClass("d-none");
     });
@@ -245,5 +232,47 @@ $(document).ready(function () {
                 });
             }
         });
+    });
+    $("#removeProfilePicture").on('click', function () {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to remove your Profile Picture?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'var(--bs-danger)',
+            cancelButtonColor: 'var(--bs-secondary)',
+            confirmButtonText: 'Yes, remove it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "../../../backend/shared/profile-setting/removeProfilePicture.php",
+                    data: {
+                        accountId: $("#accountId").val(),
+                        profilePictureLink: $("#dpPreview").attr('src')
+                    },
+                    success: function (response) {
+                        if (response.status === "internal-error") {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: `${response.message}`,
+                                icon: 'error',
+                                confirmButtonColor: 'var(--bs-danger)'
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: `${response.message}`,
+                                icon: 'success',
+                                confirmButtonColor: 'var(--bs-success)'
+                            }).then(() => {
+                                $("#editProfilePictureModal").modal('hide');
+                                fetchProfileInformation();
+                            });
+                        }
+                    }
+                });
+            }
+        })
     });
 });
