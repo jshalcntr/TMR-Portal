@@ -17,7 +17,7 @@ switch ($category) {
         $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_due_date < '$currentDateTime' AND tr.ticket_handler_id = '$userId'";
         break;
     case 'today-due':
-        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_due_date >= '$currentDateTime' AND tr.ticket_handler_id = '$userId'";
+        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_due_date >= '$currentDateTime' AND tr.ticket_due_date <= '$currentDate' AND tr.ticket_handler_id = '$userId'";
         break;
     case 'open':
         $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_due_date > '$currentDate' AND tr.ticket_handler_id = '$userId'";

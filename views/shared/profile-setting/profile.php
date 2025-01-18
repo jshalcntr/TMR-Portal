@@ -64,10 +64,10 @@ if (authorize(true, $conn)) {
                                     <h6 class="m-0 font-weight-bold text-primary">Account</h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
+                                    <div class="row" style="width: fit-content; justify-self: center">
                                         <div class="col d-flex justify-content-center align-items-center profile-picture-col">
-                                            <img width="100px" class="rounded-circle border border-dark" id="profilePicture" src="../../../assets/img/no-profile.png">
-                                            <button type="button" class="btn-circle btn-sm btn-dark" id="editProfilePictureBtn" data-bs-toggle="modal" data-bs-target="#editProfilePictureModal"><i class="fas fa-pencil"></i></button></button>
+                                            <img width="256px" class="rounded-circle border border-dark" id="profilePicture" src="../../../assets/img/no-profile.png">
+                                            <button type="button" class="btn-circle btn-dark" id="editProfilePictureBtn" data-bs-toggle="modal" data-bs-target="#editProfilePictureModal"><i class="fas fa-pencil"></i></button></button>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -82,12 +82,45 @@ if (authorize(true, $conn)) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-2 d-flex align-items-center" id="viewFullNameBtnGroup">
+                                                <div class="col-1 d-flex align-items-center" id="viewFullNameBtnGroup">
                                                     <button type="button" class="btn-circle btn-sm btn-primary" id="editFullNameBtn"><i class="fas fa-pencil"></i></button></button>
                                                 </div>
-                                                <div class="col-2 d-none align-items-center" id="editFullNameBtnGroup">
+                                                <div class="col-1 d-none align-items-center" id="editFullNameBtnGroup">
                                                     <button type="submit" class="btn-circle btn-sm btn-primary" id="saveFullNameBtn"><i class="fas fa-check"></i></button></button>
                                                     <button type="button" class="btn-circle btn-sm btn-danger" id="cancelEditFullNameBtn"><i class="fas fa-xmark"></i></button></button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <form id="changePasswordForm" class="container-sm needs-validation" novalidate autoccomplete="off">
+                                            <div class="col">
+                                                <div class="row mb-2">
+                                                    <h4>Change Password</h4>
+                                                </div>
+                                                <div class="row mb-2 form-group" style="position: relative;">
+                                                    <label for="currentPassword">Current Password</label>
+                                                    <input type="password" name="currentPassword" id="currentPassword" class="form-control form-control-sm" required>
+                                                    <div class="invalid-feedback">Please enter your current password</div>
+                                                    <i class="fa-duotone fa-light fa-eye-slash" id="toggleCurrentPassword" style="position: absolute; top: 62%; left: 94%; cursor: pointer;"></i>
+                                                </div>
+                                                <div class="row mb-2 form-group" style="position: relative;">
+                                                    <label for="newPassword">New Password</label>
+                                                    <input type="password" name="newPassword" id="newPassword" class="form-control form-control-sm" required>
+                                                    <!-- <small id="passwordHelp" class="form-text text-muted">
+                                                        Must be 8 or more characters long, contain uppercase and lowercase letters, a number, and a special character.
+                                                    </small> -->
+                                                    <div class="invalid-feedback">New Password does not meet the criteria.</div>
+                                                    <i class="fa-duotone fa-light fa-eye-slash" id="toggleNewPassword" style="position: absolute; top: 62%; left: 94%; cursor: pointer;"></i>
+                                                </div>
+                                                <div class="row mb-2 form-group" style="position: relative;">
+                                                    <label for="confirmPassword">Confirm Password</label>
+                                                    <input type="password" name="confirmPassword" id="confirmPassword" class="form-control form-control-sm" required>
+                                                    <div class="invalid-feedback">Passwords do not match.</div>
+                                                    <i class="fa-duotone fa-light fa-eye-slash" id="toggleConfirmPassword" style="position: absolute; top: 62%; left: 94%; cursor: pointer;"></i>
+                                                </div>
+                                                <div class="row align-items-end justify-content-end">
+                                                    <button type="submit" class="btn btn-primary" style="width: auto;"><i class="fas fa-key"></i> Save Password</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -99,6 +132,7 @@ if (authorize(true, $conn)) {
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <div class="modal fade" id="editProfilePictureModal" tabindex="-1" aria-labelledby="editProfilePictureModalLabel" aria-hidden="true">

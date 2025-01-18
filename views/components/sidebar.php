@@ -107,7 +107,10 @@
         <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'ticketing.php') !== false ? 'active' : '' ?>">
             <li class="iso-pro">
 
-                <a href="<?= $authRole == "ADMIN" ? "/tmr-portal_dev/views/admin/ticketing-system/ticketing.php" : ($authRole == "USER" ? "/tmr-portal_dev/views/user/ticketing-system/ticketing.php" : "/tmr-portal_dev/views/s-admin/ticketing-system/ticketing.php") ?>">
+                <a href="<?= $authRole == "ADMIN" ? "/tmr-portal_dev/views/admin/ticketing-system/ticketing.php" :
+                            ($authRole == "USER" ? "/tmr-portal_dev/views/user/ticketing-system/ticketing.php" :
+                            ($authRole == "HEAD" ? "/tmr-portal_dev/views/user/ticketing-system/ticketing.php" :
+                            "/tmr-portal_dev/views/s-admin/ticketing-system/ticketing.php")) ?>">
                     <span></span>
                     <span></span>
                     <span></span>

@@ -175,9 +175,48 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                         <hr>
                                         <button id="editButton" class="btn btn-outline-info" onclick="enableEditing()">Edit</button>
                                         <button id="saveButton" class="btn btn-outline-primary" onclick="saveTicketDetails()" style="display: none;">Save</button>
-                                        <button id="cancelsaveButton" class="btn btn-outline-danger" onclick="cancelTicketDetails()" style="display: none;">Cancel</button>
+                                        <button id="cancelsaveButton" class="btn btn-outline-danger" onclick="cancelTicketDetails()" style="display: none; float: right">Cancel</button>
                                         <button id="closeTicketButton" class="btn btn-outline-danger" onclick="showConclusionTextArea()">Close Ticket</button>
                                         <button id="saveConclusionButton" class="btn btn-outline-primary" onclick="saveConclusion()" style="display: none;">Save Conclusion</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal for Ticket Details -->
+                        <div class="modal fade" id="unassignedticketDetailsModal" tabindex="-1" aria-labelledby="ticketDetailsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="ticketDetailsModalLabel">Ticket Details</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong>Ticket ID:</strong> <span id="unassignedticketId"></span></p>
+                                        <p><strong>Requestor:</strong> <span id="unassignedticketRequestorId"></span></p>
+                                        <p><strong>Department:</strong> <span id="unassignedticketRequestorDepartment"></span></p>
+                                        <p><strong>Subject:</strong> <span id="unassignedticketSubject"></span></p>
+                                        <p><strong>Description:</strong> <span id="unassignedticketDescription"></span></p>
+                                        <p><strong>Attachment:</strong> <span id="unassignedticketAttachment"></span></p>
+                                        <p><strong>Type:</strong> <span id="unassignedticketType"></span></p>
+                                        <p><strong>Handler:</strong>
+                                            <select id="unassignedticketHandlerId" disabled>
+                                                <!-- Options will be dynamically inserted -->
+                                            </select>
+                                        </p>
+                                        <p><strong>Status:</strong>
+                                            <select id="unassignedticketStatus" disabled>
+                                                <!-- Options will be dynamically inserted -->
+                                            </select>
+                                        </p>
+                                        <p><strong>Due Date:</strong>
+                                            <input type="datetime-local" id="unassignedticketDueDate" required>
+                                        </p>
+                                        <p><strong>Conclusion:</strong> <span id="unassignedticketConclusion"></span></p>
+                                        <div>
+                                            <input type="checkbox" id="forApprovalCheckbox"> For Approval
+                                        </div>
+                                        <button id="claimButton" class="btn btn-success" onclick="claimTicket()">Claim</button>
                                     </div>
                                 </div>
                             </div>

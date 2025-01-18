@@ -5,11 +5,11 @@
     position: absolute;
     border: none;
     outline: none;
-    top: 68px;
-    right: calc(47% + 3px);
+    top: 82%;
+    right: 16%;
 }
 
-.col-2 > button {
+.col-1 > button {
     border: none;
     outline: none;
 }

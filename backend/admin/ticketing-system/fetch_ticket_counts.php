@@ -11,7 +11,7 @@ $currentDate = date('Y-m-d') . ' 23:59:00';
 // Queries for each category
 $sql = [
     'overdue' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_due_date < '$currentDateTime' AND ticket_handler_id = '$userId'",
-    'today_due' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_due_date >= '$currentDateTime' AND ticket_handler_id = '$userId'",
+    'today_due' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_due_date >= '$currentDateTime' AND ticket_due_date <= '$currentDate' AND ticket_handler_id = '$userId'",
     'open' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_due_date > '$currentDate' AND ticket_handler_id = '$userId'",
     'for_approval' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status = 'for approval'",
     'finished' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status = 'closed'",

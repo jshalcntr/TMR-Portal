@@ -35,8 +35,8 @@ $(document).ready(function () {
                         type: "POST",
                         url: "../../../backend/shared/profile-setting/editFullName.php",
                         data: {
-                            accountId: $("#accountId").val(),
-                            fullName: $("#fullName_edit").val()
+                            accountId: accountId,
+                            fullName: fullName
                         },
                         success: function (response) {
                             if (response.status === 'internal-error') {
@@ -233,6 +233,7 @@ $(document).ready(function () {
             }
         });
     });
+
     $("#removeProfilePicture").on('click', function () {
         Swal.fire({
             title: 'Are you sure?',
@@ -275,4 +276,161 @@ $(document).ready(function () {
             }
         })
     });
+
+    $("#toggleCurrentPassword").on('click', function () {
+        togglePassword("#toggleCurrentPassword", "#currentPassword");
+    });
+
+    $("#toggleNewPassword").on('click', function () {
+        togglePassword("#toggleNewPassword", "#newPassword");
+    });
+
+    $("#toggleConfirmPassword").on('click', function () {
+        togglePassword("#toggleConfirmPassword", "#confirmPassword");
+    });
+
+    let changePasswordValidationTimeout;
+    $("#changePasswordForm").on('submit', async function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (changePasswordValidationTimeout) {
+            clearTimeout(changePasswordValidationTimeout);
+        }
+
+        let formIsValid = true;
+        let accountId = $("#accountId").val();
+        let currentPassword = $("#currentPassword").val();
+        let newPassword = $("#newPassword").val();
+        let confirmPassword = $("#confirmPassword").val();
+
+        $("#changePasswordForm").removeClass('was-validated');
+        $("#currentPassword, #newPassword, #confirmPassword").removeClass('is-invalid');
+
+        // let passValidity = ;
+
+        // console.log(passValidity);
+        if (!currentPassword) {
+            $("#currentPassword")[0].setCustomValidity('Please enter your current password');
+            $("#currentPassword").next(".invalid-feedback").text('Please enter your current password')
+            formIsValid = false;
+        } else if (!await checkCurrentPassword(accountId, currentPassword).then(response => { return response.validity; })) {
+            $("#currentPassword")[0].setCustomValidity('Incorrect current password');
+            $("#currentPassword").next(".invalid-feedback").text('Incorrect current password');
+            formIsValid = false;
+        } else {
+            $("#currentPassword")[0].setCustomValidity('');
+        }
+
+        let passwordCriteria = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,20}$/;
+        if (!newPassword) {
+            $("#newPassword")[0].setCustomValidity(`New Password can't be empty.`);
+            $("#newPassword").next(".invalid-feedback").text(`New Password can't be empty.`);
+            formIsValid = false;
+        } else if (!passwordCriteria.test(newPassword)) {
+            $("#newPassword")[0].setCustomValidity('Password must be 8-20 characters long and contain at least one lowercase letter, one uppercase letter, one number, and one special character.');
+            $("#newPassword").next(".invalid-feedback").text('Password must be 8-20 characters long and contain at least one lowercase letter, one uppercase letter, one number, and one special character.');
+            formIsValid = false;
+        } else {
+            $("#newPassword")[0].setCustomValidity('');
+            $("#newPassword").next(".invalid-feedback").text('');
+        }
+
+        if (newPassword !== confirmPassword) {
+            $("#confirmPassword")[0].setCustomValidity('Passwords do not match.');
+            $("#confirmPassword").next(".invalid-feedback").text('Passwords do not match.');
+            formIsValid = false;
+        } else {
+            $("#confirmPassword")[0].setCustomValidity('');
+            $("#confirmPassword").next(".invalid-feedback").text('');
+        }
+
+        if (formIsValid) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to change your password?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: 'var(--bs-success)',
+                cancelButtonColor: 'var(--bs-secondary)',
+                confirmButtonText: 'Yes, change it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "../../../backend/shared/profile-setting/changePassword.php",
+                        data: {
+                            accountId: accountId,
+                            newPassword: newPassword
+                        },
+                        success: function (response) {
+                            if (response.status === "internal-error") {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: response.message,
+                                    confirmButtonText: 'OK'
+                                });
+                            } else if (response.status === "success") {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success',
+                                    text: response.message,
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    $("#changePasswordModal").modal('hide');
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 5000);
+                                })
+                            }
+                        }
+                    });
+                }
+            })
+        }
+        $("#changePasswordForm").addClass('was-validated');
+        changePasswordValidationTimeout = setTimeout(() => {
+            $("#changePasswordForm").removeClass('was-validated');
+            $("#currentPassword, #newPassword, #confirmPassword").removeClass('is-invalid');
+        }, 3000);
+    });
+
+    const togglePassword = (togglerId, inputId) => {
+        if ($(togglerId).hasClass('fa-eye-slash')) {
+            $(togglerId).removeClass('fa-eye-slash');
+            $(togglerId).addClass('fa-eye');
+            $(inputId).attr('type', 'text');
+        } else if ($(togglerId).hasClass('fa-eye')) {
+            $(togglerId).removeClass('fa-eye');
+            $(togglerId).addClass('fa-eye-slash');
+            $(inputId).attr('type', 'password');
+        }
+    }
+
+    const checkCurrentPassword = (accountId, currentPassword) => {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                type: "POST",
+                url: "../../../backend/shared/profile-setting/checkCurrentPassword.php",
+                data: {
+                    accountId: accountId,
+                    currentPassword: currentPassword
+                },
+                success: function (response) {
+                    if (response.status === "internal-error") {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: `${response.message}`,
+                            icon: 'error',
+                            confirmButtonColor: 'var(--bs-danger)'
+                        });
+                        reject(response)
+                    } else if (response.status === "success") {
+                        resolve(response);
+                    }
+                }
+            });
+        })
+    }
 });

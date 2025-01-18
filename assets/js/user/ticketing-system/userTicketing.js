@@ -66,9 +66,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="text-truncate">${ticket.ticket_subject}</div>
                                     <div class="small text-gray-500 ">${ticket.ticket_description}</div>
                                     <div class="small text-gray-500 text-truncate">
+                                        <button class="btn btn-light btn-sm btn-right similar-ticket-items">Select</button>
                                         <strong>Created:</strong> ${date} | 
                                         <strong>Requestor:</strong> ${ticket.requestor_name} | 
-                                        <button class="btn btn-light btn-sm btn-right similar-ticket-items">Select</button>
                                     </div>
                                     
                                 </div>
@@ -99,6 +99,46 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+$(document).ready(function () {
+    $('#ticketForm').on('submit', function (e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        // Create a FormData object for AJAX
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: '../../../backend/user/ticketing-system/newticket.php', // Change to your PHP file
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend: function () {
+                $('#form-message').text('Submitting...').removeClass('text-danger').addClass('text-info');
+                $('#loading-spinner').show(); // Show the Bootstrap spinner
+
+                // Optional: Set a timer to update the message if loading takes longer
+                // setTimeout(function () {
+                //     $('#form-message').text('Still submitting, please wait...');
+                // }, 3000); // Updates after 3 seconds
+            },
+            success: function (response) {
+                $('#form-message').text(response.message).removeClass('text-info').addClass(response.status === 'success' ? 'text-success' : 'text-danger');
+                if (response.status === 'success') {
+                    $('#ticketForm')[0].reset(); // Reset the form on success
+                    $('#loading-spinner').hide();
+                    document.querySelector('.similar-ticket').classList.add('hidden');
+                    fetchTickets();
+                }
+
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+                $('#form-message').text('Error submitting ticket. Please try again.').removeClass('text-info').addClass('text-danger');
+                $('#loading-spinner').hide();
+            }
+        });
+    });
+});
 
 
 // Validate ticket attachement
@@ -242,6 +282,7 @@ $(document).ready(function () {
             url: '../../../backend/user/ticketing-system/update_ticket_status.php',
             type: 'POST',
             data: { ticket_id: ticketId, status: 'Approved' },
+            dataType: 'json',
             success: function (response) {
                 if (response.status === 'success') {
                     alert('Ticket approved successfully!');
@@ -265,12 +306,13 @@ $(document).ready(function () {
             url: '../../../backend/user/ticketing-system/update_ticket_status.php',
             type: 'POST',
             data: { ticket_id: ticketId, status: 'Rejected' },
+            dataType: 'json',
             success: function (response) {
                 if (response.status === 'success') {
                     alert('Ticket rejected successfully!');
                     $('#forApprovalticketModal').modal('hide');
                     forApprovalTickets(); // Refresh the ticket list
-                } else {
+                } else if (response.status === 'error') {
                     alert('Error: ' + response.message);
                 }
             },
@@ -281,7 +323,7 @@ $(document).ready(function () {
         });
     });
 
-    setInterval(forApprovalTickets, 5000);
+    setInterval(forApprovalTickets, 30000);
     forApprovalTickets();
 });
 
@@ -385,7 +427,7 @@ $(document).ready(function () {
             `);
         } else if (status === 'Closed') {
             actionButtons.append(`
-                <button class="btn btn-outline-primary btn-sm" id="reopenTicket" data-id="${ticketId}">Re-open Ticket</button>
+                <button class="btn btn-outline-primary btn-sm" id="reopenTicket" data-id="${ticketId}">Re-Create Ticket</button>
             `);
         } else if (status === 'Rejected') {
             actionButtons.append(`
@@ -405,9 +447,29 @@ $(document).ready(function () {
     // Re-open closed ticket
     $(document).on('click', '#reopenTicket', function () {
         const ticketId = $(this).data('id');
-        updateTicketStatus(ticketId, 'OPEN');
+        recreateTicket(ticketId);
     });
 
+    function recreateTicket(ticketId) {
+        $.ajax({
+            url: '../../../backend/user/ticketing-system/recreate_ticket.php', // Change this to your PHP endpoint
+            type: 'POST',
+            data: { ticket_id: ticketId },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    alert(response.message);
+                    $('#ticketsModal').modal('hide');
+                    fetchTickets(); // Reload tickets
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error recreating ticket: ", error);
+            }
+        });
+    }
     // Function to update ticket status
     function updateTicketStatus(ticketId, newStatus) {
         $.ajax({

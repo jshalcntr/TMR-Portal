@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Initialize variables for file upload
     $allowed_extensions = ['jpg', 'jpeg', 'png', 'pdf', 'docx'];
     $max_file_size = 2 * 1024 * 1024; // 2 MB
-    $upload_dir = "../../uploads/tickets/";
+    $upload_dir = "../../../uploads/tickets/";
 
     // Ensure upload directory exists
     if (!is_dir($upload_dir) && !mkdir($upload_dir, 0777, true)) {

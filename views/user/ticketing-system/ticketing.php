@@ -234,7 +234,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
 
 <?php include "../../components/external-js-import.php" ?>
 <script src="../../../assets/js/user/ticketing-system/userTicketing.js"></script>
-<script src="../../../assets/js/user/ticketing-system/addTicket.js"></script>
+<!-- <script src="../../../assets/js/user/ticketing-system/addTicket.js"></script> -->
 <!-- <script src="../../../assets/js/user/ticketing-system/ticket-cetegory.js"></script> -->
 
 </html>

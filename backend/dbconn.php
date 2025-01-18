@@ -9,4 +9,4 @@ if ($conn->connect_error) {
     echo json_encode($conn->connect_error);
     die("Connection failed: " . $conn->connect_error);
 }
-date_default_timezone_set("Asia/Hong_Kong");
+date_default_timezone_set("Asia/Manila");

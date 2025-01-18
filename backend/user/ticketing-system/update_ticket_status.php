@@ -16,12 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             echo json_encode(["status" => "error", "message" => "Failed to update ticket status."]);
         }
-        $stmt->close();
+        // $stmt->close();
     } else {
         echo json_encode(["status" => "error", "message" => "Database error: Unable to prepare statement."]);
     }
 
-    $conn->close();
+    // $conn->close();
 } else {
     echo json_encode(["status" => "error", "message" => "Invalid request method."]);
 }

@@ -14,17 +14,8 @@ session_start();
 
     <title>TMR Internal Portal</title>
 
-    <!-- Custom local styles -->
-    <link rel="stylesheet" href="http://172.16.14.44/dependencies/css/bootstrap/v5.3.3/bootstrap.min.css">
-    <!-- Custom fonts for this template-->
-    <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-    <!-- Custom styles for this template-->
-    <link href="assets/css/sb-admin-2.css" rel="stylesheet">
+    <?php include "views/components/external-css-import.php" ?>
 
-    <link rel="stylesheet" href="assets/css/custom/global.css">
     <link rel="stylesheet" href="assets/css/custom/login.css">
 
 </head>
@@ -56,9 +47,10 @@ session_start();
                                                 id="username" name="username"
                                                 placeholder="Enter Email Address...">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" style="position: relative;">
                                             <input type="password" class="form-control form-control-user"
                                                 id="password" name="password" placeholder="Password">
+                                            <i class="fa-duotone fa-light fa-eye-slash" id="togglePassword" style="position: absolute; top: 18px; right: 20px; cursor: pointer;"></i>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
@@ -73,13 +65,15 @@ session_start();
         </div>
     </div>
 
-    <script src="http://172.16.14.44/dependencies/javascript/bootstrap/v5.3.3/bootstrap.bundle.js"></script>
+    <!-- <script src="http://172.16.14.44/dependencies/javascript/bootstrap/v5.3.3/bootstrap.bundle.js"></script>
     <script src="assets/vendor/jquery/jquery.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="assets/js/sb-admin-2.min.js"></script>
-    <script src="assets/js/authenticate.js"></script>
+    -->
 
+    <?php include "views/components/external-js-import.php" ?>
+    <script src="assets/js/authenticate.js"></script>
 </body>
 
 </html>
