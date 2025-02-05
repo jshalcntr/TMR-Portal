@@ -108,7 +108,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
     <!-- End of Page Wrapper -->
     <?php if ($authorizations['accounts_edit']): ?>
         <div class="modal fade" id="createAccountModal" tabindex="-1" aria-labelledby="createAccountModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header d-flex justify-content-between align-items-center px-4">
                         <h3 class="modal-title" id="createAccountModalLabel">Create New Account</h3>
@@ -236,7 +236,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
         </div>
     <?php endif; ?>
     <div class="modal fade" id="viewAccountModal" tabindex="-1" aria-labelledby="viewAccountModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-between align-items-center px-4">
                     <h3 class="modal-title" id="viewAccountModalLabel">Account View</h3>
@@ -371,6 +371,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
     </div>
 
 </body>
+
 <?php include '../../components/external-js-import.php' ?>
 <script src="../../../assets/js/s-admin/account-management/account.js"></script>
 <script src="../../../assets/js/s-admin/account-management/viewAccount.js"></script>

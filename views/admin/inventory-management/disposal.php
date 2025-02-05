@@ -117,7 +117,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
 
     <?php if ($authorizations['inventory_edit']): ?>
         <div class="modal fade" id="disposeItemsModal" tabindex="-1" aria-labelledby="disposeItemsModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
                 <div class="modal-content">
                     <div class="modal-header d-flex justify-content-between align-items-center px-4">
                         <h3 class="modal-title" id="disposeItemsModalLabel">Dispose Items</h3>
@@ -166,7 +166,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
             </div>
         </div>
         <div class="modal fade" id="viewDisposedInventoryModal" tabindex="-1" aria-labelledby="viewDisposeItemsModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                     <div class="modal-header d-flex justify-content-between align-item-center">
                         <h3 class="modal-title" id="viewDisposeItemsModalLabel">Disposed Items</h3>

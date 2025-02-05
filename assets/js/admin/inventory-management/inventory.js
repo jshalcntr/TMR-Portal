@@ -29,7 +29,9 @@ const populateTable = () => {
                         { data: "supplier" },
                         { data: "serialNumber" },
                         { data: "department" },
-                        { data: "status" },
+                        {
+                            data: "status",
+                        },
                         { data: "pricePhp" },
                         { data: "remarks" },
                         {
@@ -38,7 +40,8 @@ const populateTable = () => {
                                 return `<i class="fas fa-eye text-primary viewInventoryBtn" 
                                         role="button" data-inventory-id="${data}" 
                                         data-bs-toggle="modal" 
-                                        data-bs-target="#viewInventoryModal"></i>`;
+                                        data-bs-target="#viewInventoryModal"
+                                        ></i>`;
                             },
                         },
                     ],
@@ -300,4 +303,5 @@ const fetchAllRepairs = (queriedId) => {
 }
 $(document).ready(function () {
     populateTable();
+    $('[data-bs-toggle="tooltip"]').tooltip();
 });

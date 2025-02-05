@@ -61,7 +61,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                         <!-- Begin Ticket Form -->
                         <div class="<?= $divsize ?>">
                             <div class="card card-body shadow">
-                                <form id="ticketForm" enctype="multipart/form-data">
+                                <form id="ticketForm" method="POST" enctype="multipart/form-data">
                                     <!-- <form action="../../../backend/user/ticketing-system/newticket.php" method="POST" enctype="multipart/form-data"> -->
                                     <h3>New Ticket</h3>
                                     <div class="form-row">

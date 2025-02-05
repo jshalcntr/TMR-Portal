@@ -127,7 +127,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
     </div>
     <?php if ($authorizations['inventory_edit']): ?>
         <div class="modal fade" id="createInventoryModal" tabindex="-1" aria-labelledby="createInventoryModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
                 <div class="modal-content">
                     <div class="modal-header d-flex justify-content-between align-items-center px-4">
                         <h3 class="modal-title" id="createInventoryModalLabel">Add New Item</h3>
@@ -214,13 +214,14 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
                                             <option value="VSA">VSA</option>
                                             <option value="Marketing">Marketing</option>
                                             <option value="EOD">EOD</option>
-                                            <option value="Service">Service</option>
-                                            <option value="Parts & Accessories">Parts and Accessories</option>
+                                            <option value="SVC">SVC</option>
+                                            <option value="PARTS">PARTS</option>
                                             <option value="HRAD">HRAD</option>
                                             <option value="F&I">F&I</option>
                                             <option value="Accounting">Accounting</option>
                                             <option value="MIS">MIS</option>
                                             <option value="CRD">CRD</option>
+                                            <option value="Undeployed">Undeployed</option>
                                         </select>
                                         <div class="invalid-feedback">Please Select Department</div>
                                     </div>
@@ -271,7 +272,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
             </div>
         </div>
         <div class="modal fade" id="importInventoryModal" tabindex="-1" aria-labelledby="importInventoryModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                     <div class="modal-header d-flex justify-content-between align-items-center px-4">
                         <h3 class="modal-title" id="importInventoryModalLabel">Import File</h3>
@@ -306,7 +307,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
             </div>
         </div>
         <div class="modal fade" id="repairItemModal" tabindex="-1" aria-labelledby="repairItemModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
                 <div class="modal-content">
                     <div class="modal-header d-flex justify-content-between align-items-center px-4">
                         <h3 class="modal-title" id="repairItemModalLabel">Repair Item</h3>
@@ -391,7 +392,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
             </div>
         </div>
         <div class="modal fade" id="finishRepairModal" tabindex="-1" aria-labelledby="finishRepairModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-md">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-md">
                 <div class="modal-content">
                     <div class="modal-header d-flex justify-content-between align-items-center px-4">
                         <h3 class="modal-title" id="finishRepairModalLabel">Finish Repair</h3>
@@ -418,7 +419,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
             </div>
         </div>
         <div class="modal fade" id="disposeInventoryModal" tabindex="-1" aria-labelledby="disposeInventoryModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-md">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-md">
                 <div class="modal-content">
                     <div class="modal-header d-flex justify-content-between align-items-center px-4">
                         <h3 class="modal-title" id="disposeInventoryModalLabel">Add to Disposal</h3>
@@ -439,10 +440,96 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
                 </div>
             </div>
         </div>
+        <div id="requestChangesModal" class="modal fade" tabindex="-1" aria-labelledby="requestChangesModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-between align-items-center px-4">
+                        <h3 class="modal-title" id="requestChangesModalLabel">Request Changes | Asset #: <span id="assetNumber_request"></span></h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-xl-3 d-flex flex-column align-items-center" style="gap: 8px;">
+                        <div class="row">
+                            <button type="button" class="btn btn-warning shadow-sm" id="editFABtn" data-bs-toggle="modal" data-bs-target="#editFAModal" style="width: fit-content;"><i class="fas fa-money-check-pen"></i> Edit FA Number</button>
+                        </div>
+                        <div class="row">
+                            <button type="button" class="btn btn-danger shadow-sm" id="absoluteDeleteBtn" data-bs-toggle="modal" data-bs-target="#absoluteDeleteModal" style="width: fit-content;"><i class="fas fa-trash-can-list"></i> Absolute Deletion</button>
+                        </div>
+                        <div class="row d-none" id="retiredActionsRow">
+                            <button type="button" class="btn btn-info shadow-sm" id="unretireBtn" data-bs-toggle="modal" data-bs-target="#unretireModal" style="width: fit-content;"><i class="fas fa-clock-rotate-left"></i> Unretire</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="editFAModal" class="modal fade" tabindex="-1" aria-labelledby="editFAModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content px-3">
+                    <div class="modal-header d-flex justify-content-between align-items-center px-4">
+                        <h3 class="modal-title" id="editFAModalLabel">Edit FA Number</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="editFAForm" class="modal-body p-xl-3" style="gap: 8px;" autocomplete="off" novalidate>
+                        <div class="row form-group">
+                            <label for="newFA">Desired FA Number:</label>
+                            <input type="text" id="newFA" name="newFA" class="form-control form-control-sm" required>
+                            <div class="invalid-feedback">Please enter a valid FA Number</div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="newFAReason">Reason for Changing:</label>
+                            <textarea type="text" id="newFAReason" name="newFAReason" class="form-control form-control-sm" required></textarea>
+                            <div class="invalid-feedback">Please enter a reason for changing the FA Number</div>
+                        </div>
+                        <div class="row form-group justify-content-end">
+                            <button type="submit" class="btn btn-sm shadow-sm btn-primary w-auto align-self-end"><i class="fa-solid fa-paper-plane-top"></i> Send Request</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="absoluteDeleteModal" class="modal fade" tabindex="-1" aria-labelledby="absoluteDeleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content px-3">
+                    <div class="modal-header d-flex justify-content-between align-items-center px-4">
+                        <h3 class="modal-title" id="absoluteDeleteModalLabel">Request Absolute Deletion</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="absoluteDeleteForm" class="modal-body p-xl-3" style="gap: 8px;" autocomplete="off" novalidate>
+                        <div class="row form-group">
+                            <label for="absoluteDeleteReason">Reason for Deletion:</label>
+                            <textarea type="text" id="absoluteDeleteReason" name="absoluteDeleteReason" class="form-control form-control-sm" required></textarea>
+                            <div class="invalid-feedback">Please enter a reason for deleting the item</div>
+                        </div>
+                        <div class="row form-group justify-content-end">
+                            <button type="submit" class="btn btn-sm shadow-sm btn-primary w-auto align-self-end"><i class="fa-solid fa-paper-plane-top"></i> Send Request</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="unretireModal" class="modal fade" tabindex="-1" aria-labelledby="unretireModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content px-3">
+                    <div class="modal-header d-flex justify-content-between align-items-center px-4">
+                        <h3 class="modal-title" id="unretireModalLabel">Request to Unretire</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="unretireForm" class="modal-body p-xl-3" style="gap: 8px;" autocomplete="off" novalidate>
+                        <div class="row form-group">
+                            <label for="unretireReason">Reason for Unretire:</label>
+                            <textarea type="text" id="unretireReason" name="unretireReason" class="form-control form-control-sm" required></textarea>
+                            <div class="invalid-feedback">Please enter a reason for unretiring the item</div>
+                        </div>
+                        <div class="row form-group justify-content-end">
+                            <button type="submit" class="btn btn-sm shadow-sm btn-primary w-auto align-self-end"><i class="fa-solid fa-paper-plane-top"></i> Send Request</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
     <?php endif; ?>
     <div class="modal fade" id="exportInventoryModal" tabindex="-1" aria-labelledby="exportInventoryModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-between align-items-center px-4">
                     <h3 class="modal-title" id="exportInventoryModalLabel">Export File</h3>
@@ -631,11 +718,16 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
         </div>
     </div>
     <div class="modal fade" id="viewInventoryModal" tabindex="-1" aria-labelledby="viewInventoryModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-between align-items-center px-4">
                     <h3 class="modal-title" id="viewInventoryModalLabel">Item View | Asset #: <span id="assetNumber_edit"></span></h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="header-actions d-flex align-items-center" style="gap: 8px;">
+                        <?php if ($authorizations['inventory_edit']): ?>
+                            <button type="button" class="btn btn-circle shadow-sm btn-info" id="requestChangesBtn" role="button" data-bs-placement="bottom" title="Request Changes" data-bs-target="#requestChangesModal" data-bs-toggle="tooltip"><i class="fa-solid fa-comment-pen"></i></button>
+                        <?php endif; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
                 </div>
                 <div class="modal-body p-xl-3">
                     <form id="editInventoryForm" class="container needs-validation" novalidate autocomplete="off">
@@ -719,13 +811,14 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
                                         <option value="VSA">VSA</option>
                                         <option value="Marketing">Marketing</option>
                                         <option value="EOD">EOD</option>
-                                        <option value="Service">Service</option>
-                                        <option value="Parts & Accessories">Parts and Accessories</option>
+                                        <option value="SVC">SVC</option>
+                                        <option value="PARTS">PARTS</option>
                                         <option value="HRAD">HRAD</option>
                                         <option value="F&I">F&I</option>
                                         <option value="Accounting">Accounting</option>
                                         <option value="MIS">MIS</option>
                                         <option value="CRD">CRD</option>
+                                        <option value="Undeployed">Undeployed</option>
                                     </select>
                                     <div class="invalid-feedback">Please Select Department</div>
                                 </div>
@@ -773,7 +866,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
                             <div class="row action-row">
                                 <div class="col d-flex justify-content-end align-items-end action-column" id="viewActionsRow">
                                     <button type="button" class="btn btn-sm shadow-sm btn-danger" id="retireInventoryButton"><i class="fas fa-calendar-xmark"></i> Retire</button>
-                                    <button type="button" class="btn btn-sm shadow-sm btn-info" id="repairButton"><i class="fas fa-screwdriver-wrench"></i> Repair</button>
+                                    <button type="button" class="btn btn-sm shadow-sm btn-warning" id="repairButton"><i class="fas fa-screwdriver-wrench"></i> Repair</button>
                                     <button type="button" class="btn btn-sm shadow-sm btn-primary" id="editButton"><i class="fas fa-pencil"></i> Edit</button>
                                 </div>
                                 <div class="col d-none justify-content-end align-items-end action-column" id="editActionsRow">
@@ -795,12 +888,18 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
 
 <?php include '../../components/external-js-import.php'; ?>
 <script src="../../../assets/js/admin/inventory-management/inventory.js"></script>
+<script src="../../../assets/js/admin/inventory-management/exportFile.js"></script>
+<script src="../../../assets/js/admin/inventory-management/viewInventory.js"></script>
 <?php if ($authorizations['inventory_edit']): ?>
     <script src="../../../assets/js/admin/inventory-management/addInventory.js"></script>
     <script src="../../../assets/js/admin/inventory-management/importFile.js"></script>
     <script src="../../../assets/js/admin/inventory-management/repairItem.js"></script>
+    <script src="../../../assets/js/admin/inventory-management/requestChanges.js"></script>
+    <script src="../../../assets/js/admin/inventory-management/editFA.js"></script>
+    <script src="../../../assets/js/admin/inventory-management/absoluteDelete.js"></script>
+    <script src="../../../assets/js/admin/inventory-management/unretire.js"></script>
 <?php endif; ?>
-<script src="../../../assets/js/admin/inventory-management/exportFile.js"></script>
-<script src="../../../assets/js/admin/inventory-management/viewInventory.js"></script>
+
+
 
 </html>

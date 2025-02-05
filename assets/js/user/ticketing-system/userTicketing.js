@@ -406,7 +406,7 @@ $(document).ready(function () {
         $('#ticketTitle').text(title);
         $('#ticketDescription').text(description);
         if (attachment !== null) {
-            $('#ticketAttachment').html(`<a href="${attachment}" target="_blank" class="text-primary">View Attachment</a>`);
+            $('#ticketAttachment').html(`<a href="${attachment.replace("backend/", '')}" target="_blank" class="text-primary">View Attachment</a>`);
         } else {
             $('#ticketAttachment').text('No attachment.');
         }

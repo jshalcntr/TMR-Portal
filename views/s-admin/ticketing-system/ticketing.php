@@ -5,7 +5,7 @@ require('../../../backend/dbconn.php');
 require('../../../backend/middleware/pipes.php');
 require('../../../backend/middleware/authorize.php');
 
-if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
+if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
     $authId = $_SESSION['user']['id'];
     $authUsername = $_SESSION['user']['username'];
     $authFullName = $_SESSION['user']['full_name'];
@@ -54,6 +54,40 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <div class="row">
+                        <div class="col-md-12 row">
+                            <div class="card shadow mb-4 col-md-3" data-category="all-overdue" onclick="fetchAndShowTickets(this)">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">All Overdue Tasks</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h1 class="card-title font-weight-bold" id="all-overdue-tasks">0</h1>
+                                </div>
+                            </div>
+                            <div class="card shadow mb-4 col-md-3" data-category="all-today-due" onclick="fetchAndShowTickets(this)">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">All Tickets Due Today</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h1 class="card-title font-weight-bold" id="all-today-due-tickets">0</h1>
+                                </div>
+                            </div>
+                            <div class="card shadow mb-4 col-md-3" data-category="all-open" onclick="fetchAndShowTickets(this)">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Open Tickets</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h1 class="card-title font-weight-bold" id="all-open-tickets">0</h1>
+                                </div>
+                            </div>
+                            <div class="card shadow mb-4 col-md-3" data-category="all-for-approval" onclick="fetchAndShowTickets(this)">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">All For Approval Tickets</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h1 class="card-title font-weight-bold" id="all-for-approval-tickets">0</h1>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-12 row">
                             <div class="card shadow mb-4 col-md-2" data-category="overdue" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
@@ -186,8 +220,8 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                         </div>
 
                         <!-- Modal for Ticket Details -->
-                        <div class="modal fade" id="unassignedticketDetailsModal" tabindex="-1" aria-labelledby="ticketDetailsModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-md">
+                        <div class="modal fade" id="unassignedticketDetailsModal" tabindex="-1" aria-labelledby="unassignedticketDetailsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="ticketDetailsModalLabel">Ticket Details</h5>
@@ -203,6 +237,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                         <p><strong>Type:</strong> <span id="unassignedticketType"></span></p>
                                         <p><strong>Handler:</strong>
                                             <select id="unassignedticketHandlerId" disabled>
+                                                <option value="" disabled selected>Select Handler</option>
                                                 <!-- Options will be dynamically inserted -->
                                             </select>
                                         </p>
@@ -219,7 +254,10 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                         <div>
                                             <input type="checkbox" id="forApprovalCheckbox"> For Approval
                                         </div>
-                                        <button id="claimButton" class="btn btn-success" onclick="claimTicket()">Claim</button>
+                                        <button id="unassignededitButton" class="btn btn-outline-info" onclick="enableUnassignedEditing()">Edit</button>
+                                        <button id="unassignedsaveButton" class="btn btn-outline-primary" onclick="saveUnassignedTicketDetails()" style="display: none;">Save</button>
+                                        <button id="unassignedcancelsaveButton" class="btn btn-outline-danger" onclick="cancelUnassignedTicketDetails()" style="display: none; float: right">Cancel</button>
+
                                     </div>
                                 </div>
                             </div>
@@ -255,13 +293,13 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                             <input type="datetime-local" id="closedticketDueDate" disabled>
                                         </p>
                                         <p><strong>Conclusion:</strong> <span id="closedticketConclusion"></span></p>
-                                        <button id="requestReopemButton" class="btn btn-outline-info" onclick="requestReopen()">Request Reopen</button>
+                                        <button id="ReopeButton" class="btn btn-outline-info" onclick="reopenTicket()">Reopen</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-
+                        <!------------------------------------------Charts--------------------------------------------------->
 
                         <!-- line Chart -->
                         <div class="col-md-8">

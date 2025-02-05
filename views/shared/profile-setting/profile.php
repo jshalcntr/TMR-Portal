@@ -133,10 +133,9 @@ if (authorize(true, $conn)) {
             </div>
         </div>
     </div>
-    </div>
 
     <div class="modal fade" id="editProfilePictureModal" tabindex="-1" aria-labelledby="editProfilePictureModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-between align-items-center px-4">
                     <h3 class="modal-title" id="editProfilePictureModalLabel">Profile Pic</h3>

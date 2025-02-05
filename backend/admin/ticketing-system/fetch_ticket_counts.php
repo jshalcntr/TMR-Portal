@@ -16,6 +16,10 @@ $sql = [
     'for_approval' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status = 'for approval'",
     'finished' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status = 'closed'",
     'unassigned' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_handler_id IS NULL OR ticket_handler_id = ''",
+    'all_overdue' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_due_date < '$currentDateTime'",
+    'all_today_due' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_due_date >= '$currentDateTime' AND ticket_due_date <= '$currentDate'",
+    'all_open' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_due_date > '$currentDate'",
+    'all_for_approval' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status = 'for approval'",
     'all' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl"
 ];
 

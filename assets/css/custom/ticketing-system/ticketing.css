@@ -66,6 +66,10 @@
 #open-tickets,
 #for-approval-tickets,
 #unassigned-tickets,
+#all-overdue-tasks,
+#all-today-due-tickets,
+#all-open-tickets,
+#all-for-approval-tickets,
 #all-tickets {
     cursor: pointer;
 }
@@ -75,11 +79,23 @@
 #open-tickets:hover,
 #for-approval-tickets:hover,
 #unassigned-tickets:hover,
+#all-overdue-tasks:hover,
+#all-today-due-tickets:hover,
+#all-open-tickets:hover,
+#all-for-approval-tickets:hover,
 #all-tickets:hover {
     color: #42855b;
     text-decoration: underline;
 }
 
-#overdue-tasks {
+#overdue-tasks,
+#all-overdue-tasks {
     color: red;
+}
+
+@media (min-width: 768px) {
+    .modal-xl {
+        width: 90%;
+        max-width: 1200px;
+    }
 }

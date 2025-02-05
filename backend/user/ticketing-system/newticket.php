@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         );
 
         if ($stmt->execute()) {
-            echo json_encode(["status" => "success", "message" => "Ticket submitted successfully."]);
+            echo json_encode(["status" => "success", "message" => "Ticket submitted successfully.", "attachment" => $new_target_path]);
         } else {
             echo json_encode(["status" => "error", "message" => "Unable to submit ticket. Please try again later.", "data" => $stmt->error]);
         }
