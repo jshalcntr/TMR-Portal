@@ -55,7 +55,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12 row">
-                            <div class="card shadow mb-4 col-md-3" data-category="all-overdue" onclick="fetchAndShowTickets(this)">
+                            <div class="card shadow mb-4 col-md-2" data-category="all-overdue" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">All Overdue Tasks</h6>
                                 </div>
@@ -63,7 +63,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                     <h1 class="card-title font-weight-bold" id="all-overdue-tasks">0</h1>
                                 </div>
                             </div>
-                            <div class="card shadow mb-4 col-md-3" data-category="all-today-due" onclick="fetchAndShowTickets(this)">
+                            <div class="card shadow mb-4 col-md-2" data-category="all-today-due" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">All Tickets Due Today</h6>
                                 </div>
@@ -71,7 +71,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                     <h1 class="card-title font-weight-bold" id="all-today-due-tickets">0</h1>
                                 </div>
                             </div>
-                            <div class="card shadow mb-4 col-md-3" data-category="all-open" onclick="fetchAndShowTickets(this)">
+                            <div class="card shadow mb-4 col-md-2" data-category="all-open" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Open Tickets</h6>
                                 </div>
@@ -79,12 +79,20 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                     <h1 class="card-title font-weight-bold" id="all-open-tickets">0</h1>
                                 </div>
                             </div>
-                            <div class="card shadow mb-4 col-md-3" data-category="all-for-approval" onclick="fetchAndShowTickets(this)">
+                            <div class="card shadow mb-4 col-md-2" data-category="all-for-approval" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">All For Approval Tickets</h6>
                                 </div>
                                 <div class="card-body text-center">
                                     <h1 class="card-title font-weight-bold" id="all-for-approval-tickets">0</h1>
+                                </div>
+                            </div>
+                            <div class="card shadow mb-4 col-md-2" data-category="reopen-tickets" onclick="fetchAndShowTickets(this)">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Request Reopen</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h1 class="card-title font-weight-bold" id="reopen-tickets">0</h1>
                                 </div>
                             </div>
                         </div>
@@ -255,6 +263,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                             <input type="checkbox" id="forApprovalCheckbox"> For Approval
                                         </div>
                                         <button id="unassignededitButton" class="btn btn-outline-info" onclick="enableUnassignedEditing()">Edit</button>
+                                        <button id="claimButton" class="btn btn-success" onclick="claimTicket()">Claim</button>
                                         <button id="unassignedsaveButton" class="btn btn-outline-primary" onclick="saveUnassignedTicketDetails()" style="display: none;">Save</button>
                                         <button id="unassignedcancelsaveButton" class="btn btn-outline-danger" onclick="cancelUnassignedTicketDetails()" style="display: none; float: right">Cancel</button>
 

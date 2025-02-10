@@ -454,7 +454,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
                         <div class="row">
                             <button type="button" class="btn btn-danger shadow-sm" id="absoluteDeleteBtn" data-bs-toggle="modal" data-bs-target="#absoluteDeleteModal" style="width: fit-content;"><i class="fas fa-trash-can-list"></i> Absolute Deletion</button>
                         </div>
-                        <div class="row d-none" id="retiredActionsRow">
+                        <div class="row d-none" id="retiredActionsRow2">
                             <button type="button" class="btn btn-info shadow-sm" id="unretireBtn" data-bs-toggle="modal" data-bs-target="#unretireModal" style="width: fit-content;"><i class="fas fa-clock-rotate-left"></i> Unretire</button>
                         </div>
                     </div>
@@ -873,7 +873,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
                                     <button type="button" class="btn btn-sm shadow-sm btn-danger" id="cancelButton"><i class="fas fa-ban"></i> Cancel</button>
                                     <button type="submit" class="btn btn-sm shadow-sm btn-primary" id="saveButton"><i class="fas fa-floppy-disk"></i> Save</button>
                                 </div>
-                                <div class="col d-none justify-content-end align-items-end action-column" id="retiredActionsRow">
+                                <div class="col d-none justify-content-end align-items-end action-column" id="retiredActionsRow1">
                                     <button type="button" class="btn btn-sm shadow-sm btn-danger" id="disposeButton"><i class="fas fa-dumpster"></i> Dispose</button>
                                 </div>
                             </div>

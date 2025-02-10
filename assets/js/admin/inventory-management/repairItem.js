@@ -110,7 +110,7 @@ $(document).ready(function () {
         toggleEditRepairButton();
     });
     $("#cancelEditRepairButton").on('click', function () {
-        editRepairButton
+        toggleEditRepairButton();
     });
 
     let editRepairValidationTimeout;

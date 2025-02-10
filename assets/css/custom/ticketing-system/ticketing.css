@@ -70,6 +70,7 @@
 #all-today-due-tickets,
 #all-open-tickets,
 #all-for-approval-tickets,
+#reopen-tickets,
 #all-tickets {
     cursor: pointer;
 }
@@ -83,6 +84,7 @@
 #all-today-due-tickets:hover,
 #all-open-tickets:hover,
 #all-for-approval-tickets:hover,
+#reopen-tickets:hover,
 #all-tickets:hover {
     color: #42855b;
     text-decoration: underline;

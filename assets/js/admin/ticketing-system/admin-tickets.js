@@ -42,6 +42,7 @@ $(document).ready(function () {
                     all_for_approval: data.all_for_approval || 0,
                     unassigned: data.unassigned || 0,
                     finished: data.finished || 0,
+                    all_reopen: data.all_reopen || 0,
                     all: data.all || 0
                 };
                 // Update the numbers in the cards
@@ -55,6 +56,7 @@ $(document).ready(function () {
                 $('#all-overdue-tasks').text(data.all_overdue || 0);
                 $('#all-today-due-tickets').text(data.all_today_due || 0);
                 $('#all-open-tickets').text(data.all_open || 0);
+                $('#reopen-tickets').text(data.all_reopen || 0);
                 $('#all-for-approval-tickets').text(data.all_for_approval || 0);
             } else {
                 console.error('Error:', response.message);
@@ -83,6 +85,7 @@ function fetchAndShowTickets(card) {
         'all-today-due': 'All Tickets Due Today',
         'all-open': 'All Open Tickets',
         'all-for-approval': 'All For Approval Tickets',
+        'reopen-tickets': 'Request Reopen',
         'all': 'All Tickets'
     };
 
@@ -387,16 +390,29 @@ function claimTicket() {
             },
             success: function (response) {
                 if (response.status === 'success') {
-                    alert('Ticket claimed successfully');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Ticket claimed successfully',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    refreshTicketList();
                     $('#unassignedticketDetailsModal').modal('hide');
                     fetchAndShowTickets("unassigned");
-                    refreshTicketList();
                 } else {
-                    console.error('Error:', response.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message
+                    });
                 }
             },
             error: function (xhr, status, error) {
-                console.error('AJAX error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'AJAX error',
+                    text: error
+                });
             }
         });
     }
@@ -462,17 +478,81 @@ function saveTicketDetails() {
         },
         success: function (response) {
             if (response.status === 'success') {
-                alert('Ticket details updated successfully');
-                $('#ticketDetailsModal').modal('hide');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Ticket details updated successfully',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 refreshTicketList();
+                $('#ticketDetailsModal').modal('hide');
             } else {
-                console.error('Error:', response.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
             }
         },
         error: function (xhr, status, error) {
-            console.error('AJAX error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'AJAX error',
+                text: error
+            });
         }
     });
+
+    document.getElementById('ticketDueDate').disabled = true;
+    document.getElementById('ticketStatus').disabled = true;
+    // document.getElementById('ticketHandlerId').disabled = true;
+    document.getElementById('editButton').style.display = 'inline-block';
+    document.getElementById('saveButton').style.display = 'none';
+}
+
+function saveUnassignedTicketDetails() {
+    const ticketId = document.getElementById('unassignedticketId').innerText;
+    const ticketDueDate = document.getElementById('unassignedticketDueDate').value;
+    const ticketStatus = document.getElementById('unassignedticketStatus').value;
+    const ticketHandlerId = document.getElementById('unassignedticketHandlerId').value;
+
+    // Send updated details to the backend
+    $.ajax({
+        url: '../../../backend/admin/ticketing-system/update_ticket.php', // Adjust the path as needed
+        method: 'POST',
+        data: {
+            ticket_id: ticketId,
+            ticket_due_date: ticketDueDate,
+            ticket_status: ticketStatus,
+            ticket_handler_id: ticketHandlerId
+        },
+        success: function (response) {
+            if (response.status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Ticket details updated successfully',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                refreshTicketList();
+                $('#unassignedticketDetailsModal').modal('hide');
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
+            }
+        },
+        error: function (xhr, status, error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'AJAX error',
+                text: error
+            });
+        }
+    });
+
     document.getElementById('ticketDueDate').disabled = true;
     document.getElementById('ticketStatus').disabled = true;
     // document.getElementById('ticketHandlerId').disabled = true;
@@ -499,18 +579,30 @@ function requestReopen() {
         },
         success: function (response) {
             if (response.status === 'success') {
-                alert('Ticket details updated successfully');
-                $('#closedticketDetailsModal').modal('hide');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Ticket details updated successfully',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 refreshTicketList();
+                $('#closedticketDetailsModal').modal('hide');
             } else {
-                console.error('Error:', response.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
             }
         },
         error: function (xhr, status, error) {
-            console.error('AJAX error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'AJAX error',
+                text: error
+            });
         }
     });
-
 }
 
 // Function to show the conclusion text area
@@ -551,17 +643,31 @@ function saveConclusion() {
         },
         success: function (response) {
             if (response.status === 'success') {
-                alert('Ticket closed successfully');
-                $('#ticketDetailsModal').modal('hide');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Ticket closed successfully',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 refreshTicketList();
+                $('#ticketDetailsModal').modal('hide');
             } else {
-                console.error('Error:', response.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
             }
         },
         error: function (xhr, status, error) {
-            console.error('AJAX error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'AJAX error',
+                text: error
+            });
         }
     });
+
     document.getElementById('conclusionTextArea').style.display = 'none';
     document.getElementById('saveConclusionButton').style.display = 'none';
     document.getElementById('closeTicketButton').style.display = 'inline-block';
@@ -655,7 +761,7 @@ window.speechSynthesis.onvoiceschanged = () => {
 };
 
 // Set interval to refresh tickets every 30 seconds
-setInterval(refreshTicketList, 30000);
+setInterval(refreshTicketList, 10000);
 
 
 
@@ -682,11 +788,14 @@ function showNotification(message) {
 }
 
 $("#closedTicketDetailsModal").on('hidden.bs.modal', function () {
-    $('#ticketModal').modal('show');
+    fetchAndShowTickets(card);
+    // $('#ticketModal').modal('show');
 });
 $("#unassignedticketDetailsModal").on('hidden.bs.modal', function () {
-    $('#ticketModal').modal('show');
+    fetchAndShowTickets(card);
+    // $('#ticketModal').modal('show');
 });
 $("#ticketDetailsModal").on('hidden.bs.modal', function () {
-    $('#ticketModal').modal('show');
+    fetchAndShowTickets(card);
+    // $('#ticketModal').modal('show');
 });

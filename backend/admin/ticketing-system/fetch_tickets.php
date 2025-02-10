@@ -14,31 +14,34 @@ $currentDate = date('Y-m-d') . ' 23:59:00';
 $query = "";
 switch ($category) {
     case 'overdue':
-        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_due_date < '$currentDateTime' AND tr.ticket_handler_id = '$userId'";
+        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_status != 'reopen' AND tr.ticket_due_date < '$currentDateTime' AND tr.ticket_handler_id = '$userId'";
         break;
     case 'today-due':
-        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_due_date >= '$currentDateTime' AND tr.ticket_due_date <= '$currentDate' AND tr.ticket_handler_id = '$userId'";
+        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_status != 'reopen' AND tr.ticket_due_date >= '$currentDateTime' AND tr.ticket_due_date <= '$currentDate' AND tr.ticket_handler_id = '$userId'";
         break;
     case 'open':
-        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_due_date > '$currentDate' AND tr.ticket_handler_id = '$userId'";
+        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_status != 'reopen' AND tr.ticket_due_date > '$currentDate' AND tr.ticket_handler_id = '$userId'";
         break;
     case 'for-approval':
         $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status = 'for approval'";
         break;
     case 'all-overdue':
-        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_due_date < '$currentDateTime'";
+        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_status != 'reopen' AND tr.ticket_due_date < '$currentDateTime'";
         break;
     case 'all-today-due':
-        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_due_date >= '$currentDateTime' AND tr.ticket_due_date <= '$currentDate'";
+        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_status != 'reopen' AND tr.ticket_due_date >= '$currentDateTime' AND tr.ticket_due_date <= '$currentDate'";
         break;
     case 'all-open':
-        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_due_date > '$currentDate'";
+        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_status != 'reopen' AND tr.ticket_due_date > '$currentDate'";
         break;
     case 'all-for-approval':
         $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status = 'for approval'";
         break;
+    case 'reopen-tickets':
+        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status = 'reopen'";
+        break;
     case 'unassigned':
-        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_handler_id IS NULL OR tr.ticket_handler_id = ''";
+        $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status != 'closed' AND tr.ticket_status != 'reopen' AND tr.ticket_handler_id IS NULL OR tr.ticket_handler_id = ''";
         break;
     case 'finished':
         $query = "SELECT tr.*, a.full_name, a.department FROM ticket_records_tbl tr JOIN accounts_tbl a ON tr.ticket_requestor_id = a.id WHERE tr.ticket_status = 'closed'";

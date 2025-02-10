@@ -178,9 +178,13 @@ const fetchAllRepairs = (queriedId) => {
                         $("#viewActionsRow").removeClass('d-flex');
                         $("#viewActionsRow").addClass('d-none');
                     }
-                    if ($("#retiredActionsRow").hasClass("d-none")) {
-                        $("#retiredActionsRow").removeClass("d-none");
-                        $("#retiredActionsRow").addClass("d-flex");
+                    if ($("#retiredActionsRow1").hasClass("d-none")) {
+                        $("#retiredActionsRow1").removeClass("d-none");
+                        $("#retiredActionsRow1").addClass("d-flex");
+                    }
+                    if ($("#retiredActionsRow2").hasClass("d-none")) {
+                        $("#retiredActionsRow2").removeClass("d-none");
+                        $("#retiredActionsRow2").addClass("d-flex");
                     }
 
                     $.ajax({
@@ -216,9 +220,13 @@ const fetchAllRepairs = (queriedId) => {
                         $("#viewActionsRow").removeClass('d-none');
                         $("#viewActionsRow").addClass('d-flex');
                     }
-                    if ($("#retiredActionsRow").hasClass("d-flex")) {
-                        $("#retiredActionsRow").removeClass("d-flex");
-                        $("#retiredActionsRow").addClass("d-none");
+                    if ($("#retiredActionsRow1").hasClass("d-flex")) {
+                        $("#retiredActionsRow1").removeClass("d-flex");
+                        $("#retiredActionsRow1").addClass("d-none");
+                    }
+                    if ($("#retiredActionsRow2").hasClass("d-flex")) {
+                        $("#retiredActionsRow2").removeClass("d-flex");
+                        $("#retiredActionsRow2").addClass("d-none");
                     }
                 }
 

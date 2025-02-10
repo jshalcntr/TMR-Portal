@@ -10,16 +10,17 @@ $currentDate = date('Y-m-d') . ' 23:59:00';
 
 // Queries for each category
 $sql = [
-    'overdue' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_due_date < '$currentDateTime' AND ticket_handler_id = '$userId'",
+    'overdue' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_status != 'reopen' AND ticket_due_date < '$currentDateTime' AND ticket_handler_id = '$userId'",
     'today_due' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_due_date >= '$currentDateTime' AND ticket_due_date <= '$currentDate' AND ticket_handler_id = '$userId'",
     'open' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_due_date > '$currentDate' AND ticket_handler_id = '$userId'",
     'for_approval' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status = 'for approval'",
     'finished' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status = 'closed'",
     'unassigned' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_handler_id IS NULL OR ticket_handler_id = ''",
-    'all_overdue' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_due_date < '$currentDateTime'",
-    'all_today_due' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_due_date >= '$currentDateTime' AND ticket_due_date <= '$currentDate'",
-    'all_open' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_due_date > '$currentDate'",
+    'all_overdue' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_status != 'reopen' AND ticket_due_date < '$currentDateTime'",
+    'all_today_due' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_status != 'reopen' AND ticket_due_date >= '$currentDateTime' AND ticket_due_date <= '$currentDate'",
+    'all_open' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status != 'closed' AND ticket_status != 'reopen' AND ticket_due_date > '$currentDate'",
     'all_for_approval' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status = 'for approval'",
+    'all_reopen' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl WHERE ticket_status = 'reopen'",
     'all' => "SELECT COUNT(ticket_id) AS count FROM ticket_records_tbl"
 ];
 
