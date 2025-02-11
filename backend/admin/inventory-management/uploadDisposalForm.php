@@ -18,7 +18,7 @@ if (isset($_FILES['disposalFormFile']) && $_FILES['disposalFormFile']['error'] =
     }
 
     if (move_uploaded_file($fileTmpPath, $newFilePath)) {
-        $fullFilePath = "/tmr-portal_dev/backend/uploads/inventory/" . $fileName . '.' . $fileExtension;
+        $fullFilePath = "/tmr-portal/backend/uploads/inventory/" . $fileName . '.' . $fileExtension;
         // header('Content-Type: application/json');
         // echo json_encode([
         //     "status" => "success",

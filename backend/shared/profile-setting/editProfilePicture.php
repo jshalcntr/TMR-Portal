@@ -15,7 +15,7 @@ if (isset($_FILES['profilePictureFile']) && $_FILES['profilePictureFile']['error
     }
 
     if (move_uploaded_file($file, $newFilePath)) {
-        $fullFilePath = "/tmr-portal_dev/uploads/profile_pictures/" . $fileName . '.' . $fileExtension;
+        $fullFilePath = "/tmr-portal/uploads/profile_pictures/" . $fileName . '.' . $fileExtension;
 
         $updateProfilePictureSql = "UPDATE accounts_tbl SET profile_picture = ? WHERE id = ?";
         $updateProfilePictureStmt = $conn->prepare($updateProfilePictureSql);

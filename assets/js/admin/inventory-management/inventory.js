@@ -32,7 +32,12 @@ const populateTable = () => {
                         {
                             data: "status",
                         },
-                        { data: "pricePhp" },
+                        {
+                            data: "pricePhp",
+                            render: function (data, type, row) {
+                                return type === "display" ? data : parseFloat(data.replace(/[^\d.]/g, "")) || 0;
+                            }
+                        },
                         { data: "remarks" },
                         {
                             data: "id",
@@ -51,13 +56,17 @@ const populateTable = () => {
                     order: [[7, "desc"]],
                     columnDefs: [
                         {
-                            targets: [3, 4, 10, 11],
+                            targets: [1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14],
                             orderable: false
                         },
                         {
                             targets: [7],
                             type: "date",
                             orderDataType: "dom-data-order"
+                        },
+                        {
+                            targets: [12],
+                            type: "num"
                         }
                     ],
                     createdRow: function (row, data) {
@@ -67,10 +76,12 @@ const populateTable = () => {
 
                 populateDropdown("#filterItemType", table, 3);
                 populateDropdown("#filterCategory", table, 4);
+                populateDropdown("#filterBrand", table, 5);
+                populateDropdown("#filterSupplier", table, 8);
                 populateDropdown("#filterDepartment", table, 10);
                 populateDropdown("#filterStatus", table, 11);
 
-                $("#filterItemType, #filterCategory, #filterDepartment, #filterStatus").on("change", function () {
+                $("#filterItemType, #filterCategory, #filterBrand, #filterSupplier, #filterDepartment, #filterStatus").on("change", function () {
                     if ($("#filterItemType").val() === 'Accessories') {
                         $("#filterCategory").prop('hidden', false);
                     } else {
@@ -115,15 +126,19 @@ const populateTable = () => {
                     function (settings, data) {
                         const itemType = $("#filterItemType").val();
                         const itemCategory = $("#filterCategory").val();
+                        const brand = $("#filterBrand").val();
+                        const supplier = $("#filterSupplier").val();
                         const department = $("#filterDepartment").val();
                         const status = $("#filterStatus").val();
 
                         const matchesItemType = itemType === "" || data[3] === itemType; // Column 1: Item Type
                         const matchesCategory = itemCategory === "" || data[4] === itemCategory; // Column 2: Item Category
+                        const matchesBrand = brand === "" || data[5] === brand; // Column 2: Brand
+                        const matchesSupplier = supplier === "" || data[8] === supplier; // Column 7: Supplier
                         const matchesDepartment = department === "" || data[10] === department; // Column 9: Department
                         const matchesStatus = status === "" || data[11] === status; // Column 10: Status
 
-                        return matchesItemType && matchesCategory && matchesDepartment && matchesStatus;
+                        return matchesItemType && matchesCategory && matchesBrand && matchesSupplier && matchesDepartment && matchesStatus;
                     },
                 ];
             }
