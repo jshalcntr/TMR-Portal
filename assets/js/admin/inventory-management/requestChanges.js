@@ -4,9 +4,14 @@ $(document).ready(function () {
         $(target).modal('show');
         $("#viewInventoryModal").modal('hide');
     });
+    $("#viewRequestHistoryBtn").on('click', function () {
+        let target = $(this).attr('data-bs-target');
+        $(target).modal('show');
+        $("#requestChangesModal").modal('hide');
+    });
 
     $("#requestChangesModal").on('hidden.bs.modal', function () {
-        if (!$("#editFAModal").hasClass('show') && !$("#absoluteDeleteModal").hasClass('show') && !$("#unretireModal").hasClass('show')) {
+        if (!$("#editFAModal").hasClass('show') && !$("#absoluteDeleteModal").hasClass('show') && !$("#unretireModal").hasClass('show') && !$("#viewRequestHistoryModal").hasClass('show')) {
             $("#viewInventoryModal").modal('show');
         }
     });
