@@ -25,15 +25,15 @@ $(document).ready(function () {
         $("#dateAcquired").val(new Date().toISOString().split('T')[0]);
     });
 
-    $("#itemType").on('change', function () {
-        if ($(this).val() === 'Accessories') {
-            $("#itemCategory").val('');
-            $("#itemCategory").prop('disabled', false);
-        } else {
-            $("#itemCategory").val($(this).val());
-            $("#itemCategory").prop('disabled', true);
-        }
-    })
+    // $("#itemType").on('change', function () {
+    //     if ($(this).val() === '') {
+    //         $("#itemCategory").val('');
+    //         $("#itemCategory").prop('disabled', true);
+    //     } else {
+    //         $("#itemCategory").val($(this).val());
+    //         $("#itemCategory").prop('disabled', false);
+    //     }
+    // })
 
     const createInventoryForm = $('#createInventoryForm');
 

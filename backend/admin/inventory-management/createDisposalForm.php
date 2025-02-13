@@ -135,7 +135,7 @@ $sheet->getStyle('H6:J6')->applyFromArray([
         ]
     ]
 ]);
-$sheet->setCellValue('H6', 'ITEM');
+$sheet->setCellValue('H6', 'ITEM NUMBER');
 $sheet->setCellValue('I6', 'ITEM CATEGORY');
 $sheet->setCellValue('J6', 'QUANTITY');
 
@@ -144,7 +144,7 @@ $itemNumber = 1;
 $totalQuantity = 0;
 foreach ($itemNames as $itemName) {
     $sheet->setCellValue('H' . $rowIndex, $itemNumber);
-    $sheet->setCellValue('I' . $rowIndex, $itemName['item_category']);
+    $sheet->setCellValue('I' . $rowIndex, $itemName['item_type'] . "/" . $itemName['item_category']);
     $sheet->setCellValue('J' . $rowIndex, $itemName['quantity']);
     $sheet->getStyle('H' . $rowIndex . ':J' . $rowIndex)->getAlignment()->setHorizontal('center')->setVertical('center');
     $sheet->getStyle('H' . $rowIndex . ':J' . $rowIndex)->getFont()->setName('Toyota Type')->setSize(10);

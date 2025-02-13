@@ -79,13 +79,13 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
                                             <th scope="col">PC Name</th>
                                             <th scope="col">
                                                 Item Type
-                                                <select id="filterItemType" class="form-select form-select-sm">
+                                                <select id="filterItemType" class="form-select form-select-sm" data-column-index="3">
                                                     <option value="">All</option>
                                                 </select>
                                             </th>
                                             <th scope="col">
                                                 Item Category
-                                                <select id="filterCategory" class="form-select form-select-sm" hidden>
+                                                <select id="filterCategory" class="form-select form-select-sm" data-column-index="4">
                                                     <option value="">All</option>
                                                     <option value="Keyboard">Keyboard</option>
                                                     <option value="Mouse">Mouse</option>
@@ -98,7 +98,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
                                             </th>
                                             <th scope="col">
                                                 Brand
-                                                <select id="filterBrand" class="form-select form-select-sm">
+                                                <select id="filterBrand" class="form-select form-select-sm" data-column-index="5">
                                                     <option value="">All</option>
                                                 </select>
                                             </th>
@@ -106,19 +106,19 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
                                             <th scope="col">Date Acquired</th>
                                             <th scope="col">
                                                 Supplier
-                                                <select id="filterSupplier" class="form-select form-select-sm">
+                                                <select id="filterSupplier" class="form-select form-select-sm" data-column-index="8">
                                                     <option value="">All</option>
                                                 </select>
                                             </th>
                                             <th scope="col">Serial Number</th>
                                             <th scope="col">Department
-                                                <select id="filterDepartment" class="form-select form-select-sm">
+                                                <select id="filterDepartment" class="form-select form-select-sm" data-column-index="10">
                                                     <option value="">All</option>
                                                 </select>
                                             </th>
                                             <th scope="col">
                                                 Status
-                                                <select id="filterStatus" class="form-select form-select-sm">
+                                                <select id="filterStatus" class="form-select form-select-sm" data-column-index="11">
                                                     <option value="">All</option>
                                                 </select>
                                             </th>
@@ -152,17 +152,12 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
                                         <label for="itemType" class="col-form-label">Item Type</label>
                                         <select name="itemType" id="itemType" class="form-select form-select-sm" required>
                                             <option value="" selected hidden>--Select Item Type--</option>
-                                            <option value="Desktop">Desktop</option>
-                                            <option value="Laptop">Laptop</option>
-                                            <option value="Monitor">Monitor</option>
-                                            <option value="Printer">Printer</option>
-                                            <option value="Hard Drive">Hard Drive</option>
-                                            <option value="RAM">RAM</option>
-                                            <option value="Video Card">Video Card</option>
-                                            <option value="UPS">UPS</option>
-                                            <option value="UPS Battery">UPS Battery</option>
-                                            <option value="Router">Router</option>
-                                            <option value="Accessories">Accessories</option>
+                                            <option value="Computer System">Computer System</option>
+                                            <option value="Computer Hardware">Computer Hardware</option>
+                                            <option value="Computer Peripherals">Computer Peripherals</option>
+                                            <option value="Network Peripherals">Network Peripherals</option>
+                                            <option value="Audio & Visual Devices">Audio & Visual Devices</option>
+                                            <option value="MIS Tools">MIS Tools</option>
                                         </select>
                                         <div class="invalid-feedback">Please Select Item Type</div>
                                     </div>
@@ -170,23 +165,6 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
                                         <label for="itemCategory" class="col-form-label">Item Category</label>
                                         <select name="itemCategory" id="itemCategory" class="form-control form-control-sm form-select" required>
                                             <option value="" selected hidden>--Select Item Category--</option>
-                                            <option value="Desktop" hidden>Desktop</option>
-                                            <option value="Laptop" hidden>Laptop</option>
-                                            <option value="Monitor" hidden>Monitor</option>
-                                            <option value="Printer" hidden>Printer</option>
-                                            <option value="Hard Drive" hidden>Hard Drive</option>
-                                            <option value="RAM" hidden>RAM</option>
-                                            <option value="Video Card" hidden>Video Card</option>
-                                            <option value="UPS" hidden>UPS</option>
-                                            <option value="UPS Battery" hidden>UPS Battery</option>
-                                            <option value="Router" hidden>Router</option>
-                                            <option value="Keyboard">Keyboard</option>
-                                            <option value="Mouse">Mouse</option>
-                                            <option value="Headset">Headset</option>
-                                            <option value="Webcam">Webcam</option>
-                                            <option value="Scanner">Scanner</option>
-                                            <option value="Wireless HDMI">Wireless HDMI</option>
-                                            <option value="External Drive">External Drive</option>
                                         </select>
                                         <div class="invalid-feedback">Please Select Item Category</div>
                                     </div>
@@ -764,41 +742,19 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
                                     <label for="itemType_edit" class="col-form-label">Item Type</label>
                                     <select name="itemType" id="itemType_edit" class="form-select form-select-sm" required disabled>
                                         <option value="" selected hidden>--Select Item Type--</option>
-                                        <option value="Desktop">Desktop</option>
-                                        <option value="Laptop">Laptop</option>
-                                        <option value="Monitor">Monitor</option>
-                                        <option value="Printer">Printer</option>
-                                        <option value="Hard Drive">Hard Drive</option>
-                                        <option value="RAM">RAM</option>
-                                        <option value="Video Card">Video Card</option>
-                                        <option value="UPS">UPS</option>
-                                        <option value="UPS Battery">UPS Battery</option>
-                                        <option value="Router">Router</option>
-                                        <option value="Accessories">Accessories</option>
+                                        <option value="Computer System">Computer System</option>
+                                        <option value="Computer Hardware">Computer Hardware</option>
+                                        <option value="Computer Peripherals">Computer Peripherals</option>
+                                        <option value="Network Peripherals">Network Peripherals</option>
+                                        <option value="Audio & Visual Devices">Audio & Visual Devices</option>
+                                        <option value="MIS Tools">MIS Tools</option>
                                     </select>
                                     <div class="invalid-feedback">Please Select Item Type</div>
                                 </div>
                                 <div class="mb-2 form-group">
                                     <label for="itemCategory_edit" class="col-form-label">Item Category</label>
                                     <select name="itemCategory" id="itemCategory_edit" class="form-select form-select-sm" disabled required>
-                                        <option value="" selected hidden>--Select Item Category--</option>
-                                        <option value="Desktop" hidden>Desktop</option>
-                                        <option value="Laptop" hidden>Laptop</option>
-                                        <option value="Monitor" hidden>Monitor</option>
-                                        <option value="Printer" hidden>Printer</option>
-                                        <option value="Hard Drive" hidden>Hard Drive</option>
-                                        <option value="RAM" hidden>RAM</option>
-                                        <option value="Video Card" hidden>Video Card</option>
-                                        <option value="UPS" hidden>UPS</option>
-                                        <option value="UPS Battery" hidden>UPS Battery</option>
-                                        <option value="Router" hidden>Router</option>
-                                        <option value="Keyboard">Keyboard</option>
-                                        <option value="Mouse">Mouse</option>
-                                        <option value="Headset">Headset</option>
-                                        <option value="Webcam">Webcam</option>
-                                        <option value="Scanner">Scanner</option>
-                                        <option value="Wireless HDMI">Wireless HDMI</option>
-                                        <option value="External Drive">External Drive</option>
+
                                     </select>
                                     <div class="invalid-feedback">Please Select Item Category</div>
                                 </div>

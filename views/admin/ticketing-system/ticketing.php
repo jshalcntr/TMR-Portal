@@ -240,8 +240,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                         <p><strong>Subject:</strong> <span id="closedticketSubject"></span></p>
                                         <p><strong>Description:</strong> <span id="closedticketDescription"></span></p>
                                         <p><strong>Type:</strong> <span id="closedticketType"></span></p>
-                                        <p><strong>Attachment:</strong> <span id="closedticketAttachment"></span></p>
-                                        <p><strong>Handler:</strong>
+                                        <p><strong>Attachment:</strong> <span id="closedticketAttachment"></span></ <p><strong>Handler:</strong>
                                             <select id="closedticketHandlerId" disabled>
                                                 <!-- Options will be dynamically inserted -->
                                             </select>
@@ -255,12 +254,17 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                             <input type="datetime-local" id="closedticketDueDate" disabled>
                                         </p>
                                         <p><strong>Conclusion:</strong> <span id="closedticketConclusion"></span></p>
-                                        <button id="requestReopemButton" class="btn btn-outline-info" onclick="requestReopen()">Request Reopen</button>
+                                        <button id="showChangesButton" class="btn btn-outline-primary">Make Changes</button>
+                                        <div id="changesSection" style="display: none;">
+                                            <p><strong>Changes Description:</strong></p>
+                                            <textarea id="ticketChangesDescription" class="form-control" rows="3"></textarea>
+                                            <button id="submitChangesButton" class="btn btn-outline-success mt-2">Submit Changes</button>
+                                            <button id="cancelChangesButton" class="btn btn-outline-danger mt-2">Cancel Changes</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
 
 
                         <!-- line Chart -->

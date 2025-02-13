@@ -82,45 +82,57 @@ const populateTable = () => {
                 populateDropdown("#filterStatus", table, 11);
 
                 $("#filterItemType, #filterCategory, #filterBrand, #filterSupplier, #filterDepartment, #filterStatus").on("change", function () {
-                    if ($("#filterItemType").val() === 'Accessories') {
-                        $("#filterCategory").prop('hidden', false);
-                    } else {
-                        $("#filterCategory").prop('hidden', true).val('');
-                    }
                     table.draw();
+
+                    const allFilters = [
+                        "#filterItemType",
+                        "#filterCategory",
+                        "#filterBrand",
+                        "#filterSupplier",
+                        "#filterDepartment",
+                        "#filterStatus"
+                    ];
+
+                    allFilters.forEach((filter) => {
+                        const columnIndex = $(filter).data("column-index");
+                        if ($(filter).val() === "") {
+                            console.log(columnIndex);
+                            updateDropdown(filter, table, columnIndex);
+                        } 
+                    })
                 });
 
-                $("#filterCategory").empty().append(
-                    `
-                    <option value="">All</option>
-                    `
-                );
+                // $("#filterCategory").empty().append(
+                //     `
+                //     <option value="">All</option>
+                //     `
+                // );
 
 
-                $.ajax({
-                    type: "GET",
-                    url: "../../../backend/admin/inventory-management/getCategories.php",
-                    success: function (response) {
-                        if (response.status === "internal-error") {
-                            Swal.fire({
-                                title: "Error!",
-                                text: `${response.message}`,
-                                icon: "error",
-                                confirmButtonColor: "var(--bs-danger)",
-                            });
-                        } else {
-                            const categories = response.data;
-                            categories.forEach((category) => {
-                                $("#filterCategory").append(
-                                    $('<option>', {
-                                        value: category.item_category,
-                                        text: category.item_category,
-                                    })
-                                );
-                            });
-                        }
-                    }
-                });
+                // $.ajax({
+                //     type: "GET",
+                //     url: "../../../backend/admin/inventory-management/getCategories.php",
+                //     success: function (response) {
+                //         if (response.status === "internal-error") {
+                //             Swal.fire({
+                //                 title: "Error!",
+                //                 text: `${response.message}`,
+                //                 icon: "error",
+                //                 confirmButtonColor: "var(--bs-danger)",
+                //             });
+                //         } else {
+                //             const categories = response.data;
+                //             categories.forEach((category) => {
+                //                 $("#filterCategory").append(
+                //                     $('<option>', {
+                //                         value: category.item_category,
+                //                         text: category.item_category,
+                //                     })
+                //                 );
+                //             });
+                //         }
+                //     }
+                // });
 
                 $.fn.dataTable.ext.search = [
                     function (settings, data) {
@@ -153,6 +165,23 @@ const populateDropdown = (selector, table, columnIndex) => {
         $(selector).append(new Option(value, value));
     });
 };
+const updateDropdown = (selector, table, columnIndex) => {
+    const dropdown = $(selector);
+    dropdown.empty().append(new Option("All", "")); // Reset dropdown
+
+    let uniqueValues = new Set();
+
+    // Iterate through only visible (filtered) rows
+    table.rows({ filter: "applied" }).data().each((row) => {
+        uniqueValues.add(row[table.column(columnIndex).dataSrc()]); // Get column data dynamically
+    });
+
+    // Populate dropdown with unique values
+    uniqueValues.forEach((value) => {
+        if (value) dropdown.append(new Option(value, value)); // Avoid blank values
+    });
+
+}
 
 const fetchAllRepairs = (queriedId) => {
     $.ajax({
@@ -324,7 +353,50 @@ const fetchAllRepairs = (queriedId) => {
         }
     });
 }
+
+const fetchItemCategory = (typeId, categoryId) => {
+    if ($(typeId).val() === '') {
+        $(categoryId).val('');
+        $(categoryId).prop('disabled', true);
+    } else {
+        $(categoryId).val($(typeId).val());
+        $(categoryId).prop('disabled', false);
+    }
+    const itemCategories = {
+        "": [""],
+        "Computer System": ['Desktop', 'NUC', 'AIO', 'Laptop', 'Hybrid Laptop', 'Network Video Recorder'],
+        "Computer Hardware": ['CPU Fan', 'Computer Case', 'Hard Drive', 'Motherboard', 'Optical Disk Drive', 'PowerSupply', 'Processor', 'RAM', 'Video Card'],
+        "Computer Peripherals": ['CCTV', 'HDMI Splitter', 'Headset', 'Keyboard', 'Monitor', 'Monitor Bracket', 'Mouse', 'Printer', 'Scanner', 'Speaker', 'UPS', 'UPS Battery', 'Webcam', 'Wireless HDMI', 'External Storage'],
+        "Network Peripherals": ['Access Point', 'POE Injector', 'Router', 'Switch'],
+        "Audio & Visual Devices": ['Camera', 'Gimbal', 'Microphone', 'Mixer', 'Speaker', 'Tripod', 'TV Bracket'],
+        "MIS Tools": ['Crimping Tool', 'Drill', 'Hammer', 'Knockout Punch', 'Punching Tool', 'Screw Driver', 'Tester']
+    }
+
+    const itemType = $(typeId).val();
+    $(categoryId).empty();
+
+    $(categoryId).append(`<option value="" selected hidden>--Select Item Category--</option>`);
+
+    if (itemType in itemCategories) {
+        itemCategories[itemType].forEach(category => {
+            $(categoryId).append(`<option value="${category}">${category}</option>`);
+        });
+    }
+
+
+}
 $(document).ready(function () {
     populateTable();
     $('[data-bs-toggle="tooltip"]').tooltip();
+    $("#itemType").on("change", function () {
+        const typeId = "#itemType"
+        const categoryId = "#itemCategory"
+        fetchItemCategory(typeId, categoryId);
+    });
+    $("#itemType_edit").on("change", function () {
+        const typeId = "#itemType_edit"
+        const categoryId = "#itemCategory_edit"
+        fetchItemCategory(typeId, categoryId);
+        $(categoryId).prop('disabled', true);
+    });
 });

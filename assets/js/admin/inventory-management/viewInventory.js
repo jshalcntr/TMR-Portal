@@ -6,7 +6,6 @@ $(document).ready(function () {
         if (!$("#itemType_edit").prop('disabled')) {
             toggleEditModal();
         }
-        $("#itemCategory_edit").prop('disabled', true);
         if (editInventoryValidationTimeout) {
             clearTimeout(editInventoryValidationTimeout);
         }
@@ -31,7 +30,7 @@ $(document).ready(function () {
                 } else {
                     const inventoryData = response.data[0];
                     $("#assetNumber_edit").text((inventoryData.fa_number) ? inventoryData.fa_number : "Non-Fixed Asset");
-                    $("#itemType_edit").val(inventoryData.item_type);
+                    $("#itemType_edit").val(inventoryData.item_type).trigger('change');
                     $("#itemCategory_edit").val(inventoryData.item_category);
                     $("#itemBrand_edit").val(inventoryData.brand);
                     $("#itemModel_edit").val(inventoryData.model);
@@ -104,7 +103,6 @@ $(document).ready(function () {
                             $("#retiredActionsRow2").addClass("d-none");
                         }
                     }
-
                     $.ajax({
                         type: "GET",
                         url: "../../../backend/admin/inventory-management/getAllRepairs.php",
@@ -187,6 +185,7 @@ $(document).ready(function () {
 
     const toggleEditModal = () => {
         $("#itemType_edit").prop('disabled', !$("#itemType_edit").prop('disabled'));
+        $("#itemCategory_edit").prop('disabled', !$("#itemCategory_edit").prop('disabled'));
         $("#itemBrand_edit").prop('disabled', !$("#itemBrand_edit").prop('disabled'));
         $("#itemModel_edit").prop('disabled', !$("#itemModel_edit").prop('disabled'));
         $("#itemSpecification_edit").prop('disabled', !$("#itemSpecification_edit").prop('disabled'));
@@ -204,26 +203,11 @@ $(document).ready(function () {
         $("#editActionsRow").toggleClass('d-flex');
         $("#editActionsRow").toggleClass('d-none');
     }
-    $("#itemType_edit").on('change', function () {
-        if ($(this).val() === 'Accessories') {
-            $("#itemCategory_edit").val('');
-            $("#itemCategory_edit").prop('disabled', false);
-        } else {
-            $("#itemCategory_edit").val($(this).val());
-            $("#itemCategory_edit").prop('disabled', true);
-        }
-    })
     $("#editButton").on('click', function () {
         toggleEditModal();
-        if ($("#itemType_edit").val() === "Accessories") {
-            $("#itemCategory_edit").prop('disabled', false);
-        } else {
-            $("#itemCategory_edit").prop('disabled', true);
-        }
     });
     $("#cancelButton").on('click', function () {
         toggleEditModal();
-        $("#itemCategory_edit").prop('disabled', true);
 
         const queriedId = $("#id_edit").val();
 
@@ -271,7 +255,6 @@ $(document).ready(function () {
     editInventoryForm.each(function () {
         $(this).submit(function (e) {
             e.preventDefault();
-            $("#itemCategory_edit").prop('disabled', false);
             if (editInventoryValidationTimeout) {
                 clearTimeout(editInventoryValidationTimeout);
             }
@@ -302,7 +285,6 @@ $(document).ready(function () {
                                         icon: 'success',
                                         confirmButtonColor: 'var(--bs-success)'
                                     }).then(() => {
-                                        $("#itemCategory_edit").prop('disabled', true);
                                         populateTable();
                                         fetchAllRepairs(queriedId);
                                         toggleEditModal();
@@ -329,9 +311,9 @@ $(document).ready(function () {
                                 })
                             }
                         });
-                    } else {
-                        $("#itemCategory_edit").prop('disabled', true);
-                    }
+                    } 
+                    // else {
+                    // }
                 })
             }
             $(this).addClass('was-validated');

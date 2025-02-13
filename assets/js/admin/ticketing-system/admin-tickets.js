@@ -673,6 +673,54 @@ function saveConclusion() {
     document.getElementById('closeTicketButton').style.display = 'inline-block';
 }
 
+//request for reopen
+$(document).ready(function () {
+    // Show changes section when "Make Changes" button is clicked
+    $('#showChangesButton').on('click', function () {
+        $('#changesSection').show();
+    });
+
+    // Handle submission of changes
+    $('#submitChangesButton').on('click', function () {
+        const ticketId = $('#closedticketId').text();
+        const changesDescription = $('#ticketChangesDescription').val();
+
+        if (changesDescription.trim() === '') {
+            alert('Please enter a description for the changes.');
+            return;
+        }
+
+        $.ajax({
+            url: '../../../backend/user/ticketing-system/update_ticket.php',
+            type: 'POST',
+            data: {
+                ticket_id: ticketId,
+                changes_description: changesDescription
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    alert('Ticket updated successfully!');
+                    $('#closedTicketDetailsModal').modal('hide');
+                    // Optionally, refresh the ticket list or perform other actions
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+                alert('Error updating ticket. Please try again later.');
+            }
+        });
+    });
+
+    // Handle cancellation of changes
+    $('#cancelChangesButton').on('click', function () {
+        $('#changesSection').hide();
+        $('#ticketChangesDescription').val('');
+    });
+});
+
 // Function to refresh the list of ticket details
 function refreshTicketList() {
     // Fetch ticket counts from the backend
