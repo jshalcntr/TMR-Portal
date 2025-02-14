@@ -141,8 +141,14 @@ function fetchAndShowTickets(card) {
                             showUnassignedTicketDetails(ticket);
                         });
                     });
-                }
-                else {
+                } else if (category === 'reopen-tickets') {
+                    document.querySelectorAll('.clickable-row').forEach(row => {
+                        row.addEventListener('click', function () {
+                            const ticket = JSON.parse(this.getAttribute('data-ticket'));
+                            showReopenTicketDetails(ticket);
+                        });
+                    });
+                } else {
                     // Add event listener for row click
                     document.querySelectorAll('.clickable-row').forEach(row => {
                         row.addEventListener('click', function () {
@@ -230,6 +236,23 @@ function showClosedTicketDetails(ticket) {
     // Show the details modal
     $('#closedTicketDetailsModal').modal('show');
 
+}
+
+// Function to handle row click and show confirm reopen modal
+function showReopenTicketDetails(ticket) {
+    // Populate modal with ticket details
+    const attachmentLink = ticket.ticket_attachment
+        ? `<a href="../../../${ticket.ticket_attachment.replace(/^(\.\.\/)+/, '')}" target="_blank" class="badge badge-info">View Attachment</a>`
+        : 'N/A';
+    document.getElementById('confirmReopenTicketId').innerText = ticket.ticket_id;
+    document.getElementById('confirmReopenRequestorId').innerText = ticket.full_name || 'N/A';
+    document.getElementById('confirmReopenRequestorDepartment').innerText = ticket.department || 'N/A';
+    document.getElementById('confirmReopenSubject').innerText = ticket.ticket_subject || 'N/A';
+    document.getElementById('confirmReopenDescription').innerText = ticket.ticket_description || 'N/A';
+
+    $('#ticketModal').modal('hide');
+    // Show the confirm reopen modal
+    $('#confirmReopenModal').modal('show');
 }
 
 
@@ -686,12 +709,16 @@ $(document).ready(function () {
         const changesDescription = $('#ticketChangesDescription').val();
 
         if (changesDescription.trim() === '') {
-            alert('Please enter a description for the changes.');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Please enter a description for the changes.'
+            });
             return;
         }
 
         $.ajax({
-            url: '../../../backend/user/ticketing-system/update_ticket.php',
+            url: '../../../backend/user/ticketing-system/reopen_ticket.php',
             type: 'POST',
             data: {
                 ticket_id: ticketId,
@@ -700,16 +727,29 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.status === 'success') {
-                    alert('Ticket updated successfully!');
-                    $('#closedTicketDetailsModal').modal('hide');
-                    // Optionally, refresh the ticket list or perform other actions
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Ticket updated successfully!'
+                    }).then(() => {
+                        $('#closedTicketDetailsModal').modal('hide');
+                        // Optionally, refresh the ticket list or perform other actions
+                    });
                 } else {
-                    alert('Error: ' + response.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error: ' + response.message
+                    });
                 }
             },
             error: function (xhr, status, error) {
                 console.error(error);
-                alert('Error updating ticket. Please try again later.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error updating ticket. Please try again later.'
+                });
             }
         });
     });
@@ -720,6 +760,72 @@ $(document).ready(function () {
         $('#ticketChangesDescription').val('');
     });
 });
+
+$(document).ready(function () {
+    // Show confirm reopen modal when "Request Reopen" button is clicked
+    $('#showReopenChangesButton').on('click', function () {
+        $('#confirmReopenModal').modal('show');
+    });
+
+    // Handle submission of reopen request
+    $('#submitReopenRequestButton').on('click', function () {
+        const ticketId = $('#confirmReopenTicketId').text();
+        const reopenReasonDescription = $('#reopenReasonDescription').val();
+
+        if (reopenReasonDescription.trim() === '') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Please enter a reason for reopening the ticket.'
+            });
+            return;
+        }
+
+        $.ajax({
+            url: '../../../backend/user/ticketing-system/reopen_ticket.php',
+            type: 'POST',
+            data: {
+                ticket_id: ticketId,
+                reopen_reason_description: reopenReasonDescription
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Ticket reopen request submitted successfully!'
+                    }).then(() => {
+                        $('#confirmReopenModal').modal('hide');
+                        // Optionally, refresh the ticket list or perform other actions
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error: ' + response.message
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error submitting reopen request. Please try again later.'
+                });
+            }
+        });
+    });
+
+    // Handle cancellation of reopen request
+    $('#cancelReopenRequestButton').on('click', function () {
+        $('#confirmReopenModal').modal('hide');
+        $('#reopenReasonDescription').val('');
+    });
+});
+
+
 
 // Function to refresh the list of ticket details
 function refreshTicketList() {
@@ -836,14 +942,17 @@ function showNotification(message) {
 }
 
 $("#closedTicketDetailsModal").on('hidden.bs.modal', function () {
-    fetchAndShowTickets(card);
-    // $('#ticketModal').modal('show');
+    $('#ticketModal').modal('show');
+});
+$("#reopenTicketDetailsModal").on('hidden.bs.modal', function () {
+    $('#ticketModal').modal('show');
 });
 $("#unassignedticketDetailsModal").on('hidden.bs.modal', function () {
-    fetchAndShowTickets(card);
-    // $('#ticketModal').modal('show');
+    $('#ticketModal').modal('show');
 });
 $("#ticketDetailsModal").on('hidden.bs.modal', function () {
-    fetchAndShowTickets(card);
-    // $('#ticketModal').modal('show');
+    $('#ticketModal').modal('show');
+});
+$("#confirmReopenModal").on('hidden.bs.modal', function () {
+    $('#ticketModal').modal('show');
 });

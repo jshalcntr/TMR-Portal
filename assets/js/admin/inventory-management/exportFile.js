@@ -29,6 +29,7 @@ $(document).ready(function () {
         //         }
         //     }
         // });
+        $("#exportInventoryForm")[0].reset();
         //! FETCH OLDEST DATE ACQUIRED
         $.ajax({
             type: "GET",

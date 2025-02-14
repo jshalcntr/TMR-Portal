@@ -30,4 +30,7 @@ $(document).ready(function () {
         $("#unretireForm").removeClass('was-validated');
         $("#unretireForm")[0].reset();
     });
+    $("#viewRequestHistoryModal").on('hidden.bs.modal', function () {
+        $("#requestChangesModal").modal('show');
+    });
 });

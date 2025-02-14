@@ -37,7 +37,7 @@ function authorize($condition, $conn)
             $_SESSION['user'] = $account;
         } else {
             session_destroy();
-            header("Location:/tmr-portal_dev/index.php");
+            header("Location:/tmr-portal/index.php");
         }
     }
     return isset($_SESSION['user']) && $condition;

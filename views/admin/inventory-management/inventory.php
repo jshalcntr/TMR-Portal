@@ -460,7 +460,24 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-xl-3 d-flex flex-column align-items-center" style="gap: 8px;">
+                        <div class="d-flex justify-content-between align-items-center px-4">
+                            <h3>Request History</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table" id="requestHistoryTable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Request</th>
+                                        <th scope="col">Reason</th>
+                                        <th scope="col">Date & Time</th>
+                                        <th scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <!-- <tbody id="requestHistory">
 
+                                </tbody> -->
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -558,86 +575,55 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row align-items-center">
                             <div class="col">
                                 <label class="h5" for="itemType_export">Choose Item Type</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <div class="form-check mb-1">
+                                <div class="form-check mb-1 d-flex align-items-center">
                                     <input type="checkbox" name="itemType_export[]" id="all_itemType" class="form-check-input" value="all">
                                     <label for="all_itemType" class="form-check-label">Select All</label>
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="form-check mb-1">
-                                    <input type="checkbox" name="itemType_export[]" id="desktop_itemType" class="form-check-input item-checkbox" value="Desktop">
-                                    <label for="desktop_itemType" class="form-check-label">Desktop</label>
+                                <div class="form-check mb-1 d-flex align-items-center">
+                                    <input type="checkbox" name="itemType_export[]" id="comSystem_itemType" class="form-check-input item-checkbox" value="Computer System">
+                                    <label for="comSystem_itemType" class="form-check-label">Computer System</label>
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="form-check mb-1">
-                                    <input type="checkbox" name="itemType_export[]" id="laptop_itemType" class="form-check-input item-checkbox" value="Laptop">
-                                    <label for="laptop_itemType" class="form-check-label">Laptop</label>
+                                <div class="form-check mb-1 d-flex align-items-center">
+                                    <input type="checkbox" name="itemType_export[]" id="comHardware_itemType" class="form-check-input item-checkbox" value="Computer Hardware">
+                                    <label for="comHardware_itemType" class="form-check-label">Computer Hardware</label>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="form-check mb-1">
-                                    <input type="checkbox" name="itemType_export[]" id="monitor_itemType" class="form-check-input item-checkbox" value="Monitor">
-                                    <label for="monitor_itemType" class="form-check-label">Monitor</label>
-                                </div>
-                            </div>
+
                         </div>
-                        <div class="row">
+                        <div class="row align-items-center">
                             <div class="col">
-                                <div class="form-check mb-1">
-                                    <input type="checkbox" name="itemType_export[]" id="printer_itemType" class="form-check-input item-checkbox" value="Printer">
-                                    <label for="printer_itemType" class="form-check-label">Printer</label>
+                                <div class="form-check mb-1 d-flex align-items-center">
+                                    <input type="checkbox" name="itemType_export[]" id="comPeripherals_itemType" class="form-check-input item-checkbox" value="Computer Peripherals">
+                                    <label for="comPeripherals_itemType" class="form-check-label">Computer Peripherals</label>
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="form-check mb-1">
-                                    <input type="checkbox" name="itemType_export[]" id="hardisk_itemType" class="form-check-input item-checkbox" value="Hardisk">
-                                    <label for="hardisk_itemType" class="form-check-label">Hardisk</label>
+                                <div class="form-check mb-1 d-flex align-items-center">
+                                    <input type="checkbox" name="itemType_export[]" id="networkPeripherals_itemType" class="form-check-input item-checkbox" value="Network Peripherals">
+                                    <label for="networkPeripherals_itemType" class="form-check-label">Network Peripherals</label>
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="form-check mb-1">
-                                    <input type="checkbox" name="itemType_export[]" id="ram_itemType" class="form-check-input item-checkbox" value="RAM">
-                                    <label for="ram_itemType" class="form-check-label">RAM</label>
+                                <div class="form-check mb-1 d-flex align-items-center">
+                                    <input type="checkbox" name="itemType_export[]" id="avDevices_itemType" class="form-check-input item-checkbox" value="Audio & Visual Devices">
+                                    <label for="avDevices_itemType" class="form-check-label">Audio & Visual Devices</label>
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="form-check mb-1">
-                                    <input type="checkbox" name="itemType_export[]" id="videoCard_itemType" class="form-check-input item-checkbox" value="Video Card">
-                                    <label for="videoCard_itemType" class="form-check-label">Video Card</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-check mb-1">
-                                    <input type="checkbox" name="itemType_export[]" id="ups_itemType" class="form-check-input item-checkbox" value="UPS">
-                                    <label for="ups_itemType" class="form-check-label">UPS</label>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-check mb-1">
-                                    <input type="checkbox" name="itemType_export[]" id="upsBattery_itemType" class="form-check-input item-checkbox" value="UPS Battery">
-                                    <label for="upsBattery_itemType" class="form-check-label">UPS Battery</label>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-check mb-1">
-                                    <input type="checkbox" name="itemType_export[]" id="router_itemType" class="form-check-input item-checkbox" value="Router">
-                                    <label for="router_itemType" class="form-check-label">Router</label>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-check mb-1">
-                                    <input type="checkbox" name="itemType_export[]" id="accessories_itemType" class="form-check-input item-checkbox" value="Accessories">
-                                    <label for="accessories_itemType" class="form-check-label">Accessories</label>
+                                <div class="form-check mb-1 d-flex align-items-center">
+                                    <input type="checkbox" name="itemType_export[]" id="misTools_itemType" class="form-check-input item-checkbox" value="MIS Tools">
+                                    <label for="misTools_itemType" class="form-check-label">MIS Tools</label>
                                 </div>
                             </div>
                         </div>
@@ -877,6 +863,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn) || authorize($_SESSIO
     <script src="../../../assets/js/admin/inventory-management/importFile.js"></script>
     <script src="../../../assets/js/admin/inventory-management/repairItem.js"></script>
     <script src="../../../assets/js/admin/inventory-management/requestChanges.js"></script>
+    <script src="../../../assets/js/admin/inventory-management/viewRequestHistory.js"></script>
     <script src="../../../assets/js/admin/inventory-management/editFA.js"></script>
     <script src="../../../assets/js/admin/inventory-management/absoluteDelete.js"></script>
     <script src="../../../assets/js/admin/inventory-management/unretire.js"></script>

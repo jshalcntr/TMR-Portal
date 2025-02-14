@@ -15,7 +15,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
 
     $authorizations = setAuthorizations($_SESSION['user']);
 } else {
-    header("Location: ../../index.php");
+    header("Location: ../../../index.php");
 }
 ?>
 
@@ -254,12 +254,12 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                             <input type="datetime-local" id="closedticketDueDate" disabled>
                                         </p>
                                         <p><strong>Conclusion:</strong> <span id="closedticketConclusion"></span></p>
-                                        <button id="showChangesButton" class="btn btn-outline-primary">Make Changes</button>
+                                        <button id="showChangesButton" class="btn btn-outline-info">Request Reopen</button>
                                         <div id="changesSection" style="display: none;">
-                                            <p><strong>Changes Description:</strong></p>
+                                            <p><strong>Reason/Description:</strong></p>
                                             <textarea id="ticketChangesDescription" class="form-control" rows="3"></textarea>
-                                            <button id="submitChangesButton" class="btn btn-outline-success mt-2">Submit Changes</button>
-                                            <button id="cancelChangesButton" class="btn btn-outline-danger mt-2">Cancel Changes</button>
+                                            <button id="submitChangesButton" class="btn btn-outline-success mt-2">Submit Request</button>
+                                            <button id="cancelChangesButton" class="btn btn-outline-danger mt-2" style="float: right;">Cancel</button>
                                         </div>
                                     </div>
                                 </div>
@@ -267,6 +267,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                         </div>
 
 
+                        <!------------------------------------------Charts--------------------------------------------------->
                         <!-- line Chart -->
                         <div class="col-md-8">
                             <div class="card shadow mb-4">

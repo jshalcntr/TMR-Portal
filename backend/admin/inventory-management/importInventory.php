@@ -14,8 +14,8 @@ if (isset($_FILES['importFile']) && $_FILES['importFile']['error'] == 0) {
     {
         $currentYear = date('y', strtotime($dateAcquired));
         $latestFaNumberSql = "SELECT fa_number FROM inventory_records_tbl
-                                WHERE fa_number LIKE 'TMRMIS$currentYear-%'
-                                ORDER BY fa_number DESC LIMIT 1";
+                            WHERE fa_number IS NOT NULL AND fa_number <> ''
+                            ORDER BY id DESC LIMIT 1";
         $stmt = $conn->prepare($latestFaNumberSql);
         $stmt->execute();
         $latestFaNumberResult = $stmt->get_result();

@@ -308,6 +308,29 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                             </div>
                         </div>
 
+                        <!-- Modal for Confirm Reopen Request -->
+                        <div class="modal fade" id="confirmReopenModal" tabindex="-1" aria-labelledby="confirmReopenModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmReopenModalLabel">Confirm Reopen Request</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong>Ticket ID:</strong> <span id="confirmReopenTicketId"></span></p>
+                                        <p><strong>Requestor:</strong> <span id="confirmReopenRequestorId"></span></p>
+                                        <p><strong>Department:</strong> <span id="confirmReopenRequestorDepartment"></span></p>
+                                        <p><strong>Subject:</strong> <span id="confirmReopenSubject"></span></p>
+                                        <p><strong>Description:</strong> <span id="confirmReopenDescription"></span></p>
+                                        <p><strong>Reason for Reopening:</strong></p>
+                                        <textarea id="reopenReasonDescription" class="form-control" rows="3"></textarea>
+                                        <button id="submitReopenRequestButton" class="btn btn-outline-success mt-2">Confirm Reopen</button>
+                                        <button id="cancelReopenRequestButton" class="btn btn-outline-danger mt-2" style="float: right;">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!------------------------------------------Charts--------------------------------------------------->
 
                         <!-- line Chart -->

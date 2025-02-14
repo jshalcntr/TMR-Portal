@@ -15,9 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (!empty($_POST['assetType_export'])) {
         if ($_POST['assetType_export'] == "fa") {
-            $sql .= " AND fa_number IS NOT NULL";
+            $sql .= " AND fa_number IS NOT NULL AND fa_number <> ''";
         } elseif ($_POST['assetType_export'] == "nonFa") {
-            $sql .= " AND fa_number IS NULL";
+            $sql .= " AND fa_number IS NULL AND fa_number = ''";
         }
     }
 
