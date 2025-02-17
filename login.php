@@ -14,7 +14,7 @@ session_start();
 
     <title>TMR Internal Portal</title>
 
-    <?php include "views/components/external-css-import.php" ?>
+    <?php include "modules/components/shared/external-css-import.php" ?>
 
     <link rel="stylesheet" href="assets/css/custom/login.css">
 
@@ -72,7 +72,7 @@ session_start();
     <script src="assets/js/sb-admin-2.min.js"></script>
     -->
 
-    <?php include "views/components/external-js-import.php" ?>
+    <?php include "modules/components/shared/external-js-import.php" ?>
     <script src="assets/js/authenticate.js"></script>
 </body>
 

@@ -32,7 +32,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
 
     <title>Dashboard</title>
     <link rel="stylesheet" href="../../../assets/css/custom/ticketing-system/ticketing.css">
-    <?php include '../../components/external-css-import.php' ?>
+    <?php include '../../modules/components/shared/external-css-import.php' ?>
 
 </head>
 
@@ -201,25 +201,8 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                         <p><strong>Description:</strong> <span id="unassignedticketDescription"></span></p>
                                         <p><strong>Attachment:</strong> <span id="unassignedticketAttachment"></span></p>
                                         <p><strong>Type:</strong> <span id="unassignedticketType"></span></p>
-                                        <p><strong>Handler:</strong>
-                                            <select id="unassignedticketHandlerId" disabled>
-                                                <!-- Options will be dynamically inserted -->
-                                            </select>
-                                        </p>
-                                        <p><strong>Status:</strong>
-                                            <select id="unassignedticketStatus" disabled>
-                                                <!-- Options will be dynamically inserted -->
-                                            </select>
-                                        </p>
-                                        <p><strong>Due Date:</strong>
-                                            <input type="datetime-local" id="unassignedticketDueDate" required>
-                                        </p>
-                                        <p><span id="errorMessage" class="text-danger"></span></p>
-                                        <p><strong>Conclusion:</strong> <span id="unassignedticketConclusion"></span></p>
-                                        <div>
-                                            <input type="checkbox" id="forApprovalCheckbox"> For Approval
-                                        </div>
-                                        <button id="claimButton" class="btn btn-success" onclick="claimTicket()">Claim</button>
+                                        <p class="text-info"><input type="checkbox" id="forApprovalCheckbox"> For Approval </p>
+                                        <button id="claimButton" class="btn btn-primary" onclick="claimTicket()" style="float: right">Claim</button>
                                     </div>
                                 </div>
                             </div>

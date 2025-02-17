@@ -32,7 +32,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
 
     <title>Dashboard</title>
     <link rel="stylesheet" href="../../../assets/css/custom/ticketing-system/ticketing.css">
-    <?php include '../../components/external-css-import.php' ?>
+    <?php include '../../../modules/components/shared/external-css-import.php' ?>
 
 </head>
 
@@ -41,7 +41,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <?php include "../../components/sidebar.php" ?>
+        <?php include "../../../modules/components/shared/sidebar.php" ?>
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -49,7 +49,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
             <!-- Main Content -->
             <div id="content">
 
-                <?php include "../../components/topbar.php" ?>
+                <?php include "../../../modules/components/shared/topbar.php" ?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -228,8 +228,8 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                         </div>
 
                         <!-- Modal for Ticket Details -->
-                        <div class="modal fade" id="unassignedticketDetailsModal" tabindex="-1" aria-labelledby="unassignedticketDetailsModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
+                        <div class="modal fade" id="unassignedticketDetailsModal" tabindex="-1" aria-labelledby="ticketDetailsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-md">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="ticketDetailsModalLabel">Ticket Details</h5>
@@ -243,30 +243,8 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                         <p><strong>Description:</strong> <span id="unassignedticketDescription"></span></p>
                                         <p><strong>Attachment:</strong> <span id="unassignedticketAttachment"></span></p>
                                         <p><strong>Type:</strong> <span id="unassignedticketType"></span></p>
-                                        <p><strong>Handler:</strong>
-                                            <select id="unassignedticketHandlerId" disabled>
-                                                <option value="" disabled selected>Select Handler</option>
-                                                <!-- Options will be dynamically inserted -->
-                                            </select>
-                                        </p>
-                                        <p><strong>Status:</strong>
-                                            <select id="unassignedticketStatus" disabled>
-                                                <!-- Options will be dynamically inserted -->
-                                            </select>
-                                        </p>
-                                        <p><strong>Due Date:</strong>
-                                            <input type="datetime-local" id="unassignedticketDueDate" required>
-                                        </p>
-                                        <p><span id="errorMessage" class="text-danger"></span></p>
-                                        <p><strong>Conclusion:</strong> <span id="unassignedticketConclusion"></span></p>
-                                        <div>
-                                            <input type="checkbox" id="forApprovalCheckbox"> For Approval
-                                        </div>
-                                        <button id="unassignededitButton" class="btn btn-outline-info" onclick="enableUnassignedEditing()">Edit</button>
-                                        <button id="claimButton" class="btn btn-success" onclick="claimTicket()">Claim</button>
-                                        <button id="unassignedsaveButton" class="btn btn-outline-primary" onclick="saveUnassignedTicketDetails()" style="display: none;">Save</button>
-                                        <button id="unassignedcancelsaveButton" class="btn btn-outline-danger" onclick="cancelUnassignedTicketDetails()" style="display: none; float: right">Cancel</button>
-
+                                        <p class="text-info"><input type="checkbox" id="forApprovalCheckbox"> For Approval </p>
+                                        <button id="claimButton" class="btn btn-primary" onclick="claimTicket()" style="float: right">Claim</button>
                                     </div>
                                 </div>
                             </div>
@@ -308,24 +286,25 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                             </div>
                         </div>
 
-                        <!-- Modal for Confirm Reopen Request -->
-                        <div class="modal fade" id="confirmReopenModal" tabindex="-1" aria-labelledby="confirmReopenModalLabel" aria-hidden="true">
+                        <!-- Modal for Approve or Reject Reopen Request -->
+                        <div class="modal fade" id="approveRejectReopenModal" tabindex="-1" aria-labelledby="approveRejectReopenModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-md">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="confirmReopenModalLabel">Confirm Reopen Request</h5>
+                                        <h5 class="modal-title" id="approveRejectReopenModalLabel">Approve or Reject Reopen Request</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <p><strong>Ticket ID:</strong> <span id="confirmReopenTicketId"></span></p>
-                                        <p><strong>Requestor:</strong> <span id="confirmReopenRequestorId"></span></p>
-                                        <p><strong>Department:</strong> <span id="confirmReopenRequestorDepartment"></span></p>
-                                        <p><strong>Subject:</strong> <span id="confirmReopenSubject"></span></p>
-                                        <p><strong>Description:</strong> <span id="confirmReopenDescription"></span></p>
-                                        <p><strong>Reason for Reopening:</strong></p>
-                                        <textarea id="reopenReasonDescription" class="form-control" rows="3"></textarea>
-                                        <button id="submitReopenRequestButton" class="btn btn-outline-success mt-2">Confirm Reopen</button>
-                                        <button id="cancelReopenRequestButton" class="btn btn-outline-danger mt-2" style="float: right;">Cancel</button>
+                                        <p><strong>Ticket ID:</strong> <span id="approveRejectReopenTicketId"></span></p>
+                                        <p><strong>Requestor:</strong> <span id="approveRejectReopenRequestorId"></span></p>
+                                        <p><strong>Department:</strong> <span id="approveRejectReopenRequestorDepartment"></span></p>
+                                        <p><strong>Subject:</strong> <span id="approveRejectReopenSubject"></span></p>
+                                        <p><strong>Description:</strong> <span id="approveRejectReopenDescription"></span></p>
+                                        <p><strong>Handler:</strong> <span id="approveRejectReopenHandler"></span></p>
+                                        <p><strong>Reason for Reopening:</strong> <span id="reasonForReopen"></span></p>
+                                        <textarea id="approveRejectReopenReasonDescription" class="form-control" rows="3"></textarea>
+                                        <button id="approveReopenRequestButton" class="btn btn-outline-success mt-2">Approve</button>
+                                        <button id="rejectReopenRequestButton" class="btn btn-outline-danger mt-2" style="float: right;">Reject</button>
                                     </div>
                                 </div>
                             </div>
@@ -389,7 +368,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
 
 
 </body>
-<?php include "../../components/external-js-import.php" ?>
+<?php include "../../../modules/components/shared/external-js-import.php" ?>
 <script src="../../../assets/js/admin/ticketing-system/ticket-chart-area.js"></script>
 <script src="../../../assets/js/admin/ticketing-system/ticket-chart-pie.js"></script>
 <script src="../../../assets/js/admin/ticketing-system/admin-tickets.js"></script>

@@ -22,14 +22,7 @@ $("#loginForm").submit(async function (e) {
         const loginStatus = await authenticationRequest(formData);
 
         if (loginStatus.status === "success") {
-            const userData = loginStatus.data;
-            if (userData.role === "ADMIN") {
-                window.location.href = "views/admin/dashboard.php"
-            } else if (userData.role === "USER" || userData.role === "HEAD") {
-                window.location.href = "views/user/dashboard.php"
-            } else if (userData.role === "S-ADMIN") {
-                window.location.href = "views/s-admin/dashboard.php"
-            }
+            window.location.href = "modules/shared/dashboard.php"
         } else if (loginStatus.status === "failed") {
             $("#errorModal").empty();
             $('#errorModal').append(`

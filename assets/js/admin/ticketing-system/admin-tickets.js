@@ -238,23 +238,25 @@ function showClosedTicketDetails(ticket) {
 
 }
 
-// Function to handle row click and show confirm reopen modal
+// Function to handle row click and show approve/reject reopen modal
 function showReopenTicketDetails(ticket) {
     // Populate modal with ticket details
     const attachmentLink = ticket.ticket_attachment
         ? `<a href="../../../${ticket.ticket_attachment.replace(/^(\.\.\/)+/, '')}" target="_blank" class="badge badge-info">View Attachment</a>`
         : 'N/A';
-    document.getElementById('confirmReopenTicketId').innerText = ticket.ticket_id;
-    document.getElementById('confirmReopenRequestorId').innerText = ticket.full_name || 'N/A';
-    document.getElementById('confirmReopenRequestorDepartment').innerText = ticket.department || 'N/A';
-    document.getElementById('confirmReopenSubject').innerText = ticket.ticket_subject || 'N/A';
-    document.getElementById('confirmReopenDescription').innerText = ticket.ticket_description || 'N/A';
+    document.getElementById('approveRejectReopenTicketId').innerText = ticket.ticket_id;
+    document.getElementById('approveRejectReopenRequestorId').innerText = ticket.full_name || 'N/A';
+    document.getElementById('approveRejectReopenRequestorDepartment').innerText = ticket.department || 'N/A';
+    document.getElementById('approveRejectReopenSubject').innerText = ticket.ticket_subject || 'N/A';
+    document.getElementById('approveRejectReopenDescription').innerText = ticket.ticket_description || 'N/A';
+
+    document.getElementById('approveRejectReopenDescription').innerText = ticket.ticket_changes_description || 'N/A';
+    document.getElementById('approveRejectReopenHandler').innerText = ticket.handler_name || 'N/A';
 
     $('#ticketModal').modal('hide');
-    // Show the confirm reopen modal
-    $('#confirmReopenModal').modal('show');
+    // Show the approve/reject reopen modal
+    $('#approveRejectReopenModal').modal('show');
 }
-
 
 // Function to handle row click and show ticket details modal
 function showTicketDetails(ticket) {
@@ -323,7 +325,6 @@ function showTicketDetails(ticket) {
 
 // Function to handle row click and show ticket details modal
 function showUnassignedTicketDetails(ticket) {
-    document.getElementById('errorMessage').innerText = '';
     // Populate modal with ticket details
     const unassignedAttachmentLink = ticket.ticket_attachment
         ? `<a href="../../../${ticket.ticket_attachment.replace(/^(\.\.\/)+/, '')}" target="_blank" class="badge badge-info">View Attachment</a>`
@@ -334,53 +335,7 @@ function showUnassignedTicketDetails(ticket) {
     document.getElementById('unassignedticketSubject').innerText = ticket.ticket_subject || 'N/A';
     document.getElementById('unassignedticketDescription').innerText = ticket.ticket_description || 'N/A';
     document.getElementById('unassignedticketType').innerText = ticket.ticket_type || 'N/A';
-    document.getElementById('unassignedticketConclusion').innerText = ticket.ticket_conclusion || 'N/A';
     document.getElementById('unassignedticketAttachment').innerHTML = unassignedAttachmentLink;
-
-    // Set the value of the date-time picker
-    document.getElementById('unassignedticketDueDate').value = ticket.ticket_due_date || '';
-
-    // Populate status select options
-    const statusSelect = document.getElementById('unassignedticketStatus');
-    const statuses = ['OPEN', 'PENDING', 'ON GOING', 'FOR APPROVAL', 'PRIORITY', 'REJECTED', 'APPROVED', 'FINISHED', 'CLOSED', 'CANCELLED'];
-    statusSelect.innerHTML = ''; // Clear existing options
-    statuses.forEach(status => {
-        const option = document.createElement('option');
-        option.value = status;
-        option.text = status;
-        if (status === ticket.ticket_status) {
-            option.selected = true;
-        }
-        statusSelect.appendChild(option);
-    });
-
-    // Fetch handler names from the MIS department
-    $.ajax({
-        url: '../../../backend/admin/ticketing-system/fetch_handlers.php', // Adjust the path as needed
-        method: 'GET',
-        success: function (response) {
-            if (response.status === 'success') {
-                const handlerSelect = document.getElementById('unassignedticketHandlerId');
-                handlerSelect.innerHTML = ''; // Clear existing options
-
-                // Populate select options with handler names
-                response.data.forEach(handler => {
-                    const option = document.createElement('option');
-                    option.value = handler.id;
-                    option.text = handler.full_name;
-                    if (handler.id === ticket.ticket_handler_id) {
-                        option.selected = true;
-                    }
-                    handlerSelect.appendChild(option);
-                });
-            } else {
-                console.error('Error:', response.message);
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error('AJAX error:', error);
-        }
-    });
 
     // Show the details modal
     $('#ticketModal').modal('hide');
@@ -392,53 +347,43 @@ function showUnassignedTicketDetails(ticket) {
 // Function to claim the ticket
 function claimTicket() {
     const ticketId = document.getElementById('unassignedticketId').innerText;
-    const dueDate = document.getElementById('unassignedticketDueDate').value;
     const forApproval = document.getElementById('forApprovalCheckbox').checked;
     const ticketStatus = forApproval ? 'FOR APPROVAL' : 'OPEN';
-
-    if (dueDate === '') {
-        document.getElementById('errorMessage').innerText = 'Please select a due date';
-        setTimeout(function () {
-            document.getElementById('errorMessage').innerText = '';
-        }, 3000);
-    } else {
-        // Send updated details to the backend
-        $.ajax({
-            url: '../../../backend/admin/ticketing-system/update_ticket.php', // Adjust the path as needed
-            method: 'POST',
-            data: {
-                ticket_id: ticketId,
-                ticket_status: ticketStatus,
-                ticket_due_date: dueDate
-            },
-            success: function (response) {
-                if (response.status === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Ticket claimed successfully',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    refreshTicketList();
-                    $('#unassignedticketDetailsModal').modal('hide');
-                    fetchAndShowTickets("unassigned");
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
+    // Send updated details to the backend
+    $.ajax({
+        url: '../../../backend/admin/ticketing-system/update_ticket.php', // Adjust the path as needed
+        method: 'POST',
+        data: {
+            ticket_id: ticketId,
+            ticket_status: ticketStatus,
+        },
+        success: function (response) {
+            if (response.status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Ticket claimed successfully',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                refreshTicketList();
+                $('#unassignedticketDetailsModal').modal('hide');
+                fetchAndShowTickets();
+            } else {
                 Swal.fire({
                     icon: 'error',
-                    title: 'AJAX error',
-                    text: error
+                    title: 'Error',
+                    text: response.message
                 });
             }
-        });
-    }
+        },
+        error: function (xhr, status, error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'AJAX error',
+                text: error
+            });
+        }
+    });
 }
 
 // Function to enable editing of ticket details
@@ -718,7 +663,7 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: '../../../backend/user/ticketing-system/reopen_ticket.php',
+            url: '../../../backend/admin/ticketing-system/reopen_ticket.php',
             type: 'POST',
             data: {
                 ticket_id: ticketId,
@@ -734,6 +679,7 @@ $(document).ready(function () {
                     }).then(() => {
                         $('#closedTicketDetailsModal').modal('hide');
                         // Optionally, refresh the ticket list or perform other actions
+                        refreshTicketList();
                     });
                 } else {
                     Swal.fire({
@@ -762,15 +708,15 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    // Show confirm reopen modal when "Request Reopen" button is clicked
+    // Show approve/reject reopen modal when "Request Reopen" button is clicked
     $('#showReopenChangesButton').on('click', function () {
-        $('#confirmReopenModal').modal('show');
+        $('#approveRejectReopenModal').modal('show');
     });
 
-    // Handle submission of reopen request
-    $('#submitReopenRequestButton').on('click', function () {
-        const ticketId = $('#confirmReopenTicketId').text();
-        const reopenReasonDescription = $('#reopenReasonDescription').val();
+    // Handle approval of reopen request
+    $('#approveReopenRequestButton').on('click', function () {
+        const ticketId = $('#approveRejectReopenTicketId').text();
+        const reopenReasonDescription = $('#approveRejectReopenReasonDescription').val();
 
         if (reopenReasonDescription.trim() === '') {
             Swal.fire({
@@ -782,11 +728,12 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: '../../../backend/user/ticketing-system/reopen_ticket.php',
+            url: '../../../backend/s-admin/ticketing-system/approve_reopen_ticket.php',
             type: 'POST',
             data: {
                 ticket_id: ticketId,
-                reopen_reason_description: reopenReasonDescription
+                reopen_reason_description: reopenReasonDescription,
+                action: 'OPEN'
             },
             dataType: 'json',
             success: function (response) {
@@ -794,9 +741,9 @@ $(document).ready(function () {
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
-                        text: 'Ticket reopen request submitted successfully!'
+                        text: 'Ticket reopen request approved successfully!'
                     }).then(() => {
-                        $('#confirmReopenModal').modal('hide');
+                        $('#approveRejectReopenModal').modal('hide');
                         // Optionally, refresh the ticket list or perform other actions
                     });
                 } else {
@@ -812,16 +759,62 @@ $(document).ready(function () {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Error submitting reopen request. Please try again later.'
+                    text: 'Error approving reopen request. Please try again later.'
                 });
             }
         });
     });
 
-    // Handle cancellation of reopen request
-    $('#cancelReopenRequestButton').on('click', function () {
-        $('#confirmReopenModal').modal('hide');
-        $('#reopenReasonDescription').val('');
+    // Handle rejection of reopen request
+    $('#rejectReopenRequestButton').on('click', function () {
+        const ticketId = $('#approveRejectReopenTicketId').text();
+        const reopenReasonDescription = $('#approveRejectReopenReasonDescription').val();
+
+        if (reopenReasonDescription.trim() === '') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Please enter a reason for rejecting the reopen request.'
+            });
+            return;
+        }
+
+        $.ajax({
+            url: '../../../backend/s-admin/ticketing-system/approve_reopen_ticket.php',
+            type: 'POST',
+            data: {
+                ticket_id: ticketId,
+                reopen_reason_description: reopenReasonDescription,
+                action: 'CLOSED'
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Ticket reopen request rejected successfully!'
+                    }).then(() => {
+                        $('#approveRejectReopenModal').modal('hide');
+                        // Optionally, refresh the ticket list or perform other actions
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error: ' + response.message
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error rejecting reopen request. Please try again later.'
+                });
+            }
+        });
     });
 });
 

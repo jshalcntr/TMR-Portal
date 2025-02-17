@@ -285,16 +285,28 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.status === 'success') {
-                    alert('Ticket approved successfully!');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Ticket approved successfully!'
+                    });
                     $('#forApprovalticketModal').modal('hide');
                     forApprovalTickets(); // Refresh the ticket list
                 } else {
-                    alert('Error: ' + response.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error: ' + response.message
+                    });
                 }
             },
             error: function (xhr, status, error) {
                 console.error(error);
-                alert('Error approving ticket. Please try again later.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error approving ticket. Please try again later.'
+                });
             }
         });
     });
@@ -309,16 +321,28 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.status === 'success') {
-                    alert('Ticket rejected successfully!');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Ticket rejected successfully!'
+                    });
                     $('#forApprovalticketModal').modal('hide');
                     forApprovalTickets(); // Refresh the ticket list
                 } else if (response.status === 'error') {
-                    alert('Error: ' + response.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error: ' + response.message
+                    });
                 }
             },
             error: function (xhr, status, error) {
                 console.error(error);
-                alert('Error rejecting ticket. Please try again later.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error rejecting ticket. Please try again later.'
+                });
             }
         });
     });

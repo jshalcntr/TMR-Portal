@@ -14,7 +14,7 @@ $changes_description = $_POST['changes_description'];
 $ticket_status = "REOPEN";
 
 // Update the ticket with the changes description and status
-$sql = "UPDATE ticket_records_tbl SET changes_description = ?, ticket_status = ? WHERE ticket_id = ?";
+$sql = "UPDATE ticket_records_tbl SET ticket_changes_description = ?, ticket_status = ? WHERE ticket_id = ?";
 $stmt = $conn->prepare($sql);
 
 if ($stmt) {
