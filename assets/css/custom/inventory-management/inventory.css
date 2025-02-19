@@ -55,6 +55,7 @@
     margin: 0 !important;
     color: var(--dark);
 }
+#requestHistoryTable,
 #inventoryTable {
     border-left: 1px solid var(--gray-dark);
     border-bottom: 1px solid var(--gray-dark);
@@ -63,20 +64,25 @@
 /* #repairItemModal {
     z-index: 1070;
 } */
-
+#requestHistoryTable tbody tr:nth-child(odd),
 #inventoryTable tbody tr:nth-child(odd),
 #repairHistoryTable tbody tr:nth-child(odd) {
     background-color: var(--bs-white);
 }
 
+#requestHistoryTable tbody tr:nth-child(even),
 #inventoryTable tbody tr:nth-child(even),
 #repairHistoryTable tbody tr:nth-child(even) {
     background-color: var(--bs-table-bg);
 }
+
+#requestHistoryTable,
 #inventoryTable,
 #repairHistoryTable {
     --bs-table-bg: none;
 }
+
+#requestHistoryTable thead th,
 #inventoryTable thead th,
 #repairHistoryTable thead th {
     background-color: var(--primary);

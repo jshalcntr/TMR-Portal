@@ -136,10 +136,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $highestRow = $sheet->getHighestRow();
 
-    $sheet->getStyle('A2:P' . $highestRow)->getAlignment()->setHorizontal('center')->setVertical('center');
+    $sheet->getStyle('A2:P3')->getAlignment()->setHorizontal('center')->setVertical('center');
+    $sheet->getStyle('A4:P' . $highestRow)->getAlignment()->setHorizontal('left')->setVertical('center');
     $sheet->getStyle('N2')->getAlignment()->setHorizontal('center')->setVertical('center');
     $sheet->getStyle('A2:P' . $highestRow)->getFont()->setName('ToyotaType')->setSize(11);
-    $sheet->getStyle('P4:P' . $highestRow)->getAlignment()->setHorizontal('left')->setVertical('center');
+    $sheet->getStyle('P4:P' . $highestRow)->getAlignment()->setHorizontal('right')->setVertical('center');
     $sheet->getStyle('H4:H' . $highestRow)->getNumberFormat()->setFormatCode('MMM DD, YYYY');
 
     $dateTimeNow = new DateTime();

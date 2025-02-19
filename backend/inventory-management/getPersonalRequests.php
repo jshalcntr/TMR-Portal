@@ -26,17 +26,22 @@ if (!$stmt) {
         $stmt->close();
         exit;
     } else {
-        $request = [];
+        $requests = [];
         $requestResult = $stmt->get_result();
         while ($row = $requestResult->fetch_assoc()) {
-            $request[] = $row;
+            $requests[] = [
+                "requestId" => $row['request_id'],
+                "requestName" => $row['request_name'],
+                "requestReason" => $row['request_reason'],
+                "requestDatetime" => $row['request_datetime'],
+                "status" => $row['request_status']
+            ];
         }
         $stmt->close();
 
         header("Content-type: application/json");
         echo json_encode([
-            "status" => "success",
-            "data" => $request
+            "data" => $requests
         ]);
     }
 }

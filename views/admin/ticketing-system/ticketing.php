@@ -32,7 +32,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
 
     <title>Dashboard</title>
     <link rel="stylesheet" href="../../../assets/css/custom/ticketing-system/ticketing.css">
-    <?php include '../../modules/components/shared/external-css-import.php' ?>
+    <?php include '../../../modules/components/shared/external-css-import.php' ?>
 
 </head>
 
@@ -41,7 +41,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <?php include "../../components/sidebar.php" ?>
+        <?php include "../../../modules/components/shared/sidebar.php" ?>
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -49,7 +49,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
             <!-- Main Content -->
             <div id="content">
 
-                <?php include "../../components/topbar.php" ?>
+                <?php include "../../../modules/components/shared/topbar.php" ?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -307,7 +307,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
 
 
 </body>
-<?php include "../../components/external-js-import.php" ?>
+<?php include "../../../modules/components/shared/external-js-import.php" ?>
 <script src="../../../assets/js/admin/ticketing-system/ticket-chart-area.js"></script>
 <script src="../../../assets/js/admin/ticketing-system/ticket-chart-pie.js"></script>
 <script src="../../../assets/js/admin/ticketing-system/admin-tickets.js"></script>
