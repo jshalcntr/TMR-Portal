@@ -142,7 +142,7 @@ date_default_timezone_set('Asia/Manila');
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="/tmr-portal/views/shared/profile-setting/profile.php">
+                <a class="dropdown-item" href="/tmr-portal/modules/profile-setting/profile.php">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profile Settings
                 </a>

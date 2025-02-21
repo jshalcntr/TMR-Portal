@@ -272,52 +272,7 @@ function showTicketDetails(ticket) {
     document.getElementById('ticketType').innerText = ticket.ticket_type || 'N/A';
     document.getElementById('ticketAttachment').innerHTML = attachmentLink;
     document.getElementById('ticketConclusion').innerText = ticket.ticket_conclusion || 'N/A';
-    // Set the value of the date-time picker
-    document.getElementById('ticketDueDate').value = ticket.ticket_due_date || '';
-    if (ticket.ticket_due_date === null || ticket.ticket_due_date === '0000-00-00 00:00:00' || ticket.ticket_due_date === '') {
-        document.getElementById('closeTicketButton').style.display = 'none';
-    } else {
-        document.getElementById('closeTicketButton').style.display = 'inline-block';
-    }
-    // Populate status select options
-    const statusSelect = document.getElementById('ticketStatus');
-    const statuses = ['OPEN', 'PENDING', 'ON GOING', 'FOR APPROVAL', 'PRIORITY', 'REJECTED', 'APPROVED', 'FINISHED', 'CLOSED', 'CANCELLED'];
-    statusSelect.innerHTML = ''; // Clear existing options
-    statuses.forEach(status => {
-        const option = document.createElement('option');
-        option.value = status;
-        option.text = status;
-        if (status === ticket.ticket_status) {
-            option.selected = true;
-        }
-        statusSelect.appendChild(option);
-    });
-    // Fetch handler names from the MIS department
-    $.ajax({
-        url: '../../../backend/admin/ticketing-system/fetch_handlers.php', // Adjust the path as needed
-        method: 'GET',
-        success: function (response) {
-            if (response.status === 'success') {
-                const handlerSelect = document.getElementById('ticketHandlerId');
-                handlerSelect.innerHTML = ''; // Clear existing options
-                // Populate select options with handler names
-                response.data.forEach(handler => {
-                    const option = document.createElement('option');
-                    option.value = handler.id;
-                    option.text = handler.full_name;
-                    if (handler.id === ticket.ticket_handler_id) {
-                        option.selected = true;
-                    }
-                    handlerSelect.appendChild(option);
-                });
-            } else {
-                console.error('Error:', response.message);
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error('AJAX error:', error);
-        }
-    });
+
     // Show the details modal
     $('#ticketModal').modal('hide');
     $('#ticketDetailsModal').modal('show');
@@ -391,7 +346,7 @@ function enableEditing() {
     document.getElementById('ticketDueDate').disabled = false;
     document.getElementById('ticketStatus').disabled = false;
     // document.getElementById('ticketHandlerId').disabled = false;
-    document.getElementById('editButton').style.display = 'none';
+    // document.getElementById('editButton').style.display = 'none';
     document.getElementById('closeTicketButton').style.display = 'none';
     document.getElementById('saveButton').style.display = 'inline-block';
     document.getElementById('cancelsaveButton').style.display = 'inline-block';
@@ -401,7 +356,7 @@ function cancelTicketDetails() {
     document.getElementById('ticketDueDate').disabled = true;
     document.getElementById('ticketStatus').disabled = true;
     // document.getElementById('ticketHandlerId').disabled = true;
-    document.getElementById('editButton').style.display = 'inline-block';
+    // document.getElementById('editButton').style.display = 'inline-block';
     document.getElementById('closeTicketButton').style.display = 'inline-block';
     document.getElementById('saveButton').style.display = 'none';
     document.getElementById('cancelsaveButton').style.display = 'none';
@@ -423,6 +378,27 @@ function cancelUnassignedTicketDetails() {
     document.getElementById('unassignededitButton').style.display = 'inline-block';
     document.getElementById('unassignedsaveButton').style.display = 'none';
     document.getElementById('unassignedcancelsaveButton').style.display = 'none';
+}
+// Function to show the conclusion text area
+function showConclusionTextArea() {
+    document.getElementById('conclusionTextArea').style.display = 'block';
+    document.getElementById('saveConclusionButton').style.display = 'inline-block';
+    document.getElementById('closeTicketButton').style.display = 'none';
+    // document.getElementById('editButton').style.display = 'none';
+    document.getElementById('cancelsaveButton').style.display = 'inline-block';
+}
+
+// Function to cancel enable editing of ticket details
+function cancelTicketDetails() {
+    // document.getElementById('ticketDueDate').disabled = true;
+    // document.getElementById('ticketStatus').disabled = true;
+    // document.getElementById('ticketHandlerId').disabled = true;
+    // document.getElementById('editButton').style.display = 'inline-block';
+    document.getElementById('closeTicketButton').style.display = 'inline-block';
+    document.getElementById('saveButton').style.display = 'none';
+    document.getElementById('cancelsaveButton').style.display = 'none';
+    document.getElementById('saveConclusionButton').style.display = 'none';
+    document.getElementById('conclusionTextArea').style.display = 'none';
 }
 
 
@@ -573,27 +549,6 @@ function requestReopen() {
     });
 }
 
-// Function to show the conclusion text area
-function showConclusionTextArea() {
-    document.getElementById('conclusionTextArea').style.display = 'block';
-    document.getElementById('saveConclusionButton').style.display = 'inline-block';
-    document.getElementById('closeTicketButton').style.display = 'none';
-    document.getElementById('editButton').style.display = 'none';
-    document.getElementById('cancelsaveButton').style.display = 'inline-block';
-}
-
-// Function to cancel enable editing of ticket details
-function cancelTicketDetails() {
-    document.getElementById('ticketDueDate').disabled = true;
-    document.getElementById('ticketStatus').disabled = true;
-    // document.getElementById('ticketHandlerId').disabled = true;
-    document.getElementById('editButton').style.display = 'inline-block';
-    document.getElementById('closeTicketButton').style.display = 'inline-block';
-    document.getElementById('saveButton').style.display = 'none';
-    document.getElementById('cancelsaveButton').style.display = 'none';
-    document.getElementById('saveConclusionButton').style.display = 'none';
-    document.getElementById('conclusionTextArea').style.display = 'none';
-}
 
 // Function to save the conclusion and update the ticket status to "CLOSED"
 function saveConclusion() {

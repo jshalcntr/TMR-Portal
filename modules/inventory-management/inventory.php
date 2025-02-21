@@ -79,13 +79,13 @@ if (authorize(true, $conn)) {
                                             <th scope="col">PC Name</th>
                                             <th scope="col">
                                                 Item Type
-                                                <select id="filterItemType" class="form-select form-select-sm" data-column-index="3">
+                                                <select id="filterItemType" class="form-select form-select-sm" role="button" data-column-index="3">
                                                     <option value="">All</option>
                                                 </select>
                                             </th>
                                             <th scope="col">
                                                 Item Category
-                                                <select id="filterCategory" class="form-select form-select-sm" data-column-index="4">
+                                                <select id="filterCategory" class="form-select form-select-sm" role="button" data-column-index="4">
                                                     <option value="">All</option>
                                                     <option value="Keyboard">Keyboard</option>
                                                     <option value="Mouse">Mouse</option>
@@ -98,7 +98,7 @@ if (authorize(true, $conn)) {
                                             </th>
                                             <th scope="col">
                                                 Brand
-                                                <select id="filterBrand" class="form-select form-select-sm" data-column-index="5">
+                                                <select id="filterBrand" class="form-select form-select-sm" role="button" data-column-index="5">
                                                     <option value="">All</option>
                                                 </select>
                                             </th>
@@ -106,19 +106,19 @@ if (authorize(true, $conn)) {
                                             <th scope="col">Date Acquired</th>
                                             <th scope="col">
                                                 Supplier
-                                                <select id="filterSupplier" class="form-select form-select-sm" data-column-index="8">
+                                                <select id="filterSupplier" class="form-select form-select-sm" role="button" data-column-index="8">
                                                     <option value="">All</option>
                                                 </select>
                                             </th>
                                             <th scope="col">Serial Number</th>
                                             <th scope="col">Department
-                                                <select id="filterDepartment" class="form-select form-select-sm" data-column-index="10">
+                                                <select id="filterDepartment" class="form-select form-select-sm" role="button" data-column-index="10">
                                                     <option value="">All</option>
                                                 </select>
                                             </th>
                                             <th scope="col">
                                                 Status
-                                                <select id="filterStatus" class="form-select form-select-sm" data-column-index="11">
+                                                <select id="filterStatus" class="form-select form-select-sm" role="button" data-column-index="11">
                                                     <option value="">All</option>
                                                 </select>
                                             </th>

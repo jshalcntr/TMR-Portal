@@ -33,7 +33,7 @@ $(document).ready(function () {
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "POST",
-                        url: "../../../backend/shared/profile-setting/editFullName.php",
+                        url: "../../backend/shared/profile-setting/editFullName.php",
                         data: {
                             accountId: accountId,
                             fullName: fullName
@@ -92,7 +92,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "../../../backend/shared/profile-setting/getProfileInformation.php",
+            url: "../../backend/shared/profile-setting/getProfileInformation.php",
             data: {
                 accountId: accountId
             },
@@ -108,8 +108,8 @@ $(document).ready(function () {
                     const accountInfo = response.data[0];
                     $("#fullName_edit").val(accountInfo.full_name);
                     $("#authFullName").text(accountInfo.full_name);
-                    $('#authPP').attr('src', accountInfo.profile_picture !== 'no-link' ? accountInfo.profile_picture : "../../../assets/img/no-profile.png");
-                    $("#profilePicture").attr('src', accountInfo.profile_picture !== 'no-link' ? accountInfo.profile_picture : "../../../assets/img/no-profile.png");
+                    $('#authPP').attr('src', accountInfo.profile_picture !== 'no-link' ? accountInfo.profile_picture : "../../assets/img/no-profile.png");
+                    $("#profilePicture").attr('src', accountInfo.profile_picture !== 'no-link' ? accountInfo.profile_picture : "../../assets/img/no-profile.png");
                     if (accountInfo.profile_picture === 'no-link') {
                         $("#removeProfilePicture").addClass('d-none');
                     } else {
@@ -130,7 +130,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "../../../backend/shared/profile-setting/getProfileInformation.php",
+            url: "../../backend/shared/profile-setting/getProfileInformation.php",
             data: {
                 accountId: accountId
             },
@@ -144,7 +144,7 @@ $(document).ready(function () {
                     });
                 } else {
                     const accountInfo = response.data[0];
-                    $("#dpPreview").attr('src', accountInfo.profile_picture !== 'no-link' ? accountInfo.profile_picture : "../../../assets/img/no-profile.png");
+                    $("#dpPreview").attr('src', accountInfo.profile_picture !== 'no-link' ? accountInfo.profile_picture : "../../assets/img/no-profile.png");
                 }
             }
         });
@@ -196,7 +196,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "POST",
-                    url: "../../../backend/shared/profile-setting/editProfilePicture.php",
+                    url: "../../backend/shared/profile-setting/editProfilePicture.php",
                     data: formData,
                     processData: false,
                     contentType: false,
@@ -247,7 +247,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "POST",
-                    url: "../../../backend/shared/profile-setting/removeProfilePicture.php",
+                    url: "../../backend/shared/profile-setting/removeProfilePicture.php",
                     data: {
                         accountId: $("#accountId").val(),
                         profilePictureLink: $("#dpPreview").attr('src')
@@ -358,7 +358,7 @@ $(document).ready(function () {
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "POST",
-                        url: "../../../backend/shared/profile-setting/changePassword.php",
+                        url: "../../backend/shared/profile-setting/changePassword.php",
                         data: {
                             accountId: accountId,
                             newPassword: newPassword
@@ -412,7 +412,7 @@ $(document).ready(function () {
         return new Promise((resolve, reject) => {
             $.ajax({
                 type: "POST",
-                url: "../../../backend/shared/profile-setting/checkCurrentPassword.php",
+                url: "../../backend/shared/profile-setting/checkCurrentPassword.php",
                 data: {
                     accountId: accountId,
                     currentPassword: currentPassword
