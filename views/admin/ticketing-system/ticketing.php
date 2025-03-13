@@ -32,6 +32,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
 
     <title>Dashboard</title>
     <link rel="stylesheet" href="../../../assets/css/custom/ticketing-system/ticketing.css">
+    <link rel="stylesheet" href="../../../assets/css/custom/shared/dashboard.css">
     <?php include '../../../modules/components/shared/external-css-import.php' ?>
 
 </head>
@@ -152,6 +153,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
+                                        <button id="openChatButton" class="btn btn-outline-secondary" data-id="" data-title="" data-requestor="" data-bs-toggle="tooltip" data-bs-placement="left" title="Chat with requestor." style="float: right;"><i class="fa-regular fa-messages"></i></button>
                                         <p><strong>Ticket ID:</strong> <span id="ticketId"></span></p>
                                         <p><strong>Requestor:</strong> <span id="ticketRequestorId"></span></p>
                                         <p><strong>Department:</strong> <span id="ticketRequestorDepartment"></span></p>
@@ -159,17 +161,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                         <p><strong>Description:</strong> <span id="ticketDescription"></span></p>
                                         <p><strong>Type:</strong> <span id="ticketType"></span></p>
                                         <p><strong>Attachment:</strong> <span id="ticketAttachment"></span></p>
-                                        <!-- <p><strong>Handler:</strong>
-                                            <select id="ticketHandlerId" class="form-control" disabled>
-                                            </select>
-                                        </p>
-                                        <p><strong>Status:</strong>
-                                            <select id="ticketStatus" class="form-control" disabled>
-                                            </select>
-                                        </p>
-                                        <p><strong>Due Date:</strong>
-                                            <input type="datetime-local" id="ticketDueDate" class="form-control" disabled>
-                                        </p> -->
+
                                         <p><strong>Conclusion:</strong> <span id="ticketConclusion"></span></p>
                                         <textarea id="conclusionTextArea" style="display: none;" class="form-control" placeholder="Enter conclusion here..."></textarea>
                                         <hr>
@@ -192,6 +184,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
+                                        <button id="openChatButtonUnassigned" class="btn btn-outline-secondary" data-id="" data-title="" data-requestor="" data-bs-toggle="tooltip" data-bs-placement="left" title="Chat with requestor." style="float: right;"><i class="fa-regular fa-messages"></i></button>
                                         <p><strong>Ticket ID:</strong> <span id="unassignedticketId"></span></p>
                                         <p><strong>Requestor:</strong> <span id="unassignedticketRequestorId"></span></p>
                                         <p><strong>Department:</strong> <span id="unassignedticketRequestorDepartment"></span></p>
@@ -215,25 +208,14 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
+                                        <button id="openChatButtonClosed" class="btn btn-outline-secondary" data-id="" data-title="" data-requestor="" data-bs-toggle="tooltip" data-bs-placement="left" title="Chat with requestor." style="float: right;"><i class="fa-regular fa-messages"></i></button>
                                         <p><strong>Ticket ID:</strong> <span id="closedticketId"></span></p>
                                         <p><strong>Requestor:</strong> <span id="closedticketRequestorId"></span></p>
                                         <p><strong>Department:</strong> <span id="closedticketRequestorDepartment"></span></p>
                                         <p><strong>Subject:</strong> <span id="closedticketSubject"></span></p>
                                         <p><strong>Description:</strong> <span id="closedticketDescription"></span></p>
                                         <p><strong>Type:</strong> <span id="closedticketType"></span></p>
-                                        <p><strong>Attachment:</strong> <span id="closedticketAttachment"></span></ <p><strong>Handler:</strong>
-                                            <select id="closedticketHandlerId" disabled>
-                                                <!-- Options will be dynamically inserted -->
-                                            </select>
-                                        </p>
-                                        <p><strong>Status:</strong>
-                                            <select id="closedticketStatus" disabled>
-                                                <!-- Options will be dynamically inserted -->
-                                            </select>
-                                        </p>
-                                        <p><strong>Due Date:</strong>
-                                            <input type="datetime-local" id="closedticketDueDate" disabled>
-                                        </p>
+                                        <p><strong>Attachment:</strong> <span id="closedticketAttachment"></span></p>
                                         <p><strong>Conclusion:</strong> <span id="closedticketConclusion"></span></p>
                                         <button id="showChangesButton" class="btn btn-outline-info">Request Reopen</button>
                                         <div id="changesSection" style="display: none;">
@@ -244,6 +226,21 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- Chatbox -->
+                        <div id="chatbox" class="chatbox">
+                            <div class="chatbox-header">
+                                <span id="chatboxTitle">Ticket Title</span>
+                                <button id="closeChatbox" class="close-chatbox">&times;</button>
+                            </div>
+                            <div id="chatboxMessages" class="chatbox-messages">
+                                <!-- Chat messages will be populated here -->
+                            </div>
+                            <div class="chatbox-input">
+                                <input type="text" id="chatboxInput" placeholder="Type a message...">
+                                <button id="sendChatboxMessage">Send</button>
                             </div>
                         </div>
 

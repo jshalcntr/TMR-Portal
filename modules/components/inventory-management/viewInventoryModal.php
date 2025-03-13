@@ -6,6 +6,8 @@
                 <div class="header-actions d-flex align-items-center" style="gap: 8px;">
                     <?php if ($authorizations['inventory_edit'] && !$authorizations['inventory_super']): ?>
                         <button type="button" class="btn btn-circle shadow-sm btn-info" id="requestChangesBtn" role="button" data-bs-placement="bottom" title="Request Changes" data-bs-target="#requestChangesModal" data-bs-toggle="tooltip"><i class="fa-solid fa-comment-pen"></i></button>
+                    <?php elseif ($authorizations['inventory_super']): ?>
+                        <button type="button" class="btn btn-circle shadow-sm btn-primary" id="viewAllRequestsBtn" role="button" data-bs-placement="bottom" title="Requests" data-bs-target="#viewAllRequestsModal" data-bs-toggle="tooltip"><i class="fa-solid fa-bell-exclamation"></i></button>
                     <?php endif; ?>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

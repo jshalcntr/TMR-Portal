@@ -101,3 +101,77 @@
         max-width: 1200px;
     }
 }
+
+#chatbox {
+    position: fixed;
+    float: right;
+    bottom: 0;
+    right: 20px;
+    width: 300px;
+    max-height: 410px;
+    border: 1px solid #ccc;
+    border-radius: 10px 10px 0 0;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: none;
+    flex-direction: column;
+    z-index: 1;
+    font-size: 14px;
+}
+
+.chatbox-header {
+    padding: 10px;
+    background-color: #356b49;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-chatbox {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.chatbox-messages {
+    padding: 10px;
+    max-height: 300px;
+    overflow: hidden auto;
+    scrollbar-width: thin;
+    flex-grow: 1;
+}
+
+.chatbox-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
+
+.chatbox-input input {
+    flex-grow: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.chatbox-input button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #356b49;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.chat-message.unread {
+    background-color: #ebebeb;
+}
+
+.chat-message.read {
+    background-color: #ffffff;
+}

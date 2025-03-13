@@ -41,6 +41,7 @@ $sql_closed = "
         t.ticket_status, 
         t.date_created, 
         t.ticket_attachment, 
+        t.ticket_handler_id, 
         a.full_name AS handler_name
     FROM ticket_records_tbl AS t
     LEFT JOIN accounts_tbl AS a ON t.ticket_handler_id = a.id

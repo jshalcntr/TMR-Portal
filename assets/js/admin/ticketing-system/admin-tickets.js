@@ -1,3 +1,7 @@
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+})
 // Initialize previous counts
 let previousCounts = {
     overdue: 0,
@@ -186,52 +190,20 @@ function showClosedTicketDetails(ticket) {
     document.getElementById('closedticketType').innerText = ticket.ticket_type || 'N/A';
     document.getElementById('closedticketAttachment').innerHTML = attachmentLink;
     document.getElementById('closedticketConclusion').innerText = ticket.ticket_conclusion || 'N/A';
-
-    // Set the value of the date-time picker
-    document.getElementById('closedticketDueDate').value = ticket.ticket_due_date || '';
-
-    // Populate status select options
-    const statusSelect = document.getElementById('closedticketStatus');
-    const statuses = ['OPEN', 'PENDING', 'ON GOING', 'FOR APPROVAL', 'PRIORITY', 'REJECTED', 'APPROVED', 'FINISHED', 'CLOSED', 'CANCELLED'];
-    statusSelect.innerHTML = ''; // Clear existing options
-    statuses.forEach(status => {
-        const option = document.createElement('option');
-        option.value = status;
-        option.text = status;
-        if (status === ticket.ticket_status) {
-            option.selected = true;
-        }
-        statusSelect.appendChild(option);
-    });
-
-    // Fetch handler names from the MIS department
+    // Check if ticket_id exists in ticket_convo_tbl
     $.ajax({
-        url: '../../../backend/admin/ticketing-system/fetch_handlers.php', // Adjust the path as needed
-        method: 'GET',
+        url: '../../../backend/shared/ticketing-system/check_ticket_convo.php', // Replace with your actual endpoint
+        method: 'POST',
+        data: { ticket_id: ticket.ticket_id },
         success: function (response) {
-            if (response.status === 'success') {
-                const handlerSelect = document.getElementById('closedticketHandlerId');
-                handlerSelect.innerHTML = ''; // Clear existing options
-
-                // Populate select options with handler names
-                response.data.forEach(handler => {
-                    const option = document.createElement('option');
-                    option.value = handler.id;
-                    option.text = handler.full_name;
-                    if (handler.id === ticket.ticket_handler_id) {
-                        option.selected = true;
-                    }
-                    handlerSelect.appendChild(option);
-                });
+            if (response.exists) {
+                $('#openChatButtonClosed').removeClass('btn-outline-secondary').addClass('btn-primary');
             } else {
-                console.error('Error:', response.message);
+                $('#openChatButtonClosed').removeClass('btn-primary').addClass('btn-outline-secondary');
             }
-        },
-        error: function (xhr, status, error) {
-            console.error('AJAX error:', error);
         }
     });
-
+    $('#openChatButtonClosed').data('id', ticket.ticket_id).data('requestor', ticket.ticket_requestor_id).data('title', 'T#' + ticket.ticket_id + ' | ' + ticket.ticket_subject); // Set ticket ID and title for chat button
     $('#ticketModal').modal('hide');
     // Show the details modal
     $('#closedTicketDetailsModal').modal('show');
@@ -252,7 +224,19 @@ function showReopenTicketDetails(ticket) {
 
     document.getElementById('approveRejectReopenDescription').innerText = ticket.ticket_changes_description || 'N/A';
     document.getElementById('approveRejectReopenHandler').innerText = ticket.handler_name || 'N/A';
-
+    $.ajax({
+        url: '../../../backend/shared/ticketing-system/check_ticket_convo.php', // Replace with your actual endpoint
+        method: 'POST',
+        data: { ticket_id: ticket.ticket_id },
+        success: function (response) {
+            if (response.exists) {
+                $('#openChatButton').removeClass('btn-outline-secondary').addClass('btn-primary');
+            } else {
+                $('#openChatButton').removeClass('btn-primary').addClass('btn-outline-secondary');
+            }
+        }
+    });
+    $('#openChatButton').data('id', ticket.ticket_id).data('requestor', ticket.ticket_requestor_id).data('title', 'T#' + ticket.ticket_id + ' | ' + ticket.ticket_subject); // Set ticket ID and title for chat button
     $('#ticketModal').modal('hide');
     // Show the approve/reject reopen modal
     $('#approveRejectReopenModal').modal('show');
@@ -272,7 +256,19 @@ function showTicketDetails(ticket) {
     document.getElementById('ticketType').innerText = ticket.ticket_type || 'N/A';
     document.getElementById('ticketAttachment').innerHTML = attachmentLink;
     document.getElementById('ticketConclusion').innerText = ticket.ticket_conclusion || 'N/A';
-
+    $.ajax({
+        url: '../../../backend/shared/ticketing-system/check_ticket_convo.php', // Replace with your actual endpoint
+        method: 'POST',
+        data: { ticket_id: ticket.ticket_id },
+        success: function (response) {
+            if (response.exists) {
+                $('#openChatButton').removeClass('btn-outline-secondary').addClass('btn-primary');
+            } else {
+                $('#openChatButton').removeClass('btn-primary').addClass('btn-outline-secondary');
+            }
+        }
+    });
+    $('#openChatButton').data('id', ticket.ticket_id).data('requestor', ticket.ticket_requestor_id).data('title', 'T#' + ticket.ticket_id + ' | ' + ticket.ticket_subject); // Set ticket ID and title for chat button
     // Show the details modal
     $('#ticketModal').modal('hide');
     $('#ticketDetailsModal').modal('show');
@@ -291,7 +287,19 @@ function showUnassignedTicketDetails(ticket) {
     document.getElementById('unassignedticketDescription').innerText = ticket.ticket_description || 'N/A';
     document.getElementById('unassignedticketType').innerText = ticket.ticket_type || 'N/A';
     document.getElementById('unassignedticketAttachment').innerHTML = unassignedAttachmentLink;
-
+    $.ajax({
+        url: '../../../backend/shared/ticketing-system/check_ticket_convo.php', // Replace with your actual endpoint
+        method: 'POST',
+        data: { ticket_id: ticket.ticket_id },
+        success: function (response) {
+            if (response.exists) {
+                $('#openChatButtonUnassigned').removeClass('btn-outline-secondary').addClass('btn-primary');
+            } else {
+                $('#openChatButtonUnassigned').removeClass('btn-primary').addClass('btn-outline-secondary');
+            }
+        }
+    });
+    $('#openChatButtonUnassigned').data('id', ticket.ticket_id).data('requestor', ticket.ticket_requestor_id).data('title', 'T#' + ticket.ticket_id + ' | ' + ticket.ticket_subject); // Set ticket ID and title for chat button
     // Show the details modal
     $('#ticketModal').modal('hide');
     $('#unassignedticketDetailsModal').modal('show');
@@ -345,8 +353,6 @@ function claimTicket() {
 function enableEditing() {
     document.getElementById('ticketDueDate').disabled = false;
     document.getElementById('ticketStatus').disabled = false;
-    // document.getElementById('ticketHandlerId').disabled = false;
-    // document.getElementById('editButton').style.display = 'none';
     document.getElementById('closeTicketButton').style.display = 'none';
     document.getElementById('saveButton').style.display = 'inline-block';
     document.getElementById('cancelsaveButton').style.display = 'inline-block';
@@ -355,8 +361,6 @@ function enableEditing() {
 function cancelTicketDetails() {
     document.getElementById('ticketDueDate').disabled = true;
     document.getElementById('ticketStatus').disabled = true;
-    // document.getElementById('ticketHandlerId').disabled = true;
-    // document.getElementById('editButton').style.display = 'inline-block';
     document.getElementById('closeTicketButton').style.display = 'inline-block';
     document.getElementById('saveButton').style.display = 'none';
     document.getElementById('cancelsaveButton').style.display = 'none';
@@ -384,16 +388,11 @@ function showConclusionTextArea() {
     document.getElementById('conclusionTextArea').style.display = 'block';
     document.getElementById('saveConclusionButton').style.display = 'inline-block';
     document.getElementById('closeTicketButton').style.display = 'none';
-    // document.getElementById('editButton').style.display = 'none';
     document.getElementById('cancelsaveButton').style.display = 'inline-block';
 }
 
 // Function to cancel enable editing of ticket details
 function cancelTicketDetails() {
-    // document.getElementById('ticketDueDate').disabled = true;
-    // document.getElementById('ticketStatus').disabled = true;
-    // document.getElementById('ticketHandlerId').disabled = true;
-    // document.getElementById('editButton').style.display = 'inline-block';
     document.getElementById('closeTicketButton').style.display = 'inline-block';
     document.getElementById('saveButton').style.display = 'none';
     document.getElementById('cancelsaveButton').style.display = 'none';
@@ -454,12 +453,12 @@ function saveTicketDetails() {
     document.getElementById('saveButton').style.display = 'none';
 }
 
+
 function saveUnassignedTicketDetails() {
     const ticketId = document.getElementById('unassignedticketId').innerText;
     const ticketDueDate = document.getElementById('unassignedticketDueDate').value;
     const ticketStatus = document.getElementById('unassignedticketStatus').value;
     const ticketHandlerId = document.getElementById('unassignedticketHandlerId').value;
-
     // Send updated details to the backend
     $.ajax({
         url: '../../../backend/admin/ticketing-system/update_ticket.php', // Adjust the path as needed
@@ -499,7 +498,6 @@ function saveUnassignedTicketDetails() {
 
     document.getElementById('ticketDueDate').disabled = true;
     document.getElementById('ticketStatus').disabled = true;
-    // document.getElementById('ticketHandlerId').disabled = true;
     document.getElementById('editButton').style.display = 'inline-block';
     document.getElementById('saveButton').style.display = 'none';
 }
@@ -858,9 +856,9 @@ function speakAlert(message) {
     window.speechSynthesis.speak(speech);
 }
 
-window.speechSynthesis.onvoiceschanged = () => {
-    console.log(window.speechSynthesis.getVoices());
-};
+// window.speechSynthesis.onvoiceschanged = () => {
+//     console.log(window.speechSynthesis.getVoices());
+// };
 
 // Set interval to refresh tickets every 30 seconds
 setInterval(refreshTicketList, 10000);
@@ -903,4 +901,104 @@ $("#ticketDetailsModal").on('hidden.bs.modal', function () {
 });
 $("#confirmReopenModal").on('hidden.bs.modal', function () {
     $('#ticketModal').modal('show');
+});
+
+$(document).ready(function () {
+    // Open chatbox
+    $(document).on('click', '#openChatButton, #openChatButtonUnassigned, #openChatButtonClosed', function () {
+        const ticketId = $(this).data('id');
+        const ticketTitle = $(this).data('title');
+        const ticketRequestor = $(this).data('requestor');
+        $("#closedTicketDetailsModal").modal('hide');
+        $("#reopenTicketDetailsModal").modal('hide');
+        $("#unassignedticketDetailsModal").modal('hide');
+        $("#ticketDetailsModal").modal('hide');
+        $("#confirmReopenModal").modal('hide');
+        $('#ticketModal').modal('hide');
+        openChatbox(ticketId, ticketTitle, ticketRequestor);
+    });
+
+    // Function to open chatbox
+    function openChatbox(ticketId, ticketTitle, ticketRequestor) {
+        $('#chatboxTitle').text(ticketTitle);
+        $('#chatbox').data('ticket-id', ticketId).data('requestor', ticketRequestor).show();
+        fetchChatboxMessages(ticketId);
+    }
+
+    // Close chatbox
+    $('#closeChatbox').on('click', function () {
+        $('#chatbox').hide();
+    });
+
+    // Fetch chatbox messages
+    function fetchChatboxMessages(ticketId) {
+        $.ajax({
+            url: '../../../backend/admin/ticketing-system/fetch_chat_messages.php',
+            type: 'GET',
+            data: { ticket_id: ticketId },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    const chatboxMessages = $('#chatboxMessages');
+                    chatboxMessages.empty();
+                    response.data.forEach(message => {
+                        const formattedDateTime = formatDateTime(message.ticket_convo_date);
+                        const readStatus = message.is_read ? 'read' : 'unread';
+                        const messageElement = `
+                        <div class="chat-message ${readStatus}">
+                            <strong>${message.full_name}:</strong> ${message.ticket_messages}
+                            <div class="small text-gray-500">${formattedDateTime}</div>
+                        </div>
+                        <hr>`;
+                        chatboxMessages.append(messageElement);
+                    });
+
+                    // Auto-scroll to bottom when new messages load
+                    scrollToBottom();
+                } else {
+                    console.error(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching chat messages: ", error);
+            },
+            complete: function () {
+                // Fetch new messages every 3 seconds
+                setTimeout(() => fetchChatboxMessages(ticketId), 1000);
+            }
+        });
+    }
+
+    // Send chatbox message
+    $('#sendChatboxMessage').on('click', function () {
+        const ticketId = $('#chatbox').data('ticket-id');
+        const ticketRequestor = $('#chatbox').data('requestor');
+        const message = $('#chatboxInput').val();
+        if (message.trim() !== '') {
+            $.ajax({
+                url: '../../../backend/admin/ticketing-system/send_chat_message.php', // Change this to your PHP endpoint
+                type: 'POST',
+                data: { ticket_id: ticketId, message: message, requestor: ticketRequestor },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status === 'success') {
+                        $('#chatboxInput').val('');
+                        fetchChatboxMessages(ticketId, ticketRequestor); // Refresh chat messages
+                    } else {
+                        console.error(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error sending chat message: ", error);
+                }
+            });
+        }
+    });
+
+    // Function to format date and time
+    function formatDateTime(dateTime) {
+        const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+        const formattedDateTime = new Date(dateTime).toLocaleString('en-US', options);
+        return formattedDateTime.replace(',', ' |');
+    }
 });

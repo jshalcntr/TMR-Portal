@@ -33,8 +33,8 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
 
     <title>Dashboard</title>
 
-    <?php include '../../components/external-css-import.php' ?>
-    <link rel="stylesheet" href="../../../assets/css/custom/user/dashboard.css">
+    <?php include '../../../modules/components/shared/external-css-import.php' ?>
+    <link rel="stylesheet" href="../../../assets/css/custom/shared/dashboard.css">
     <link rel="stylesheet" href="../../../assets/css/custom/ticketing-system/ticketing.css">
 
 
@@ -45,7 +45,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <?php include "../../components/sidebar.php" ?>
+        <?php include "../../../modules/components/shared/sidebar.php" ?>
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -53,7 +53,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
             <!-- Main Content -->
             <div id="content">
 
-                <?php include "../../components/topbar.php" ?>
+                <?php include "../../../modules/components/shared/topbar.php" ?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -187,6 +187,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
+                                        <button id="openChatButton" class="btn btn-outline-secondary" data-id="" data-title="" data-requestor="" data-bs-toggle="tooltip" data-bs-placement="left" title="Chat with MIS." style="float: right;"><i class="fa-regular fa-messages"></i></button>
                                         <p><strong>Title:</strong> <span id="ticketTitle"></span></p>
                                         <p><strong>Description:</strong> <span id="ticketDescription"></span></p>
                                         <p><strong>Attachment:</strong> <span id="ticketAttachment"></span></p>
@@ -196,9 +197,25 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                         </div>
                                     </div>
                                     <div class="modal-footer">
+
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- Chatbox -->
+                        <div id="chatbox" class="chatbox">
+                            <div class="chatbox-header">
+                                <span id="chatboxTitle">Ticket Title</span>
+                                <button id="closeChatbox" class="close-chatbox">&times;</button>
+                            </div>
+                            <div id="chatboxMessages" class="chatbox-messages">
+                                <!-- Chat messages will be populated here -->
+                            </div>
+                            <div class="chatbox-input">
+                                <input type="text" id="chatboxInput" placeholder="Type a message...">
+                                <button id="sendChatboxMessage">Send</button>
                             </div>
                         </div>
                     </div>
@@ -232,7 +249,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
 
 </body>
 
-<?php include "../../components/external-js-import.php" ?>
+<?php include "../../../modules/components/shared/external-js-import.php" ?>
 <script src="../../../assets/js/user/ticketing-system/userTicketing.js"></script>
 <!-- <script src="../../../assets/js/user/ticketing-system/addTicket.js"></script> -->
 <!-- <script src="../../../assets/js/user/ticketing-system/ticket-cetegory.js"></script> -->

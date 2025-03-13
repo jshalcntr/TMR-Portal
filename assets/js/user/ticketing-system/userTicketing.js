@@ -391,12 +391,13 @@ function populateTickets(tickets, containerSelector, type) {
                     data-date="${date}" 
                     data-time="${time}" 
                     data-handler="${handlerName}" 
+                    data-handlerId="${ticket.ticket_handler_id}" 
                     data-status="${type}">
                     <div class="text-truncate">${ticket.ticket_subject}</div>
                     <div class="small text-gray-500 text-truncate">${ticket.ticket_description}</div>
                     <div class="small text-gray-500 text-truncate">
                         <strong>Created:</strong> ${date}, ${time} | 
-                        <strong>Handler:</strong> ${handlerName} | 
+                        <strong>Handler:</strong> ${handlerName} | ${ticket.ticket_handler_id} | 
                         ${attachmentLink}
                     </div>
                 </button>
@@ -405,13 +406,9 @@ function populateTickets(tickets, containerSelector, type) {
     });
 }
 
-
-
 $(document).ready(function () {
     // Load tickets
     fetchTickets();
-
-
 
     // Click event for tickets
     $(document).on('click', '.ticket-item', function (e) {
@@ -426,6 +423,7 @@ $(document).ready(function () {
         const time = $(this).data('time');
         const status = $(this).data('status');
         const handlerName = $(this).data('handler');
+        const handlerId = $(this).data('handlerId');
 
         $('#ticketTitle').text(title);
         $('#ticketDescription').text(description);
@@ -458,8 +456,130 @@ $(document).ready(function () {
                 <button class="btn btn-outline-primary btn-sm" disabled data-id="${ticketId}">Re-open Ticket</button>    
             `);
         }
-
+        // Check if ticket_id exists in ticket_convo_tbl
+        $.ajax({
+            url: '../../../backend/shared/ticketing-system/check_ticket_convo.php', // Replace with your actual endpoint
+            method: 'POST',
+            data: { ticket_id: ticketId },
+            success: function (response) {
+                if (response.exists) {
+                    $('#openChatButton').removeClass('btn-outline-secondary').addClass('btn-primary');
+                } else {
+                    $('#openChatButton').removeClass('btn-primary').addClass('btn-outline-secondary');
+                }
+            }
+        });
+        $('#openChatButton').data('id', ticketId).data('requestor', handlerId).data('title', 'T#' + ticketId + ' | ' + title); // Set ticket ID and title for chat button
         $('#ticketsModal').modal('show');
+    });
+    function scrollToBottom() {
+        const chatboxMessages = document.getElementById('chatboxMessages');
+        if (chatboxMessages) {
+            chatboxMessages.scrollTop = chatboxMessages.scrollHeight;
+        }
+    }
+
+    // Scroll to bottom when the page loads
+    window.onload = function () {
+        scrollToBottom();
+    };
+    $(document).ready(function () {
+        // Function to scroll to the bottom of the chatbox
+        // Function to scroll to the bottom of the chatbox
+
+
+        // Open chatbox
+        $(document).on('click', '#openChatButton', function () {
+            const ticketId = $(this).data('id');
+            const ticketTitle = $(this).data('title');
+            const ticketRequestor = $(this).data('requestor');
+            openChatbox(ticketId, ticketTitle, ticketRequestor);
+        });
+
+        // Function to open chatbox
+        function openChatbox(ticketId, ticketTitle, ticketRequestor) {
+            $('#chatboxTitle').text(ticketTitle);
+            $('#chatbox').data('ticket-id', ticketId).data('requestor', ticketRequestor).show();
+            scrollToBottom();
+            fetchChatboxMessages(ticketId);
+        }
+
+        // Close chatbox
+        $('#closeChatbox').on('click', function () {
+            $('#chatbox').hide();
+        });
+
+        // Fetch chatbox messages
+        function fetchChatboxMessages(ticketId) {
+            $.ajax({
+                url: '../../../backend/user/ticketing-system/fetch_chat_messages.php',
+                type: 'GET',
+                data: { ticket_id: ticketId },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status === 'success') {
+                        const chatboxMessages = $('#chatboxMessages');
+                        chatboxMessages.empty();
+                        response.data.forEach(message => {
+                            const formattedDateTime = formatDateTime(message.ticket_convo_date);
+                            const readStatus = message.is_read ? 'read' : 'unread';
+                            const messageElement = `
+                            <div class="chat-message ${readStatus}">
+                                <strong>${message.full_name}:</strong> ${message.ticket_messages}
+                                <div class="small text-gray-500">${formattedDateTime}</div>
+                            </div>
+                            <hr>`;
+                            chatboxMessages.append(messageElement);
+                        });
+
+                        // Auto-scroll to bottom when new messages load
+                        scrollToBottom();
+                    } else {
+                        console.error(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching chat messages: ", error);
+                },
+                complete: function () {
+                    // Fetch new messages every 3 seconds
+                    setTimeout(() => fetchChatboxMessages(ticketId), 1000);
+                }
+            });
+        }
+
+        // Send chatbox message
+        $('#sendChatboxMessage').on('click', function () {
+            const ticketId = $('#chatbox').data('ticket-id');
+            const ticketRequestor = $('#chatbox').data('requestor');
+            const message = $('#chatboxInput').val();
+            if (message.trim() !== '') {
+                $.ajax({
+                    url: '../../../backend/user/ticketing-system/send_chat_message.php', // Change this to your PHP endpoint
+                    type: 'POST',
+                    data: { ticket_id: ticketId, message: message, requestor: ticketRequestor },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            $('#chatboxInput').val('');
+                            fetchChatboxMessages(ticketId, ticketRequestor); // Refresh chat messages
+                        } else {
+                            console.error(response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error sending chat message: ", error);
+                    }
+                });
+            }
+        });
+
+        // Function to format date and time
+        function formatDateTime(dateTime) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+            const formattedDateTime = new Date(dateTime).toLocaleString('en-US', options);
+            return formattedDateTime.replace(',', ' |');
+        }
     });
 
     // Cancel pending ticket

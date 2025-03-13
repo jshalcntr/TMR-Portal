@@ -135,25 +135,28 @@ if (authorize(true, $conn)) {
             </div>
         </div>
     </div>
-    <?php var_dump($authorizations['inventory_super']); ?>
     <?php if ($authorizations['inventory_edit']): ?>
         <?php include '../components/inventory-management/createInventoryModal.php' ?>
         <?php include '../components/inventory-management/importInventoryModal.php' ?>
         <?php include '../components/inventory-management/repairItemModal.php' ?>
         <?php include '../components/inventory-management/finishRepairModal.php' ?>
         <?php include '../components/inventory-management/disposeInventoryModal.php' ?>
-        <?php include '../components/inventory-management/requestChangesModal.php' ?>
         <?php if (!$authorizations['inventory_super']): ?>
+            <?php include '../components/inventory-management/requestChangesModal.php' ?>
             <?php include '../components/inventory-management/viewRequestHistoryModal.php' ?>
             <?php include '../components/inventory-management/editFAModal.php' ?>
             <?php include '../components/inventory-management/absoluteDeleteModal.php' ?>
             <?php include '../components/inventory-management/unretireModal.php' ?>
         <?php endif; ?>
     <?php endif; ?>
+
+    <?php if ($authorizations['inventory_super']): ?>
+        <?php include '../components/inventory-management/viewAllRequestsModal.php' ?>
+        <?php include '../components/inventory-management/viewRequestModal.php' ?>
+    <?php endif; ?>
     <?php include '../components/inventory-management/exportInventoryModal.php' ?>
     <?php include '../components/inventory-management/viewInventoryModal.php' ?>
 </body>
-
 <?php include '../components/shared/external-js-import.php'; ?>
 <script src="../../assets/js/inventory-management/inventory.js"></script>
 <script src="../../assets/js/inventory-management/exportFile.js"></script>
@@ -168,7 +171,11 @@ if (authorize(true, $conn)) {
     <script src="../../assets/js/inventory-management/absoluteDelete.js"></script>
     <script src="../../assets/js/inventory-management/unretire.js"></script>
 <?php endif; ?>
-
-
+<?php if ($authorizations['inventory_super']): ?>
+    <script src="../../assets/js/inventory-management/viewAllRequests.js"></script>
+    <script src="../../assets/js/inventory-management/viewRequest.js"></script>
+    <script src="../../assets/js/inventory-management/acceptRequest.js"></script>
+    <script src="../../assets/js/inventory-management/declineRequest.js"></script>
+<?php endif; ?>
 
 </html>
