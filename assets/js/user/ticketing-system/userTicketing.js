@@ -449,7 +449,7 @@ $(document).ready(function () {
             `);
         } else if (status === 'Closed') {
             actionButtons.append(`
-                <button class="btn btn-outline-primary btn-sm" id="reopenTicket" data-id="${ticketId}">Re-Create Ticket</button>
+                
             `);
         } else if (status === 'Rejected') {
             actionButtons.append(`

@@ -156,24 +156,53 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="ticketModalTitle">Ticket Details</h5>
                                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body">
-                                        <p><strong>Description:</strong> <span id="ticketModalDescription"></span></p>
-                                        <p><strong>Date Created:</strong> <span id="ticketModalDate"></span> <span id="ticketModalTime"></span></p>
-                                        <p><strong>Handler:</strong> <span id="ticketModalHandler"></span></p>
-                                        <p><strong>Requestor:</strong> <span id="ticketModalRequestor"></span></p>
-                                        <p><strong>Attachment:</strong> <span id="ticketModalAttachment"></span></p>
-                                        <div class="text-center">
-                                            <button id="approveButton" class="btn btn-success">Approve</button>
-                                            <button id="rejectButton" class="btn btn-danger">Reject</button>
+                                    <div class="modal-body p-4">
+                                        <!-- Ticket Information in a Card -->
+                                        <div class="card shadow-sm border-0">
+                                            <div class="card-body p-3">
+                                                <table class="table table-bordered table-striped mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="bg-light w-25">Description</th>
+                                                            <td><span id="ticketModalDescription"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Date Created</th>
+                                                            <td>
+                                                                <span id="ticketModalDate"></span>
+                                                                <span id="ticketModalTime"></span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Handler</th>
+                                                            <td><span id="ticketModalHandler"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Requestor</th>
+                                                            <td><span id="ticketModalRequestor"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Attachment</th>
+                                                            <td><span id="ticketModalAttachment"></span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                                        <!-- Approval & Rejection Buttons -->
+                                        <div class="d-flex justify-content-center gap-3 mt-4">
+                                            <button id="approveButton" class="btn btn-success">
+                                                <i class="fa-solid fa-check-circle me-1"></i> Approve
+                                            </button>
+                                            <button id="rejectButton" class="btn btn-danger">
+                                                <i class="fa-solid fa-times-circle me-1"></i> Reject
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -183,22 +212,53 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="ticketModalLabel">Ticket Details</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body">
-                                        <button id="openChatButton" class="btn btn-outline-secondary" data-id="" data-title="" data-requestor="" data-bs-toggle="tooltip" data-bs-placement="left" title="Chat with MIS." style="float: right;"><i class="fa-regular fa-messages"></i></button>
-                                        <p><strong>Title:</strong> <span id="ticketTitle"></span></p>
-                                        <p><strong>Description:</strong> <span id="ticketDescription"></span></p>
-                                        <p><strong>Attachment:</strong> <span id="ticketAttachment"></span></p>
-                                        <p><strong>Date Created:</strong> <span id="ticketDate"></span> <span id="ticketTime"></span></p>
-                                        <div id="actionButtons" class="text-center">
-                                            <!-- Action buttons will be populated dynamically -->
+                                    <div class="modal-body p-4">
+                                        <!-- Header with Chat Button -->
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="modal-title fw-bold"><i class="fa-solid fa-ticket-alt me-2"></i> Ticket Details</h5>
+                                            <button id="openChatButton" class="btn btn-outline-secondary btn-sm d-flex align-items-center"
+                                                data-id="" data-title="" data-requestor=""
+                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                title="Chat with MIS">
+                                                <i class="fa-solid fa-comments me-1"></i> Chat
+                                            </button>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
 
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <!-- Ticket Information in a Card -->
+                                        <div class="card shadow-sm border-0">
+                                            <div class="card-body p-3">
+                                                <table class="table table-bordered table-striped mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="bg-light w-25">Title</th>
+                                                            <td><span id="ticketTitle"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Description</th>
+                                                            <td><span id="ticketDescription"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Attachment</th>
+                                                            <td><span id="ticketAttachment"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Date Created</th>
+                                                            <td>
+                                                                <span id="ticketDate"></span>
+                                                                <span id="ticketTime"></span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <!-- Dynamic Action Buttons -->
+                                        <div id="actionButtons" class="d-flex justify-content-center gap-3 mt-4">
+                                            <!-- Buttons will be dynamically inserted here -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>

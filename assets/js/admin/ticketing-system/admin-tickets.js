@@ -26,6 +26,45 @@ function formatDate(dateString) {
     return `${formattedHours}:${formattedMinutes} ${ampm} ${month}-${day}-${year}`;
 }
 
+function calculateRemainingTime(dueDate) {
+    if (!dueDate) {
+        return 'N/A';
+    }
+
+    const now = new Date();
+    const due = new Date(dueDate);
+
+    if (isNaN(due.getTime())) {
+        return 'N/A';
+    }
+
+    const diff = due - now;
+
+    if (diff <= 0) {
+        return `${formatDate(dueDate)}`;
+    }
+
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    return `${hours}h ${minutes}m ${seconds}s`;
+}
+
+function updateTimers() {
+    document.querySelectorAll('.ticket-due-timer').forEach(timer => {
+        const dueDate = timer.getAttribute('data-due-date');
+        if (dueDate) {
+            timer.innerText = calculateRemainingTime(dueDate);
+        } else {
+            timer.innerText = 'N/A';
+        }
+    });
+}
+
+setInterval(updateTimers, 1000);
+
+
 $(document).ready(function () {
     // Fetch ticket counts from the backend
     $.ajax({
@@ -120,7 +159,7 @@ function fetchAndShowTickets(card) {
                             <td>${formattedDateCreated}</td>
                             <td>${ticket.ticket_subject}</td>
                             <td>${ticket.ticket_status}</td>
-                            <td>${formattedDueDate}</td>
+                            <td class="ticket-due-timer" data-due-date="${ticket.ticket_due_date}">${formattedDueDate}</td>
                             <td>${attachmentLink}</td>
                         </tr>
                     `;

@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $('#acceptRequestBtn').on('click', function () {
-        console.log(requestId);
         Swal.fire({
             title: 'Are you sure you want to accept this request?',
             icon: 'warning',
@@ -14,8 +13,7 @@ $(document).ready(function () {
                     type: "POST",
                     url: "../../backend/inventory-management/acceptRequest.php",
                     data: {
-                        requestId,
-                        requestSql: $("#requestSql").val()
+                        requestId
                     },
                     success: function (response) {
                         if (response.status === 'internal-error') {

@@ -16,6 +16,27 @@ function convertToReadableDate(date) {
         return parsedDate.toLocaleDateString("en-US", options);
     }
 }
+function convertToReadableDateTime(date) {
+    if (!date || date === "0000-00-00") {
+        return "No Date Recorded Yet";
+    }
+
+    const parsedDate = new Date(date);
+    if (isNaN(parsedDate.getTime())) {
+        return "Invalid Date";
+    }
+
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    const datePart = parsedDate.toLocaleDateString("en-US", options);
+
+    let hours = parsedDate.getHours();
+    const minutes = String(parsedDate.getMinutes()).padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12; // Convert to 12-hour format
+
+    return `${datePart} ${hours}:${minutes} ${ampm}`;
+}
+
 
 // function convertToReadableDateTime(date) {
 //     if (date === "0000-00-00" || date === null) {
@@ -32,6 +53,8 @@ function convertFromReadableDate(date) {
     const formattedDate = new Date(`${month} ${day.replace(",", "")} ${year}`);
     return formattedDate.toISOString().split("T")[0];
 }
+
+
 
 function convertToPhp(integer) {
     return `Php ${integer.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;

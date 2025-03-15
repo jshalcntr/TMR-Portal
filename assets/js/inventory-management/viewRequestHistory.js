@@ -46,10 +46,20 @@ $(document).ready(function () {
                 { data: 'requestReason' },
                 {
                     data: 'requestDatetime', render: function (data, type, row) {
-                        return convertToReadableDate(data)
+                        return convertToReadableDateTime(data)
                     }
                 },
-                { data: 'status' },
+                {
+                    data: 'status', render: function (data, type, row) {
+                        if (data === 'pending') {
+                            return `<i class="fa-solid fa-circle text-warning fa-2xs glow-icon__pending"></i>`
+                        } else if (data === 'accepted') {
+                            return `<i class="fa-solid fa-circle text-primary fa-2xs glow-icon__accepted"></i>`
+                        } else if (data === 'declined') {
+                            return `<i class="fa-solid fa-circle text-danger fa-2xs glow-icon__declined"></i>`
+                        }
+                    }
+                },
             ],
             dom: 't',
             destroy: true,

@@ -57,7 +57,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                     <div class="row">
                         <div class="col-md-12 row">
                             <div class="card shadow mb-4 col-md-2" data-category="overdue" onclick="fetchAndShowTickets(this)">
-                                <div class="card-header py-3">
+                                <div class="card-header py-3 text-truncate">
                                     <h6 class="m-0 font-weight-bold text-primary">Overdue Tasks</h6>
                                 </div>
                                 <div class="card-body text-center">
@@ -65,7 +65,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                 </div>
                             </div>
                             <div class="card shadow mb-4 col-md-2" data-category="today-due" onclick="fetchAndShowTickets(this)">
-                                <div class="card-header py-3">
+                                <div class="card-header py-3 text-truncate">
                                     <h6 class="m-0 font-weight-bold text-primary">Tickets Due Today</h6>
                                 </div>
                                 <div class="card-body text-center">
@@ -73,7 +73,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                 </div>
                             </div>
                             <div class="card shadow mb-4 col-md-2" data-category="open" onclick="fetchAndShowTickets(this)">
-                                <div class="card-header py-3">
+                                <div class="card-header py-3 text-truncate">
                                     <h6 class="m-0 font-weight-bold text-primary">Open Tickets</h6>
                                 </div>
                                 <div class="card-body text-center">
@@ -81,7 +81,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                 </div>
                             </div>
                             <div class="card shadow mb-4 col-md-2" data-category="for-approval" onclick="fetchAndShowTickets(this)">
-                                <div class="card-header py-3">
+                                <div class="card-header py-3 text-truncate">
                                     <h6 class="m-0 font-weight-bold text-primary">For Approval Tickets</h6>
                                 </div>
                                 <div class="card-body text-center">
@@ -89,7 +89,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                 </div>
                             </div>
                             <div class="card shadow mb-4 col-md-2" data-category="unassigned" onclick="fetchAndShowTickets(this)">
-                                <div class="card-header py-3">
+                                <div class="card-header py-3 text-truncate">
                                     <h6 class="m-0 font-weight-bold text-primary">Unassigned Tickets</h6>
                                 </div>
                                 <div class="card-body text-center">
@@ -97,7 +97,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                 </div>
                             </div>
                             <div class="card shadow mb-4 col-md-2" data-category="finished" onclick="fetchAndShowTickets(this)">
-                                <div class="card-header py-3">
+                                <div class="card-header py-3 text-truncate">
                                     <h6 class="m-0 font-weight-bold text-primary">Closed Tickets</h6>
                                 </div>
                                 <div class="card-body text-center">
@@ -149,28 +149,82 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                             <div class="modal-dialog modal-md">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="ticketDetailsModalLabel">Ticket Details</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body">
-                                        <button id="openChatButton" class="btn btn-outline-secondary" data-id="" data-title="" data-requestor="" data-bs-toggle="tooltip" data-bs-placement="left" title="Chat with requestor." style="float: right;"><i class="fa-regular fa-messages"></i></button>
-                                        <p><strong>Ticket ID:</strong> <span id="ticketId"></span></p>
-                                        <p><strong>Requestor:</strong> <span id="ticketRequestorId"></span></p>
-                                        <p><strong>Department:</strong> <span id="ticketRequestorDepartment"></span></p>
-                                        <p><strong>Subject:</strong> <span id="ticketSubject"></span></p>
-                                        <p><strong>Description:</strong> <span id="ticketDescription"></span></p>
-                                        <p><strong>Type:</strong> <span id="ticketType"></span></p>
-                                        <p><strong>Attachment:</strong> <span id="ticketAttachment"></span></p>
+                                    <div class="modal-body p-4">
+                                        <!-- Header with Chat Button -->
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="modal-title fw-bold"><i class="fa-solid fa-ticket-alt me-2"></i> Ticket Details</h5>
+                                            <button id="openChatButton" class="btn btn-outline-secondary btn-sm d-flex align-items-center"
+                                                data-id="" data-title="" data-requestor=""
+                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                title="Chat with requestor">
+                                                <i class="fa-solid fa-comments me-1"></i> Chat
+                                            </button>
+                                        </div>
 
-                                        <p><strong>Conclusion:</strong> <span id="ticketConclusion"></span></p>
-                                        <textarea id="conclusionTextArea" style="display: none;" class="form-control" placeholder="Enter conclusion here..."></textarea>
-                                        <hr>
-                                        <!-- <button id="editButton" class="btn btn-outline-info" onclick="enableEditing()">Edit</button> -->
-                                        <button id="saveButton" class="btn btn-outline-primary" onclick="saveTicketDetails()" style="display: none;">Save</button>
-                                        <button id="cancelsaveButton" class="btn btn-outline-danger" onclick="cancelTicketDetails()" style="display: none; float: right">Cancel</button>
-                                        <button id="closeTicketButton" class="btn btn-outline-danger" onclick="showConclusionTextArea()">Close Ticket</button>
-                                        <button id="saveConclusionButton" class="btn btn-outline-primary" onclick="saveConclusion()" style="display: none;">Save Conclusion</button>
+                                        <!-- Ticket Information in a Card -->
+                                        <div class="card shadow-sm border-0">
+                                            <div class="card-body p-3">
+                                                <table class="table table-bordered table-striped mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="bg-light w-25">Ticket ID</th>
+                                                            <td><span id="ticketId"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Requestor</th>
+                                                            <td><span id="ticketRequestorId"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Department</th>
+                                                            <td><span id="ticketRequestorDepartment"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Subject</th>
+                                                            <td><span id="ticketSubject"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Description</th>
+                                                            <td><span id="ticketDescription"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Type</th>
+                                                            <td><span id="ticketType"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Attachment</th>
+                                                            <td><span id="ticketAttachment"></span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <!-- Conclusion Section -->
+                                        <div class="mt-4">
+                                            <h6 class="fw-bold"><i class="fa-solid fa-clipboard-check me-2"></i> Conclusion</h6>
+                                            <p class="mb-2"><span id="ticketConclusion" class="text-muted fst-italic"></span></p>
+                                            <textarea id="conclusionTextArea" class="form-control mt-2 fade"
+                                                placeholder="Enter conclusion here..." style="display: none;"></textarea>
+                                        </div>
+
+                                        <!-- Sticky Footer Actions -->
+                                        <div class="d-flex justify-content-end gap-2 mt-4 border-top pt-3">
+                                            <button id="saveButton" class="btn btn-outline-primary d-none"
+                                                onclick="saveTicketDetails()">Save</button>
+                                            <button id="cancelsaveButton" class="btn btn-outline-danger d-none"
+                                                onclick="cancelTicketDetails()">Cancel</button>
+                                            <button id="closeTicketButton" class="btn btn-danger"
+                                                onclick="showConclusionTextArea()">
+                                                <i class="fa-solid fa-times-circle me-1"></i> Close Ticket
+                                            </button>
+                                            <button id="saveConclusionButton" class="btn btn-primary d-none"
+                                                onclick="saveConclusion()">Save Conclusion</button>
+                                        </div>
                                     </div>
+
+
                                 </div>
                             </div>
                         </div>
@@ -180,21 +234,74 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                             <div class="modal-dialog modal-md">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="ticketDetailsModalLabel">Ticket Details</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body">
-                                        <button id="openChatButtonUnassigned" class="btn btn-outline-secondary" data-id="" data-title="" data-requestor="" data-bs-toggle="tooltip" data-bs-placement="left" title="Chat with requestor." style="float: right;"><i class="fa-regular fa-messages"></i></button>
-                                        <p><strong>Ticket ID:</strong> <span id="unassignedticketId"></span></p>
-                                        <p><strong>Requestor:</strong> <span id="unassignedticketRequestorId"></span></p>
-                                        <p><strong>Department:</strong> <span id="unassignedticketRequestorDepartment"></span></p>
-                                        <p><strong>Subject:</strong> <span id="unassignedticketSubject"></span></p>
-                                        <p><strong>Description:</strong> <span id="unassignedticketDescription"></span></p>
-                                        <p><strong>Attachment:</strong> <span id="unassignedticketAttachment"></span></p>
-                                        <p><strong>Type:</strong> <span id="unassignedticketType"></span></p>
-                                        <p class="text-info"><input type="checkbox" id="forApprovalCheckbox"> For Approval </p>
-                                        <button id="claimButton" class="btn btn-primary" onclick="claimTicket()" style="float: right">Claim</button>
+                                    <div class="modal-body p-4">
+                                        <!-- Header with Chat Button -->
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="modal-title fw-bold"><i class="fa-solid fa-ticket-alt me-2"></i> Unassigned Ticket</h5>
+                                            <button id="openChatButtonUnassigned" class="btn btn-outline-secondary btn-sm d-flex align-items-center"
+                                                data-id="" data-title="" data-requestor=""
+                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                title="Chat with requestor">
+                                                <i class="fa-solid fa-comments me-1"></i> Chat
+                                            </button>
+                                        </div>
+
+                                        <!-- Ticket Information in a Card -->
+                                        <div class="card shadow-sm border-0">
+                                            <div class="card-body p-3">
+                                                <table class="table table-bordered table-striped mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="bg-light w-25">Ticket ID</th>
+                                                            <td><span id="unassignedticketId"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Requestor</th>
+                                                            <td><span id="unassignedticketRequestorId"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Department</th>
+                                                            <td><span id="unassignedticketRequestorDepartment"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Subject</th>
+                                                            <td><span id="unassignedticketSubject"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Description</th>
+                                                            <td><span id="unassignedticketDescription"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Attachment</th>
+                                                            <td><span id="unassignedticketAttachment"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Type</th>
+                                                            <td><span id="unassignedticketType"></span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <!-- For Approval Checkbox -->
+                                        <div class="form-check mt-3">
+                                            <input class="form-check-input" type="checkbox" id="forApprovalCheckbox">
+                                            <label class="form-check-label text-info fw-bold" for="forApprovalCheckbox">
+                                                For Approval
+                                            </label>
+                                        </div>
+
+                                        <!-- Claim Button -->
+                                        <div class="d-flex justify-content-end mt-3">
+                                            <button id="claimButton" class="btn btn-primary" onclick="claimTicket()">
+                                                <i class="fa-solid fa-hand-pointer me-1"></i> Claim Ticket
+                                            </button>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -204,27 +311,84 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                             <div class="modal-dialog modal-md">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="ticketDetailsModalLabel">Ticket Details</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body">
-                                        <button id="openChatButtonClosed" class="btn btn-outline-secondary" data-id="" data-title="" data-requestor="" data-bs-toggle="tooltip" data-bs-placement="left" title="Chat with requestor." style="float: right;"><i class="fa-regular fa-messages"></i></button>
-                                        <p><strong>Ticket ID:</strong> <span id="closedticketId"></span></p>
-                                        <p><strong>Requestor:</strong> <span id="closedticketRequestorId"></span></p>
-                                        <p><strong>Department:</strong> <span id="closedticketRequestorDepartment"></span></p>
-                                        <p><strong>Subject:</strong> <span id="closedticketSubject"></span></p>
-                                        <p><strong>Description:</strong> <span id="closedticketDescription"></span></p>
-                                        <p><strong>Type:</strong> <span id="closedticketType"></span></p>
-                                        <p><strong>Attachment:</strong> <span id="closedticketAttachment"></span></p>
-                                        <p><strong>Conclusion:</strong> <span id="closedticketConclusion"></span></p>
-                                        <button id="showChangesButton" class="btn btn-outline-info">Request Reopen</button>
-                                        <div id="changesSection" style="display: none;">
-                                            <p><strong>Reason/Description:</strong></p>
-                                            <textarea id="ticketChangesDescription" class="form-control" rows="3"></textarea>
-                                            <button id="submitChangesButton" class="btn btn-outline-success mt-2">Submit Request</button>
-                                            <button id="cancelChangesButton" class="btn btn-outline-danger mt-2" style="float: right;">Cancel</button>
+                                    <div class="modal-body p-4">
+                                        <!-- Header with Chat Button -->
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="modal-title fw-bold"><i class="fa-solid fa-ticket-alt me-2"></i> Closed Ticket</h5>
+                                            <button id="openChatButtonClosed" class="btn btn-outline-secondary btn-sm d-flex align-items-center"
+                                                data-id="" data-title="" data-requestor=""
+                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                title="Chat with requestor">
+                                                <i class="fa-solid fa-comments me-1"></i> Chat
+                                            </button>
+                                        </div>
+
+                                        <!-- Ticket Information in a Card -->
+                                        <div class="card shadow-sm border-0">
+                                            <div class="card-body p-3">
+                                                <table class="table table-bordered table-striped mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="bg-light w-25">Ticket ID</th>
+                                                            <td><span id="closedticketId"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Requestor</th>
+                                                            <td><span id="closedticketRequestorId"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Department</th>
+                                                            <td><span id="closedticketRequestorDepartment"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Subject</th>
+                                                            <td><span id="closedticketSubject"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Description</th>
+                                                            <td><span id="closedticketDescription"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Type</th>
+                                                            <td><span id="closedticketType"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Attachment</th>
+                                                            <td><span id="closedticketAttachment"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Conclusion</th>
+                                                            <td><span id="closedticketConclusion"></span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <!-- Request Reopen Section -->
+                                        <div class="mt-4">
+                                            <button id="showChangesButton" class="btn btn-outline-info w-100">
+                                                <i class="fa-solid fa-undo-alt me-1"></i> Request Reopen
+                                            </button>
+
+                                            <div id="changesSection" class="mt-3 border rounded p-3 bg-light" style="display: none;">
+                                                <label for="ticketChangesDescription" class="fw-bold">Reason for Reopening:</label>
+                                                <textarea id="ticketChangesDescription" class="form-control mt-2" rows="3" placeholder="Enter reason..."></textarea>
+
+                                                <div class="d-flex justify-content-between mt-3">
+                                                    <button id="submitChangesButton" class="btn btn-outline-success">
+                                                        <i class="fa-solid fa-paper-plane me-1"></i> Submit Request
+                                                    </button>
+                                                    <button id="cancelChangesButton" class="btn btn-outline-danger">
+                                                        <i class="fa-solid fa-times me-1"></i> Cancel
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

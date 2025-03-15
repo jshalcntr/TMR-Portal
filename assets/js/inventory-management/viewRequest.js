@@ -26,7 +26,6 @@ $(document).ready(function () {
                     $("#computerName").text(requestInfo.computer_name);
                     $("#requestType").text(requestInfo.request_name);
                     $("#requestReason").text(requestInfo.request_reason);
-                    $("#requestSql").val(requestInfo.request_sql);
                 }
             }
         });

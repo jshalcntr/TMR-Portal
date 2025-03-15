@@ -10,7 +10,7 @@ $(document).ready(function () {
 
     // Function to play an alert sound
     function playAlertSound() {
-        const audio = new Audio('/tmr-portal/asset/media/chat-message.mp3');
+        const audio = new Audio('/tmr-portal/assets/media/chat-message.mp3');
         audio.play();
     }
 
@@ -34,7 +34,7 @@ $(document).ready(function () {
                                     data-title="T#${message.ticket_id + " | " + message.ticket_subject}" 
                                     data-requestor="${message.ticket_requestor_id}">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="${message.profile_picture}" alt="...">
+                                        <img class="rounded-circle" src="${message.profile_picture !== 'no-link' ? message.profile_picture : "../../assets/img/no-profile.png"}" alt="...">
                                     </div>
                                     <div class="font-weight-bold">
                                         <div class="text-truncate">${message.ticket_messages}</div>

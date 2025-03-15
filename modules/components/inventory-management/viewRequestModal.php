@@ -62,7 +62,6 @@
                     </div>
                 </div>
                 <div class="row mt-3 justify-content-end" style="gap: 8px;">
-                    <input type="hidden" name="requestSql" id="requestSql">
                     <button type="button" class="btn btn-sm shadow-sm btn-danger w-auto" id="declineRequestBtn"><i class="fas fa-xmark"></i> Decline</button>
                     <button type="button" class="btn btn-sm shadow-sm btn-primary w-auto" id="acceptRequestBtn"><i class="fas fa-check"></i> Accept</button>
                 </div>

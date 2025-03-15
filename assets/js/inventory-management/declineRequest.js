@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $('#declineRequestBtn').on('click', function () {
-        console.log(requestId);
         Swal.fire({
             title: 'Are you sure you want to decline this request?',
             icon: 'warning',
