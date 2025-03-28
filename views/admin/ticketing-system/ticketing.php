@@ -205,22 +205,23 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                         <div class="mt-4">
                                             <h6 class="fw-bold"><i class="fa-solid fa-clipboard-check me-2"></i> Conclusion</h6>
                                             <p class="mb-2"><span id="ticketConclusion" class="text-muted fst-italic"></span></p>
-                                            <textarea id="conclusionTextArea" class="form-control mt-2 fade"
-                                                placeholder="Enter conclusion here..." style="display: none;"></textarea>
+
+                                            <!-- Textarea (Initially Hidden) -->
+                                            <textarea id="conclusionTextArea" class="form-control mt-2 d-none fade"
+                                                placeholder="Enter conclusion here..."></textarea>
                                         </div>
 
                                         <!-- Sticky Footer Actions -->
                                         <div class="d-flex justify-content-end gap-2 mt-4 border-top pt-3">
-                                            <button id="saveButton" class="btn btn-outline-primary d-none"
-                                                onclick="saveTicketDetails()">Save</button>
-                                            <button id="cancelsaveButton" class="btn btn-outline-danger d-none"
-                                                onclick="cancelTicketDetails()">Cancel</button>
-                                            <button id="closeTicketButton" class="btn btn-danger"
-                                                onclick="showConclusionTextArea()">
+                                            <button id="cancelsaveButton" class="btn btn-outline-danger d-none" onclick="cancelTicketDetails()">
+                                                <i class="fa-solid fa-ban me-1"></i> Cancel
+                                            </button>
+                                            <button id="closeTicketButton" class="btn btn-danger" onclick="showConclusionTextArea()">
                                                 <i class="fa-solid fa-times-circle me-1"></i> Close Ticket
                                             </button>
-                                            <button id="saveConclusionButton" class="btn btn-primary d-none"
-                                                onclick="saveConclusion()">Save Conclusion</button>
+                                            <button id="saveConclusionButton" class="btn btn-primary d-none" onclick="saveConclusion()">
+                                                <i class="fa-solid fa-save me-1"></i> Save Conclusion
+                                            </button>
                                         </div>
                                     </div>
 

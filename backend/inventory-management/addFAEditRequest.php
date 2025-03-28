@@ -31,10 +31,14 @@ if (!$stmt) {
             "data" => $stmt->error
         ]);
     } else {
+        $requestId = $conn->insert_id;
         header('Content-Type: application/json');
         echo json_encode([
             "status" => "success",
-            "message" => "FA Edit Request Sent Successfully!"
+            "message" => "FA Edit Request Sent Successfully!",
+            "data" => [
+                "requestId" => $requestId
+            ]
         ]);
     }
 }

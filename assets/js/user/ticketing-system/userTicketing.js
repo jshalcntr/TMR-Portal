@@ -382,6 +382,12 @@ function populateTickets(tickets, containerSelector, type) {
             ? `<a href="${ticket.ticket_attachment}" target="_blank" class="badge badge-info">Attachment</a>`
             : '';
         const handlerName = ticket.handler_name ? ticket.handler_name : 'Unassigned';
+        let forApproval = '';
+        if (ticket.ticket_status === 'FOR APPROVAL') {
+            forApproval = '<div class="text-warning">For Approval</div>';
+        } else {
+            forApproval = '';
+        }
         const ticketElement = `
                 <button class="dropdown-item align-items-center ticket-item" 
                     data-id="${ticket.ticket_id}" 
@@ -399,6 +405,7 @@ function populateTickets(tickets, containerSelector, type) {
                         <strong>Created:</strong> ${date}, ${time} | 
                         <strong>Handler:</strong> ${handlerName} | ${ticket.ticket_handler_id} | 
                         ${attachmentLink}
+                        ${forApproval}
                     </div>
                 </button>
                 <hr>`;

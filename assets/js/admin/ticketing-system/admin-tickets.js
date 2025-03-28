@@ -397,13 +397,13 @@ function enableEditing() {
     document.getElementById('cancelsaveButton').style.display = 'inline-block';
 }
 // Function to cancel enable editing of ticket details
-function cancelTicketDetails() {
-    document.getElementById('ticketDueDate').disabled = true;
-    document.getElementById('ticketStatus').disabled = true;
-    document.getElementById('closeTicketButton').style.display = 'inline-block';
-    document.getElementById('saveButton').style.display = 'none';
-    document.getElementById('cancelsaveButton').style.display = 'none';
-}
+// function cancelTicketDetails() {
+//     document.getElementById('ticketDueDate').disabled = true;
+//     document.getElementById('ticketStatus').disabled = true;
+//     document.getElementById('closeTicketButton').style.display = 'inline-block';
+//     document.getElementById('saveButton').style.display = 'none';
+//     document.getElementById('cancelsaveButton').style.display = 'none';
+// }
 
 function enableUnassignedEditing() {
     document.getElementById('unassignedticketDueDate').disabled = false;
@@ -422,21 +422,36 @@ function cancelUnassignedTicketDetails() {
     document.getElementById('unassignedsaveButton').style.display = 'none';
     document.getElementById('unassignedcancelsaveButton').style.display = 'none';
 }
-// Function to show the conclusion text area
 function showConclusionTextArea() {
-    document.getElementById('conclusionTextArea').style.display = 'block';
-    document.getElementById('saveConclusionButton').style.display = 'inline-block';
-    document.getElementById('closeTicketButton').style.display = 'none';
-    document.getElementById('cancelsaveButton').style.display = 'inline-block';
+    let textArea = document.getElementById('conclusionTextArea');
+    let saveButton = document.getElementById('saveConclusionButton');
+    let closeButton = document.getElementById('closeTicketButton');
+    let cancelButton = document.getElementById('cancelsaveButton');
+
+    // Remove 'd-none' class to show elements
+    textArea.classList.remove('fade', 'd-none');
+    textArea.classList.add('show');
+    saveButton.classList.remove('d-none');
+    cancelButton.classList.remove('d-none');
+
+    // Hide Close Ticket button
+    closeButton.classList.add('d-none');
 }
 
-// Function to cancel enable editing of ticket details
+// Function to cancel editing of ticket details
 function cancelTicketDetails() {
-    document.getElementById('closeTicketButton').style.display = 'inline-block';
-    document.getElementById('saveButton').style.display = 'none';
-    document.getElementById('cancelsaveButton').style.display = 'none';
-    document.getElementById('saveConclusionButton').style.display = 'none';
-    document.getElementById('conclusionTextArea').style.display = 'none';
+    let textArea = document.getElementById('conclusionTextArea');
+    let cancelButton = document.getElementById('cancelsaveButton');
+    let saveConclusionButton = document.getElementById('saveConclusionButton');
+    let closeButton = document.getElementById('closeTicketButton');
+
+    // Hide text area and buttons
+    textArea.classList.add('d-none');
+    cancelButton.classList.add('d-none');
+    saveConclusionButton.classList.add('d-none');
+
+    // Show Close Ticket button
+    closeButton.classList.remove('d-none');
 }
 
 

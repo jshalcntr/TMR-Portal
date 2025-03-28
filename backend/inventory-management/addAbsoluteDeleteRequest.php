@@ -30,10 +30,14 @@ if (!$stmt) {
             "data" => $stmt->error
         ]);
     } else {
+        $requestId = $conn->insert_id;
         header('Content-Type: application/json');
         echo json_encode([
             "status" => "success",
-            "message" => "Absolute Delete Request Sent Successfully!"
+            "message" => "Absolute Delete Request Sent Successfully!",
+            "data" => [
+                "requestId" => $requestId
+            ]
         ]);
     }
 }

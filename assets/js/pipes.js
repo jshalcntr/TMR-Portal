@@ -63,3 +63,33 @@ function convertToPhp(integer) {
 function convertFromPhp(amount) {
     return parseFloat(amount.replace("Php ", "").replace(/,/g, ""));
 }
+
+function formatTimeAgo(dateTime) {
+    let now = new Date();
+    let notificationDate = new Date(dateTime);
+    let diffInSeconds = Math.floor((now - notificationDate) / 1000);
+
+    if (diffInSeconds < 300) {
+        return "Just Now";
+    } else if (diffInSeconds < 3600) {
+        let minutes = Math.floor(diffInSeconds / 60);
+        return minutes === 1 ? `A minute ago` : `${minutes} minutes ago`;
+    } else if (diffInSeconds < 86400) {
+        let hours = Math.floor(diffInSeconds / 3600);
+        return hours === 1 ? "An hour ago" : `${hours} hours ago`;
+    } else if (diffInSeconds < 172800) {
+        return "Yesterday";
+    } else if (diffInSeconds < 604800) {
+        let days = Math.floor(diffInSeconds / 86400);
+        return days === 1 ? "A day ago" : `${days} days ago`;
+    } else if (diffInSeconds < 2592000) {
+        let weeks = Math.floor(diffInSeconds / 604800);
+        return weeks === 1 ? "A week ago" : `${weeks} weeks ago`;
+    } else if (diffInSeconds < 31536000) {
+        let months = Math.floor(diffInSeconds / 2592000);
+        return months === 1 ? "A month ago" : `${months} months ago`;
+    } else {
+        let years = Math.floor(diffInSeconds / 31536000);
+        return years === 1 ? "A year ago" : `${years} years ago`;
+    }
+}

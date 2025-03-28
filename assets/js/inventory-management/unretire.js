@@ -57,6 +57,37 @@ $(document).ready(function () {
                                             $("#viewInventoryModal").modal('show');
                                         }, 1000);
                                     }, 1000);
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "../../backend/inventory-management/createMultipleNotification.php",
+                                        data: {
+                                            receiverAuth: 'inventory_super_auth',
+                                            inventoryId: queriedId,
+                                            requestId: response.data.requestId,
+                                            notificationType: "request_created",
+                                            notificationSubject: "requests to unretire",
+                                            notificationDescription: "Request to Unretire an Item."
+                                        },
+                                        success: function (response) {
+                                            if (response.status === 'internal-error') {
+                                                Swal.fire({
+                                                    title: 'Error! ',
+                                                    text: `${response.message}`,
+                                                    icon: 'error',
+                                                    confirmButtonColor: 'var(--bs-danger)'
+                                                });
+                                            } else if (response.status === 'minor-error') {
+                                                console.log(response);
+                                            }
+                                        }
+                                    });
+                                })
+                            } else if (response.status === 'internal-error') {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: `${response.message}`,
+                                    icon: 'error',
+                                    confirmButtonColor: 'var(--bs-danger)'
                                 })
                             }
                         }

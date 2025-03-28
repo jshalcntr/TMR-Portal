@@ -56,7 +56,13 @@ if (authorize(true, $conn)) {
             <div id="content">
                 <?php include "../components/shared/topbar.php" ?>
                 <div class="container-fluid">
-                    <h1 class="h3 mb-2 text-gray-800">Inventory Management</h1>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="h3 mb-2 text-gray-800">Inventory Management</h1>
+                        <div id="inventoryNotificationBtnGroup">
+                            <i class="fa-solid fa-bell-exclamation text-primary fa-xl mr-4" role="button" data-bs-toggle="modal" data-bs-target="#inventoryNotifications" id="viewInventoryNotificationsButton"></i>
+                            <div id="newNotificationsCount" class="d-none"></div>
+                        </div>
+                    </div>
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex align-items-center justify-content-between">
                             <h6 class="m-0 font-weight-bold text-primary">Inventory</h6>
@@ -135,6 +141,7 @@ if (authorize(true, $conn)) {
             </div>
         </div>
     </div>
+    <?php include '../components/inventory-management/inventoryNotificationsModal.php' ?>
     <?php if ($authorizations['inventory_edit']): ?>
         <?php include '../components/inventory-management/createInventoryModal.php' ?>
         <?php include '../components/inventory-management/importInventoryModal.php' ?>
@@ -177,5 +184,6 @@ if (authorize(true, $conn)) {
     <script src="../../assets/js/inventory-management/acceptRequest.js"></script>
     <script src="../../assets/js/inventory-management/declineRequest.js"></script>
 <?php endif; ?>
+<script src="../../assets/js/inventory-management/inventoryNotifications.js"></script>
 
 </html>

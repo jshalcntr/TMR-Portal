@@ -29,6 +29,7 @@ if (!$stmt) {
         // ? Store Data to variables
         $requestType = $requestData['request_name'];
         $requestedAsset = $requestData['requested_asset_id'];
+        $requestorId = $requestData['requestor_id'];
 
         // ? Check Type of Request
         if ($requestType == "Unretire") {
@@ -216,6 +217,10 @@ if (!$stmt) {
                                                     echo json_encode([
                                                         "status" => "success",
                                                         "message" => "Request Accepted Successfully!",
+                                                        "data" => [
+                                                            "requestType" => $requestType,
+                                                            "requestorId" => $requestorId
+                                                        ]
                                                     ]);
                                                 }
                                             }
@@ -254,6 +259,10 @@ if (!$stmt) {
                 echo json_encode([
                     "status" => "success",
                     "message" => "Request Accepted Successfully!",
+                    "data" => [
+                        "requestType" => $requestType,
+                        "requestorId" => $requestorId
+                    ],
                 ]);
             }
         }

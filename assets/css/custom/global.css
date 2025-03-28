@@ -155,18 +155,6 @@
 .fas {
     font-family: "Font Awesome 6 Pro" !important;
 }
-.glow-icon__pending {
-    text-shadow: 0 0 0px #fff, 0 0 0px var(--warning), 0 0 30px var(--warning),
-        0 0 7px var(--warning);
-}
-.glow-icon__accepted {
-    text-shadow: 0 0 0px #fff, 0 0 0px var(--primary), 0 0 30px var(--primary),
-        0 0 7px var(--primary);
-}
-.glow-icon__declined {
-    text-shadow: 0 0 0px #fff, 0 0 0px var(--danger), 0 0 30px var(--danger),
-        0 0 7px var(--danger);
-}
 
 .notification-container {
     position: fixed;
