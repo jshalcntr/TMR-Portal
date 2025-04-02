@@ -201,21 +201,32 @@ function formatDateTime(dateString) {
 
     return { date: formattedDate, time: formattedTime };
 }
+function formatDueDate(dueDateString) {
+    const options = { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true };
+    return new Date(dueDateString).toLocaleString('en-US', options);
+}
 $(document).ready(function () {
-    // Fetch "For Approval" tickets
     function forApprovalTickets() {
         $.ajax({
-            url: '../../../backend/user/ticketing-system/fetch_for_approval_tickets.php', // Adjust the path
+            url: '../../../backend/user/ticketing-system/fetch_for_approval_tickets.php',
             type: 'GET',
             success: function (response) {
                 if (response.status === 'success') {
                     const tickets = response.data;
-                    const approvalContainer = $('#forApprovalContainer'); // Add an ID to the container
-                    approvalContainer.empty(); // Clear previous content
+                    const approvalContainer = $('#forApprovalContainer');
+                    approvalContainer.empty();
 
                     if (tickets.length > 0) {
                         tickets.forEach(ticket => {
-                            const { date, time } = formatDateTime(ticket.date_created); // Get separate date and time
+                            const { date, time } = formatDateTime(ticket.date_created);
+                            const dueDate = new Date(ticket.ticket_for_approval_due_date);
+                            const now = new Date();
+                            let countdownText = getCountdownText(dueDate, now);
+                            let formattedDueDate = formatDueDate(ticket.ticket_for_approval_due_date);
+                            if (dueDate < now) {
+                                formattedDueDate = 'Expired';
+                                $('#ticketDueDateApproval').removeClass('text-warning').addClass('text-danger');
+                            }
                             const attachmentLink = ticket.ticket_attachment
                                 ? `<a href="${ticket.ticket_attachment}" target="_blank" class="badge badge-info">Attachment</a>`
                                 : '';
@@ -229,11 +240,12 @@ $(document).ready(function () {
                                 data-time="${time}" 
                                 data-handler="${ticket.handler_name || 'N/A'}" 
                                 data-requestor="${ticket.requestor_name || 'N/A'}"
-                                data-attachment="${ticket.ticket_attachment || ''}">
+                                data-attachment="${ticket.ticket_attachment || ''}"
+                                data-duedate="${formattedDueDate}">
                                 <div class="text-truncate">${ticket.ticket_subject}</div>
                                 <div class="small text-gray-500 text-truncate">${ticket.ticket_description}</div>
                                 <div class="small text-gray-500 text-truncate">
-                                    <strong>Created:</strong> ${date}, ${time} | 
+                                    <strong class="text-warning">Approval Due: <span class="countdown-timer">${countdownText}</span></strong> |
                                     <strong>Requestor:</strong> ${ticket.requestor_name} | 
                                     ${attachmentLink}
                                 </div>
@@ -242,17 +254,18 @@ $(document).ready(function () {
                             approvalContainer.append(ticketHtml);
                         });
 
-                        // Add click event to open modal
                         $('.ticket-items').on('click', function () {
                             const ticketData = $(this).data();
                             $('#ticketModalTitle').text(ticketData.subject);
                             $('#ticketModalDescription').text(ticketData.description);
                             $('#ticketModalDate').text(ticketData.date);
                             $('#ticketModalTime').text(ticketData.time);
+                            $('#ticketDueDateApproval').text(ticketData.duedate);
                             $('#ticketModalHandler').text(ticketData.handler);
                             $('#ticketModalRequestor').text(ticketData.requestor);
-                            $('#approveButton').data('id', ticketData.id); // Add ticket ID to approve button
-                            $('#rejectButton').data('id', ticketData.id); // Add ticket ID to reject button
+                            $('#approveButton').data('id', ticketData.id);
+
+                            $('#rejectButton').data('id', ticketData.id);
                             if (ticketData.attachment) {
                                 $('#ticketModalAttachment').html(`<a href="${ticketData.attachment}" target="_blank" class="text-primary">View Attachment</a>`);
                             } else {
@@ -275,7 +288,21 @@ $(document).ready(function () {
         });
     }
 
-    // Approve ticket
+    function getCountdownText(dueDate, now) {
+        let diff = dueDate - now;
+        if (diff <= 0) return '<span class="text-danger">Expired</span>';
+
+        let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        return ` ${hours}h ${minutes}m `;
+    }
+
+    setInterval(forApprovalTickets, 60000);
+    forApprovalTickets();
+
     $('#approveButton').on('click', function () {
         const ticketId = $(this).data('id');
         $.ajax({
@@ -285,33 +312,20 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.status === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Ticket approved successfully!'
-                    });
+                    Swal.fire({ icon: 'success', title: 'Success', text: 'Ticket approved successfully!' });
                     $('#forApprovalticketModal').modal('hide');
-                    forApprovalTickets(); // Refresh the ticket list
+                    forApprovalTickets();
                 } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Error: ' + response.message
-                    });
+                    Swal.fire({ icon: 'error', title: 'Error', text: 'Error: ' + response.message });
                 }
             },
             error: function (xhr, status, error) {
                 console.error(error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Error approving ticket. Please try again later.'
-                });
+                Swal.fire({ icon: 'error', title: 'Error', text: 'Error approving ticket. Please try again later.' });
             }
         });
     });
 
-    // Reject ticket
     $('#rejectButton').on('click', function () {
         const ticketId = $(this).data('id');
         $.ajax({
@@ -321,35 +335,21 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.status === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Ticket rejected successfully!'
-                    });
+                    Swal.fire({ icon: 'success', title: 'Success', text: 'Ticket rejected successfully!' });
                     $('#forApprovalticketModal').modal('hide');
-                    forApprovalTickets(); // Refresh the ticket list
-                } else if (response.status === 'error') {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Error: ' + response.message
-                    });
+                    forApprovalTickets();
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Error', text: 'Error: ' + response.message });
                 }
             },
             error: function (xhr, status, error) {
                 console.error(error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Error rejecting ticket. Please try again later.'
-                });
+                Swal.fire({ icon: 'error', title: 'Error', text: 'Error rejecting ticket. Please try again later.' });
             }
         });
     });
-
-    setInterval(forApprovalTickets, 30000);
-    forApprovalTickets();
 });
+
 
 
 
@@ -442,6 +442,7 @@ $(document).ready(function () {
 
         $('#ticketDate').text(date);
         $('#ticketTime').text(time);
+        $('#ticketHandler').text(handlerName);
 
         const actionButtons = $('#actionButtons');
         actionButtons.empty();

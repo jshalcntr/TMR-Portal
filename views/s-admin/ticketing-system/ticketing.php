@@ -371,6 +371,6 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
 <?php include "../../../modules/components/shared/external-js-import.php" ?>
 <script src="../../../assets/js/admin/ticketing-system/ticket-chart-area.js"></script>
 <script src="../../../assets/js/admin/ticketing-system/ticket-chart-pie.js"></script>
-<script src="../../../assets/js/admin/ticketing-system/admin-tickets.js"></script>
+<script src="../../../assets/js/s-admin/ticketing-system/s-admin-tickets.js"></script>
 
 </html>

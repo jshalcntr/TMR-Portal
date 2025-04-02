@@ -5,7 +5,7 @@ $(document).ready(function () {
         $("#viewInventoryModal").modal('hide');
     });
     $("#viewAllRequestsModal").on('hidden.bs.modal', function () {
-        if (!$("#viewInventoryModal").hasClass('show') && !$("#viewRequestModal").hasClass("show")) {
+        if (!$("#viewInventoryModal") .hasClass('show') && !$("#viewRequestModal").hasClass("show")) {
             $("#viewInventoryModal").modal('show');
         }
     });

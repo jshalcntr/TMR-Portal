@@ -249,6 +249,10 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                                             <th class="bg-light">Attachment</th>
                                                             <td><span id="ticketModalAttachment"></span></td>
                                                         </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Approval Due Date</th>
+                                                            <td><span id="ticketDueDateApproval" class="text-warning"></span></td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -256,7 +260,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
 
                                         <!-- Approval & Rejection Buttons -->
                                         <div class="d-flex justify-content-center gap-3 mt-4">
-                                            <button id="approveButton" class="btn btn-success">
+                                            <button id="approveButton" class="btn btn-primary">
                                                 <i class="fa-solid fa-check-circle me-1"></i> Approve
                                             </button>
                                             <button id="rejectButton" class="btn btn-danger">
@@ -309,6 +313,10 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                                                 <span id="ticketDate"></span>
                                                                 <span id="ticketTime"></span>
                                                             </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Handler</th>
+                                                            <td><span id="ticketHandler"></span></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

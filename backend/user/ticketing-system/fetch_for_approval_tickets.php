@@ -47,6 +47,7 @@ $sql = "
         t.ticket_subject, 
         t.ticket_description, 
         t.date_created, 
+        t.ticket_for_approval_due_date,
         t.ticket_attachment, 
         COALESCE(a.full_name, 'No handler assigned') AS handler_name,
         r.full_name AS requestor_name

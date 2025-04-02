@@ -22,7 +22,7 @@ if (!$stmt1) {
             "data" => $stmt1->error
         ]);
     } else {
-        $sql2 = "SELECT requestor_id, request_name FROM inventory_requests_tbl WHERE request_id = ?";
+        $sql2 = "SELECT requestor_id, request_name, requested_asset_id FROM inventory_requests_tbl WHERE request_id = ?";
         $stmt2 = $conn->prepare($sql2);
         if (!$stmt2) {
             header('Content-Type: application/json');
@@ -45,13 +45,15 @@ if (!$stmt1) {
                 $row = $result->fetch_assoc();
                 $requestorId = $row['requestor_id'];
                 $requestType = $row['request_name'];
+                $requestedAsset = $row['requested_asset_id'];
                 header('Content-Type: application/json');
                 echo json_encode([
                     "status" => "success",
                     "message" => "Request Declined!",
                     "data" => [
                         "requestType" => $requestType,
-                        "requestorId" => $requestorId
+                        "requestorId" => $requestorId,
+                        "requestedAsset" => $requestedAsset
                     ]
                 ]);
             }

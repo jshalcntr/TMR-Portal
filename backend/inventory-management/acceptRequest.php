@@ -261,7 +261,8 @@ if (!$stmt) {
                     "message" => "Request Accepted Successfully!",
                     "data" => [
                         "requestType" => $requestType,
-                        "requestorId" => $requestorId
+                        "requestorId" => $requestorId,
+                        "requestedAsset" => $requestedAsset
                     ],
                 ]);
             }
