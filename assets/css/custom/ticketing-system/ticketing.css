@@ -71,6 +71,7 @@
 #all-open-tickets,
 #all-for-approval-tickets,
 #reopen-tickets,
+#closed-tickets,
 #all-tickets {
     cursor: pointer;
 }
@@ -85,6 +86,7 @@
 #all-open-tickets:hover,
 #all-for-approval-tickets:hover,
 #reopen-tickets:hover,
+#closed-tickets:hover,
 #all-tickets:hover {
     color: #42855b;
     text-decoration: underline;
@@ -174,4 +176,12 @@
 
 .chat-message.read {
     background-color: #ffffff;
+}
+
+.modal-xl {
+    font-size: 14px;
+}
+
+.unassigned {
+    background-color: #eeeeee;
 }

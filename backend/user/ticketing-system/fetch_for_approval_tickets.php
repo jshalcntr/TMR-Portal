@@ -47,8 +47,13 @@ $sql = "
         t.ticket_subject, 
         t.ticket_description, 
         t.date_created, 
+        t.ticket_priority,
+        t.ticket_status, 
+        t.date_finished,
         t.ticket_for_approval_due_date,
         t.ticket_attachment, 
+        t.ticket_requestor_id,
+        t.ticket_handler_id,
         COALESCE(a.full_name, 'No handler assigned') AS handler_name,
         r.full_name AS requestor_name
     FROM ticket_records_tbl AS t
@@ -58,7 +63,7 @@ $sql = "
     LEFT JOIN accounts_tbl AS r
         ON t.ticket_requestor_id = r.id
     WHERE LOWER(t.ticket_status) = 'for approval'
-    ORDER BY t.date_created DESC
+    ORDER BY t.ticket_priority ASC, t.date_created DESC
 ";
 
 

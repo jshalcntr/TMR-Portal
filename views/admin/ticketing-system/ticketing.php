@@ -123,22 +123,9 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <table class="table table-bordered table-hover" id="ticketTable" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Ticket ID</th>
-                                                    <th>Requestor</th>
-                                                    <th>Date Requested</th>
-                                                    <th>Subject</th>
-                                                    <th>Status</th>
-                                                    <th>Due Date</th>
-                                                    <th>Attachment</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Rows will be dynamically inserted -->
-                                            </tbody>
-                                        </table>
+                                        <div id="ticketTableContainer">
+                                            <!-- Table will be injected here -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -293,6 +280,29 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                             <label class="form-check-label text-info fw-bold" for="forApprovalCheckbox">
                                                 For Approval
                                             </label>
+                                        </div>
+
+                                        <!-- Ticket Priority -->
+                                        <div class="mt-3">
+                                            <label class="fw-bold">Priority:</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="ticketPriority" id="priorityCritical" value="CRITICAL">
+                                                <label class="form-check-label text-danger" for="priorityCritical">
+                                                    Critical (4 hrs)
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="ticketPriority" id="priorityImportant" value="IMPORTANT">
+                                                <label class="form-check-label text-warning" for="priorityImportant">
+                                                    Important (8 hrs)
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="ticketPriority" id="priorityNormal" value="NORMAL">
+                                                <label class="form-check-label text-primary" for="priorityNormal">
+                                                    Normal (24 hrs)
+                                                </label>
+                                            </div>
                                         </div>
 
                                         <!-- Claim Button -->

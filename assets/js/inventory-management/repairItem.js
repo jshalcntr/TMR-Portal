@@ -38,6 +38,9 @@ $(document).ready(function () {
         if ($("#finishRepairModal").attr("aria-hidden")) {
             $("#viewInventoryModal").modal('show');
         }
+        $("#repairDescription_edit").val("");
+        $("#gatepassNumber_edit").val("");
+        $("#repairDate_edit").val("");
     });
     $("#finishRepairModal").on('hidden.bs.modal', function () {
         $("#repairDescription_edit").val("");

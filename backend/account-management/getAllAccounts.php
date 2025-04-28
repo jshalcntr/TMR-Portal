@@ -3,7 +3,9 @@ session_start();
 require "../dbconn.php";
 require "../middleware/pipes.php";
 
-$sql = "SELECT * FROM accounts_tbl WHERE id <> ?";
+$sql = "SELECT * FROM accounts_tbl
+        JOIN departments_tbl ON accounts_tbl.department = departments_tbl.department_id
+        WHERE id <> ?";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     header('Content-Type: application/json');
@@ -33,7 +35,7 @@ if (!$stmt) {
                 "username" => $accountRow['username'],
                 "role" => $accountRow['role'],
                 "profilePicture" => $accountRow['profile_picture'],
-                "department" => $accountRow['department'],
+                "department" => $accountRow['department_name'],
                 "status" => $accountRow['status'],
                 "accountEditAuth" => $_SESSION['user']['accounts_edit_auth'],
             ];

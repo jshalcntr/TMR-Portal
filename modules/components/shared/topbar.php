@@ -4,7 +4,7 @@ date_default_timezone_set('Asia/Manila');
 
 <!-- Topbar -->
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-    <div class="sidebar-brand-text mx-2">TMR PORTAL</div>
+    <div class="sidebar-brand-text mx-2">TMR ERPS</div>
     <!-- Sidebar Toggle (Topbar) -->
     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
         <i class="fa fa-bars"></i>
@@ -14,14 +14,14 @@ date_default_timezone_set('Asia/Manila');
     <ul class="navbar-nav ml-auto">
         <!-- Nav Item - Alerts -->
 
-        <li class="nav-item dropdown no-arrow mx-1">
+        <!-- <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
-                <!-- Counter - Alerts -->
+
                 <span class="badge badge-danger badge-counter">3+</span>
             </a>
-            <!-- Dropdown - Alerts -->
+
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
@@ -62,17 +62,17 @@ date_default_timezone_set('Asia/Manila');
                 </a>
                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
             </div>
-        </li>
+        </li> -->
 
         <!-- Nav Item - Messages -->
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-envelope fa-fw"></i>
-                <!-- Counter - Messages -->
+
                 <span id="message-counter" class="badge badge-danger badge-counter">0</span>
             </a>
-            <!-- Dropdown - Messages -->
+
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="messagesDropdown">
                 <h6 class="dropdown-header">Message Center</h6>

@@ -39,7 +39,7 @@ session_start();
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h3 text-gray-900 mb-4">Welcome to<br><span class="h2 font-weight-bold">TMR Internal Portal!</span></h1>
+                                        <h1 class="h3 text-gray-900 mb-4">Welcome to<br><span class="h2 font-weight-bold">TMR ERPS!</span></h1>
                                     </div>
                                     <form class="user" id="loginForm">
                                         <div class="form-group">

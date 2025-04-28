@@ -1,31 +1,27 @@
-// Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
 function number_format(number, decimals, dec_point, thousands_sep) {
-    // *     example: number_format(1234.56, 2, ',', ' ');
-    // *     return: '1 234,56'
     number = (number + '').replace(',', '').replace(' ', '');
     var n = !isFinite(+number) ? 0 : +number,
         prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+        sep = thousands_sep || ',',
+        dec = dec_point || '.',
         s = '',
         toFixedFix = function (n, prec) {
-            var k = Math.pow(10, prec);
-            return '' + Math.round(n * k) / k;
+            return (Math.round(n * Math.pow(10, prec)) / Math.pow(10, prec)).toString();
         };
-    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+
+    s = (prec ? toFixedFix(n, prec) : Math.round(n).toString()).split('.');
     if (s[0].length > 3) {
-        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+        s[0] = s[0].replace(/\B(?=(\d{3})+(?!\d))/g, sep);
     }
     if ((s[1] || '').length < prec) {
-        s[1] = s[1] || '';
-        s[1] += new Array(prec - s[1].length + 1).join('0');
+        s[1] = (s[1] || '') + '0'.repeat(prec - s[1].length);
     }
     return s.join(dec);
 }
+
 $(document).ready(function () {
     const ctx = $("#ticketAreaChart");
 
@@ -34,20 +30,22 @@ $(document).ready(function () {
             url: '../../../backend/admin/ticketing-system/fetch_closed_tickets.php',
             type: 'GET',
             dataType: 'json',
-            success: function (data) {
-                if (data.status === 'success') {
-                    const chartData = data.data;
-                    const months = [];
+            success: function (response) {
+                if (response.status === 'success') {
+                    const chartData = response.data;
+                    const labels = [];
                     const ticketCounts = [];
 
-                    // Populate months and ticket counts
                     $.each(chartData, function (index, item) {
-                        months.push(item.month); // Add month labels
-                        ticketCounts.push(item.ticket_count); // Add ticket counts
+                        // Format date as "Apr 01", "Apr 02", etc.
+                        const dateObj = new Date(item.date);
+                        const options = { month: 'short', day: '2-digit' };
+                        const label = dateObj.toLocaleDateString('en-US', options);
+                        labels.push(label);
+                        ticketCounts.push(item.ticket_count);
                     });
 
-                    // Render the chart with fetched data
-                    renderChart(ctx, months, ticketCounts);
+                    renderChart(ctx, labels, ticketCounts);
                 } else {
                     console.error("No data found");
                 }
@@ -58,13 +56,13 @@ $(document).ready(function () {
         });
     }
 
-    function renderChart(ctx, months, ticketCounts) {
+    function renderChart(ctx, labels, data) {
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: months,
+                labels: labels,
                 datasets: [{
-                    label: "Closed Tickets",
+                    label: "Closed Tickets (Daily)",
                     lineTension: 0.3,
                     backgroundColor: "rgba(78, 115, 223, 0.05)",
                     borderColor: "rgba(78, 115, 223, 1)",
@@ -76,7 +74,7 @@ $(document).ready(function () {
                     pointHoverBorderColor: "rgba(78, 115, 223, 1)",
                     pointHitRadius: 10,
                     pointBorderWidth: 2,
-                    data: ticketCounts,
+                    data: data,
                 }],
             },
             options: {
@@ -96,7 +94,7 @@ $(document).ready(function () {
                             drawBorder: false
                         },
                         ticks: {
-                            maxTicksLimit: 12
+                            maxTicksLimit: 31
                         }
                     }],
                     yAxes: [{
@@ -144,6 +142,5 @@ $(document).ready(function () {
         });
     }
 
-    // Fetch chart data when the page loads
     fetchChartData();
 });

@@ -14,55 +14,23 @@ let previousCounts = {
 };
 function formatDate(dateString) {
     const date = new Date(dateString);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const ampm = hours >= 12 ? 'pm' : 'am';
-    const formattedHours = hours % 12 || 12; // Convert to 12-hour format
-    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-    const month = date.getMonth() + 1; // Months are zero-based
+    if (isNaN(date.getTime())) return 'N/A';
+
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const month = months[date.getMonth()];
     const day = date.getDate();
-    const year = date.getFullYear().toString().slice(-2); // Get last two digits of the year
+    const year = date.getFullYear();
 
-    return `${formattedHours}:${formattedMinutes} ${ampm} ${month}-${day}-${year}`;
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12;
+
+    return `${month} ${day}, ${year} ${hours}:${minutes} ${ampm}`;
 }
 
-function calculateRemainingTime(dueDate) {
-    if (!dueDate) {
-        return 'N/A';
-    }
 
-    const now = new Date();
-    const due = new Date(dueDate);
 
-    if (isNaN(due.getTime())) {
-        return 'N/A';
-    }
-
-    const diff = due - now;
-
-    if (diff <= 0) {
-        return `${formatDate(dueDate)}`;
-    }
-
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-    return `${hours}h ${minutes}m ${seconds}s`;
-}
-
-function updateTimers() {
-    document.querySelectorAll('.ticket-due-timer').forEach(timer => {
-        const dueDate = timer.getAttribute('data-due-date');
-        if (dueDate) {
-            timer.innerText = calculateRemainingTime(dueDate);
-        } else {
-            timer.innerText = 'N/A';
-        }
-    });
-}
-
-setInterval(updateTimers, 1000);
 
 
 $(document).ready(function () {
@@ -114,6 +82,43 @@ $(document).ready(function () {
 
 
 
+function calculateRemainingTime(dueDate) {
+    if (!dueDate) {
+        return 'N/A';
+    }
+
+    const now = new Date();
+    const due = new Date(dueDate);
+
+    if (isNaN(due.getTime())) {
+        return 'N/A';
+    }
+
+    const diff = due - now;
+
+    if (diff <= 0) {
+        return `${formatDate(dueDate)}`;
+    }
+
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    return `${hours}h ${minutes}m ${seconds}s`;
+}
+
+function updateTimers() {
+    document.querySelectorAll('.ticket-due-timer').forEach(timer => {
+        const dueDate = timer.getAttribute('data-due-date');
+        if (dueDate) {
+            timer.innerText = calculateRemainingTime(dueDate);
+        } else {
+            timer.innerText = 'N/A';
+        }
+    });
+}
+
+setInterval(updateTimers, 1000);
 // Function to handle card click (fetch tickets and show table modal)
 function fetchAndShowTickets(card) {
     const category = card.getAttribute('data-category');
@@ -131,7 +136,26 @@ function fetchAndShowTickets(card) {
         'reopen-tickets': 'Request Reopen',
         'all': 'All Tickets'
     };
-
+    // Clear and rebuild the table with a dynamic ID
+    const tableContainer = document.getElementById('ticketTableContainer');
+    const tableId = `ticketTable-${category}`;
+    tableContainer.innerHTML = `
+    <table class="table table-bordered table-hover" id="${tableId}" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Ticket ID</th>
+                <th>Requestor</th>
+                <th>Date Requested</th>
+                <th>Subject</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th id="dateClosedHeader">Date Closed</th>
+                <th>Attachment</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    `;
     // Update modal title
     document.getElementById('ticketModalLabel').innerText = modalTitle[category];
 
@@ -142,32 +166,80 @@ function fetchAndShowTickets(card) {
         data: { category: category },
         success: function (response) {
             if (response.status === 'success') {
-                const tableBody = document.querySelector('#ticketTable tbody');
-                tableBody.innerHTML = ''; // Clear existing rows
+                const tableBody = document.querySelector(`#${tableId} tbody`);
+                let hasClosedTicket = false;
+                tableBody.innerHTML = ''; // Clear previous rows first
 
-                // Populate table with tickets
                 response.data.forEach(ticket => {
+                    const ticketId = ticket.ticket_id ?? 'N/A';
+                    const fullName = ticket.full_name ?? 'N/A';
+                    const department = ticket.department ?? 'N/A';
+                    const subject = ticket.ticket_subject ?? 'N/A';
+                    const status = ticket.ticket_status ?? 'N/A';
+                    const dueDate = ticket.ticket_due_date ?? '';
+                    const dateClosed = ticket.date_finished ?? '';
+                    const dateCreated = ticket.date_created ?? '';
+
+                    const formattedDueDate = dueDate ? formatDate(dueDate) : 'N/A';
+                    const formattedDateClosed = dateClosed ? formatDate(dateClosed) : 'N/A';
+                    const formattedDateCreated = dateCreated ? formatDate(dateCreated) : 'N/A';
+                    // Only add the class if the ticket is not CLOSED
+                    const dueTimerClass = ticket.ticket_status !== 'CLOSED' ? 'ticket-due-timer' : '';
+
                     const attachmentLink = ticket.ticket_attachment
-                        ? `<a target="_blank" class="badge badge-info">Attachment</a>`
+                        ? `<a href="${ticket.ticket_attachment}" target="_blank" class="badge bg-info text-dark">Attachment</a>`
                         : '';
-                    const formattedDueDate = ticket.ticket_due_date ? formatDate(ticket.ticket_due_date) : 'N/A';
-                    const formattedDateCreated = ticket.date_created ? formatDate(ticket.date_created) : 'N/A';
+
+                    const showDateClosed = status === 'CLOSED';
+
+                    if (showDateClosed) {
+                        hasClosedTicket = true;
+                    }
+                    let priorityClass = ''; // Default class for priority
+                    if (ticket.ticket_priority === 'CRITICAL') {
+                        priorityClass = 'text-danger font-weight-bold'; // Add a class for critical priority
+                    } else if (ticket.ticket_priority === 'IMPORTANT') {
+                        priorityClass = 'text-warning font-weight-bold'; // Add a class for important priority
+                    } else if (ticket.ticket_priority === 'NORMAL') {
+                        priorityClass = 'text-primary font-weight-bold'; // Add a class for normal priority
+                    } else {
+                        priorityClass = 'text-secondary'; // Default class for other priorities
+                    }
+
                     const row = `
                         <tr class="clickable-row" data-ticket='${JSON.stringify(ticket)}'>
-                            <td>${ticket.ticket_id}</td>
-                            <td>${ticket.full_name} - ${ticket.department}</td>
+                            <td>#${ticketId}</td>
+                            <td>${fullName} - ${department}</td>
                             <td>${formattedDateCreated}</td>
-                            <td>${ticket.ticket_subject}</td>
-                            <td>${ticket.ticket_status}</td>
-                            <td class="ticket-due-timer" data-due-date="${ticket.ticket_due_date}">${formattedDueDate}</td>
+                            <td>${subject}</td>
+                            <td>${status}</td>
+                            <td class="${dueTimerClass} ${priorityClass}" data-due-date="${dueDate}">${formattedDueDate}</td>
+                            <td class="date-closed-cell" style="${showDateClosed ? '' : 'display: none;'}">${formattedDateClosed}</td>
                             <td>${attachmentLink}</td>
                         </tr>
                     `;
+
                     tableBody.innerHTML += row;
                 });
 
-                // Initialize DataTables
-                $('#ticketTable').DataTable();
+                // Show or hide the Date Closed column based on the result
+                const dateClosedHeader = document.getElementById('dateClosedHeader');
+                const dateClosedCells = document.querySelectorAll('.date-closed-cell');
+
+                if (!hasClosedTicket) {
+                    dateClosedHeader.style.display = 'none';
+                    dateClosedCells.forEach(cell => {
+                        cell.style.display = 'none';
+                    });
+                } else {
+                    dateClosedHeader.style.display = '';
+                    dateClosedCells.forEach(cell => {
+                        cell.style.display = '';
+                    });
+                }
+
+
+
 
                 if (category === 'finished') { // Add event listener for row click
                     document.querySelectorAll('.clickable-row').forEach(row => {
@@ -191,6 +263,13 @@ function fetchAndShowTickets(card) {
                             showReopenTicketDetails(ticket);
                         });
                     });
+                } else if (category === 'all-overdue' || category === 'all-today-due' || category === 'all-open' || category === 'all-for-approval') {
+                    document.querySelectorAll('.clickable-row').forEach(row => {
+                        row.addEventListener('click', function () {
+                            const ticket = JSON.parse(this.getAttribute('data-ticket'));
+                            showAllTicketDetails(ticket);
+                        });
+                    });
                 } else {
                     // Add event listener for row click
                     document.querySelectorAll('.clickable-row').forEach(row => {
@@ -201,7 +280,12 @@ function fetchAndShowTickets(card) {
                     });
                 }
 
+                // Initialize DataTables
+                if ($.fn.DataTable.isDataTable(`#${tableId}`)) {
+                    $(`#${tableId}`).DataTable().destroy();
+                }
 
+                $(`#${tableId}`).DataTable();
                 // Show the modal
                 $('#ticketModal').modal('show');
             } else {
@@ -243,6 +327,7 @@ function showClosedTicketDetails(ticket) {
         }
     });
     $('#openChatButtonClosed').data('id', ticket.ticket_id).data('requestor', ticket.ticket_requestor_id).data('title', 'T#' + ticket.ticket_id + ' | ' + ticket.ticket_subject); // Set ticket ID and title for chat button
+    document.activeElement.blur();
     $('#ticketModal').modal('hide');
     // Show the details modal
     $('#closedTicketDetailsModal').modal('show');
@@ -261,7 +346,7 @@ function showReopenTicketDetails(ticket) {
     document.getElementById('approveRejectReopenSubject').innerText = ticket.ticket_subject || 'N/A';
     document.getElementById('approveRejectReopenDescription').innerText = ticket.ticket_description || 'N/A';
 
-    document.getElementById('approveRejectReopenDescription').innerText = ticket.ticket_changes_description || 'N/A';
+    document.getElementById('reasonForReopen').innerText = ticket.ticket_changes_description || 'N/A';
     document.getElementById('approveRejectReopenHandler').innerText = ticket.handler_name || 'N/A';
     $.ajax({
         url: '../../../backend/shared/ticketing-system/check_ticket_convo.php', // Replace with your actual endpoint
@@ -276,6 +361,7 @@ function showReopenTicketDetails(ticket) {
         }
     });
     $('#openChatButton').data('id', ticket.ticket_id).data('requestor', ticket.ticket_requestor_id).data('title', 'T#' + ticket.ticket_id + ' | ' + ticket.ticket_subject); // Set ticket ID and title for chat button
+    document.activeElement.blur();
     $('#ticketModal').modal('hide');
     // Show the approve/reject reopen modal
     $('#approveRejectReopenModal').modal('show');
@@ -309,8 +395,43 @@ function showTicketDetails(ticket) {
     });
     $('#openChatButton').data('id', ticket.ticket_id).data('requestor', ticket.ticket_requestor_id).data('title', 'T#' + ticket.ticket_id + ' | ' + ticket.ticket_subject); // Set ticket ID and title for chat button
     // Show the details modal
+    document.activeElement.blur();
     $('#ticketModal').modal('hide');
     $('#ticketDetailsModal').modal('show');
+}
+
+function showAllTicketDetails(ticket) {
+    // Populate modal with ticket details
+    const attachmentLink = ticket.ticket_attachment
+        ? `<a href="../../../${ticket.ticket_attachment.replace(/^(\.\.\/)+/, '')}" target="_blank" class="badge badge-info">View Attachment</a>`
+        : 'N/A';
+    document.getElementById('ticketIdAll').innerText = ticket.ticket_id;
+    document.getElementById('ticketRequestorIdAll').innerText = ticket.full_name || 'N/A';
+    document.getElementById('ticketRequestorDepartmentAll').innerText = ticket.department || 'N/A';
+    document.getElementById('ticketSubjectAll').innerText = ticket.ticket_subject || 'N/A';
+    document.getElementById('ticketDescriptionAll').innerText = ticket.ticket_description || 'N/A';
+    document.getElementById('ticketTypeAll').innerText = ticket.ticket_type || 'N/A';
+    document.getElementById('ticketAttachmentAll').innerHTML = attachmentLink;
+    document.getElementById('ticketHandlerAll').innerText = ticket.handler_name || 'N/A';
+    document.getElementById('ticketConclusionAll').innerText = ticket.ticket_conclusion || 'N/A';
+    $.ajax({
+        url: '../../../backend/shared/ticketing-system/check_ticket_convo.php', // Replace with your actual endpoint
+        method: 'POST',
+        data: { ticket_id: ticket.ticket_id },
+        success: function (response) {
+            if (response.exists) {
+                $('#openChatButton').removeClass('btn-outline-secondary').addClass('btn-primary');
+            } else {
+                $('#openChatButton').removeClass('btn-primary').addClass('btn-outline-secondary');
+            }
+        }
+    });
+    $('#openChatButton').data('id', ticket.ticket_id).data('requestor', ticket.ticket_requestor_id).data('title', 'T#' + ticket.ticket_id + ' | ' + ticket.ticket_subject); // Set ticket ID and title for chat button
+    // Show the details modal
+    document.activeElement.blur();
+    $('#ticketModal').modal('hide');
+    $('#allTicketDetailsModal').modal('show');
+    // loadHandlerOptions(); // Load handler options for reassigning ticket
 }
 
 // Function to handle row click and show ticket details modal
@@ -340,6 +461,7 @@ function showUnassignedTicketDetails(ticket) {
     });
     $('#openChatButtonUnassigned').data('id', ticket.ticket_id).data('requestor', ticket.ticket_requestor_id).data('title', 'T#' + ticket.ticket_id + ' | ' + ticket.ticket_subject); // Set ticket ID and title for chat button
     // Show the details modal
+    document.activeElement.blur();
     $('#ticketModal').modal('hide');
     $('#unassignedticketDetailsModal').modal('show');
 }
@@ -351,13 +473,19 @@ function claimTicket() {
     const ticketId = document.getElementById('unassignedticketId').innerText;
     const forApproval = document.getElementById('forApprovalCheckbox').checked;
     const ticketStatus = forApproval ? 'FOR APPROVAL' : 'OPEN';
+
+    // Get selected priority
+    const selectedPriority = document.querySelector('input[name="ticketPriority"]:checked');
+    const ticketPriority = selectedPriority ? selectedPriority.value : 'NORMAL';
+
     // Send updated details to the backend
     $.ajax({
-        url: '../../../backend/admin/ticketing-system/update_ticket.php', // Adjust the path as needed
+        url: '../../../backend/admin/ticketing-system/update_ticket.php',
         method: 'POST',
         data: {
             ticket_id: ticketId,
             ticket_status: ticketStatus,
+            ticket_priority: ticketPriority
         },
         success: function (response) {
             if (response.status === 'success') {
@@ -370,6 +498,7 @@ function claimTicket() {
                 refreshTicketList();
                 $('#unassignedticketDetailsModal').modal('hide');
                 fetchAndShowTickets();
+                location.reload();
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -388,6 +517,91 @@ function claimTicket() {
     });
 }
 
+// function loadHandlerOptions() {
+//     $.ajax({
+//         url: '../../../backend/admin/ticketing-system/fetch_handlers.php',
+//         method: 'POST',
+//         dataType: 'json',
+//         success: function (response) {
+//             console.log('Response:', response); // Check what comes back
+
+//             let select = $('#reassignHandlerSelect');
+//             select.empty().append('<option value="">-- Select Handler --</option>');
+
+//             if (response.status === 'success' && Array.isArray(response.data)) {
+//                 response.data.forEach(handlers => {
+//                     select.append(`<option value="${handlers.id}">${handlers.full_name}</option>`);
+//                 });
+//             } else {
+//                 select.append('<option disabled>No handlers found</option>');
+//             }
+//         },
+//         error: function (xhr, status, error) {
+//             console.error('AJAX error:', error);
+//         }
+//     });
+// }
+
+
+
+
+function reassignTicket(ticketId) {
+    Swal.fire({
+        title: 'Reassign Ticket',
+        input: 'select',
+        inputLabel: 'Select new handler',
+        inputPlaceholder: 'Choose handler',
+        showCancelButton: true,
+        confirmButtonText: 'Reassign',
+        inputOptions: {}, // will be filled dynamically
+        didOpen: () => {
+            fetch('../../../backend/admin/ticketing-system/fetch_handlers.php')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const inputOptions = {};
+                        data.data.forEach(handler => { // FIXED LINE
+                            inputOptions[handler.id] = handler.full_name;
+                        });
+                        Swal.getInput().innerHTML = ''; // clear first
+                        for (const id in inputOptions) {
+                            const option = document.createElement('option');
+                            option.value = id;
+                            option.text = inputOptions[id];
+                            Swal.getInput().appendChild(option);
+                        }
+                    } else {
+                        Swal.showValidationMessage('Failed to load handlers');
+                    }
+                });
+        },
+        preConfirm: (handlerId) => {
+            if (!handlerId) {
+                Swal.showValidationMessage('Please select a handler');
+            }
+            return fetch('../../../backend/s-admin/ticketing-system/reassign-ticket.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    ticket_id: ticketId,
+                    handler_id: handlerId
+                })
+            }).then(res => res.json());
+        }
+    }).then(result => {
+        if (result.isConfirmed && result.value.status === 'success') {
+            Swal.fire('Success', 'Ticket reassigned successfully.', 'success').then(() => {
+                // Optional: refresh table or UI
+                location.reload(true);
+            });
+        } else if (result.value?.status === 'error') {
+            Swal.fire('Error', result.value.message, 'error');
+        }
+    });
+}
+
+
+
 // Function to enable editing of ticket details
 function enableEditing() {
     document.getElementById('ticketDueDate').disabled = false;
@@ -397,13 +611,13 @@ function enableEditing() {
     document.getElementById('cancelsaveButton').style.display = 'inline-block';
 }
 // Function to cancel enable editing of ticket details
-// function cancelTicketDetails() {
-//     document.getElementById('ticketDueDate').disabled = true;
-//     document.getElementById('ticketStatus').disabled = true;
-//     document.getElementById('closeTicketButton').style.display = 'inline-block';
-//     document.getElementById('saveButton').style.display = 'none';
-//     document.getElementById('cancelsaveButton').style.display = 'none';
-// }
+function cancelTicketDetails1() {
+    document.getElementById('ticketDueDate').disabled = true;
+    document.getElementById('ticketStatus').disabled = true;
+    document.getElementById('closeTicketButton').style.display = 'inline-block';
+    document.getElementById('saveButton').style.display = 'none';
+    document.getElementById('cancelsaveButton').style.display = 'none';
+}
 
 function enableUnassignedEditing() {
     document.getElementById('unassignedticketDueDate').disabled = false;
@@ -626,6 +840,7 @@ function saveConclusion() {
                 });
                 refreshTicketList();
                 $('#ticketDetailsModal').modal('hide');
+                location.reload(); // Reload the page to reflect changes
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -941,39 +1156,69 @@ function showNotification(message) {
     }, 5000);
 }
 
+
+
+
+let suppressTicketModal = false;
+
 $("#closedTicketDetailsModal").on('hidden.bs.modal', function () {
-    $('#ticketModal').modal('show');
-});
-$("#reopenTicketDetailsModal").on('hidden.bs.modal', function () {
-    $('#ticketModal').modal('show');
-});
-$("#unassignedticketDetailsModal").on('hidden.bs.modal', function () {
-    $('#ticketModal').modal('show');
-});
-$("#ticketDetailsModal").on('hidden.bs.modal', function () {
-    $('#ticketModal').modal('show');
-});
-$("#confirmReopenModal").on('hidden.bs.modal', function () {
-    $('#ticketModal').modal('show');
+    document.activeElement.blur();
+    if (!suppressTicketModal) $('#ticketModal').modal('show');
 });
 
+$("#reopenTicketDetailsModal").on('hidden.bs.modal', function () {
+    document.activeElement.blur();
+    if (!suppressTicketModal) $('#ticketModal').modal('show');
+});
+
+$("#unassignedticketDetailsModal").on('hidden.bs.modal', function () {
+    document.activeElement.blur();
+    if (!suppressTicketModal) $('#ticketModal').modal('show');
+});
+
+$("#ticketDetailsModal").on('hidden.bs.modal', function () {
+    document.activeElement.blur();
+    if (!suppressTicketModal) $('#ticketModal').modal('show');
+});
+
+$("#allTicketDetailsModal").on('hidden.bs.modal', function () {
+    document.activeElement.blur();
+    if (!suppressTicketModal) $('#ticketModal').modal('show');
+});
+
+$("#confirmReopenModal").on('hidden.bs.modal', function () {
+    document.activeElement.blur();
+    if (!suppressTicketModal) $('#ticketModal').modal('show');
+});
+
+
 $(document).ready(function () {
+    let chatboxOpen = false;
+    let chatboxTimer = null;
+
     // Open chatbox
     $(document).on('click', '#openChatButton, #openChatButtonUnassigned, #openChatButtonClosed', function () {
+        suppressTicketModal = true;
         const ticketId = $(this).data('id');
         const ticketTitle = $(this).data('title');
         const ticketRequestor = $(this).data('requestor');
+
         $("#closedTicketDetailsModal").modal('hide');
         $("#reopenTicketDetailsModal").modal('hide');
         $("#unassignedticketDetailsModal").modal('hide');
         $("#ticketDetailsModal").modal('hide');
         $("#confirmReopenModal").modal('hide');
         $('#ticketModal').modal('hide');
+
         openChatbox(ticketId, ticketTitle, ticketRequestor);
+
+        // Reset the suppression flag after a short delay (to avoid race conditions)
+        setTimeout(() => suppressTicketModal = false, 500);
     });
 
     // Function to open chatbox
     function openChatbox(ticketId, ticketTitle, ticketRequestor) {
+        chatboxOpen = true;
         $('#chatboxTitle').text(ticketTitle);
         $('#chatbox').data('ticket-id', ticketId).data('requestor', ticketRequestor).show();
         fetchChatboxMessages(ticketId);
@@ -981,11 +1226,15 @@ $(document).ready(function () {
 
     // Close chatbox
     $('#closeChatbox').on('click', function () {
+        chatboxOpen = false;
+        clearTimeout(chatboxTimer); // Stop further polling
         $('#chatbox').hide();
     });
 
     // Fetch chatbox messages
     function fetchChatboxMessages(ticketId) {
+        if (!chatboxOpen) return; // Stop polling if chatbox is closed
+
         $.ajax({
             url: '../../../backend/admin/ticketing-system/fetch_chat_messages.php',
             type: 'GET',
@@ -999,16 +1248,13 @@ $(document).ready(function () {
                         const formattedDateTime = formatDateTime(message.ticket_convo_date);
                         const readStatus = message.is_read ? 'read' : 'unread';
                         const messageElement = `
-                        <div class="chat-message ${readStatus}">
-                            <strong>${message.full_name}:</strong> ${message.ticket_messages}
-                            <div class="small text-gray-500">${formattedDateTime}</div>
-                        </div>
-                        <hr>`;
+                            <div class="chat-message ${readStatus}">
+                                <strong>${message.full_name}:</strong> ${message.ticket_messages}
+                                <div class="small text-gray-500">${formattedDateTime}</div>
+                            </div>
+                            <hr>`;
                         chatboxMessages.append(messageElement);
                     });
-
-                    // Auto-scroll to bottom when new messages load
-                    scrollToBottom();
                 } else {
                     console.error(response.message);
                 }
@@ -1017,11 +1263,14 @@ $(document).ready(function () {
                 console.error("Error fetching chat messages: ", error);
             },
             complete: function () {
-                // Fetch new messages every 3 seconds
-                setTimeout(() => fetchChatboxMessages(ticketId), 1000);
+                // Poll again only if chatbox is still open
+                if (chatboxOpen) {
+                    chatboxTimer = setTimeout(() => fetchChatboxMessages(ticketId), 1000);
+                }
             }
         });
     }
+
 
     // Send chatbox message
     $('#sendChatboxMessage').on('click', function () {

@@ -55,18 +55,19 @@
                                 <label for="department" class="col-form-label">Department</label>
                                 <select name="department" id="department" class="form-select form-select-sm" required>
                                     <option value="" selected hidden>--Select Department--</option>
-                                    <option value="VSA">VSA</option>
-                                    <option value="Marketing">Marketing</option>
-                                    <option value="EOD">EOD</option>
-                                    <option value="Service">Service</option>
-                                    <option value="Parts & Accessories">Parts and Accessories</option>
-                                    <option value="HRAD">HRAD</option>
-                                    <option value="F&I">F&I</option>
-                                    <option value="Accounting">Accounting</option>
-                                    <option value="MIS">MIS</option>
-                                    <option value="CRD">CRD</option>
                                 </select>
                                 <div class="invalid-feedback">Please Select Department</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="section" class="col-form-label">Section</label>
+                                <select name="section" id="section" class="form-select form-select-sm" required>
+                                    <option value="" selected hidden>--Select Section--</option>
+                                </select>
+                                <div class="invalid-feedback">Please Select Section</div>
                             </div>
                         </div>
                     </div>

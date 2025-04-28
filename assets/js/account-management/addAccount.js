@@ -7,6 +7,54 @@ $(document).ready(function () {
         }
         $("#createAccountForm").removeClass('was-validated');
         $("#createAccountForm")[0].reset();
+        $("#section").empty();
+        $("#section").append(`<option value="" selected hidden>--Select Section--</option>`);
+
+        $.ajax({
+            type: "GET",
+            url: "../../backend/account-management/getAllDepartments.php",
+            success: function (response) {
+                if (response.status === 'success') {
+                    $("#department").empty();
+                    $("#department").append(`<option value="" selected hidden>--Select Department--</option>`);
+                    for (let i = 0; i < response.data.length; i++) {
+                        $("#department").append(`<option value="${response.data[i].department_id}">${response.data[i].department_name}</option>`);
+                    }
+                } else if (response.status === 'internal-error') {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: `${response.message}`,
+                        icon: 'error',
+                        confirmButtonColor: 'var(--bs-danger)'
+                    }).then(() => {
+                        $("#department").empty();
+                        $("#department").append(`<option value="" selected hidden>--Select Department--</option>`);
+                    });
+                }
+            }
+        });
+    });
+    $("#department").on('change', function () {
+        console.log(this.value);
+        $.ajax({
+            type: "GET",
+            url: "../../backend/account-management/getSections.php",
+            data: {
+                departmentId: this.value
+            },
+            success: function (response) {
+                if (response.status === 'success') {
+                    $("#section").empty();
+                    $("#section").append(`<option value="" selected hidden>--Select Section--</option>`);
+                    for (let i = 0; i < response.data.length; i++) {
+                        $("#section").append(`<option value="${response.data[i].section_id}">${response.data[i].section_name}</option>`);
+                    }
+                } else {
+                    $("#section").empty();
+                    $("#section").append(`<option value="" selected hidden>--Select Section--</option>`);
+                }
+            }
+        });
     });
 
     $("#createAccountForm").submit(function (e) {

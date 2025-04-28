@@ -113,6 +113,8 @@ $(document).ready(function () {
                         $('#disposableItemsTable').DataTable().ajax.reload();
                         $('#forDisposalTable').DataTable().ajax.reload();
                         $('#disposedListTable').DataTable().ajax.reload();
+                        $('#disposeItemsModal').modal('hide');
+                        $("#disposalFormFile").val("");
                     });
                 } else if (response.status === 'error') {
                     Swal.fire({

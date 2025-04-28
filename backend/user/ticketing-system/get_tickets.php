@@ -26,6 +26,7 @@ $sql_pending = "
         t.ticket_status, 
         t.date_created, 
         t.ticket_attachment, 
+        t.date_finished, 
         a.full_name AS handler_name
     FROM ticket_records_tbl AS t
     LEFT JOIN accounts_tbl AS a ON t.ticket_handler_id = a.id
@@ -38,15 +39,19 @@ $sql_closed = "
         t.ticket_id, 
         t.ticket_subject, 
         t.ticket_description, 
+        t.ticket_conclusion,
         t.ticket_status, 
         t.date_created, 
         t.ticket_attachment, 
         t.ticket_handler_id, 
+        t.date_finished, 
+        t.ticket_for_approval_due_date,
+        t.ticket_priority,
         a.full_name AS handler_name
     FROM ticket_records_tbl AS t
     LEFT JOIN accounts_tbl AS a ON t.ticket_handler_id = a.id
     WHERE t.ticket_status = 'Closed' AND t.ticket_requestor_id = ?
-    ORDER BY t.date_created DESC
+    ORDER BY t.ticket_priority ASC, t.date_created DESC
 ";
 
 // Function to execute a query and format the result

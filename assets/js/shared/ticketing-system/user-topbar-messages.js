@@ -68,5 +68,5 @@ $(document).ready(function () {
     }
 
     // Fetch unread messages on page load
-    setInterval(fetchUnreadMessages, 3000); // Check every 3 seconds
+    setInterval(fetchUnreadMessages, 1000); // Check every 3 seconds
 });

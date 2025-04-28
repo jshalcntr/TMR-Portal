@@ -382,8 +382,6 @@ const fetchItemCategory = (typeId, categoryId) => {
             $(categoryId).append(`<option value="${category}">${category}</option>`);
         });
     }
-
-
 }
 $(document).ready(function () {
     populateTable();

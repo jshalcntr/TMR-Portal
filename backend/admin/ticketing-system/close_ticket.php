@@ -7,6 +7,7 @@ session_start();
 $ticket_id = $_POST['ticket_id'] ?? '';
 $ticket_status = $_POST['ticket_status'] ?? '';
 $ticket_conclusion = $_POST['ticket_conclusion'] ?? '';
+$ticket_close_date = date('Y-m-d H:i:s');
 
 // Validate input
 if (empty($ticket_id) || empty($ticket_status) || empty($ticket_conclusion)) {
@@ -15,9 +16,9 @@ if (empty($ticket_id) || empty($ticket_status) || empty($ticket_conclusion)) {
 }
 
 // Update the ticket details in the database
-$query = "UPDATE ticket_records_tbl SET ticket_status = ?, ticket_conclusion = ? WHERE ticket_id = ?";
+$query = "UPDATE ticket_records_tbl SET ticket_status = ?, ticket_conclusion = ?, date_finished = ? WHERE ticket_id = ?";
 $stmt = $conn->prepare($query);
-$stmt->bind_param('sss', $ticket_status, $ticket_conclusion, $ticket_id);
+$stmt->bind_param('ssss', $ticket_status, $ticket_conclusion, $ticket_close_date, $ticket_id);
 
 if ($stmt->execute()) {
     echo json_encode(['status' => 'success', 'message' => 'Ticket details updated successfully']);

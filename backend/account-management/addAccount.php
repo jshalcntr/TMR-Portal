@@ -7,14 +7,15 @@ $username = $_POST['username'];
 $password = password_hash("Initial@1", PASSWORD_DEFAULT);
 $role = $_POST['role'];
 $department = $_POST['department'];
+$section = $_POST['section'];
 $status = "Active";
 $inventoryViewAuth = isset($_POST['inventoryView']) ? $_POST['inventoryView'] : 0;
 $inventoryEditAuth = isset($_POST['inventoryEdit']) ? $_POST['inventoryEdit'] : 0;
 $accountsViewAuth = isset($_POST['accountsView']) ? $_POST['accountsView'] : 0;
 $accountsEditAuth = isset($_POST['accountsEdit']) ? $_POST['accountsEdit'] : 0;
 
-$sql = "INSERT INTO accounts_tbl(username, password, full_name, role, department, status)
-        VALUES (?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO accounts_tbl(username, password, full_name, role, department, section,status)
+        VALUES (?, ?, ?, ?, ?, ?, ?)";
 $stmt1 = $conn->prepare($sql);
 
 if (!$stmt1) {
@@ -25,7 +26,7 @@ if (!$stmt1) {
         "data" => $conn->error
     ]);
 } else {
-    $stmt1->bind_param("ssssss", $username, $password, $fullName, $role, $department, $status);
+    $stmt1->bind_param("ssssiis", $username, $password, $fullName, $role, $department, $section, $status);
     if (!$stmt1->execute()) {
         header('Content-Type: application/json');
         echo json_encode([

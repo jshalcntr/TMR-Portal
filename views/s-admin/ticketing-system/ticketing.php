@@ -73,7 +73,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                             </div>
                             <div class="card shadow mb-4 col-md-2" data-category="all-open" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Open Tickets</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">All Open Tickets</h6>
                                 </div>
                                 <div class="card-body text-center">
                                     <h1 class="card-title font-weight-bold" id="all-open-tickets">0</h1>
@@ -164,22 +164,9 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <table class="table table-bordered table-hover" id="ticketTable" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Ticket ID</th>
-                                                    <th>Requestor</th>
-                                                    <th>Date Requested</th>
-                                                    <th>Subject</th>
-                                                    <th>Status</th>
-                                                    <th>Due Date</th>
-                                                    <th>Attachment</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Rows will be dynamically inserted -->
-                                            </tbody>
-                                        </table>
+                                        <div id="ticketTableContainer">
+                                            <!-- Table will be injected here -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -190,62 +177,254 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                             <div class="modal-dialog modal-md">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="ticketDetailsModalLabel">Ticket Details</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body">
-                                        <p><strong>Ticket ID:</strong> <span id="ticketId"></span></p>
-                                        <p><strong>Requestor:</strong> <span id="ticketRequestorId"></span></p>
-                                        <p><strong>Department:</strong> <span id="ticketRequestorDepartment"></span></p>
-                                        <p><strong>Subject:</strong> <span id="ticketSubject"></span></p>
-                                        <p><strong>Description:</strong> <span id="ticketDescription"></span></p>
-                                        <p><strong>Type:</strong> <span id="ticketType"></span></p>
-                                        <p><strong>Attachment:</strong> <span id="ticketAttachment"></span></p>
-                                        <p><strong>Handler:</strong>
-                                            <select id="ticketHandlerId" class="form-control" disabled>
-                                                <!-- Options will be dynamically inserted -->
-                                            </select>
-                                        </p>
-                                        <p><strong>Status:</strong>
-                                            <select id="ticketStatus" class="form-control" disabled>
-                                                <!-- Options will be dynamically inserted -->
-                                            </select>
-                                        </p>
-                                        <p><strong>Due Date:</strong>
-                                            <input type="datetime-local" id="ticketDueDate" class="form-control" disabled>
-                                        </p>
-                                        <p><strong>Conclusion:</strong> <span id="ticketConclusion"></span></p>
-                                        <textarea id="conclusionTextArea" style="display: none;" class="form-control" placeholder="Enter conclusion here..."></textarea>
-                                        <hr>
-                                        <button id="editButton" class="btn btn-outline-info" onclick="enableEditing()">Edit</button>
-                                        <button id="saveButton" class="btn btn-outline-primary" onclick="saveTicketDetails()" style="display: none;">Save</button>
-                                        <button id="cancelsaveButton" class="btn btn-outline-danger" onclick="cancelTicketDetails()" style="display: none; float: right">Cancel</button>
-                                        <button id="closeTicketButton" class="btn btn-outline-danger" onclick="showConclusionTextArea()">Close Ticket</button>
-                                        <button id="saveConclusionButton" class="btn btn-outline-primary" onclick="saveConclusion()" style="display: none;">Save Conclusion</button>
+                                    <div class="modal-body p-4">
+                                        <!-- Header with Chat Button -->
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="modal-title fw-bold"><i class="fa-solid fa-ticket-alt me-2"></i> Ticket Details</h5>
+                                            <button id="openChatButton" class="btn btn-outline-secondary btn-sm d-flex align-items-center"
+                                                data-id="" data-title="" data-requestor=""
+                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                title="Chat with requestor">
+                                                <i class="fa-solid fa-comments me-1"></i> Chat
+                                            </button>
+                                        </div>
+
+                                        <!-- Ticket Information in a Card -->
+                                        <div class="card shadow-sm border-0">
+                                            <div class="card-body p-3">
+                                                <table class="table table-bordered table-striped mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="bg-light w-25">Ticket ID</th>
+                                                            <td><span id="ticketId"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Requestor</th>
+                                                            <td><span id="ticketRequestorId"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Department</th>
+                                                            <td><span id="ticketRequestorDepartment"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Subject</th>
+                                                            <td><span id="ticketSubject"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Description</th>
+                                                            <td><span id="ticketDescription"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Type</th>
+                                                            <td><span id="ticketType"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Attachment</th>
+                                                            <td><span id="ticketAttachment"></span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <!-- Conclusion Section -->
+                                        <div class="mt-4">
+                                            <h6 class="fw-bold"><i class="fa-solid fa-clipboard-check me-2"></i> Conclusion</h6>
+                                            <p class="mb-2"><span id="ticketConclusion" class="text-muted fst-italic"></span></p>
+
+                                            <!-- Textarea (Initially Hidden) -->
+                                            <textarea id="conclusionTextArea" class="form-control mt-2 d-none fade"
+                                                placeholder="Enter conclusion here..."></textarea>
+                                        </div>
+
+                                        <!-- Sticky Footer Actions -->
+                                        <div class="d-flex justify-content-end gap-2 mt-4 border-top pt-3">
+                                            <button id="cancelsaveButton" class="btn btn-outline-danger d-none" onclick="cancelTicketDetails()">
+                                                <i class="fa-solid fa-ban me-1"></i> Cancel
+                                            </button>
+                                            <button id="closeTicketButton" class="btn btn-danger" onclick="showConclusionTextArea()">
+                                                <i class="fa-solid fa-times-circle me-1"></i> Close Ticket
+                                            </button>
+                                            <button id="saveConclusionButton" class="btn btn-primary d-none" onclick="saveConclusion()">
+                                                <i class="fa-solid fa-save me-1"></i> Save Conclusion
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="allTicketDetailsModal" tabindex="-1" aria-labelledby="ticketDetailsModalLabel" data-bs-backdrop="static" aria-hidden="true">
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body p-4">
+                                        <!-- Header with Chat Button -->
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="modal-title fw-bold"><i class="fa-solid fa-ticket-alt me-2"></i> Ticket Details</h5>
+
+                                        </div>
+
+                                        <!-- Ticket Information in a Card -->
+                                        <div class="card shadow-sm border-0">
+                                            <div class="card-body p-3">
+                                                <table class="table table-bordered table-striped mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="bg-light w-25">Ticket ID</th>
+                                                            <td><span id="ticketIdAll"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Requestor</th>
+                                                            <td><span id="ticketRequestorIdAll"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Department</th>
+                                                            <td><span id="ticketRequestorDepartmentAll"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Subject</th>
+                                                            <td><span id="ticketSubjectAll"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Description</th>
+                                                            <td><span id="ticketDescriptionAll"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Type</th>
+                                                            <td><span id="ticketTypeAll"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Attachment</th>
+                                                            <td><span id="ticketAttachmentAll"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Handler</th>
+                                                            <td><span id="ticketHandlerAll"></span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- Conclusion Section -->
+                                        <div class="mt-4">
+                                            <h6 class="fw-bold"><i class="fa-solid fa-clipboard-check me-2"></i> Conclusion</h6>
+                                            <p class="mb-2"><span id="ticketConclusionAll" class="text-muted fst-italic"></span></p>
+                                        </div>
+                                        <!-- Reassign Ticket Section -->
+                                        <div class="mt-4 border-top pt-3">
+                                            <div class="d-flex justify-content-end gap-2">
+                                                <button id="reassignTicketButton" class="btn btn-primary" onclick="reassignTicket(document.getElementById('ticketIdAll').innerText)">
+                                                    <i class="fa-solid fa-user-edit me-1"></i> Reassign Ticket
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Modal for Ticket Details -->
                         <div class="modal fade" id="unassignedticketDetailsModal" tabindex="-1" aria-labelledby="ticketDetailsModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-md">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="ticketDetailsModalLabel">Ticket Details</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body">
-                                        <p><strong>Ticket ID:</strong> <span id="unassignedticketId"></span></p>
-                                        <p><strong>Requestor:</strong> <span id="unassignedticketRequestorId"></span></p>
-                                        <p><strong>Department:</strong> <span id="unassignedticketRequestorDepartment"></span></p>
-                                        <p><strong>Subject:</strong> <span id="unassignedticketSubject"></span></p>
-                                        <p><strong>Description:</strong> <span id="unassignedticketDescription"></span></p>
-                                        <p><strong>Attachment:</strong> <span id="unassignedticketAttachment"></span></p>
-                                        <p><strong>Type:</strong> <span id="unassignedticketType"></span></p>
-                                        <p class="text-info"><input type="checkbox" id="forApprovalCheckbox"> For Approval </p>
-                                        <button id="claimButton" class="btn btn-primary" onclick="claimTicket()" style="float: right">Claim</button>
+                                    <div class="modal-body p-4">
+                                        <!-- Header with Chat Button -->
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="modal-title fw-bold"><i class="fa-solid fa-ticket-alt me-2"></i> Unassigned Ticket</h5>
+                                            <button id="openChatButtonUnassigned" class="btn btn-outline-secondary btn-sm d-flex align-items-center"
+                                                data-id="" data-title="" data-requestor=""
+                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                title="Chat with requestor">
+                                                <i class="fa-solid fa-comments me-1"></i> Chat
+                                            </button>
+                                        </div>
+
+                                        <!-- Ticket Information in a Card -->
+                                        <div class="card shadow-sm border-0">
+                                            <div class="card-body p-3">
+                                                <table class="table table-bordered table-striped mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="bg-light w-25">Ticket ID</th>
+                                                            <td><span id="unassignedticketId"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Requestor</th>
+                                                            <td><span id="unassignedticketRequestorId"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Department</th>
+                                                            <td><span id="unassignedticketRequestorDepartment"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Subject</th>
+                                                            <td><span id="unassignedticketSubject"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Description</th>
+                                                            <td><span id="unassignedticketDescription"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Attachment</th>
+                                                            <td><span id="unassignedticketAttachment"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Type</th>
+                                                            <td><span id="unassignedticketType"></span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <!-- For Approval Checkbox -->
+                                        <div class="form-check mt-3">
+                                            <input class="form-check-input" type="checkbox" id="forApprovalCheckbox">
+                                            <label class="form-check-label text-info fw-bold" for="forApprovalCheckbox">
+                                                For Approval
+                                            </label>
+                                        </div>
+
+                                        <!-- Ticket Priority -->
+                                        <div class="mt-3">
+                                            <label class="fw-bold">Priority:</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="ticketPriority" id="priorityCritical" value="CRITICAL">
+                                                <label class="form-check-label text-danger" for="priorityCritical">
+                                                    Critical (4 hrs)
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="ticketPriority" id="priorityImportant" value="IMPORTANT">
+                                                <label class="form-check-label text-warning" for="priorityImportant">
+                                                    Important (8 hrs)
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="ticketPriority" id="priorityNormal" value="NORMAL">
+                                                <label class="form-check-label text-primary" for="priorityNormal">
+                                                    Normal (24 hrs)
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Claim Button -->
+                                        <div class="d-flex justify-content-end mt-3">
+                                            <button id="claimButton" class="btn btn-primary" onclick="claimTicket()">
+                                                <i class="fa-solid fa-hand-pointer me-1"></i> Claim Ticket
+                                            </button>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -255,58 +434,154 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                             <div class="modal-dialog modal-md">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="ticketDetailsModalLabel">Ticket Details</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body">
-                                        <p><strong>Ticket ID:</strong> <span id="closedticketId"></span></p>
-                                        <p><strong>Requestor:</strong> <span id="closedticketRequestorId"></span></p>
-                                        <p><strong>Department:</strong> <span id="closedticketRequestorDepartment"></span></p>
-                                        <p><strong>Subject:</strong> <span id="closedticketSubject"></span></p>
-                                        <p><strong>Description:</strong> <span id="closedticketDescription"></span></p>
-                                        <p><strong>Type:</strong> <span id="closedticketType"></span></p>
-                                        <p><strong>Attachment:</strong> <span id="closedticketAttachment"></span></p>
-                                        <p><strong>Handler:</strong>
-                                            <select id="closedticketHandlerId" disabled>
-                                                <!-- Options will be dynamically inserted -->
-                                            </select>
-                                        </p>
-                                        <p><strong>Status:</strong>
-                                            <select id="closedticketStatus" disabled>
-                                                <!-- Options will be dynamically inserted -->
-                                            </select>
-                                        </p>
-                                        <p><strong>Due Date:</strong>
-                                            <input type="datetime-local" id="closedticketDueDate" disabled>
-                                        </p>
-                                        <p><strong>Conclusion:</strong> <span id="closedticketConclusion"></span></p>
-                                        <button id="ReopeButton" class="btn btn-outline-info" onclick="reopenTicket()">Reopen</button>
+                                    <div class="modal-body p-4">
+                                        <!-- Header with Chat Button -->
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="modal-title fw-bold"><i class="fa-solid fa-ticket-alt me-2"></i> Closed Ticket</h5>
+                                            <button id="openChatButtonClosed" class="btn btn-outline-secondary btn-sm d-flex align-items-center"
+                                                data-id="" data-title="" data-requestor=""
+                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                title="Chat with requestor">
+                                                <i class="fa-solid fa-comments me-1"></i> Chat
+                                            </button>
+                                        </div>
+
+                                        <!-- Ticket Information in a Card -->
+                                        <div class="card shadow-sm border-0">
+                                            <div class="card-body p-3">
+                                                <table class="table table-bordered table-striped mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="bg-light w-25">Ticket ID</th>
+                                                            <td><span id="closedticketId"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Requestor</th>
+                                                            <td><span id="closedticketRequestorId"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Department</th>
+                                                            <td><span id="closedticketRequestorDepartment"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Subject</th>
+                                                            <td><span id="closedticketSubject"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Description</th>
+                                                            <td><span id="closedticketDescription"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Type</th>
+                                                            <td><span id="closedticketType"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Attachment</th>
+                                                            <td><span id="closedticketAttachment"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Conclusion</th>
+                                                            <td><span id="closedticketConclusion"></span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+
                         <!-- Modal for Approve or Reject Reopen Request -->
                         <div class="modal fade" id="approveRejectReopenModal" tabindex="-1" aria-labelledby="approveRejectReopenModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-md">
-                                <div class="modal-content">
+                            <div class="modal-dialog modal-md modal-dialog-centered">
+                                <div class="modal-content rounded-4 shadow-sm">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="approveRejectReopenModalLabel">Approve or Reject Reopen Request</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body">
-                                        <p><strong>Ticket ID:</strong> <span id="approveRejectReopenTicketId"></span></p>
-                                        <p><strong>Requestor:</strong> <span id="approveRejectReopenRequestorId"></span></p>
-                                        <p><strong>Department:</strong> <span id="approveRejectReopenRequestorDepartment"></span></p>
-                                        <p><strong>Subject:</strong> <span id="approveRejectReopenSubject"></span></p>
-                                        <p><strong>Description:</strong> <span id="approveRejectReopenDescription"></span></p>
-                                        <p><strong>Handler:</strong> <span id="approveRejectReopenHandler"></span></p>
-                                        <p><strong>Reason for Reopening:</strong> <span id="reasonForReopen"></span></p>
-                                        <textarea id="approveRejectReopenReasonDescription" class="form-control" rows="3"></textarea>
-                                        <button id="approveReopenRequestButton" class="btn btn-outline-success mt-2">Approve</button>
-                                        <button id="rejectReopenRequestButton" class="btn btn-outline-danger mt-2" style="float: right;">Reject</button>
+
+                                    <div class="modal-body p-4">
+                                        <!-- Header Title -->
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="modal-title fw-bold" id="approveRejectReopenModalLabel">
+                                                <i class="fa-solid fa-rotate-left me-2"></i> Reopen Request Review
+                                            </h5>
+                                        </div>
+
+                                        <!-- Ticket Information in a Card -->
+                                        <div class="card shadow-sm border-0 mb-3">
+                                            <div class="card-body p-3">
+                                                <table class="table table-bordered table-striped mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="bg-light w-25">Ticket ID</th>
+                                                            <td><span id="approveRejectReopenTicketId"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Requestor</th>
+                                                            <td><span id="approveRejectReopenRequestorId"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Department</th>
+                                                            <td><span id="approveRejectReopenRequestorDepartment"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Subject</th>
+                                                            <td><span id="approveRejectReopenSubject"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Description</th>
+                                                            <td><span id="approveRejectReopenDescription"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Handler</th>
+                                                            <td><span id="approveRejectReopenHandler"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Reason for Reopening</th>
+                                                            <td><span id="reasonForReopen"></span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <!-- Remarks Textarea -->
+                                        <div class="mb-3">
+                                            <label for="approveRejectReopenReasonDescription" class="form-label fw-semibold">Remarks</label>
+                                            <textarea id="approveRejectReopenReasonDescription" class="form-control" rows="3" placeholder="Enter your remarks or justification..."></textarea>
+                                        </div>
+
+                                        <!-- Approve / Reject Buttons -->
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <button id="approveReopenRequestButton" class="btn btn-outline-primary">
+                                                <i class="fa-solid fa-thumbs-up me-1"></i> Approve
+                                            </button>
+                                            <button id="rejectReopenRequestButton" class="btn btn-outline-danger">
+                                                <i class="fa-solid fa-ban me-1"></i> Reject
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Chatbox -->
+                        <div id="chatbox" class="chatbox">
+                            <div class="chatbox-header">
+                                <span id="chatboxTitle">Ticket Title</span>
+                                <button id="closeChatbox" class="close-chatbox">&times;</button>
+                            </div>
+                            <div id="chatboxMessages" class="chatbox-messages">
+                                <!-- Chat messages will be populated here -->
+                            </div>
+                            <div class="chatbox-input">
+                                <input type="text" id="chatboxInput" placeholder="Type a message...">
+                                <button id="sendChatboxMessage">Send</button>
                             </div>
                         </div>
 

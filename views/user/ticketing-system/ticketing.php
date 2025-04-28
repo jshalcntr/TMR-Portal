@@ -146,7 +146,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                     <h5 class="mb-0">For Approval</h5>
                                 </div>
 
-                                <div class="card-body overflow-auto" style="max-height: 400px;">
+                                <div class="card-body" style="max-height: 750px;">
                                     <div id="forApprovalContainer" class="d-flex flex-column align-items-center">
                                         <!-- Loading Spinner -->
                                         <div id="loading-spinner" class="d-flex justify-content-center my-3">
@@ -169,7 +169,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                 </div>
 
                                 <!-- Card Body -->
-                                <div class="card-body overflow-auto" style="max-height: 400px;">
+                                <div class="card-body" style="max-height: 750px;">
                                     <div id="pendingTicketList" class="d-flex flex-column align-items-center">
                                         <!-- Loading Spinner -->
                                         <div id="loading-spinner" class="d-flex justify-content-center my-3">
@@ -192,7 +192,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                 </div>
 
                                 <!-- Card Body -->
-                                <div class="card-body overflow-auto" style="max-height: 400px;">
+                                <div class="card-body" style="max-height: 750px;">
                                     <div id="closedTicketList" class="d-flex flex-column align-items-center">
                                         <!-- Loading Spinner -->
                                         <div id="loading-spinner" class="d-flex justify-content-center my-3">
@@ -251,7 +251,11 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                                         </tr>
                                                         <tr>
                                                             <th class="bg-light">Approval Due Date</th>
-                                                            <td><span id="ticketDueDateApproval" class="text-warning"></span></td>
+                                                            <td><span id="ticketDueDateApproval"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Priority</th>
+                                                            <td><span id="ticketPriority"></span></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -312,6 +316,19 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                                             <td>
                                                                 <span id="ticketDate"></span>
                                                                 <span id="ticketTime"></span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="dateClosedRow" style="display: none;">
+                                                            <th class="bg-light">Date Closed</th>
+                                                            <td>
+                                                                <span id="ticketEndDate"></span>
+                                                                <span id="ticketEndTime"></span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="conclusionRow" style="display: none;">
+                                                            <th class="bg-light">Conclusion</th>
+                                                            <td>
+                                                                <span id="ticketConclusion"></span>
                                                             </td>
                                                         </tr>
                                                         <tr>

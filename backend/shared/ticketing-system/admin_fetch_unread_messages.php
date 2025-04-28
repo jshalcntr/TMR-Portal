@@ -26,19 +26,16 @@ $query = "
     FROM 
         ticket_convo_tbl tc 
     JOIN 
-        accounts_tbl a 
-    ON 
-        tc.ticket_user_id = a.id 
+        accounts_tbl a ON tc.ticket_user_id = a.id 
     JOIN 
-        ticket_records_tbl tr 
-    ON 
-        tc.ticket_id = tr.ticket_id 
+        ticket_records_tbl tr ON tc.ticket_id = tr.ticket_id 
     WHERE 
         tc.is_read = '0' 
-        AND tc.ticket_user_id != ?
+        AND tc.ticket_user_id != ? 
+        AND tr.ticket_handler_id = ?
 ";
 $stmt = $conn->prepare($query);
-$stmt->bind_param('s', $user_id);
+$stmt->bind_param('ss', $user_id, $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 

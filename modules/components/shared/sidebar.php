@@ -119,6 +119,27 @@
 
         </ul>
     </div>
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-heading">Sales Management System</div>
+
+    <div class="side-item">
+        <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'subprofiling.php') !== false ? 'active' : '' ?>">
+            <li class="iso-pro">
+
+                <a href="/tmr-portal/modules/sales-management/subprofiling.php">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="fa-solid fa-bars-progress svg"></i>
+                    <div class="text">Sub Profiling</div>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+
     <!-- End From Uiverse.io by MijailVillega -->
 
     <!-- Divider -->

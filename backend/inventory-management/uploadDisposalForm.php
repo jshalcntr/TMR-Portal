@@ -21,7 +21,7 @@ if (isset($_FILES['disposalFormFile']) && $_FILES['disposalFormFile']['error'] =
         $fullFilePath = "/tmr-portal/uploads/disposal_form/" . $fileName . '.' . $fileExtension;
         // header('Content-Type: application/json');
         // echo json_encode([
-        //     "status" => "success",
+        //     "status0"1. => "success",
         //     "message" => "File uploaded successfully",
         //     "data" => $fullFilePath
         // ]);
@@ -87,7 +87,6 @@ if (isset($_FILES['disposalFormFile']) && $_FILES['disposalFormFile']['error'] =
                                         "message" => "Failed to update item info. Please Contact the Programmer",
                                         "data" => $updateItemInfoStmt->error
                                     ]);
-                                    // continue;
                                 } else {
                                     $updateDisposalSql = "UPDATE inventory_disposal_tbl SET isDisposed = 1, date_disposed = ? WHERE inventory_id = ?";
                                     $updateDisposalStmt = $conn->prepare($updateDisposalSql);
@@ -108,7 +107,6 @@ if (isset($_FILES['disposalFormFile']) && $_FILES['disposalFormFile']['error'] =
                                                 "message" => "Failed to update disposal info. Please Contact the Programmer",
                                                 "data" => $updateDisposalStmt->error
                                             ]);
-                                            // continue;
                                         }
                                     }
                                 }
