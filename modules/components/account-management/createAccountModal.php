@@ -64,24 +64,24 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="section" class="col-form-label">Section</label>
-                                <select name="section" id="section" class="form-select form-select-sm" required>
+                                <select name="section" id="section" class="form-select form-select-sm" required disabled>
                                     <option value="" selected hidden>--Select Section--</option>
                                 </select>
                                 <div class="invalid-feedback">Please Select Section</div>
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-2 mb-4" id="toggleRow">
+                    <div class="row mt-4 mb-4" id="toggleRow">
                         <div class="line"></div>
                         <p class="h5">Authorizations</p>
-                        <button type="button" class="d-flex justify-content-center align-items-center" data-toggle="collapse" href="#collapseAuthorizations" role="button" aria-expanded="false" aria-controls="collapseAuthorizations"></button>
+                        <button type="button" class="d-flex justify-content-center align-items-center" id="toggleAuthorizationsBtn" data-toggle="collapse" href="#collapseAuthorizations" role="button" aria-expanded="false" aria-controls="collapseAuthorizations"></button>
                     </div>
                     <div class="row mt-2 mb-4 collapse" id="collapseAuthorizations">
                         <div class="col">
-                            <div class="row">
+                            <div class="row inventory-authorization-row">
                                 <p class="h5">Inventory Management</p>
                             </div>
-                            <div class="row">
+                            <div class="row inventory-authorization-row">
                                 <div class="col">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="inventoryView" name="inventoryView" value="1">
@@ -94,11 +94,17 @@
                                         <label class="form-check-label" for="inventoryEdit">Edit</label>
                                     </div>
                                 </div>
+                                <div class="col <?= $authorizations['accounts_super'] ? "" : "d-none" ?>">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="inventoryEdit" name="inventorySuper" value="1">
+                                        <label class="form-check-label" for="inventorySuper">Super</label>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row">
+                            <div class="row account-authorization-row">
                                 <p class="h5">Accounts Management</p>
                             </div>
-                            <div class="row">
+                            <div class="row account-authorization-row">
                                 <div class="col">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="accountsView" name="accountsView" value="1">
@@ -109,6 +115,12 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="accountsEdit" name="accountsEdit" value="1">
                                         <label class="form-check-label" for="accountsEdit">Edit</label>
+                                    </div>
+                                </div>
+                                <div class="col <?= $authorizations['accounts_super'] ? "" : "d-none" ?>">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="accountsSuper" name="accountsSuper" value="1">
+                                        <label class="form-check-label" for="accountsSuper">Super</label>
                                     </div>
                                 </div>
                             </div>

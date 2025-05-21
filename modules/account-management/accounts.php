@@ -58,7 +58,7 @@ if (authorize(true, $conn)) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Account Management</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Account Management <?= $authorizations['accounts_super'] == 0 ?></h1>
                         <div class="actions-group">
 
                         </div>
@@ -66,7 +66,7 @@ if (authorize(true, $conn)) {
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex align-items-center justify-content-between">
                             <h6 class="m-0 font-weight-bold text-primary">Accounts</h6>
-                            <?php if ($authorizations['accounts_edit']): ?>
+                            <?php if ($authorizations['accounts_super'] || $authorizations['accounts_edit']): ?>
                                 <div class="actions-group">
                                     <button class="btn btn-sm btn-primary shadow-sm" id="createAccountModalBtn" data-bs-toggle="modal" data-bs-target="#createAccountModal"><i class="fas fa-user-plus"></i> Create Account</button>
                                 </div>

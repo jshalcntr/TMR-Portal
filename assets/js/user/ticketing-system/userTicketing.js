@@ -18,6 +18,203 @@ textarea.addEventListener("input", function () {
     }
 });
 
+$(document).ready(function () {
+    const table = $('#ticketsTable').DataTable({
+        ajax: '../../../backend/user/ticketing-system/get_all_tickets.php',
+        responsive: true,
+        pageLength: 10,
+        order: [[9, 'desc']], // Column 9 is "Created"
+        createdRow: function (row, data, dataIndex) {
+            const status = data[4]; // Status column
+
+            if (status === 'FOR APPROVAL') {
+                $(row).addClass('table-warning');
+            } else if (status === 'OPEN' || status === 'APPROVED') {
+                $(row).addClass('table-default');
+            } else if (status === 'CLOSED' || status === 'CANCELLED' || status === 'REJECTED') {
+                $(row).addClass('table-secondary');
+            }
+        },
+        columnDefs: [
+            // {
+            //     targets: -1, // Last column
+            //     orderable: false,
+            //     searchable: false,
+            //     render: function (data, type, row) {
+            //         return `
+            //             <button class="btn btn-sm btn-primary me-1 view-ticket"
+            //                 data-bs-toggle="modal"
+            //                 data-bs-target="#ticketsModal"
+            //                 data-id="${row[0]}"
+            //                 data-subject="${row[1]}"
+            //                 data-type="${row[2]}"
+            //                 data-priority="${row[3]}"
+            //                 data-status="${row[4]}"
+            //                 data-requestor="${row[5]}"
+            //                 data-handler="${row[6]}"
+            //                 data-due="${row[7]}"
+            //                 data-approval-due="${row[8]}"
+            //                 data-created="${row[9]}"
+            //                 data-accepted="${row[10]}"
+            //                 data-finished="${row[11]}"
+            //                 data-reason="${row[12]}"
+            //                 data-approved="${row[13]}"
+            //                 data-attachment='${row[14]}'
+            //                 data-approval-attachment='${row[15]}'>
+            //                 <i class="fa fa-eye"></i>
+            //             </button>`;
+            //     }
+            // },
+            {
+                targets: [7], // "Due Date" column
+                render: function (data, type, row) {
+                    const dateFinished = row[11]; // Date Finished column
+
+                    if (type === 'display') {
+                        if (dateFinished !== 'N/A') {
+                            return `<span class="countdown" data-finished="true">Finished</span>`;
+                        }
+                        return data !== 'N/A'
+                            ? `<span class="countdown" data-date="${data}">Loading...</span>`
+                            : 'N/A';
+                    }
+                    return data;
+                }
+            },
+            {
+                targets: [8], // "Approval Due" column
+                render: function (data, type, row) {
+                    const dateApproved = row[13]; // Date Approved
+                    const dateFinished = row[11]; // Date Finished
+
+                    if (type === 'display') {
+                        if (dateFinished !== 'N/A' && dateApproved === 'N/A') {
+                            return 'N/A';
+                        }
+                        if (dateApproved !== 'N/A') {
+                            return `<span class="countdown" data-approved="true">Approved</span>`;
+                        }
+                        return data !== 'N/A'
+                            ? `<span class="countdown" data-date="${data}">Loading...</span>`
+                            : 'N/A';
+                    }
+                    return data;
+                }
+            }
+        ],
+        drawCallback: function () {
+            updateCountdowns();
+        }
+    });
+});
+
+function updateCountdowns() {
+    const countdownElements = document.querySelectorAll('.countdown');
+
+    countdownElements.forEach(el => {
+        const dateStr = el.dataset.date;
+        const isApproved = el.dataset.approved === "true";
+        const isFinished = el.dataset.finished === "true";
+
+        if (isApproved) {
+            el.textContent = 'Approved';
+            el.classList.remove('text-danger');
+            return;
+        }
+
+        if (isFinished) {
+            el.textContent = 'Finished';
+            el.classList.remove('text-danger');
+            return;
+        }
+
+        if (!dateStr || dateStr === 'N/A') {
+            el.textContent = 'N/A';
+            el.classList.remove('text-danger');
+            return;
+        }
+
+        const targetDate = new Date(dateStr);
+        const now = new Date();
+        const diff = targetDate - now;
+
+        if (isNaN(targetDate.getTime()) || diff <= 0) {
+            el.textContent = 'Expired';
+            el.classList.add('text-danger');
+            return;
+        }
+
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+        el.textContent = `${hours}h ${minutes}m`;
+        el.classList.remove('text-danger');
+    });
+
+    setTimeout(updateCountdowns, 60 * 1000);
+}
+
+$(document).on('click', '.view-ticket', function () {
+    const btn = $(this);
+
+    $('#ticketNumber').text(btn.data('id'));
+    $('#ticketTitle').text(btn.data('subject'));
+    $('#ticketStatus').text(btn.data('status'));
+    $('#ticketDueDate').text(btn.data('due'));
+    $('#ticketHandler').text(btn.data('handler'));
+
+    const created = btn.data('created');
+    if (created && created !== 'N/A') {
+        const [date, time] = created.split(' ');
+        $('#ticketDate').text(date);
+        $('#ticketTime').text(time);
+    } else {
+        $('#ticketDate').text('N/A');
+        $('#ticketTime').text('');
+    }
+
+    $('#ticketPriority').text(btn.data('priority'));
+    $('#ticketRequestor').text(btn.data('requestor'));
+    $('#ticketApprovalDueDate').text(btn.data('approval-due'));
+    $('#ticketApprovalReason').text(btn.data('reason'));
+    $('#ticketApprovalDate').text(btn.data('approved'));
+
+    const finished = btn.data('finished');
+    if (finished && finished !== 'N/A') {
+        const [endDate, endTime] = finished.split(' ');
+        $('#ticketEndDate').text(endDate);
+        $('#ticketEndTime').text(endTime);
+    } else {
+        $('#ticketEndDate').text('N/A');
+        $('#ticketEndTime').text('');
+    }
+
+    $('#ticketConclusion').text(''); // Fill if available in backend
+    $('#ticketDescription').text(btn.data('type')); // Assuming description is same as type (replace if needed)
+
+    // Attachments (HTML allowed)
+    const approvalAttachment = btn.data('approval-attachment');
+    if (approvalAttachment && approvalAttachment !== 'No attachment.') {
+        $('#ticketApprovalAttachment').html(`<a href="${approvalAttachment}" target="_blank">View Attachment</a>`);
+    } else {
+        $('#ticketApprovalAttachment').text('No attachment.');
+    }
+    const ticketAttachment = btn.data('attachment');
+    if (ticketAttachment && ticketAttachment !== 'No attachment.') {
+        $('#ticketAttachment').html(`<a href="${ticketAttachment}" target="_blank">View Attachment</a>`);
+    } else {
+        $('#ticketAttachment').text('No attachment.');
+    }
+
+    // Optionally hide empty rows
+    $('#approvalDueDateRow').toggle(btn.data('approval-due') && btn.data('approval-due') !== 'N/A');
+    $('#approvalReasonRow').toggle(btn.data('reason') && btn.data('reason') !== 'N/A');
+    $('#approvalDateRow').toggle(btn.data('approved') && btn.data('approved') !== 'N/A');
+    $('#approvalAttachmentRow').toggle(btn.data('approval-attachment') && btn.data('approval-attachment') !== 'No attachment.');
+    $('#dateClosedRow').toggle(finished && finished !== 'N/A');
+    $('#ticketsModal').modal('show');
+});
+
 
 // populate from similar tickets 
 document.addEventListener('DOMContentLoaded', function () {
@@ -299,6 +496,8 @@ $(document).ready(function () {
                                 data-attachment="${ticket.ticket_attachment || ''}"
                                 data-priority="${ticket.ticket_priority}"
                                 data-handlerid="${ticket.ticket_handler_id}"
+                                data-reason="${ticket.for_approval_reason || ''}"
+                                data-approval_attachment="${ticket.for_approval_attachment || ''}"
                                 data-duedate="${formattedDueDate}">
                                 <div class="text-truncate">#${ticket.ticket_id} - ${ticket.ticket_subject}</div>
                                 <div class="small text-gray-500 text-truncate">${ticket.ticket_description}</div>
@@ -318,26 +517,29 @@ $(document).ready(function () {
                             $('#ticketModalDescription').text(ticketData.description);
                             $('#ticketModalDate').text(ticketData.date);
                             $('#ticketModalTime').text(ticketData.time);
-                            $('#ticketDueDateApproval').text(ticketData.duedate);
+                            $('#ticketModalDueDateApproval').text(ticketData.duedate);
                             $('#ticketModalHandler').text(ticketData.handler);
                             $('#ticketModalRequestor').text(ticketData.requestor);
-                            $('#approveButton').data('id', ticketData.id);
+                            $('#ticketModalApprovalReason').text(ticketData.reason);
+                            $('#ticketModalPriority').text(ticketData.priority);
+                            $('#ticketModalApprovalAttachment').html(ticketData.approval_attachment ? `<a href="../../../uploads/for_approval/${ticketData.approval_attachment}" target="_blank" class="text-primary">View Attachment</a>` : 'No attachment.');
+                            $('#approveButton').data('id', ticketData.id).data('priority', ticketData.priority);
 
-                            $('#rejectButton').data('id', ticketData.id);
+                            $('#rejectButton').data('id', ticketData.id).data('priority', ticketData.priority);
                             if (ticketData.attachment) {
                                 $('#ticketModalAttachment').html(`<a href="${ticketData.attachment}" target="_blank" class="text-primary">View Attachment</a>`);
                             } else {
                                 $('#ticketModalAttachment').text('No attachment available.');
                             }
                             if (ticketData.priority === 'CRITICAL') {
-                                $('#ticketPriority').text('CRITICAL').removeClass('text-secondary text-warning').addClass('text-danger');
-                                $('#ticketDueDateApproval').removeClass('text-secondary text-warning').addClass('text-danger');
+                                $('#ticketModalPriority').text('CRITICAL').removeClass('text-secondary text-warning').addClass('text-danger');
+                                $('#ticketModalDueDateApproval').removeClass('text-secondary text-warning').addClass('text-danger');
                             } else if (ticketData.priority === 'IMPORTANT') {
-                                $('#ticketPriority').text('IMPORTANT').removeClass('text-secondary text-danger').addClass('text-warning');
-                                $('#ticketDueDateApproval').removeClass('text-secondary text-danger').addClass('text-warning');
+                                $('#ticketModalPriority').text('IMPORTANT').removeClass('text-secondary text-danger').addClass('text-warning');
+                                $('#ticketModalDueDateApproval').removeClass('text-secondary text-danger').addClass('text-warning');
                             } else if (ticketData.priority === 'NORMAL') {
-                                $('#ticketPriority').text('NORMAL').removeClass('text-danger text-warning').addClass('text-secondary');
-                                $('#ticketDueDateApproval').removeClass('text-danger text-warning').addClass('text-secondary');
+                                $('#ticketModalPriority').text('NORMAL').removeClass('text-danger text-warning').addClass('text-secondary');
+                                $('#ticketModalDueDateApproval').removeClass('text-danger text-warning').addClass('text-secondary');
                             }
                             $('#forApprovalticketModal').modal('show');
                         });
@@ -373,10 +575,11 @@ $(document).ready(function () {
 
     $('#approveButton').on('click', function () {
         const ticketId = $(this).data('id');
+        const ticketPriority = $(this).data('priority');
         $.ajax({
             url: '../../../backend/user/ticketing-system/update_ticket_status.php',
             type: 'POST',
-            data: { ticket_id: ticketId, status: 'Approved' },
+            data: { ticket_id: ticketId, status: 'Approved', priority: ticketPriority },
             dataType: 'json',
             success: function (response) {
                 if (response.status === 'success') {
@@ -399,7 +602,7 @@ $(document).ready(function () {
         $.ajax({
             url: '../../../backend/user/ticketing-system/update_ticket_status.php',
             type: 'POST',
-            data: { ticket_id: ticketId, status: 'Rejected' },
+            data: { ticket_id: ticketId, status: 'Rejected', priority: $(this).data('priority') },
             dataType: 'json',
             success: function (response) {
                 if (response.status === 'success') {
@@ -459,18 +662,28 @@ function populateTickets(tickets, containerSelector, type) {
 
         const ticketElement = `
                 <button class="${handlerClass} dropdown-item align-items-center ticket-item" 
-                    data-id="${ticket.ticket_id}" 
-                    data-title="${ticket.ticket_subject}" 
-                    data-description="${ticket.ticket_description}" 
-                    data-attachment="${ticket.ticket_attachment}" 
-                    data-date="${date}" 
-                    data-time="${time}" 
-                    data-endDate="${endDate}" 
-                    data-endTime="${endTime}" 
-                    data-handler="${handlerName}" 
-                    data-conclusion="${ticket.ticket_conclusion}"
-                    data-handlerId="${ticket.ticket_handler_id}" 
-                    data-status="${type}">
+                data-id="${ticket.ticket_id}" 
+                data-title="${ticket.ticket_subject}" 
+                data-type="${ticket.ticket_type || ''}"
+                data-description="${ticket.ticket_description}" 
+                data-conclusion="${ticket.ticket_conclusion || ''}" 
+                data-priority="${ticket.ticket_priority || ''}"
+                data-department="${ticket.requestor_department || ''}" 
+                data-attachment="${ticket.ticket_attachment}" 
+                data-for-approval-attachment="${ticket.for_approval_attachment || ''}" 
+                data-due-date="${ticket.ticket_due_date || ''}" 
+                data-for-approval-due-date="${ticket.ticket_for_approval_due_date || ''}"
+                data-approval-reason="${ticket.for_approval_reason || ''}"
+                data-approval-date="${ticket.ticket_date_approved || ''}"
+                data-date="${date}" 
+                data-time="${time}" 
+                data-endDate="${endDate}" 
+                data-endTime="${endTime}" 
+                data-handler="${handlerName}" 
+                data-requestor="${ticket.requestor_name || ''}"
+                data-handlerId="${ticket.ticket_handler_id || ''}" 
+                data-ticket-status="${ticket.ticket_status || ''}" 
+                data-status="${type}">
                     <div class="text-truncate">#${ticket.ticket_id} | ${ticket.ticket_subject}</div>
                     <div class="small text-gray-500 text-truncate">${ticket.ticket_description}</div>
                     ${conclusion}
@@ -507,32 +720,57 @@ $(document).ready(function () {
         const endDate = $(this).data('enddate');
         const endTime = $(this).data('endtime');
         const status = $(this).data('status');
+        const ticketStatus = $(this).data('ticket-status');
         const handlerName = $(this).data('handler');
         const handlerId = $(this).data('handlerid');
-        if (handlerName == 'Unassigned') {
-            $('#openChatButton').addClass('d-none').removeClass('d-flex');
-        } else {
-            $('#openChatButton').addClass('d-flex').removeClass('d-none');
-        }
-        $('#ticketTitle').text(title);
-        $('#ticketDescription').text(description);
-        $('#ticketAttachment').html(attachment !== null
-            ? `<a href="${attachment.replace("backend/", '')}" target="_blank" class="text-primary">View Attachment</a>`
-            : 'No attachment.'
-        );
+        const ticketType = $(this).data('type');
+        const ticketPriority = $(this).data('priority');
+        const ticketDueDate = $(this).data('due-date');
+        const ticketApprovalDueDate = $(this).data('for-approval-due-date');
+        const ticketDepartment = $(this).data('department');
+        const ticketApprovalReason = $(this).data('approval-reason');
+        const ticketApprovalDate = $(this).data('approval-date');
+        const ticketRequestor = $(this).data('requestor');
+        const ticketForApprovalAttachment = $(this).data('for-approval-attachment');
 
+        // Debug: Check if the data is being fetched properly
+        console.log(ticketType, ticketPriority, ticketDueDate, ticketApprovalDueDate, ticketDepartment);
+
+        // Update modal fields
+        $('#ticketNumber').text(ticketId);
+        $('#ticketTitle').text(title);
+        $('#ticketPriority').text(ticketPriority || 'Not Available');
+        $('#ticketDescription').text(description);
+        $('#ticketConclusion').text(conclusion);
+        $('#ticketDueDate').text(ticketDueDate || 'Not Available');
+        $('#ticketApprovalDueDate').text(ticketApprovalDueDate || 'Not Available');
         $('#ticketDate').text(date);
         $('#ticketTime').text(time);
         $('#ticketEndDate').text(endDate);
         $('#ticketEndTime').text(endTime);
+        $('#ticketStatus').text(ticketStatus);
         $('#ticketHandler').text(handlerName);
-        $('#ticketConclusion').text(conclusion);
+        $('#ticketRequestor').text(ticketRequestor || 'Not Available');
+        $('#ticketApprovalReason').text(ticketApprovalReason || 'Not Available');
+        $('#ticketApprovalDate').text(ticketApprovalDate || 'Not Available');
+        $('#ticketDepartment').text(ticketDepartment || 'Not Available');
 
-        $('#dateClosedRow').toggle(status === 'Closed');
-        $('#conclusionRow').toggle(status === 'Closed');
 
+        // Handle attachment
+        $('#ticketAttachment').html(attachment ? `<a href="${attachment.replace('backend/', '')}" target="_blank" class="text-primary">View Attachment</a>` : 'No attachment.');
+        $('#ticketApprovalAttachment').html(ticketForApprovalAttachment ? `<a href="../../../uploads/for_approval/${ticketForApprovalAttachment}" target="_blank" class="text-primary">View Attachment</a>` : 'No attachment.');
+        // Show/Hide rows based on ticket status
+        $('#dateClosedRow').toggle(status === 'Closed' || status === 'Rejected' || status === 'Cancelled');
+        $('#conclusionRow').toggle(status === 'Closed' || status === 'Rejected' || status === 'Cancelled');
+        $('#approvalDueDateRow').toggle(ticketStatus === 'FOR APPROVAL' || status === 'Closed');
+        $('#approvalReasonRow').toggle(ticketStatus === 'FOR APPROVAL' || status === 'Closed');
+        $('#approvalDateRow').toggle(ticketStatus === 'APPROVED' || status === 'Closed');
+        $('#approvalAttachmentRow').toggle(ticketStatus === 'FOR APPROVAL' || status === 'Closed');
+
+
+
+        // Set action buttons and show modal
         const actionButtons = $('#actionButtons').empty();
-
         if (status !== 'Closed' && handlerName === 'Unassigned') {
             actionButtons.append(`<button class="btn btn-outline-danger btn-sm" id="cancelTicket" data-id="${ticketId}">Cancel Ticket</button>`);
         } else if (status !== 'Closed' && handlerName !== 'Unassigned') {

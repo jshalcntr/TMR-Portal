@@ -17,58 +17,62 @@ if (!isset($_SESSION['user']['id'])) {
 
 $user_id = $_SESSION['user']['id'];
 
-// SQL queries for fetching tickets
+// 🔍 Get user's department
+$department = null;
+$dept_stmt = $conn->prepare("SELECT department FROM accounts_tbl WHERE id = ?");
+$dept_stmt->bind_param("i", $user_id);
+$dept_stmt->execute();
+$dept_stmt->bind_result($department);
+$dept_stmt->fetch();
+$dept_stmt->close();
+
+if ($department === null) {
+    echo json_encode(["status" => "error", "message" => "User department not found."]);
+    exit;
+}
+
+// SQL: Pending Tickets (based on ticket_requestor_id)
 $sql_pending = "
     SELECT 
-        t.ticket_id, 
-        t.ticket_subject, 
-        t.ticket_description, 
-        t.ticket_status, 
-        t.date_created, 
-        t.ticket_attachment, 
-        t.date_finished, 
-        a.full_name AS handler_name
+        t.*, 
+        a.full_name AS handler_name,
+        r.department AS requestor_department,
+        r.full_name AS requestor_name
     FROM ticket_records_tbl AS t
     LEFT JOIN accounts_tbl AS a ON t.ticket_handler_id = a.id
-    WHERE t.ticket_status != 'Closed' AND t.ticket_status != 'Cancelled' AND t.ticket_requestor_id = ?
+    LEFT JOIN accounts_tbl AS r ON t.ticket_requestor_id = r.id
+    WHERE t.ticket_status NOT IN ('CLOSED', 'REJECTED', 'CANCELLED') AND t.ticket_requestor_id = ?
     ORDER BY t.date_created DESC
 ";
 
+// SQL: Closed/Rejected/Cancelled Tickets based on requestor's DEPARTMENT
 $sql_closed = "
     SELECT 
-        t.ticket_id, 
-        t.ticket_subject, 
-        t.ticket_description, 
-        t.ticket_conclusion,
-        t.ticket_status, 
-        t.date_created, 
-        t.ticket_attachment, 
-        t.ticket_handler_id, 
-        t.date_finished, 
-        t.ticket_for_approval_due_date,
-        t.ticket_priority,
-        a.full_name AS handler_name
+        t.*,
+        a.full_name AS handler_name,
+        r.department AS requestor_department,
+        r.full_name AS requestor_name
     FROM ticket_records_tbl AS t
     LEFT JOIN accounts_tbl AS a ON t.ticket_handler_id = a.id
-    WHERE t.ticket_status = 'Closed' AND t.ticket_requestor_id = ?
-    ORDER BY t.ticket_priority ASC, t.date_created DESC
+    LEFT JOIN accounts_tbl AS r ON t.ticket_requestor_id = r.id
+    WHERE t.ticket_status IN ('CLOSED', 'REJECTED', 'CANCELLED') AND r.department = ?
+    ORDER BY t.date_created DESC
 ";
 
 // Function to execute a query and format the result
-function fetch_tickets($conn, $sql, $user_id, $base_url)
+function fetch_tickets($conn, $sql, $param, $base_url, $type = "user")
 {
     $stmt = $conn->prepare($sql);
     if (!$stmt) {
         return ["error" => true, "message" => $conn->error];
     }
 
-    $stmt->bind_param("i", $user_id);
+    $stmt->bind_param("i", $param);
     $stmt->execute();
     $result = $stmt->get_result();
 
     $tickets = [];
     while ($row = $result->fetch_assoc()) {
-        // Append the base URL to ticket attachments
         $row['ticket_attachment'] = $row['ticket_attachment']
             ? $base_url . basename($row['ticket_attachment'])
             : null;
@@ -82,9 +86,9 @@ function fetch_tickets($conn, $sql, $user_id, $base_url)
 
 // Fetch pending and closed tickets
 $pending_tickets = fetch_tickets($conn, $sql_pending, $user_id, $base_url);
-$closed_tickets = fetch_tickets($conn, $sql_closed, $user_id, $base_url);
+$closed_tickets = fetch_tickets($conn, $sql_closed, $department, $base_url, "department");
 
-// Check for errors
+// Return results
 if ($pending_tickets['error'] || $closed_tickets['error']) {
     echo json_encode([
         "status" => "error",
@@ -93,7 +97,6 @@ if ($pending_tickets['error'] || $closed_tickets['error']) {
     exit;
 }
 
-// Return results
 echo json_encode([
     "status" => "success",
     "data" => [

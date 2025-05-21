@@ -7,6 +7,7 @@ $forDisposalSql = "SELECT
                     inventory_records_tbl.id,
                     inventory_records_tbl.fa_number,
                     inventory_records_tbl.item_type,
+                    inventory_records_tbl.item_category,
                     inventory_records_tbl.user,
                     inventory_records_tbl.computer_name,
                     inventory_records_tbl.department,
@@ -39,6 +40,7 @@ if ($stmt == false) {
             $id = $forDisposalRow['id'];
             $faNumber = $forDisposalRow['fa_number'];
             $itemType = $forDisposalRow['item_type'];
+            $itemName = $forDisposalRow['item_category'];
             $user = $forDisposalRow['user'];
             $computerName = $forDisposalRow['computer_name'];
             $department = $forDisposalRow['department'];
@@ -49,6 +51,7 @@ if ($stmt == false) {
                 "id" => $id,
                 "faNumber" => $faNumber == true ? $faNumber : "N/A",
                 "itemType" => $itemType,
+                "itemName" => $itemName,
                 "user" => $user,
                 "computerName" => $computerName,
                 "department" => $department,

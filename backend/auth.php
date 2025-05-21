@@ -3,7 +3,7 @@ require('dbconn.php');
 
 if (!isset($_SESSION["user"])) {
     session_destroy();
-    header("Location:../index.php");
+    header("Location: /tmr-portal/index.php");
     exit();
 }
 

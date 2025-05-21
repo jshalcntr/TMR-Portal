@@ -31,11 +31,16 @@ $(document).ready(function () {
         "columns": [
             { "data": "faNumber" },
             { "data": "itemType" },
+            { "data": "itemName" },
             { "data": "user" },
             { "data": "computerName" },
             { "data": "department" },
             { "data": "dateRetiredReadable" },
-            { "data": "remarks" }
+            {
+                "data": "id", render: function (data, type, row) {
+                    return `<i class="fas fa-xl fa-circle-info viewDisposedModal text-primary" data-inventory-id="${data}" role="button" data-bs-toggle="modal" data-bs-target="#viewDisposedModal"></i>`
+                }
+            },
         ],
         "columnDefs": [{
             "targets": [4],
@@ -43,10 +48,10 @@ $(document).ready(function () {
             "orderDataType": "dom-data-order"
         }],
         "createdRow": function (row, data, dataIndex) {
-            $('td', row).eq(4).attr('data-order', data.dateRetired);
+            $('td', row).eq(6).attr('data-order', data.dateRetired);
         },
         "order": [
-            [4, "desc"]
+            [6, "desc"]
         ],
         "serverSide": false,
         "processing": true

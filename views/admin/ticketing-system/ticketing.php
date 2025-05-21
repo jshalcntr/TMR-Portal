@@ -133,7 +133,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
 
                         <!-- Modal for Ticket Details -->
                         <div class="modal fade" id="ticketDetailsModal" tabindex="-1" aria-labelledby="ticketDetailsModalLabel" data-bs-backdrop="static" aria-hidden="true">
-                            <div class="modal-dialog modal-md">
+                            <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -153,40 +153,93 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                         <!-- Ticket Information in a Card -->
                                         <div class="card shadow-sm border-0">
                                             <div class="card-body p-3">
-                                                <table class="table table-bordered table-striped mb-0">
-                                                    <tbody>
-                                                        <tr>
-                                                            <th class="bg-light w-25">Ticket ID</th>
-                                                            <td><span id="ticketId"></span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th class="bg-light">Requestor</th>
-                                                            <td><span id="ticketRequestorId"></span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th class="bg-light">Department</th>
-                                                            <td><span id="ticketRequestorDepartment"></span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th class="bg-light">Subject</th>
-                                                            <td><span id="ticketSubject"></span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th class="bg-light">Description</th>
-                                                            <td><span id="ticketDescription"></span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th class="bg-light">Type</th>
-                                                            <td><span id="ticketType"></span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th class="bg-light">Attachment</th>
-                                                            <td><span id="ticketAttachment"></span></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                                <div class="row g-3">
+                                                    <div class="col-md-6">
+                                                        <table class="table table-bordered table-striped mb-0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th class="bg-light w-50">Ticket ID</th>
+                                                                    <td><span id="ticketId"></span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-light">Requestor</th>
+                                                                    <td><span id="ticketRequestorId"></span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-light">Department</th>
+                                                                    <td><span id="ticketRequestorDepartment"></span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-light">Subject</th>
+                                                                    <td><span id="ticketSubject"></span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-light">Status</th>
+                                                                    <td><span id="ticketStatus"></span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-light">Priority</th>
+                                                                    <td><span id="ticketPriority"></span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-light">Date Created</th>
+                                                                    <td><span id="ticketDateCreated"></span></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <table class="table table-bordered table-striped mb-0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th class="bg-light w-50">Date Accepted</th>
+                                                                    <td><span id="ticketDateAccepted"></span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-light">Due Date</th>
+                                                                    <td><span id="ticketDueDate"></span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-light">Handler</th>
+                                                                    <td><span id="ticketHandlerName"></span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-light">Changes</th>
+                                                                    <td><span id="ticketChangesDescription"></span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-light">For Approval Due Date</th>
+                                                                    <td><span id="ticketForApprovalDueDate"></span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-light">Date Approved</th>
+                                                                    <td><span id="ticketDateApproved"></span></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <!-- File attachments (if any) below the two columns -->
+                                                <div class="mt-3">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <strong class="d-block text-muted mb-1">Description:</strong>
+                                                            <span id="ticketDescription"></span>
+                                                            <strong class="d-block text-muted mb-1">Requestor Attachment:</strong>
+                                                            <span id="ticketAttachment"></span>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <strong class="d-block text-muted mb-1">For Approval Reason:</strong>
+                                                            <span id="ticketForApprovalReason"></span>
+                                                            <strong class="d-block text-muted mb-1">For Approval Attachment:</strong>
+                                                            <span id="forApprovalAttachment"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+
 
                                         <!-- Conclusion Section -->
                                         <div class="mt-4">
@@ -219,12 +272,12 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
 
                         <!-- Modal for Ticket Details -->
                         <div class="modal fade" id="unassignedticketDetailsModal" tabindex="-1" aria-labelledby="ticketDetailsModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-md">
+                            <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body p-4">
+                                    <div class="modal-body p-4 row">
                                         <!-- Header with Chat Button -->
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5 class="modal-title fw-bold"><i class="fa-solid fa-ticket-alt me-2"></i> Unassigned Ticket</h5>
@@ -237,7 +290,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                         </div>
 
                                         <!-- Ticket Information in a Card -->
-                                        <div class="card shadow-sm border-0">
+                                        <div class="card shadow-sm border-0 col-md-7">
                                             <div class="card-body p-3">
                                                 <table class="table table-bordered table-striped mb-0">
                                                     <tbody>
@@ -259,52 +312,63 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                                         </tr>
                                                         <tr>
                                                             <th class="bg-light">Description</th>
-                                                            <td><span id="unassignedticketDescription"></span></td>
+                                                            <td class="small"><span id="unassignedticketDescription"></span></td>
                                                         </tr>
                                                         <tr>
                                                             <th class="bg-light">Attachment</th>
                                                             <td><span id="unassignedticketAttachment"></span></td>
                                                         </tr>
                                                         <tr>
-                                                            <th class="bg-light">Type</th>
-                                                            <td><span id="unassignedticketType"></span></td>
+                                                            <th class="bg-light">Created</th>
+                                                            <td><span id="unassignedticketDateCreated"></span></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
+                                        <div class="col-md-5">
+                                            <!-- Ticket Priority -->
+                                            <div class="mt-3">
+                                                <label class="fw-bold">Priority:</label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="ticketPriority" id="priorityCritical" value="CRITICAL">
+                                                    <label class="form-check-label text-danger" for="priorityCritical">
+                                                        Critical (4 hrs)
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="ticketPriority" id="priorityImportant" value="IMPORTANT">
+                                                    <label class="form-check-label text-warning" for="priorityImportant">
+                                                        Important (8 hrs)
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="ticketPriority" id="priorityNormal" value="NORMAL">
+                                                    <label class="form-check-label text-primary" for="priorityNormal">
+                                                        Normal (24 hrs)
+                                                    </label>
+                                                </div>
+                                            </div>
 
-                                        <!-- For Approval Checkbox -->
-                                        <div class="form-check mt-3">
-                                            <input class="form-check-input" type="checkbox" id="forApprovalCheckbox">
-                                            <label class="form-check-label text-info fw-bold" for="forApprovalCheckbox">
-                                                For Approval
-                                            </label>
+                                            <!-- For Approval Checkbox -->
+                                            <div class="form-check mt-3">
+                                                <input class="form-check-input" type="checkbox" id="forApprovalCheckbox">
+                                                <label class="form-check-label text-info fw-bold" for="forApprovalCheckbox">
+                                                    For Approval
+                                                </label>
+                                            </div>
+                                            <!-- Reason for Approval Textarea (initially hidden) -->
+                                            <div id="forApprovalReasonWrapper" class="mt-2" style="display: none;">
+                                                <label for="forApprovalReason" class="form-label fw-bold text-info">Reason for Approval:</label>
+                                                <textarea id="forApprovalReason" class="form-control" rows="3"></textarea>
+
+                                                <label for="forApprovalAttachment" class="form-label mt-2">Attach file (optional):</label>
+                                                <input type="file" class="form-control" id="forApprovalAttachment">
+                                            </div>
+
+
+
                                         </div>
-
-                                        <!-- Ticket Priority -->
-                                        <div class="mt-3">
-                                            <label class="fw-bold">Priority:</label>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="ticketPriority" id="priorityCritical" value="CRITICAL">
-                                                <label class="form-check-label text-danger" for="priorityCritical">
-                                                    Critical (4 hrs)
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="ticketPriority" id="priorityImportant" value="IMPORTANT">
-                                                <label class="form-check-label text-warning" for="priorityImportant">
-                                                    Important (8 hrs)
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="ticketPriority" id="priorityNormal" value="NORMAL">
-                                                <label class="form-check-label text-primary" for="priorityNormal">
-                                                    Normal (24 hrs)
-                                                </label>
-                                            </div>
-                                        </div>
-
                                         <!-- Claim Button -->
                                         <div class="d-flex justify-content-end mt-3">
                                             <button id="claimButton" class="btn btn-primary" onclick="claimTicket()">
@@ -344,6 +408,18 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                                         <tr>
                                                             <th class="bg-light w-25">Ticket ID</th>
                                                             <td><span id="closedticketId"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Created</th>
+                                                            <td><span id="closedticketRequestDate"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Claimed</th>
+                                                            <td><span id="closedticketClaimDate"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Closed</th>
+                                                            <td><span id="closedticketCloseDate"></span></td>
                                                         </tr>
                                                         <tr>
                                                             <th class="bg-light">Requestor</th>

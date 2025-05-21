@@ -58,7 +58,32 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <div class="row">
-
+                        <div class="col-md-12 overflow-x-auto">
+                            <table id="ticketsTable" class="table table-hover small">
+                                <thead class="bg-primary text-white">
+                                    <tr>
+                                        <th>Ticket#</th>
+                                        <th>Subject</th>
+                                        <th>Type</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Requestor</th>
+                                        <th>Handler</th>
+                                        <th>Due Date</th>
+                                        <th>Approval Due</th>
+                                        <th>Created</th>
+                                        <th>Accepted</th>
+                                        <th>Finished</th>
+                                        <th>Approval Reason</th>
+                                        <th>Date Approved</th>
+                                        <th>Attachment</th>
+                                        <th>Approval Attachment</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                         <!-- Begin Ticket Form -->
                         <div class="<?= $divsize ?>">
                             <div class="card shadow border-0">
@@ -71,7 +96,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                 <div class="card-body">
                                     <form id="ticketForm" method="POST" enctype="multipart/form-data">
                                         <!-- Ticket Category -->
-                                        <div class="mb-3">
+                                        <!-- <div class="mb-3">
                                             <label for="ticket_category" class="form-label fw-bold">Category</label>
                                             <?php include "../../../backend/user/ticketing-system/ticketcategory.php" ?>
                                             <select name="ticket_category" id="ticket_category" class="form-select" required>
@@ -86,7 +111,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                                     </optgroup>
                                                 <?php endforeach; ?>
                                             </select>
-                                        </div>
+                                        </div> -->
 
                                         <!-- Subject -->
                                         <div class="mb-3">
@@ -213,54 +238,74 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
 
                         <!-- Ticket Details Modal -->
                         <div class="modal fade" id="forApprovalticketModal" tabindex="-1" role="dialog" aria-labelledby="ticketModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
+                            <div class="modal-dialog " role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
+                                        <h5 class="fw-bold mb-3">Ticket Details</h5>
                                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body p-4">
                                         <!-- Ticket Information in a Card -->
-                                        <div class="card shadow-sm border-0">
+                                        <div class="card shadow-sm border-0 ">
                                             <div class="card-body p-3">
                                                 <table class="table table-bordered table-striped mb-0">
                                                     <tbody>
                                                         <tr>
-                                                            <th class="bg-light w-25">Description</th>
+                                                            <th class="bg-light w-25">Subject</th>
+                                                            <td><span id="ticketModalTitle"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Description</th>
                                                             <td><span id="ticketModalDescription"></span></td>
                                                         </tr>
                                                         <tr>
-                                                            <th class="bg-light">Date Created</th>
+                                                            <th class="bg-light">Created</th>
                                                             <td>
                                                                 <span id="ticketModalDate"></span>
                                                                 <span id="ticketModalTime"></span>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <th class="bg-light">Handler</th>
-                                                            <td><span id="ticketModalHandler"></span></td>
+                                                            <th class="bg-light">Requestor</th>
+                                                            <td><span id="ticketModalRequestor"></span> <small class="text-muted" id="ticketModalRequestorDepartment"></small></td>
                                                         </tr>
                                                         <tr>
-                                                            <th class="bg-light">Requestor</th>
-                                                            <td><span id="ticketModalRequestor"></span></td>
+                                                            <th class="bg-light">Handler</th>
+                                                            <td><span id="ticketModalHandler"></span></td>
                                                         </tr>
                                                         <tr>
                                                             <th class="bg-light">Attachment</th>
                                                             <td><span id="ticketModalAttachment"></span></td>
                                                         </tr>
                                                         <tr>
-                                                            <th class="bg-light">Approval Due Date</th>
-                                                            <td><span id="ticketDueDateApproval"></span></td>
+                                                            <th class="bg-light">Priority</th>
+                                                            <td><span id="ticketModalPriority"></span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <hr class="my-3">
+                                                <h6 class="fw-bold mb-3">For Approval Details</h6>
+                                                <table class="table table-bordered table-striped mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="bg-light w-25">Approval Reason</th>
+                                                            <td><span id="ticketModalApprovalReason"></span></td>
                                                         </tr>
                                                         <tr>
-                                                            <th class="bg-light">Priority</th>
-                                                            <td><span id="ticketPriority"></span></td>
+                                                            <th class="bg-light">Approval Due Date</th>
+                                                            <td><span id="ticketModalDueDateApproval"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Approval Attachment</th>
+                                                            <td><span id="ticketModalApprovalAttachment"></span></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
+
 
                                         <!-- Approval & Rejection Buttons -->
                                         <div class="d-flex justify-content-center gap-3 mt-4">
@@ -285,7 +330,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                     <div class="modal-body p-4">
                                         <!-- Header with Chat Button -->
                                         <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <h5 class="modal-title fw-bold"><i class="fa-solid fa-ticket-alt me-2"></i> Ticket Details</h5>
+                                            <h5 class="modal-title fw-bold"><i class="fa-solid fa-ticket-alt me-2"></i> Ticket #<span id="ticketNumber"></span></h5>
                                             <button id="openChatButton" class="btn btn-outline-secondary btn-sm d-flex align-items-center"
                                                 data-id="" data-title="" data-requestor=""
                                                 data-bs-toggle="tooltip" data-bs-placement="left"
@@ -297,10 +342,10 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                         <!-- Ticket Information in a Card -->
                                         <div class="card shadow-sm border-0">
                                             <div class="card-body p-3">
-                                                <table class="table table-bordered table-striped mb-0">
+                                                <table class="table table-bordered table-striped table-sm mb-0">
                                                     <tbody>
                                                         <tr>
-                                                            <th class="bg-light w-25">Title</th>
+                                                            <th class="bg-light w-25">Subject</th>
                                                             <td><span id="ticketTitle"></span></td>
                                                         </tr>
                                                         <tr>
@@ -308,34 +353,59 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                                             <td><span id="ticketDescription"></span></td>
                                                         </tr>
                                                         <tr>
-                                                            <th class="bg-light">Attachment</th>
-                                                            <td><span id="ticketAttachment"></span></td>
+                                                            <th class="bg-light">Status</th>
+                                                            <td><span id="ticketStatus"></span></td>
                                                         </tr>
                                                         <tr>
-                                                            <th class="bg-light">Date Created</th>
-                                                            <td>
-                                                                <span id="ticketDate"></span>
-                                                                <span id="ticketTime"></span>
-                                                            </td>
-                                                        </tr>
-                                                        <tr id="dateClosedRow" style="display: none;">
-                                                            <th class="bg-light">Date Closed</th>
-                                                            <td>
-                                                                <span id="ticketEndDate"></span>
-                                                                <span id="ticketEndTime"></span>
-                                                            </td>
-                                                        </tr>
-                                                        <tr id="conclusionRow" style="display: none;">
-                                                            <th class="bg-light">Conclusion</th>
-                                                            <td>
-                                                                <span id="ticketConclusion"></span>
-                                                            </td>
+                                                            <th class="bg-light">Due Date</th>
+                                                            <td><span id="ticketDueDate"></span></td>
                                                         </tr>
                                                         <tr>
                                                             <th class="bg-light">Handler</th>
                                                             <td><span id="ticketHandler"></span></td>
                                                         </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Created</th>
+                                                            <td><span id="ticketDate"></span> <span id="ticketTime"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Attachment</th>
+                                                            <td id="ticketAttachment"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Priority</th>
+                                                            <td><span id="ticketPriority"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="bg-light">Requestor</th>
+                                                            <td><span id="ticketRequestor"></span> <small class="text-muted" id="ticketRequestorDept"></small></td>
+                                                        </tr>
+                                                        <tr id="approvalDueDateRow">
+                                                            <th class="bg-light">Approval Due Date</th>
+                                                            <td><span id="ticketApprovalDueDate"></span></td>
+                                                        </tr>
+                                                        <tr id="approvalReasonRow">
+                                                            <th class="bg-light">For Approval Reason</th>
+                                                            <td><span id="ticketApprovalReason"></span></td>
+                                                        </tr>
+                                                        <tr id="approvalDateRow">
+                                                            <th class="bg-light">Date Approved</th>
+                                                            <td><span id="ticketApprovalDate"></span></td>
+                                                        </tr>
+                                                        <tr id="approvalAttachmentRow">
+                                                            <th class="bg-light">Handler Attachment</th>
+                                                            <td id="ticketApprovalAttachment"></td>
+                                                        </tr>
+                                                        <tr id="dateClosedRow">
+                                                            <th class="bg-light">Date Closed</th>
+                                                            <td><span id="ticketEndDate"></span> <span id="ticketEndTime"></span></td>
+                                                        </tr>
+                                                        <tr id="conclusionRow">
+                                                            <th class="bg-light">Conclusion</th>
+                                                            <td><span id="ticketConclusion"></span></td>
+                                                        </tr>
                                                     </tbody>
+
                                                 </table>
                                             </div>
                                         </div>

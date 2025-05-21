@@ -303,6 +303,13 @@ function showClosedTicketDetails(ticket) {
     const attachmentLink = ticket.ticket_attachment
         ? `<a href="../../../${ticket.ticket_attachment.replace(/^(\.\.\/)+/, '')}" target="_blank" class="badge badge-info">View Attachment</a>`
         : 'N/A';
+    const dateAccepted = ticket.date_accepted ?? '';
+    const dateClosed = ticket.date_finished ?? '';
+    const dateCreated = ticket.date_created ?? '';
+
+    const formattedDateAccepted = dateAccepted ? formatDate(dateAccepted) : 'N/A';
+    const formattedDateClosed = dateClosed ? formatDate(dateClosed) : 'N/A';
+    const formattedDateCreated = dateCreated ? formatDate(dateCreated) : 'N/A';
     document.getElementById('closedticketId').innerText = ticket.ticket_id;
     document.getElementById('closedticketRequestorId').innerText = ticket.full_name || 'N/A';
     document.getElementById('closedticketRequestorDepartment').innerText = ticket.department || 'N/A';
@@ -311,6 +318,9 @@ function showClosedTicketDetails(ticket) {
     document.getElementById('closedticketType').innerText = ticket.ticket_type || 'N/A';
     document.getElementById('closedticketAttachment').innerHTML = attachmentLink;
     document.getElementById('closedticketConclusion').innerText = ticket.ticket_conclusion || 'N/A';
+    document.getElementById('closedticketRequestDate').innerText = formattedDateCreated || 'N/A';
+    document.getElementById('closedticketClaimDate').innerText = formattedDateAccepted || 'N/A';
+    document.getElementById('closedticketCloseDate').innerText = formattedDateClosed || 'N/A';
     // Check if ticket_id exists in ticket_convo_tbl
     $.ajax({
         url: '../../../backend/shared/ticketing-system/check_ticket_convo.php', // Replace with your actual endpoint
@@ -365,20 +375,80 @@ function showReopenTicketDetails(ticket) {
 
 // Function to handle row click and show ticket details modal
 function showTicketDetails(ticket) {
-    // Populate modal with ticket details
+    const formatDate = (dateStr) => {
+        return dateStr ? new Date(dateStr).toLocaleString() : 'N/A';
+    };
+
     const attachmentLink = ticket.ticket_attachment
-        ? `<a href="../../../${ticket.ticket_attachment.replace(/^(\.\.\/)+/, '')}" target="_blank" class="badge badge-info">View Attachment</a>`
+        ? `<a href="../../../uploads/tickets/${ticket.ticket_attachment.replace(/^(\.\.\/)+/, '')}" target="_blank" class="badge badge-info">View Attachment</a>`
         : 'N/A';
-    document.getElementById('ticketId').innerText = ticket.ticket_id;
+
+    const approvalAttachmentLink = ticket.for_approval_attachment
+        ? `<a href="../../../uploads/for_approval/${ticket.for_approval_attachment.replace(/^(\.\.\/)+/, '')}" target="_blank" class="badge badge-info">View File</a>`
+        : 'N/A';
+    const formatedDate = (dateStr) => {
+        return dateStr ? new Date(dateStr).toLocaleString() : 'N/A';
+    };
+
+    const formattedDueDate = formatedDate(ticket.ticket_due_date);
+    const formattedApprovalDueDate = formatedDate(ticket.ticket_for_approval_due_date);
+
+    // Set classes based on priority
+    let priorityClass = '';
+    let duedateClass = '';
+    let approvalDuedateClass = '';
+
+    if (ticket.ticket_priority === 'CRITICAL') {
+        priorityClass = 'text-danger';
+        duedateClass = 'text-danger';
+        approvalDuedateClass = 'text-danger';
+    } else if (ticket.ticket_priority === 'IMPORTANT') {
+        priorityClass = 'text-warning';
+        duedateClass = 'text-warning';
+        approvalDuedateClass = 'text-warning';
+    } else if (ticket.ticket_priority === 'NORMAL') {
+        priorityClass = 'text-primary';
+        duedateClass = 'text-primary';
+        approvalDuedateClass = 'text-primary';
+    } else {
+        priorityClass = 'text-secondary';
+        duedateClass = 'text-secondary';
+        approvalDuedateClass = 'text-secondary';
+    }
+
+    // Override with default class if formatted dates are N/A
+    if (formattedDueDate === 'N/A') {
+        duedateClass = 'text-secondary';
+    }
+    if (formattedApprovalDueDate === 'N/A') {
+        approvalDuedateClass = 'text-secondary';
+    }
+
+    document.getElementById('ticketId').innerText = ticket.ticket_id || 'N/A';
     document.getElementById('ticketRequestorId').innerText = ticket.full_name || 'N/A';
     document.getElementById('ticketRequestorDepartment').innerText = ticket.department || 'N/A';
     document.getElementById('ticketSubject').innerText = ticket.ticket_subject || 'N/A';
     document.getElementById('ticketDescription').innerText = ticket.ticket_description || 'N/A';
-    document.getElementById('ticketType').innerText = ticket.ticket_type || 'N/A';
-    document.getElementById('ticketAttachment').innerHTML = attachmentLink;
+    document.getElementById('ticketStatus').innerText = ticket.ticket_status || 'N/A';
+    document.getElementById('ticketPriority').innerText = ticket.ticket_priority || 'N/A';
+    document.getElementById('ticketHandlerName').innerText = ticket.handler_name || 'N/A';
     document.getElementById('ticketConclusion').innerText = ticket.ticket_conclusion || 'N/A';
+    document.getElementById('ticketChangesDescription').innerText = ticket.changes_description || 'N/A';
+    document.getElementById('ticketForApprovalReason').innerText = ticket.for_approval_reason || 'N/A';
+    document.getElementById('ticketDateCreated').innerText = formatDate(ticket.date_created);
+    document.getElementById('ticketDateAccepted').innerText = formatDate(ticket.date_accepted);
+    document.getElementById('ticketDueDate').innerText = formattedDueDate;
+    document.getElementById('ticketForApprovalDueDate').innerText = formattedApprovalDueDate;
+    document.getElementById('ticketDateApproved').innerText = formatDate(ticket.date_approved);
+    document.getElementById('ticketAttachment').innerHTML = attachmentLink;
+    document.getElementById('forApprovalAttachment').innerHTML = approvalAttachmentLink;
+    $('#ticketPriority').addClass(priorityClass);
+    $('#ticketDueDate').addClass(duedateClass);
+    $('#ticketForApprovalDueDate').addClass(approvalDuedateClass);
+
+    // Chat button status via AJAX
     $.ajax({
-        url: '../../../backend/shared/ticketing-system/check_ticket_convo.php', // Replace with your actual endpoint
+        url: '../../../backend/shared/ticketing-system/check_ticket_convo.php',
         method: 'POST',
         data: { ticket_id: ticket.ticket_id },
         success: function (response) {
@@ -389,11 +459,18 @@ function showTicketDetails(ticket) {
             }
         }
     });
-    $('#openChatButton').data('id', ticket.ticket_id).data('requestor', ticket.ticket_requestor_id).data('title', 'T#' + ticket.ticket_id + ' | ' + ticket.ticket_subject); // Set ticket ID and title for chat button
+
+    // Set chat button data
+    $('#openChatButton')
+        .data('id', ticket.ticket_id)
+        .data('requestor', ticket.ticket_requestor_id)
+        .data('title', 'T#' + ticket.ticket_id + ' | ' + ticket.ticket_subject);
+
     // Show the details modal
     $('#ticketModal').modal('hide');
     $('#ticketDetailsModal').modal('show');
 }
+
 
 // Function to handle row click and show ticket details modal
 function showUnassignedTicketDetails(ticket) {
@@ -401,12 +478,18 @@ function showUnassignedTicketDetails(ticket) {
     const unassignedAttachmentLink = ticket.ticket_attachment
         ? `<a href="../../../${ticket.ticket_attachment.replace(/^(\.\.\/)+/, '')}" target="_blank" class="badge badge-info">View Attachment</a>`
         : 'N/A';
+    let desc = ticket.ticket_description || 'N/A';
+
+    // Replace CRLF (\r\n), CR (\r), and LF (\n) with space or \n (your choice)
+    let cleanedDesc = desc.replace(/\\r\\n|\\n|\\r/g, '\n');
+    const dateCreated = ticket.date_created ?? '';
+    const formattedDateCreated = dateCreated ? formatDate(dateCreated) : 'N/A';
     document.getElementById('unassignedticketId').innerText = ticket.ticket_id;
     document.getElementById('unassignedticketRequestorId').innerText = ticket.full_name || 'N/A';
     document.getElementById('unassignedticketRequestorDepartment').innerText = ticket.department || 'N/A';
     document.getElementById('unassignedticketSubject').innerText = ticket.ticket_subject || 'N/A';
-    document.getElementById('unassignedticketDescription').innerText = ticket.ticket_description || 'N/A';
-    document.getElementById('unassignedticketType').innerText = ticket.ticket_type || 'N/A';
+    document.getElementById('unassignedticketDescription').innerText = cleanedDesc;
+    document.getElementById('unassignedticketDateCreated').innerText = formattedDateCreated || 'N/A';
     document.getElementById('unassignedticketAttachment').innerHTML = unassignedAttachmentLink;
     $.ajax({
         url: '../../../backend/shared/ticketing-system/check_ticket_convo.php', // Replace with your actual endpoint
@@ -422,43 +505,62 @@ function showUnassignedTicketDetails(ticket) {
     });
     $('#openChatButtonUnassigned').data('id', ticket.ticket_id).data('requestor', ticket.ticket_requestor_id).data('title', 'T#' + ticket.ticket_id + ' | ' + ticket.ticket_subject); // Set ticket ID and title for chat button
     // Show the details modal
+
     $('#ticketModal').modal('hide');
     $('#unassignedticketDetailsModal').modal('show');
+    $('#forApprovalCheckbox').prop('checked', false);
+    $('#forApprovalReasonWrapper').slideUp();
+    $('#forApprovalReason').val('');
 }
 
-
-
 // Function to claim the ticket
+$(document).ready(function () {
+    $('#forApprovalCheckbox').on('change', function () {
+        if ($(this).is(':checked')) {
+            $('#forApprovalReasonWrapper').slideDown();
+        } else {
+            $('#forApprovalReasonWrapper').slideUp();
+            $('#forApprovalReason').val('');
+        }
+    });
+});
+
 function claimTicket() {
-    const ticketId = document.getElementById('unassignedticketId').innerText;
-    const forApproval = document.getElementById('forApprovalCheckbox').checked;
+    const ticketId = $('#unassignedticketId').text();
+    const forApproval = $('#forApprovalCheckbox').is(':checked');
     const ticketStatus = forApproval ? 'FOR APPROVAL' : 'OPEN';
+    const selectedPriority = $('input[name="ticketPriority"]:checked').val() || 'NORMAL';
+    const forApprovalReason = $('#forApprovalReason').val();
 
-    // Get selected priority
-    const selectedPriority = document.querySelector('input[name="ticketPriority"]:checked');
-    const ticketPriority = selectedPriority ? selectedPriority.value : 'NORMAL';
+    const attachmentInput = document.getElementById('forApprovalAttachment');
+    const attachmentFile = (attachmentInput?.files?.length > 0)
+        ? attachmentInput.files[0]
+        : null;
 
-    // Send updated details to the backend
+    const formData = new FormData();
+    formData.append('ticket_id', ticketId);
+    formData.append('ticket_status', ticketStatus);
+    formData.append('ticket_priority', selectedPriority);
+    formData.append('for_approval_reason', forApproval ? forApprovalReason : '');
+    if (attachmentFile) {
+        formData.append('for_approval_attachment', attachmentFile);
+    }
+
     $.ajax({
-        url: '../../../backend/admin/ticketing-system/update_ticket.php',
+        url: '../../../backend/admin/ticketing-system/claim_ticket.php',
         method: 'POST',
-        data: {
-            ticket_id: ticketId,
-            ticket_status: ticketStatus,
-            ticket_priority: ticketPriority
-        },
+        data: formData,
+        processData: false,
+        contentType: false,
         success: function (response) {
             if (response.status === 'success') {
                 Swal.fire({
                     icon: 'success',
                     title: 'Ticket claimed successfully',
-                    showConfirmButton: false,
-                    timer: 1500
+                    showConfirmButton: true,
+                }).then(() => {
+                    location.reload();
                 });
-                location.reload();
-                refreshTicketList();
-                $('#unassignedticketDetailsModal').modal('hide');
-                fetchAndShowTickets();
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -476,6 +578,9 @@ function claimTicket() {
         }
     });
 }
+
+
+
 
 
 // Function to enable editing of ticket details
@@ -714,12 +819,10 @@ function saveConclusion() {
                 Swal.fire({
                     icon: 'success',
                     title: 'Ticket closed successfully',
-                    showConfirmButton: false,
-                    timer: 1500
+                    showConfirmButton: true,
+                }).then(() => {
+                    location.reload();
                 });
-                refreshTicketList();
-                $('#ticketDetailsModal').modal('hide');
-                location.reload();
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -965,6 +1068,10 @@ function refreshTicketList() {
                 if (data.open > previousCounts.open) {
                     speakAlert('You have ' + data.open + ' new open ' + ticket + '.');
                     showNotification('You have ' + data.open + ' new open ' + ticket + '.');
+                }
+                if (data.unassigned > previousCounts.unassigned) {
+                    speakAlert('There is ' + data.unassigned + ' unassigned ' + ticket + '.');
+                    showNotification('There is ' + data.unassigned + ' unassigned ' + ticket + '.');
                 }
 
                 // Update previous counts

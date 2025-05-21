@@ -45,7 +45,6 @@ $(document).ready(function () {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     const formData = $("#editAccountForm").serialize();
-                                    console.log(formData);
                                     $.ajax({
                                         type: "POST",
                                         url: "../../backend/account-management/editAccount.php",
@@ -72,8 +71,10 @@ $(document).ready(function () {
                                                     $("#department_edit").prop('disabled', !$("#department_edit").prop('disabled'));
                                                     $("#inventoryView_edit").prop('disabled', !$("#inventoryView_edit").prop('disabled'));
                                                     $("#inventoryEdit_edit").prop('disabled', !$("#inventoryEdit_edit").prop('disabled'));
+                                                    $("#inventorySuper_edit").prop('disabled', !$("#inventorySuper_edit").prop('disabled'));
                                                     $("#accountsView_edit").prop('disabled', !$("#accountsView_edit").prop('disabled'));
                                                     $("#accountsEdit_edit").prop('disabled', !$("#accountsEdit_edit").prop('disabled'));
+                                                    $("#accountsSuper_edit").prop('disabled', !$("#accountsSuper_edit").prop('disabled'));
 
                                                     $("#viewAccountActionGroup").removeClass('d-none');
                                                     $("#viewAccountActionGroup").addClass('d-flex');
@@ -103,8 +104,10 @@ $(document).ready(function () {
                                                                 $("#department_edit").val(data.department);
                                                                 $("#inventoryView_edit").prop('checked', data.inventory_view_auth);
                                                                 $("#inventoryEdit_edit").prop('checked', data.inventory_edit_auth);
+                                                                $("#inventorySuper_edit").prop('checked', data.inventory_super_auth);
                                                                 $("#accountsView_edit").prop('checked', data.accounts_view_auth);
                                                                 $("#accountsEdit_edit").prop('checked', data.accounts_edit_auth);
+                                                                $("#accountsSuper_edit").prop('checked', data.accounts_super_auth);
                                                                 $("#id_edit").val(data.id);
                                                             }
                                                         }

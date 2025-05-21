@@ -43,26 +43,14 @@ if ($department_stmt) {
 // Fetch tickets with status "For Approval" for the same department
 $sql = "
     SELECT 
-        t.ticket_id, 
-        t.ticket_subject, 
-        t.ticket_description, 
-        t.date_created, 
-        t.ticket_priority,
-        t.ticket_status, 
-        t.date_finished,
-        t.ticket_for_approval_due_date,
-        t.ticket_attachment, 
-        t.ticket_requestor_id,
-        t.ticket_handler_id,
-        COALESCE(a.full_name, 'No handler assigned') AS handler_name,
+        t.*,
+        COALESCE(h.full_name, 'No handler assigned') AS handler_name,
         r.full_name AS requestor_name
     FROM ticket_records_tbl AS t
-    LEFT JOIN accounts_tbl AS a 
-        ON t.ticket_handler_id = a.id 
-        AND a.department = ?
-    LEFT JOIN accounts_tbl AS r
-        ON t.ticket_requestor_id = r.id
+    LEFT JOIN accounts_tbl AS r ON t.ticket_requestor_id = r.id
+    LEFT JOIN accounts_tbl AS h ON t.ticket_handler_id = h.id
     WHERE LOWER(t.ticket_status) = 'for approval'
+      AND r.department = ?
     ORDER BY t.ticket_priority ASC, t.date_created DESC
 ";
 

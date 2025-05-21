@@ -1,39 +1,46 @@
 <?php
 header('Content-Type: application/json');
 session_start();
-include('../../dbconn.php'); // Include your MySQLi connection
+require_once('../../dbconn.php'); // Ensure the DB connection is loaded
 
-// Query to fetch ticket counts grouped by department from accounts_tbl
+// Query: Count of closed tickets grouped by department name (from accounts_tbl)
 $sql = "
     SELECT 
-        a.department AS department, 
+        d.department_name AS department,
         COUNT(t.ticket_id) AS ticket_count
-    FROM ticket_records_tbl AS t
-    LEFT JOIN accounts_tbl AS a ON t.ticket_requestor_id = a.id
-    WHERE t.ticket_status = 'closed' AND a.department IS NOT NULL AND a.department != ''
-    GROUP BY a.department
+    FROM ticket_records_tbl t
+    LEFT JOIN accounts_tbl a ON t.ticket_requestor_id = a.id
+    LEFT JOIN departments_tbl d ON a.department = d.department_id
+    WHERE t.ticket_status = 'closed'
+    GROUP BY d.department_name
     ORDER BY ticket_count DESC
 ";
 
 $result = $conn->query($sql);
 
-// Check for query errors
+// Check for errors
 if (!$result) {
-    echo json_encode(['status' => 'error', 'message' => 'Query error: ' . $conn->error]);
+    http_response_code(500);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Query error: ' . $conn->error
+    ]);
     exit;
 }
 
-// Fetch data and build the response
+// Build response data
 $data = [];
 while ($row = $result->fetch_assoc()) {
     $data[] = [
-        'department' => $row['department'] ?? 'Unknown', // Default to 'Unknown' if null
-        'ticket_count' => (int)$row['ticket_count']
+        'department' => $row['department'],
+        'ticket_count' => (int) $row['ticket_count']
     ];
 }
 
-// Close the connection
-$conn->close();
+// Return success response
+echo json_encode([
+    'status' => 'success',
+    'data' => $data
+]);
 
-// Return JSON response
-echo json_encode(['status' => 'success', 'data' => $data]);
+$conn->close();

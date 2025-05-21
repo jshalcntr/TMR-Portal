@@ -32,7 +32,7 @@ if (authorize(true, $conn)) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Invertory Management</title>
+    <title>Inventory Management</title>
 
 
     <!-- <link rel="stylesheet" href="http://172.16.14.44/dependencies/css/bootstrap/v5.3.3/bootstrap.min.css">

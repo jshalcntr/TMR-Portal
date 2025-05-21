@@ -55,16 +55,6 @@
                                 <label for="department_edit" class="col-form-label">Department</label>
                                 <select name="department" id="department_edit" class="form-select form-select-sm" required disabled>
                                     <option value="" selected hidden>--Select Department--</option>
-                                    <option value="VSA">VSA</option>
-                                    <option value="Marketing">Marketing</option>
-                                    <option value="EOD">EOD</option>
-                                    <option value="Service">Service</option>
-                                    <option value="Parts & Accessories">Parts and Accessories</option>
-                                    <option value="HRAD">HRAD</option>
-                                    <option value="F&I">F&I</option>
-                                    <option value="Accounting">Accounting</option>
-                                    <option value="MIS">MIS</option>
-                                    <option value="CRD">CRD</option>
                                 </select>
                                 <div class="invalid-feedback">Please Select Department</div>
                             </div>
@@ -73,9 +63,9 @@
                     <div class="row mt-2 mb-4" id="toggleRow">
                         <div class="line"></div>
                         <p class="h5">Authorizations</p>
-                        <button type="button" class="d-flex justify-content-center align-items-center" data-toggle="collapse" href="#collapseAuthorizations" role="button" aria-expanded="false" aria-controls="collapseAuthorizations"></button>
+                        <button type="button" class="d-flex justify-content-center align-items-center" id="toggleAuthorizationsBtn_edit" data-toggle="collapse" href="#collapseAuthorizations_edit" role="button" aria-expanded="false" aria-controls="collapseAuthorizations"></button>
                     </div>
-                    <div class="row mt-2 mb-4 collapse" id="collapseAuthorizations">
+                    <div class="row mt-2 mb-4 collapse" id="collapseAuthorizations_edit">
                         <div class="col">
                             <div class="row">
                                 <p class="h5">Inventory Management</p>
@@ -93,6 +83,12 @@
                                         <label class="form-check-label" for="inventoryEdit_edit">Edit</label>
                                     </div>
                                 </div>
+                                <div class="col <?= $authorizations['accounts_super'] ? "" : "d-none" ?>">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="inventorySuper_edit" name="inventorySuper" value="1" disabled>
+                                        <label class="form-check-label" for="inventorySuper_edit">Super</label>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <p class="h5">Accounts Management</p>
@@ -108,6 +104,12 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="accountsEdit_edit" name="accountsEdit" value="1" disabled>
                                         <label class="form-check-label" for="accountsEdit_edit">Edit</label>
+                                    </div>
+                                </div>
+                                <div class="col <?= $authorizations['accounts_super'] ? "" : "d-none" ?>">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="accountsSuper_edit" name="accountsSuper" value="1" disabled>
+                                        <label class="form-check-label" for="accountsSuper_edit">Super</label>
                                     </div>
                                 </div>
                             </div>

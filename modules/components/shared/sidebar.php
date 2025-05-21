@@ -1,9 +1,9 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
 
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/tmr-portal/index.php">
-        <div class="sidebar-brand-icon rotate-n-15">
+        <div class="sidebar-brand-icon">
             <!-- <i class="fas fa-ticket"></i> -->
             <img src="/tmr-portal/assets/img/tmr-logo.png" alt="" srcset="" width="50px">
         </div>
@@ -14,11 +14,13 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <!-- <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'dashboard.php') != false ? 'active' : '' ?>">
+    <!-- 
+    <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], 'dashboard.php') != false ? 'active' : '' ?>">
         <a class="nav-link" href="/tmr-portal/index.php">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
-    </li> -->
+    </li> 
+    -->
     <div class="side-item">
         <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'dashboard.php') !== false ? 'active' : '' ?>">
             <li class="iso-pro ">
@@ -29,9 +31,7 @@
                     <i class="fas fa-fw fa-tachometer-alt svg"></i>
                     <div class="text">Dashboard</div>
                 </a>
-
             </li>
-
         </ul>
     </div>
     <?php if ($authRole == "S-ADMIN" || $authorizations['accounts_view']): ?>
@@ -116,29 +116,48 @@
                     <div class="text">Ticketing</div>
                 </a>
             </li>
-
         </ul>
     </div>
+    <?php if ($_SESSION['user']['department_name'] == "Vehicle Sales" || $_SESSION['user']['department_name'] == "Management Information System"): ?>
+        <hr class="sidebar-divider">
 
-    <hr class="sidebar-divider">
+        <div class="sidebar-heading">Sales Management System</div>
 
-    <div class="sidebar-heading">Sales Management System</div>
+        <?php if ($_SESSION['user']['department_name'] == "Vehicle Sales" && $_SESSION['user']['section_name'] == "Marketing Professional"): ?>
+            <div class="side-item">
+                <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'subProfiling.php') !== false ? 'active' : '' ?>">
+                    <li class="iso-pro">
 
-    <div class="side-item">
-        <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'subprofiling.php') !== false ? 'active' : '' ?>">
-            <li class="iso-pro">
+                        <a href="/tmr-portal/modules/sales-management/subProfiling.php">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <i class="fa-solid fa-id-card svg"></i>
+                            <div class="text">Sub Profiling</div>
+                        </a>
+                    </li>
 
-                <a href="/tmr-portal/modules/sales-management/subprofiling.php">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <i class="fa-solid fa-bars-progress svg"></i>
-                    <div class="text">Sub Profiling</div>
-                </a>
-            </li>
+                </ul>
+            </div>
+        <?php endif; ?>
+        <?php if ($_SESSION['user']['department_name'] == "Management Information System"): ?>
+            <div class="side-item">
+                <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'salesGroupManagement.php') !== false ? 'active' : '' ?>">
+                    <li class="iso-pro">
 
-        </ul>
-    </div>
+                        <a href="/tmr-portal/modules/sales-management/salesGroupManagement.php">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <i class="fa-solid fa-people-group svg"></i>
+                            <div class="text">Group Management</div>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
 
     <!-- End From Uiverse.io by MijailVillega -->
 

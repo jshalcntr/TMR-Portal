@@ -679,7 +679,7 @@ function saveTicketDetails() {
 
     // Send updated details to the backend
     $.ajax({
-        url: '../../../backend/admin/ticketing-system/update_ticket.php', // Adjust the path as needed
+        url: '../../../backend/s-admin/ticketing-system/update_ticket.php', // Adjust the path as needed
         method: 'POST',
         data: {
             ticket_id: ticketId,

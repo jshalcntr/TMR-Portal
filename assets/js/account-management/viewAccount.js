@@ -17,34 +17,61 @@ $(document).ready(function () {
             $("#editAccountActionGroup").removeClass('d-flex');
             $("#editAccountActionGroup").addClass('d-none');
         }
+        $("#collapseAuthorizations_edit").collapse('hide');
+        $("#toggleAuthorizationsBtn_edit").attr('aria-expanded', 'false');
 
         queriedId = $(this).data('account-id');
         $.ajax({
             type: "GET",
-            url: "../../backend/account-management/getAccount.php",
-            data: {
-                queriedId
-            },
+            url: "../../backend/account-management/getAllDepartments.php",
             success: function (response) {
-                if (response.status === "internal-error") {
+                if (response.status === 'success') {
+                    $("#department_edit").empty();
+                    $("#department_edit").append(`<option value="" selected hidden>--Select Department--</option>`);
+                    for (let i = 0; i < response.data.length; i++) {
+                        $("#department_edit").append(`<option value="${response.data[i].department_id}">${response.data[i].department_name}</option>`);
+                    }
+                    $.ajax({
+                        type: "GET",
+                        url: "../../backend/account-management/getAccount.php",
+                        data: {
+                            queriedId
+                        },
+                        success: function (response) {
+                            if (response.status === "internal-error") {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: `${response.message}`,
+                                    icon: 'error',
+                                    confirmButtonColor: 'var(--bs-danger)'
+                                });
+                            } else if (response.status === "success") {
+                                const data = response.data[0];
+
+                                $("#fullName_edit").val(data.full_name);
+                                $("#username_edit").val(data.username);
+                                $("#role_edit").val(data.role);
+                                $("#department_edit").val(data.department);
+                                $("#inventoryView_edit").prop('checked', data.inventory_view_auth);
+                                $("#inventoryEdit_edit").prop('checked', data.inventory_edit_auth);
+                                $("#inventorySuper_edit").prop('checked', data.inventory_super_auth);
+                                $("#accountsView_edit").prop('checked', data.accounts_view_auth);
+                                $("#accountsEdit_edit").prop('checked', data.accounts_edit_auth);
+                                $("#accountsSuper_edit").prop('checked', data.accounts_super_auth);
+                                $("#id_edit").val(data.id);
+                            }
+                        }
+                    });
+                } else if (response.status === 'internal-error') {
                     Swal.fire({
                         title: 'Error!',
                         text: `${response.message}`,
                         icon: 'error',
                         confirmButtonColor: 'var(--bs-danger)'
+                    }).then(() => {
+                        $("#department_edit").empty();
+                        $("#department_edit").append(`<option value="" selected hidden>--Select Department--</option>`);
                     });
-                } else if (response.status === "success") {
-                    const data = response.data[0];
-
-                    $("#fullName_edit").val(data.full_name);
-                    $("#username_edit").val(data.username);
-                    $("#role_edit").val(data.role);
-                    $("#department_edit").val(data.department);
-                    $("#inventoryView_edit").prop('checked', data.inventory_view_auth);
-                    $("#inventoryEdit_edit").prop('checked', data.inventory_edit_auth);
-                    $("#accountsView_edit").prop('checked', data.accounts_view_auth);
-                    $("#accountsEdit_edit").prop('checked', data.accounts_edit_auth);
-                    $("#id_edit").val(data.id);
                 }
             }
         });
@@ -87,8 +114,10 @@ $(document).ready(function () {
                     $("#department_edit").val(data.department);
                     $("#inventoryView_edit").prop('checked', data.inventory_view_auth);
                     $("#inventoryEdit_edit").prop('checked', data.inventory_edit_auth);
+                    $("#inventorySuper_edit").prop('checked', data.inventory_super_auth);
                     $("#accountsView_edit").prop('checked', data.accounts_view_auth);
                     $("#accountsEdit_edit").prop('checked', data.accounts_edit_auth);
+                    $("#accountsSuper_edit").prop('checked', data.accounts_super_auth);
                     $("#id_edit").val(data.id);
                 }
             }
@@ -102,8 +131,10 @@ $(document).ready(function () {
         $("#department_edit").prop('disabled', !$("#department_edit").prop('disabled'));
         $("#inventoryView_edit").prop('disabled', !$("#inventoryView_edit").prop('disabled'));
         $("#inventoryEdit_edit").prop('disabled', !$("#inventoryEdit_edit").prop('disabled'));
+        $("#inventorySuper_edit").prop('disabled', !$("#inventorySuper_edit").prop('disabled'));
         $("#accountsView_edit").prop('disabled', !$("#accountsView_edit").prop('disabled'));
         $("#accountsEdit_edit").prop('disabled', !$("#accountsEdit_edit").prop('disabled'));
+        $("#accountsSuper_edit").prop('disabled', !$("#accountsSuper_edit").prop('disabled'));
     }
 
     $(document).on('click', '#lockAccountBtn', function () {

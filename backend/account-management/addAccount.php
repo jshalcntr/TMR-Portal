@@ -11,8 +11,10 @@ $section = $_POST['section'];
 $status = "Active";
 $inventoryViewAuth = isset($_POST['inventoryView']) ? $_POST['inventoryView'] : 0;
 $inventoryEditAuth = isset($_POST['inventoryEdit']) ? $_POST['inventoryEdit'] : 0;
+$inventorySuperAuth = isset($_POST['inventorySuper']) ? $_POST['inventorySuper'] : 0;
 $accountsViewAuth = isset($_POST['accountsView']) ? $_POST['accountsView'] : 0;
 $accountsEditAuth = isset($_POST['accountsEdit']) ? $_POST['accountsEdit'] : 0;
+$accountsSuperAuth = isset($_POST['accountsSuper']) ? $_POST['accountsSuper'] : 0;
 
 $sql = "INSERT INTO accounts_tbl(username, password, full_name, role, department, section,status)
         VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -36,8 +38,8 @@ if (!$stmt1) {
         ]);
     } else {
         $accountId = $stmt1->insert_id;
-        $sql2 = "INSERT INTO authorizations_tbl(account_id, inventory_view_auth, inventory_edit_auth, accounts_view_auth, accounts_edit_auth)
-                 VALUES (?, ?, ?, ?, ?)";
+        $sql2 = "INSERT INTO authorizations_tbl(account_id, inventory_view_auth, inventory_edit_auth, inventory_super_auth, accounts_view_auth, accounts_edit_auth, accounts_super_auth)
+                 VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt2 = $conn->prepare($sql2);
         if (!$stmt2) {
             header('Content-Type: application/json');
@@ -47,7 +49,7 @@ if (!$stmt1) {
                 "data" => $conn->error
             ]);
         } else {
-            $stmt2->bind_param("iiiii", $accountId, $inventoryViewAuth, $inventoryEditAuth, $accountsViewAuth, $accountsEditAuth);
+            $stmt2->bind_param("iiiiiii", $accountId, $inventoryViewAuth, $inventoryEditAuth, $inventorySuperAuth, $accountsViewAuth, $accountsEditAuth, $accountsSuperAuth);
             if (!$stmt2->execute()) {
                 header('Content-Type: application/json');
                 echo json_encode([

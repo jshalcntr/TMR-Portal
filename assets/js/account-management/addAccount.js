@@ -33,9 +33,16 @@ $(document).ready(function () {
                 }
             }
         });
+
+        $("#collapseAuthorizations").collapse('hide');
+        $("#toggleAuthorizationsBtn").attr('aria-expanded', 'false');
     });
     $("#department").on('change', function () {
-        console.log(this.value);
+        if ($(this).val() === '') {
+            $("#section").prop("disabled", true);
+        } else {
+            $("#section").prop("disabled", false);
+        }
         $.ajax({
             type: "GET",
             url: "../../backend/account-management/getSections.php",

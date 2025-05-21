@@ -4,8 +4,12 @@ require "../dbconn.php";
 require "../middleware/pipes.php";
 
 $sql = "SELECT * FROM accounts_tbl
+        JOIN authorizations_tbl ON accounts_tbl.id = authorizations_tbl.account_id
         JOIN departments_tbl ON accounts_tbl.department = departments_tbl.department_id
-        WHERE id <> ?";
+        WHERE id <> ? ";
+if ($_SESSION['user']['accounts_edit_auth']) {
+    $sql .= " AND authorizations_tbl.accounts_super_auth <> 1";
+}
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     header('Content-Type: application/json');

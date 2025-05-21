@@ -5,6 +5,7 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ticket_id = $_POST['ticket_id'] ?? null;
     $new_status = $_POST['status'] ?? null;
+    $ticket_priority = $_POST['priority'] ?? 'NORMAL'; // Default to NORMAL
 
     if (!$ticket_id || !$new_status) {
         echo json_encode(["status" => "error", "message" => "Missing required parameters."]);
@@ -14,7 +15,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Set due dates based on ticket status
     $ticket_due_date = $date_approved = null;
     if ($new_status === 'Approved') {
-        $ticket_due_date = date('Y-m-d H:i:s', strtotime('+24 hours'));
+        // Determine due date based on priority
+        switch (strtoupper($ticket_priority)) {
+            case 'CRITICAL':
+                $hoursToAdd = 4;
+                break;
+            case 'IMPORTANT':
+                $hoursToAdd = 8;
+                break;
+            case 'NORMAL':
+            default:
+                $hoursToAdd = 24;
+                break;
+        }
+
+        $ticket_due_date = date('Y-m-d H:i:s', strtotime("+$hoursToAdd hours"));
+
         $date_approved = date('Y-m-d H:i:s');
     }
 

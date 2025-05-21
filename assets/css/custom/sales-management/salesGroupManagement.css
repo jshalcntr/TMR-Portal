@@ -1,18 +1,3 @@
-.form-label {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: #555; /* Optional: subtle color */
-    margin-bottom: 4px;
-}
-
-.form-control-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.85rem;
-}
-.invalid-feedback {
-    position: absolute;
-}
-
 .table td {
     vertical-align: middle !important;
     text-align: center;
@@ -31,20 +16,20 @@
     margin: 0 !important;
     color: var(--dark);
 }
-#subProfileTable {
+#groupsTable {
     border-left: 1px solid var(--gray-dark);
     border-bottom: 1px solid var(--gray-dark);
 }
-#subProfileTable tbody tr:nth-child(odd) {
+#groupsTable tbody tr:nth-child(odd) {
     background-color: var(--bs-white);
 }
-#subProfileTable tbody tr:nth-child(even) {
+#groupsTable tbody tr:nth-child(even) {
     background-color: var(--bs-table-bg);
 }
-#subProfileTable {
+#groupsTable {
     --bs-table-bg: none;
 }
-#subProfileTable thead th {
+#groupsTable thead th {
     background-color: var(--primary);
     color: var(--text-white);
 }

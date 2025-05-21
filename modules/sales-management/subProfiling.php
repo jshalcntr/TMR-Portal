@@ -46,33 +46,56 @@ if (authorize(true, $conn)) {
     <?php include "../components/shared/external-css-import.php" ?>
     <link rel="stylesheet" href="../../assets/css/custom/sales-management/subProfiling.css">
 
-
 </head>
 
 <body id="page-top">
+
     <div id="wrapper">
         <?php include "../components/shared/sidebar.php" ?>
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
                 <?php include "../components/shared/topbar.php" ?>
-                <div class="container-fluid py-0">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h1 class="h3 text-gray-800">Sub Profiling</h1>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createSubProfilingModal">
-                            Client Sub Profiling
-                        </button>
+                <div class="container-fluid">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="h3 mb-2 text-gray-800">Sub Profiling</h1>
                     </div>
-
-                    <div>
-                        <?php include "subProfilingTable.php" ?>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Sub Profiles</h6>
+                            <button type="button" class="btn btn-sm btn-primary" id="subProfilingFormBtn" data-bs-toggle="modal" data-bs-target="#createSubProfilingModal">
+                                <i class="fa-solid fa-circle-plus"></i> Create
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="subProfileTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Client Name</th>
+                                            <th>Conduction Sticker Number</th>
+                                            <th>Date of Inquiry</th>
+                                            <th>Contact Number</th>
+                                            <th>Gender</th>
+                                            <th>Job Level</th>
+                                            <th>Occupation/Business</th>
+                                            <th>View Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <?php include "../components/sales-management/createSubProfilingModal.php" ?>
+    </div>
+    <?php include "../components/sales-management/createSubProfilingModal.php" ?>
+    <?php include "../components/sales-management/viewSubProfilingModal.php" ?>
 </body>
 <?php include '../components/shared/external-js-import.php'; ?>
-<script src="../../assets/js/sales-management/subProfiling.js"></script>
 <script src="../../assets/js/sales-management/createSubprofiling.js"></script>
+<script src="../../assets/js/sales-management/subProfiling.js"></script>
+<script src="../../assets/js/sales-management/viewSubProfile.js"></script>
 
 </html>
