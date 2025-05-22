@@ -68,7 +68,7 @@ if (authorize(true, $conn)) {
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="groupsTable" width="100%" cellspacing="0">
+                                        <table class="table small" id="groupsTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Group Number</th>

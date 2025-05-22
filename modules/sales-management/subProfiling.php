@@ -68,7 +68,7 @@ if (authorize(true, $conn)) {
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="subProfileTable" width="100%" cellspacing="0">
+                                <table class="table small" id="subProfileTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>Client Name</th>
@@ -81,7 +81,6 @@ if (authorize(true, $conn)) {
                                             <th>View Details</th>
                                         </tr>
                                     </thead>
-                                    <tbody></tbody>
                                 </table>
                             </div>
                         </div>

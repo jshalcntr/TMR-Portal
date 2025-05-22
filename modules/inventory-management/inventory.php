@@ -77,7 +77,7 @@ if (authorize(true, $conn)) {
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="inventoryTable" width="100%" cellspacing="0">
+                                <table class="table small" id="inventoryTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th scope="col">Asset No.</th>

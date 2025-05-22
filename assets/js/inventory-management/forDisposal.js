@@ -38,7 +38,7 @@ $(document).ready(function () {
             { "data": "dateRetiredReadable" },
             {
                 "data": "id", render: function (data, type, row) {
-                    return `<i class="fas fa-xl fa-circle-info viewDisposedModal text-primary" data-inventory-id="${data}" role="button" data-bs-toggle="modal" data-bs-target="#viewDisposedModal"></i>`
+                    return `<i class="fas fa-xl fa-circle-info viewDisposalModalBtn text-primary" data-inventory-id="${data}" role="button" data-bs-toggle="modal" data-bs-target="#viewDisposalModal"></i>`
                 }
             },
         ],

@@ -1,7 +1,8 @@
 $(document).ready(function () {
     $(document).on('click', '.archiveGroupBtn', function () {
+
         Swal.fire({
-            title: 'Are you sure you want to archive this group?',
+            title: `Are you sure you want to archive this group?`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: 'var(--primary-color)',

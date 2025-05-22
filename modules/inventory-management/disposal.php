@@ -72,7 +72,7 @@ if (authorize(true, $conn)) {
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="forDisposalTable" width="100%" cellspacing="0">
+                                        <table class="table small" id="forDisposalTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Asset No.</th>
@@ -97,7 +97,7 @@ if (authorize(true, $conn)) {
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="disposedListTable" width="100%" cellspacing="0">
+                                        <table class="table small" id="disposedListTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th>Date Disposed</th>
@@ -120,7 +120,7 @@ if (authorize(true, $conn)) {
         <?php include '../components/inventory-management/disposeItemsModal.php'; ?>
         <?php include '../components/inventory-management/viewDisposedInventoryModal.php'; ?>
     <?php endif; ?>
-    <?php include '../components/inventory-management/viewDisposedModal.php'; ?>
+    <?php include '../components/inventory-management/viewDisposalModal.php'; ?>
 </body>
 
 <?php include '../components/shared/external-js-import.php'; ?>
@@ -129,5 +129,6 @@ if (authorize(true, $conn)) {
     <script src="../../assets/js/inventory-management/uploadDisposalForm.js"></script>
 <?php endif; ?>
 <script src="../../assets/js/inventory-management/disposedItems.js"></script>
+<script src="../../assets/js/inventory-management/viewDisposalItem.js"></script>
 
 </html>

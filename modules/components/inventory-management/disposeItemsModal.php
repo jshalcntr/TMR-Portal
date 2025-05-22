@@ -29,7 +29,7 @@
                             </div>
                         </div>
                         <div class="col mb-3 table-responsive">
-                            <table class="table table-bordered" id="disposableItemsTable" style="width: 100%;">
+                            <table class="table small" id="disposableItemsTable" style="width: 100%;">
                                 <thead>
                                     <tr>
                                         <th>Asset No.</th>

@@ -18,6 +18,13 @@ $(document).ready(function () {
                     filterDepartment.append(new Option(department, department));
                 });
 
+                const sections = [...new Set(json.data.map(item => item.section))]
+                const filterSection = $("#filterSection");
+                filterSection.empty().append(new Option("All", ""));
+                sections.forEach(section => {
+                    filterSection.append(new Option(section, section));
+                });
+
                 const statuses = [...new Set(json.data.map(item => item.status))]
                 const filterStatus = $("#filterStatus");
                 filterStatus.empty().append(new Option("All", ""));
@@ -43,6 +50,7 @@ $(document).ready(function () {
             { data: "username" },
             { data: "role" },
             { data: "department" },
+            { data: "section" },
             { data: "status" },
             {
                 data: "id",
@@ -81,7 +89,7 @@ $(document).ready(function () {
         ],
         columnDefs: [
             {
-                targets: [2, 3, 4, 5],
+                targets: [2, 3, 4, 5, 6],
                 orderable: false
             }
         ],
@@ -90,7 +98,7 @@ $(document).ready(function () {
         processing: true,
     });
 
-    $("#filterDepartment, #filterRole, #filterStatus").on('change', function () {
+    $("#filterDepartment, #filterSection,#filterRole, #filterStatus").on('change', function () {
         const role = $("#filterRole").val();
         if (role) {
             accountsTable.column(2).search(`^${role}$`, true, false).draw();
@@ -105,11 +113,18 @@ $(document).ready(function () {
             accountsTable.column(3).search("").draw();
         }
 
-        const status = $("#filterStatus").val();
-        if (status) {
-            accountsTable.column(4).search(`^${status}$`, true, false).draw();
+        const section = $("#filterSection").val();
+        if (section) {
+            accountsTable.column(4).search(section).draw();
         } else {
             accountsTable.column(4).search("").draw();
+        }
+
+        const status = $("#filterStatus").val();
+        if (status) {
+            accountsTable.column(5).search(`^${status}$`, true, false).draw();
+        } else {
+            accountsTable.column(5).search("").draw();
         }
     });
 

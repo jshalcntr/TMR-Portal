@@ -74,7 +74,7 @@ if (authorize(true, $conn)) {
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="accountsTable" width="100%" cellspacing="0">
+                                <table class="table small" id="accountsTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th scope="col">Full Name</th>
@@ -86,6 +86,11 @@ if (authorize(true, $conn)) {
                                             </th>
                                             <th scope="col">Department
                                                 <select id="filterDepartment" class="form-select form-select-sm">
+                                                    <option value="">All</option>
+                                                </select>
+                                            </th>
+                                            <th scope="col">Section
+                                                <select id="filterSection" class="form-select form-select-sm">
                                                     <option value="">All</option>
                                                 </select>
                                             </th>

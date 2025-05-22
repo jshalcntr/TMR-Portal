@@ -32,17 +32,13 @@ if ($user_dept) {
     $result = $stmt->get_result();
 
     while ($row = $result->fetch_assoc()) {
-        // Prepare links (raw for table, escaped for modal attributes)
-        $ticketAttachmentHtml = $row['ticket_attachment']
-            ? "<a href='../../../uploads/tickets/" . basename($row['ticket_attachment']) . "' target='_blank'>View Attachment</a>"
-            : 'No attachment.';
+        $ticketAttachmentUrl = $row['ticket_attachment']
+            ? "../../../uploads/tickets/" . basename($row['ticket_attachment'])
+            : '';
 
-        $approvalAttachmentHtml = $row['for_approval_attachment']
-            ? "<a href='../../../uploads/for_approval/" . basename($row['for_approval_attachment']) . "' target='_blank'>View Attachment</a>"
-            : 'No attachment.';
-
-        $ticketAttachmentEscaped = htmlspecialchars($ticketAttachmentHtml, ENT_QUOTES, 'UTF-8');
-        $approvalAttachmentEscaped = htmlspecialchars($approvalAttachmentHtml, ENT_QUOTES, 'UTF-8');
+        $approvalAttachmentUrl = $row['for_approval_attachment']
+            ? "../../../uploads/for_approval/" . basename($row['for_approval_attachment'])
+            : '';
 
         // Format date fields
         $dateCreated = $row['date_created'] ? date('M j Y g:i A', strtotime($row['date_created'])) : 'N/A';
@@ -56,10 +52,11 @@ if ($user_dept) {
         $viewButton = "
             <button class='btn btn-sm btn-primary view-ticket'
                 data-bs-toggle='modal'
-                data-bs-target='#ticketsModal'
+                data-bs-target=''
                 data-id='{$row['ticket_id']}'
                 data-subject='" . htmlspecialchars($row['ticket_subject'], ENT_QUOTES, 'UTF-8') . "'
                 data-type='" . htmlspecialchars($row['ticket_type'], ENT_QUOTES, 'UTF-8') . "'
+                data-description='" . htmlspecialchars($row['ticket_description'], ENT_QUOTES, 'UTF-8') . "'
                 data-priority='" . htmlspecialchars($row['ticket_priority'], ENT_QUOTES, 'UTF-8') . "'
                 data-status='" . htmlspecialchars($row['ticket_status'], ENT_QUOTES, 'UTF-8') . "'
                 data-requestor='" . htmlspecialchars($row['requestor_name'] ?? 'Unknown', ENT_QUOTES, 'UTF-8') . "'
@@ -69,20 +66,28 @@ if ($user_dept) {
                 data-created='{$dateCreated}'
                 data-accepted='{$dateAccepted}'
                 data-finished='{$dateFinished}'
+                data-requestor-department='" . htmlspecialchars($row['requestor_department'] ?? '', ENT_QUOTES, 'UTF-8') . "'
+                data-conclusion='" . htmlspecialchars($row['ticket_conclusion'], ENT_QUOTES, 'UTF-8') . "'
                 data-reason='" . htmlspecialchars($row['for_approval_reason'], ENT_QUOTES, 'UTF-8') . "'
                 data-approved='{$dateApproved}'
-                data-attachment='{$ticketAttachmentEscaped}'
-                data-approval-attachment='{$approvalAttachmentEscaped}'
+                data-attachment-url='" . htmlspecialchars($ticketAttachmentUrl, ENT_QUOTES, 'UTF-8') . "'
+                data-approval-attachment-url='" . htmlspecialchars($approvalAttachmentUrl, ENT_QUOTES, 'UTF-8') . "'
             >
                 <i class='fa fa-eye'></i>
             </button>
         ";
+        $ticketAttachmentHtml = $ticketAttachmentUrl
+            ? "<a href='{$ticketAttachmentUrl}' target='_blank'>View Attachment</a>"
+            : 'No attachment.';
 
+        $approvalAttachmentHtml = $approvalAttachmentUrl
+            ? "<a href='{$approvalAttachmentUrl}' target='_blank'>View Attachment</a>"
+            : 'No attachment.';
         // Final data array row
         $data[] = [
             $row['ticket_id'],
-            $row['ticket_subject'],
             $row['ticket_type'],
+            $row['ticket_subject'],
             $row['ticket_priority'],
             $row['ticket_status'],
             $row['requestor_name'] ?? 'Unknown',

@@ -92,3 +92,7 @@
 a.text-danger {
     transition: color 150ms ease-out;
 }
+
+h6{
+    margin-bottom: 0 !important;
+}

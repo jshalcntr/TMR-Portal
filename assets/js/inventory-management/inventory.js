@@ -42,7 +42,7 @@ const populateTable = () => {
                         {
                             data: "id",
                             render: function (data) {
-                                return `<i class="fas fa-eye text-primary viewInventoryBtn" 
+                                return `<i class="fas fa-eye text-primary viewInventoryBtn fa-xl" 
                                         role="button" data-inventory-id="${data}" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#viewInventoryModal"

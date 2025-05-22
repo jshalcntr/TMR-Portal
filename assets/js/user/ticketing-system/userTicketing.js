@@ -18,6 +18,147 @@ textarea.addEventListener("input", function () {
     }
 });
 
+
+const categoryData = {
+    "Hardware Issues": [
+        "Laptop/Desktop Issues",
+        "Printer/Scanner Problems",
+        "Network Equipment (Routers, Switches)",
+        "Peripheral Devices (Keyboard, Mouse)",
+        "Hardware Replacement or Upgrade"
+    ],
+    "Software Issues": [
+        "Operating System Problems",
+        "Software Installation/Update",
+        "Application Crashes",
+        "License and Activation Issues",
+        "Compatibility Issues"
+    ],
+    "Network and Connectivity": [
+        "Internet Connectivity",
+        "VPN Access",
+        "Network Configuration",
+        "Wi-Fi Issues",
+        "Network Security"
+    ],
+    "Account and Access Management": [
+        "Account Creation/Deletion",
+        "Password Reset/Recovery",
+        "Permission or Role Changes",
+        "Single Sign-On (SSO) Issues",
+        "Account Lockouts"
+    ],
+    "Email and Communication": [
+        "Email Setup/Configuration",
+        "Spam or Phishing Emails",
+        "Distribution List Management",
+        "Email Quota Issues",
+        "Calendar/Meeting Issues"
+    ],
+    "Security and Compliance": [
+        "Antivirus and Malware Protection",
+        "Data Security Incidents",
+        "Security Policy Violations",
+        "User Awareness Training",
+        "Access Control Issues"
+    ],
+    "IT Service Requests": [
+        "New Hardware/Software Request",
+        "Equipment Loan or Purchase",
+        "System Access Requests",
+        "IT Consultation",
+        "Workspace Setup (Desks, Monitors)"
+    ],
+    "System and Application Performance": [
+        "Slow System Performance",
+        "Application Latency",
+        "Server Downtime/Outages",
+        "Database Issues",
+        "Resource Utilization (CPU, Memory)"
+    ],
+    "Backup and Recovery": [
+        "Data Backup Issues",
+        "Restore Requests",
+        "Cloud Storage Issues",
+        "Data Loss Incident",
+        "Disaster Recovery Planning"
+    ],
+    "User Training and Support": [
+        "New User Orientation",
+        "Software Training",
+        "IT Policies and Procedures",
+        "Knowledge Base Access",
+        "FAQ and Documentation Updates"
+    ],
+    "Other/Miscellaneous": [
+        "General IT Assistance",
+        "Requests Outside Defined Categories",
+        "Feedback and Suggestions",
+        "System Enhancement Requests",
+        "Administrative Requests"
+    ]
+};
+
+// Render Category Buttons
+$.each(categoryData, function (category) {
+    $('#categoryList').append(`
+        <div class="col-6 col-md-5 mb-2">
+        <button type="button" class="btn btn-outline-secondary btn-sm category-btn" data-category="${category}">
+            ${category}
+        </button>
+        </div>
+    `);
+});
+
+// Handle Category Selection
+$(document).on('click', '.category-btn', function () {
+    const selectedCategory = $(this).data('category');
+    $('#ticket_category').val(selectedCategory);
+
+    // Highlight selected category
+    $('.category-btn').removeClass('active');
+    $(this).addClass('active');
+
+    // Show corresponding subjects
+    const subjects = categoryData[selectedCategory];
+    $('#subjectList').empty();
+    subjects.forEach(subject => {
+        $('#subjectList').append(`
+            <div class="col-6 col-md-5 mb-2">
+            <button type="button" class="btn btn-outline-secondary btn-sm subject-btn" data-subject="${subject}">
+                ${subject}
+            </button>
+            </div>
+        `);
+    });
+    $('#categoryContainer').hide(); // Hide subject container initially
+    $('#subjectContainer').show();
+});
+
+// Handle Subject Selection
+$(document).on('click', '.subject-btn', function () {
+    const selectedSubject = $(this).data('subject');
+    $('#ticket_subject').val(selectedSubject);
+
+    // Highlight selected subject
+    $('.subject-btn').removeClass('active');
+    $(this).addClass('active');
+    $('#subjectContainer').hide();
+    $('#ticketForm').show();
+
+});
+$(document).on('click', '#backToCategory', function () {
+    $('#subjectContainer').hide();
+    $('#categoryContainer').show();
+    $('#ticketForm')[0].reset(); // Reset form
+});
+$(document).on('click', '#backToSubject', function () {
+    $('#ticketForm').hide();
+    $('#subjectContainer').show();
+});
+
+
+
 $(document).ready(function () {
     const table = $('#ticketsTable').DataTable({
         ajax: '../../../backend/user/ticketing-system/get_all_tickets.php',
@@ -36,35 +177,7 @@ $(document).ready(function () {
             }
         },
         columnDefs: [
-            // {
-            //     targets: -1, // Last column
-            //     orderable: false,
-            //     searchable: false,
-            //     render: function (data, type, row) {
-            //         return `
-            //             <button class="btn btn-sm btn-primary me-1 view-ticket"
-            //                 data-bs-toggle="modal"
-            //                 data-bs-target="#ticketsModal"
-            //                 data-id="${row[0]}"
-            //                 data-subject="${row[1]}"
-            //                 data-type="${row[2]}"
-            //                 data-priority="${row[3]}"
-            //                 data-status="${row[4]}"
-            //                 data-requestor="${row[5]}"
-            //                 data-handler="${row[6]}"
-            //                 data-due="${row[7]}"
-            //                 data-approval-due="${row[8]}"
-            //                 data-created="${row[9]}"
-            //                 data-accepted="${row[10]}"
-            //                 data-finished="${row[11]}"
-            //                 data-reason="${row[12]}"
-            //                 data-approved="${row[13]}"
-            //                 data-attachment='${row[14]}'
-            //                 data-approval-attachment='${row[15]}'>
-            //                 <i class="fa fa-eye"></i>
-            //             </button>`;
-            //     }
-            // },
+
             {
                 targets: [7], // "Due Date" column
                 render: function (data, type, row) {
@@ -156,64 +269,127 @@ function updateCountdowns() {
 
 $(document).on('click', '.view-ticket', function () {
     const btn = $(this);
+    const status = btn.data('status');
 
-    $('#ticketNumber').text(btn.data('id'));
-    $('#ticketTitle').text(btn.data('subject'));
-    $('#ticketStatus').text(btn.data('status'));
-    $('#ticketDueDate').text(btn.data('due'));
-    $('#ticketHandler').text(btn.data('handler'));
+    const isForApproval = status === 'FOR APPROVAL';
 
+    // Shared data
+    const ticketId = btn.data('id');
+    const subject = btn.data('subject');
+    const type = btn.data('type');
+    const priority = btn.data('priority');
+    const description = btn.data('description');
+    const conclusion = btn.data('conclusion');
+    const handler = btn.data('handler');
+    const requestor = btn.data('requestor');
+    const approvalDue = btn.data('approval-due');
+    const reason = btn.data('reason');
+    const approvalDate = btn.data('approved');
+    const ticketAttachmentUrl = btn.data('attachment-url');
+    const approvalAttachmentUrl = btn.data('approval-attachment-url');
     const created = btn.data('created');
-    if (created && created !== 'N/A') {
-        const [date, time] = created.split(' ');
-        $('#ticketDate').text(date);
-        $('#ticketTime').text(time);
-    } else {
-        $('#ticketDate').text('N/A');
-        $('#ticketTime').text('');
-    }
-
-    $('#ticketPriority').text(btn.data('priority'));
-    $('#ticketRequestor').text(btn.data('requestor'));
-    $('#ticketApprovalDueDate').text(btn.data('approval-due'));
-    $('#ticketApprovalReason').text(btn.data('reason'));
-    $('#ticketApprovalDate').text(btn.data('approved'));
-
     const finished = btn.data('finished');
-    if (finished && finished !== 'N/A') {
-        const [endDate, endTime] = finished.split(' ');
-        $('#ticketEndDate').text(endDate);
-        $('#ticketEndTime').text(endTime);
-    } else {
-        $('#ticketEndDate').text('N/A');
-        $('#ticketEndTime').text('');
-    }
 
-    $('#ticketConclusion').text(''); // Fill if available in backend
-    $('#ticketDescription').text(btn.data('type')); // Assuming description is same as type (replace if needed)
+    if (isForApproval) {
+        // ========== For Approval Modal ==========
+        $('#ticketModalId').text(ticketId);
+        $('#ticketModalTitle').text(subject);
+        $('#ticketModalDescription').text(description);
 
-    // Attachments (HTML allowed)
-    const approvalAttachment = btn.data('approval-attachment');
-    if (approvalAttachment && approvalAttachment !== 'No attachment.') {
-        $('#ticketApprovalAttachment').html(`<a href="${approvalAttachment}" target="_blank">View Attachment</a>`);
-    } else {
-        $('#ticketApprovalAttachment').text('No attachment.');
-    }
-    const ticketAttachment = btn.data('attachment');
-    if (ticketAttachment && ticketAttachment !== 'No attachment.') {
-        $('#ticketAttachment').html(`<a href="${ticketAttachment}" target="_blank">View Attachment</a>`);
-    } else {
-        $('#ticketAttachment').text('No attachment.');
-    }
+        if (created && created !== 'N/A') {
+            const [date, time] = created.split(' ');
+            $('#ticketModalDate').text(date);
+            $('#ticketModalTime').text(time);
+        } else {
+            $('#ticketModalDate').text('N/A');
+            $('#ticketModalTime').text('');
+        }
 
-    // Optionally hide empty rows
-    $('#approvalDueDateRow').toggle(btn.data('approval-due') && btn.data('approval-due') !== 'N/A');
-    $('#approvalReasonRow').toggle(btn.data('reason') && btn.data('reason') !== 'N/A');
-    $('#approvalDateRow').toggle(btn.data('approved') && btn.data('approved') !== 'N/A');
-    $('#approvalAttachmentRow').toggle(btn.data('approval-attachment') && btn.data('approval-attachment') !== 'No attachment.');
-    $('#dateClosedRow').toggle(finished && finished !== 'N/A');
-    $('#ticketsModal').modal('show');
+        $('#ticketModalRequestor').text(requestor);
+        $('#ticketModalRequestorDepartment').text(btn.data('requestor-department') ?? '');
+        $('#ticketModalHandler').text(handler);
+        $('#ticketModalPriority').text(priority);
+
+        if (ticketAttachmentUrl) {
+            $('#ticketModalAttachment').html(`<a href="${ticketAttachmentUrl}" target="_blank">View Attachment</a>`);
+        } else {
+            $('#ticketModalAttachment').text('No attachment.');
+        }
+        $('#approveButton').data('id', ticketId).data('priority', priority);
+
+        $('#rejectButton').data('id', ticketId).data('priority', priority);
+        $('#ticketModalApprovalReason').text(reason || 'N/A');
+        $('#ticketModalDueDateApproval').text(approvalDue || 'N/A');
+
+        if (approvalAttachmentUrl) {
+            $('#ticketModalApprovalAttachment').html(`<a href="${approvalAttachmentUrl}" target="_blank">View Attachment</a>`);
+        } else {
+            $('#ticketModalApprovalAttachment').text('No attachment.');
+        }
+
+        $('#forApprovalticketModal').modal('show');
+
+    } else {
+        // ========== Regular Ticket Modal ==========
+        $('#ticketNumber').text(ticketId);
+        $('#ticketTitle').text(subject);
+        $('#ticketStatus').text(status);
+        $('#ticketDueDate').text(btn.data('due'));
+        $('#ticketHandler').text(handler);
+
+        if (created && created !== 'N/A') {
+            const [date, time] = created.split(' ');
+            $('#ticketDate').text(date);
+            $('#ticketTime').text(time);
+        } else {
+            $('#ticketDate').text('N/A');
+            $('#ticketTime').text('');
+        }
+
+        $('#ticketPriority').text(priority);
+        $('#ticketRequestor').text(requestor);
+        $('#ticketApprovalDueDate').text(approvalDue);
+        $('#ticketApprovalReason').text(reason);
+        $('#ticketApprovalDate').text(approvalDate);
+
+        if (finished && finished !== 'N/A') {
+            const [endDate, endTime] = finished.split(' ');
+            $('#ticketEndDate').text(endDate);
+            $('#ticketEndTime').text(endTime);
+        } else {
+            $('#ticketEndDate').text('N/A');
+            $('#ticketEndTime').text('');
+        }
+
+        $('#ticketConclusion').text(conclusion);
+        $('#ticketDescription').text(description);
+
+        if (approvalAttachmentUrl) {
+            $('#ticketApprovalAttachment').html(`<a href="${approvalAttachmentUrl}" target="_blank">View Attachment</a>`);
+        } else {
+            $('#ticketApprovalAttachment').text('No attachment.');
+        }
+
+        if (ticketAttachmentUrl) {
+            $('#ticketAttachment').html(`<a href="${ticketAttachmentUrl}" target="_blank">View Attachment</a>`);
+        } else {
+            $('#ticketAttachment').text('No attachment.');
+        }
+
+        $('#approvalDueDateRow').toggle(approvalDue && approvalDue !== 'N/A');
+        $('#approvalReasonRow').toggle(reason && reason !== 'N/A');
+        $('#approvalDateRow').toggle(approvalDate && approvalDate !== 'N/A');
+        $('#approvalAttachmentRow').toggle(!!approvalAttachmentUrl);
+        $('#dateClosedRow').toggle(finished && finished !== 'N/A');
+
+        $('#ticketsModal').modal('show');
+    }
+    $('#openChatButton')
+        .attr('data-id', ticketId)
+        .attr('data-requestor', handler)
+        .attr('data-title', 'T#' + ticketId + ' | ' + subject);
 });
+
 
 
 // populate from similar tickets 
@@ -347,9 +523,9 @@ $(document).ready(function () {
                         text: response.message,
                         icon: 'success',
                         timer: 2000,
-                        showConfirmButton: false
+                        showConfirmButton: true
                     }).then(() => {
-                        fetchTickets();
+                        location.reload(); // Reload the page after submission
                     });
                     $('#ticketForm')[0].reset(); // Reset form
                     document.querySelector('.similar-ticket').classList.add('hidden');
@@ -573,55 +749,103 @@ $(document).ready(function () {
     setInterval(forApprovalTickets, 5000);
     forApprovalTickets();
 
-    $('#approveButton').on('click', function () {
-        const ticketId = $(this).data('id');
-        const ticketPriority = $(this).data('priority');
-        $.ajax({
-            url: '../../../backend/user/ticketing-system/update_ticket_status.php',
-            type: 'POST',
-            data: { ticket_id: ticketId, status: 'Approved', priority: ticketPriority },
-            dataType: 'json',
-            success: function (response) {
-                if (response.status === 'success') {
-                    Swal.fire({ icon: 'success', title: 'Success', text: 'Ticket approved successfully!' });
-                    $('#forApprovalticketModal').modal('hide');
-                    forApprovalTickets();
-                } else {
-                    Swal.fire({ icon: 'error', title: 'Error', text: 'Error: ' + response.message });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-                Swal.fire({ icon: 'error', title: 'Error', text: 'Error approving ticket. Please try again later.' });
-            }
-        });
-    });
 
-    $('#rejectButton').on('click', function () {
-        const ticketId = $(this).data('id');
-        $.ajax({
-            url: '../../../backend/user/ticketing-system/update_ticket_status.php',
-            type: 'POST',
-            data: { ticket_id: ticketId, status: 'Rejected', priority: $(this).data('priority') },
-            dataType: 'json',
-            success: function (response) {
-                if (response.status === 'success') {
-                    Swal.fire({ icon: 'success', title: 'Success', text: 'Ticket rejected successfully!' });
-                    $('#forApprovalticketModal').modal('hide');
-                    forApprovalTickets();
-                } else {
-                    Swal.fire({ icon: 'error', title: 'Error', text: 'Error: ' + response.message });
+});
+
+$('#approveButton').on('click', function () {
+    const ticketId = $(this).data('id');
+    const ticketPriority = $(this).data('priority');
+
+    $.ajax({
+        url: '../../../backend/user/ticketing-system/update_ticket_status.php',
+        type: 'POST',
+        data: { ticket_id: ticketId, status: 'Approved', priority: ticketPriority },
+        dataType: 'json',
+        success: function (response) {
+            if (response.status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Ticket approved successfully!'
+                });
+
+                $('#forApprovalticketModal').modal('hide');
+
+                // Reload your DataTable
+                if ($.fn.DataTable.isDataTable('#ticketsTable')) {
+                    $('#ticketsTable').DataTable().ajax.reload();
                 }
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-                Swal.fire({ icon: 'error', title: 'Error', text: 'Error rejecting ticket. Please try again later.' });
+
+                // Optional: refresh card counts or other elements
+                if (typeof forApprovalTickets === 'function') {
+                    forApprovalTickets();
+                }
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error: ' + response.message
+                });
             }
-        });
+        },
+        error: function (xhr, status, error) {
+            console.error(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error approving ticket. Please try again later.'
+            });
+        }
     });
 });
 
 
+$('#rejectButton').on('click', function () {
+    const ticketId = $(this).data('id');
+    $.ajax({
+        url: '../../../backend/user/ticketing-system/update_ticket_status.php',
+        type: 'POST',
+        data: { ticket_id: ticketId, status: 'Rejected', priority: $(this).data('priority') },
+        dataType: 'json',
+        success: function (response) {
+            if (response.status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Ticket has been rejected!'
+                });
+
+                $('#forApprovalticketModal').modal('hide');
+
+                // Reload your DataTable
+                if ($.fn.DataTable.isDataTable('#ticketsTable')) {
+                    $('#ticketsTable').DataTable().ajax.reload();
+                }
+
+                // Optional: refresh card counts or other elements
+                if (typeof forApprovalTickets === 'function') {
+                    forApprovalTickets();
+                }
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error: ' + response.message
+                });
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error approving ticket. Please try again later.'
+            });
+        }
+    });
+});
 
 
 

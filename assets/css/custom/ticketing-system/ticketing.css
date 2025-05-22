@@ -185,3 +185,8 @@
 .unassigned {
     background-color: #eeeeee;
 }
+
+.table-bg-primary tr th {
+    background-color: #356b49;
+    color: #fff;
+}

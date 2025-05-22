@@ -60,6 +60,17 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="section_edit" class="col-form-label">Section</label>
+                                <select name="section" id="section_edit" class="form-select form-select-sm" required disabled>
+                                    <option value="" selected hidden>--Select Section--</option>
+                                </select>
+                                <div class="invalid-feedback">Please Select Section</div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row mt-2 mb-4" id="toggleRow">
                         <div class="line"></div>
                         <p class="h5">Authorizations</p>

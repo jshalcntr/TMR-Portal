@@ -69,6 +69,7 @@ $(document).ready(function () {
                                                     $("#username_edit").prop('disabled', !$("#username_edit").prop('disabled'));
                                                     $("#role_edit").prop('disabled', !$("#role_edit").prop('disabled'));
                                                     $("#department_edit").prop('disabled', !$("#department_edit").prop('disabled'));
+                                                    $("#section_edit").prop('disabled', !$("#section_edit").prop('disabled'));
                                                     $("#inventoryView_edit").prop('disabled', !$("#inventoryView_edit").prop('disabled'));
                                                     $("#inventoryEdit_edit").prop('disabled', !$("#inventoryEdit_edit").prop('disabled'));
                                                     $("#inventorySuper_edit").prop('disabled', !$("#inventorySuper_edit").prop('disabled'));
@@ -102,6 +103,7 @@ $(document).ready(function () {
                                                                 $("#username_edit").val(data.username);
                                                                 $("#role_edit").val(data.role);
                                                                 $("#department_edit").val(data.department);
+                                                                $("#section_edit").val(data.section);
                                                                 $("#inventoryView_edit").prop('checked', data.inventory_view_auth);
                                                                 $("#inventoryEdit_edit").prop('checked', data.inventory_edit_auth);
                                                                 $("#inventorySuper_edit").prop('checked', data.inventory_super_auth);

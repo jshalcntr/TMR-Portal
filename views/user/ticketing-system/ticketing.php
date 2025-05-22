@@ -59,12 +59,18 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12 overflow-x-auto">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h1 class="h3 mb-0 text-gray-800">Ticketing System</h1>
+                                <button id="createTicketButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTicketModal">
+                                    <i class="fa-solid fa-edit"></i> Create Ticket
+                                </button>
+                            </div>
                             <table id="ticketsTable" class="table table-hover small">
-                                <thead class="bg-primary text-white">
+                                <thead class="table-bg-primary">
                                     <tr>
                                         <th>Ticket#</th>
-                                        <th>Subject</th>
                                         <th>Type</th>
+                                        <th>Subject</th>
                                         <th>Priority</th>
                                         <th>Status</th>
                                         <th>Requestor</th>
@@ -84,164 +90,82 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                 <tbody></tbody>
                             </table>
                         </div>
+
+                        <!-- Create Ticket Modal -->
+                        <div class="modal fade" id="createTicketModal" tabindex="-1" aria-labelledby="createTicketModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                <div class="modal-content border-0 shadow">
+                                    <div class="modal-header bg-primary text-white">
+                                        <h5 class="modal-title" id="createTicketModalLabel"><i class="fa-solid fa-ticket-alt me-2"></i>New Ticket</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Category Selection UI -->
+                                        <div id="categoryContainer" class="mb-4">
+                                            <h6 class="fw-bold">Select a Category</h6>
+                                            <div id="categoryList" class="d-flex flex-wrap gap-2 row"></div>
+                                        </div>
+
+                                        <!-- Subject Selection UI -->
+                                        <div id="subjectContainer" class="mb-4" style="display:none;">
+                                            <h6 class="fw-bold">Select a Subject <button id="backToCategory" class="btn btn-outline-primary btn-sm mb-2 float-end"><i class="fa-solid fa-arrow-left"></i> Back</button></h6>
+                                            <div id="subjectList" class="d-flex flex-wrap gap-2 row"></div>
+                                        </div>
+
+                                        <form id="ticketForm" method="POST" enctype="multipart/form-data" style="display:none;">
+                                            <button id="backToSubject" class="btn btn-outline-primary btn-sm mb-2 float-end"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                                            <!-- Category -->
+                                            <div class="mb-3">
+                                                <label for="ticket_category" class="form-label fw-bold">Category</label>
+                                                <input type="text" name="ticket_category" id="ticket_category" class="form-control" placeholder="Enter category" required>
+                                            </div>
+                                            <!-- Subject -->
+                                            <div class="mb-3">
+                                                <label for="ticket_subject" class="form-label fw-bold">Subject</label>
+                                                <input type="text" name="ticket_subject" id="ticket_subject" class="form-control" placeholder="Enter subject" required>
+                                            </div>
+
+                                            <!-- Description -->
+                                            <div class="mb-3">
+                                                <label for="ticket_content" class="form-label fw-bold">Description</label>
+                                                <textarea name="ticket_content" id="ticket_content" class="form-control" rows="5" placeholder="Enter ticket description" required></textarea>
+                                            </div>
+
+                                            <!-- Attachment -->
+                                            <div class="mb-3">
+                                                <label for="ticket_attachment" class="form-label fw-bold">Attachment</label>
+                                                <div class="input-group">
+                                                    <input type="file" name="ticket_attachment" id="ticket_attachment" class="form-control">
+                                                    <label class="input-group-text" for="ticket_attachment"><i class="fa-solid fa-paperclip"></i></label>
+                                                </div>
+                                                <small class="form-text text-muted">Allowed file types: .jpg, .png, .pdf, .docx</small>
+                                                <div id="file-error" class="text-danger mt-1"></div>
+                                            </div>
+
+                                            <!-- Success/Error Message -->
+                                            <div id="form-message" class="text-center my-3"></div>
+
+                                            <!-- Submit Button -->
+                                            <div class="d-flex justify-content-end">
+                                                <button type="submit" name="submit_ticket" class="btn btn-primary">
+                                                    <i class="fa-solid fa-paper-plane me-1"></i> Submit
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Begin Ticket Form -->
-                        <div class="<?= $divsize ?>">
-                            <div class="card shadow border-0">
-                                <!-- Card Header -->
-                                <div class="card-header bg-primary text-white d-flex align-items-center">
-                                    <i class="fa-solid fa-ticket-alt me-2"></i>
-                                    <h5 class="mb-0">New Ticket</h5>
-                                </div>
 
-                                <div class="card-body">
-                                    <form id="ticketForm" method="POST" enctype="multipart/form-data">
-                                        <!-- Ticket Category -->
-                                        <!-- <div class="mb-3">
-                                            <label for="ticket_category" class="form-label fw-bold">Category</label>
-                                            <?php include "../../../backend/user/ticketing-system/ticketcategory.php" ?>
-                                            <select name="ticket_category" id="ticket_category" class="form-select" required>
-                                                <option value="" disabled selected>Select a Category</option>
-                                                <?php foreach ($categories as $mainCategory => $subCategories): ?>
-                                                    <optgroup label="<?php echo htmlspecialchars($mainCategory); ?>">
-                                                        <?php foreach ($subCategories as $subCategory): ?>
-                                                            <option value="<?php echo htmlspecialchars($subCategory); ?>">
-                                                                <?php echo htmlspecialchars($subCategory); ?>
-                                                            </option>
-                                                        <?php endforeach; ?>
-                                                    </optgroup>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div> -->
-
-                                        <!-- Subject -->
-                                        <div class="mb-3">
-                                            <label for="ticket_subject" class="form-label fw-bold">Subject</label>
-                                            <input type="text" name="ticket_subject" id="ticket_subject" class="form-control" placeholder="Enter subject" required>
-                                        </div>
-
-                                        <!-- Description -->
-                                        <div class="mb-3">
-                                            <label for="ticket_content" class="form-label fw-bold">Description</label>
-                                            <textarea name="ticket_content" id="ticket_content" class="form-control" rows="5" placeholder="Enter ticket description" required></textarea>
-                                        </div>
-
-                                        <!-- Attachment -->
-                                        <div class="mb-3">
-                                            <label for="ticket_attachment" class="form-label fw-bold">Attachment</label>
-                                            <div class="input-group">
-                                                <input type="file" name="ticket_attachment" id="ticket_attachment" class="form-control">
-                                                <label class="input-group-text" for="ticket_attachment"><i class="fa-solid fa-paperclip"></i></label>
-                                            </div>
-                                            <small class="form-text text-muted">Allowed file types: .jpg, .png, .pdf, .docx</small>
-                                            <div id="file-error" class="text-danger mt-1"></div>
-                                        </div>
-
-                                        <!-- Success/Error Message -->
-                                        <div id="form-message" class="text-center my-3"></div>
-
-                                        <!-- Loading Spinner -->
-                                        <!-- <div id="loading-spinner" class="d-flex justify-content-center my-3" style="display: none;">
-                                            <div class="spinner-border text-primary" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
-                                        </div> -->
-
-                                        <!-- Submit Button -->
-                                        <div class="d-flex justify-content-end">
-                                            <button type="submit" name="submit_ticket" class="btn btn-primary">
-                                                <i class="fa-solid fa-paper-plane me-1"></i> Submit
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-
-                            <!-- Similar Tickets Section (Hidden by Default) -->
-                            <div class="card card-body shadow mt-3 d-none" id="similar-ticket"></div>
-                        </div>
-                        <!-- End of Ticket Form -->
-
-
-                        <!-- Heads for Approval Ticket -->
-                        <div class="<?= $divsize . " " . $divhidden ?>">
-                            <div class="card shadow border-0">
-                                <!-- Card Header -->
-                                <div class="card-header bg-warning text-dark d-flex align-items-center">
-                                    <i class="fa-solid fa-clock me-2"></i>
-                                    <h5 class="mb-0">For Approval</h5>
-                                </div>
-
-                                <div class="card-body" style="max-height: 750px;">
-                                    <div id="forApprovalContainer" class="d-flex flex-column align-items-center">
-                                        <!-- Loading Spinner -->
-                                        <div id="loading-spinner" class="d-flex justify-content-center my-3">
-                                            <div class="spinner-border text-warning" role="status">
-                                                <span class="visually-hidden">Loading tickets...</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of for approval ticket -->
-                        <!-- Pending Tickets Section -->
-                        <div id="pendingTickets" class="<?= $divsize ?>">
-                            <div class="card shadow border-0">
-                                <!-- Card Header -->
-                                <div class="card-header bg-info text-white d-flex align-items-center">
-                                    <i class="fa-solid fa-hourglass-half me-2"></i>
-                                    <h5 class="mb-0">Pending Tickets</h5>
-                                </div>
-
-                                <!-- Card Body -->
-                                <div class="card-body" style="max-height: 750px;">
-                                    <div id="pendingTicketList" class="d-flex flex-column align-items-center">
-                                        <!-- Loading Spinner -->
-                                        <div id="loading-spinner" class="d-flex justify-content-center my-3">
-                                            <div class="spinner-border text-info" role="status">
-                                                <span class="visually-hidden">Loading tickets...</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of Pending Tickets Section -->
-                        <!-- My Ticket History Section -->
-                        <div class="<?= $divsize ?>">
-                            <div class="card shadow border-0">
-                                <!-- Card Header -->
-                                <div class="card-header bg-dark text-white d-flex align-items-center">
-                                    <i class="fa-solid fa-folder-closed me-2"></i>
-                                    <h5 class="mb-0">My Ticket History</h5>
-                                </div>
-
-                                <!-- Card Body -->
-                                <div class="card-body" style="max-height: 750px;">
-                                    <div id="closedTicketList" class="d-flex flex-column align-items-center">
-                                        <!-- Loading Spinner -->
-                                        <div id="loading-spinner" class="d-flex justify-content-center my-3">
-                                            <div class="spinner-border text-dark" role="status">
-                                                <span class="visually-hidden">Loading closed tickets...</span>
-                                            </div>
-                                        </div>
-
-                                        <!-- Placeholder for Empty State -->
-                                        <p id="noTicketsMessage" class="text-muted mt-3" style="display: none;">
-                                            <i class="fa-solid fa-box-open me-2"></i> No closed tickets found.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of My Ticket History Section -->
 
                         <!-- Ticket Details Modal -->
                         <div class="modal fade" id="forApprovalticketModal" tabindex="-1" role="dialog" aria-labelledby="ticketModalLabel" aria-hidden="true">
                             <div class="modal-dialog " role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="fw-bold mb-3">Ticket Details</h5>
+                                        <h5 class="fw-bold mb-3">Ticket #<span id="ticketModalId"></span> For Approval</h5>
                                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -269,7 +193,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                                         </tr>
                                                         <tr>
                                                             <th class="bg-light">Requestor</th>
-                                                            <td><span id="ticketModalRequestor"></span> <small class="text-muted" id="ticketModalRequestorDepartment"></small></td>
+                                                            <td><span id="ticketModalRequestor"></span></td>
                                                         </tr>
                                                         <tr>
                                                             <th class="bg-light">Handler</th>

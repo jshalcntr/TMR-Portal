@@ -6,6 +6,7 @@ require "../middleware/pipes.php";
 $sql = "SELECT * FROM accounts_tbl
         JOIN authorizations_tbl ON accounts_tbl.id = authorizations_tbl.account_id
         JOIN departments_tbl ON accounts_tbl.department = departments_tbl.department_id
+        JOIN sections_tbl ON accounts_tbl.section = sections_tbl.section_id
         WHERE id <> ? ";
 if ($_SESSION['user']['accounts_edit_auth']) {
     $sql .= " AND authorizations_tbl.accounts_super_auth <> 1";
@@ -40,6 +41,7 @@ if (!$stmt) {
                 "role" => $accountRow['role'],
                 "profilePicture" => $accountRow['profile_picture'],
                 "department" => $accountRow['department_name'],
+                "section" => $accountRow['section_name'],
                 "status" => $accountRow['status'],
                 "accountEditAuth" => $_SESSION['user']['accounts_edit_auth'],
             ];

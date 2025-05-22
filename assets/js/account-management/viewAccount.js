@@ -31,6 +31,7 @@ $(document).ready(function () {
                     for (let i = 0; i < response.data.length; i++) {
                         $("#department_edit").append(`<option value="${response.data[i].department_id}">${response.data[i].department_name}</option>`);
                     }
+
                     $.ajax({
                         type: "GET",
                         url: "../../backend/account-management/getAccount.php",
@@ -59,6 +60,49 @@ $(document).ready(function () {
                                 $("#accountsEdit_edit").prop('checked', data.accounts_edit_auth);
                                 $("#accountsSuper_edit").prop('checked', data.accounts_super_auth);
                                 $("#id_edit").val(data.id);
+
+                                $.ajax({
+                                    type: "GET",
+                                    url: "../../backend/account-management/getSections.php",
+                                    data: {
+                                        departmentId: data.department
+                                    },
+                                    success: function (response) {
+                                        if (response.status === 'success') {
+                                            $("#section_edit").empty();
+                                            $("#section_edit").append(`<option value="" selected hidden>--Select Section--</option>`);
+                                            for (let i = 0; i < response.data.length; i++) {
+                                                $("#section_edit").append(`<option value="${response.data[i].section_id}">${response.data[i].section_name}</option>`);
+                                            }
+                                        } else {
+                                            $("#section_edit").empty();
+                                            $("#section_edit").append(`<option value="" selected hidden>--Select Section--</option>`);
+                                        }
+                                        $("#section_edit").val(data.section);
+                                    }
+                                });
+                                $("#department_edit").on('change', function () {
+                                    $.ajax({
+                                        type: "GET",
+                                        url: "../../backend/account-management/getSections.php",
+                                        data: {
+                                            departmentId: this.value
+                                        },
+                                        success: function (response) {
+                                            if (response.status === 'success') {
+                                                $("#section_edit").empty();
+                                                $("#section_edit").append(`<option value="" selected hidden>--Select Section--</option>`);
+                                                for (let i = 0; i < response.data.length; i++) {
+                                                    $("#section_edit").append(`<option value="${response.data[i].section_id}">${response.data[i].section_name}</option>`);
+                                                }
+                                            } else {
+                                                $("#section_edit").empty();
+                                                $("#section_edit").append(`<option value="" selected hidden>--Select Section--</option>`);
+                                            }
+                                            $("#section_edit").val("");
+                                        }
+                                    });
+                                });
                             }
                         }
                     });
@@ -112,6 +156,7 @@ $(document).ready(function () {
                     $("#username_edit").val(data.username);
                     $("#role_edit").val(data.role);
                     $("#department_edit").val(data.department);
+                    $("#section_edit").val(data.section);
                     $("#inventoryView_edit").prop('checked', data.inventory_view_auth);
                     $("#inventoryEdit_edit").prop('checked', data.inventory_edit_auth);
                     $("#inventorySuper_edit").prop('checked', data.inventory_super_auth);
@@ -129,6 +174,7 @@ $(document).ready(function () {
         $("#username_edit").prop('disabled', !$("#username_edit").prop('disabled'));
         $("#role_edit").prop('disabled', !$("#role_edit").prop('disabled'));
         $("#department_edit").prop('disabled', !$("#department_edit").prop('disabled'));
+        $("#section_edit").prop('disabled', !$("#section_edit").prop('disabled'));
         $("#inventoryView_edit").prop('disabled', !$("#inventoryView_edit").prop('disabled'));
         $("#inventoryEdit_edit").prop('disabled', !$("#inventoryEdit_edit").prop('disabled'));
         $("#inventorySuper_edit").prop('disabled', !$("#inventorySuper_edit").prop('disabled'));
