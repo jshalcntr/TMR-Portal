@@ -8,6 +8,7 @@ session_start();
 $ticket_id = $_POST['ticket_id'] ?? '';
 $ticket_status = $_POST['ticket_status'] ?? '';
 $ticket_priority = $_POST['ticket_priority'] ?? 'NORMAL'; // Default to NORMAL
+$ticket_priority_date = $_POST['ticket_priority_date'] ?? null;
 $ticket_handler_id = $_POST['ticket_handler_id'] ?? $_SESSION['user']['id'];
 $for_approval_reason = $_POST['for_approval_reason'] ?? null;
 $current_datetime = date('Y-m-d H:i:s');
@@ -59,18 +60,23 @@ if (strtoupper($ticket_status) === 'FOR APPROVAL') {
     $ticket_for_approval_due_date = date('Y-m-d H:i:s', strtotime("+$hoursToAdd hours"));
     $date_accepted = $current_datetime;
 } elseif (strtoupper($ticket_status) === 'OPEN') {
-    switch (strtoupper($ticket_priority)) {
-        case 'CRITICAL':
-            $hoursToAdd = 4;
-            break;
-        case 'IMPORTANT':
-            $hoursToAdd = 8;
-            break;
-        default:
-            $hoursToAdd = 24;
-            break;
+    if (strtoupper($ticket_priority) === 'SPECIAL' && !empty($ticket_priority_date)) {
+        // Use user-provided custom priority date
+        $ticket_due_date = date('Y-m-d H:i:s', strtotime($ticket_priority_date));
+    } else {
+        switch (strtoupper($ticket_priority)) {
+            case 'CRITICAL':
+                $hoursToAdd = 4;
+                break;
+            case 'IMPORTANT':
+                $hoursToAdd = 8;
+                break;
+            default:
+                $hoursToAdd = 24;
+                break;
+        }
+        $ticket_due_date = date('Y-m-d H:i:s', strtotime("+$hoursToAdd hours"));
     }
-    $ticket_due_date = date('Y-m-d H:i:s', strtotime("+$hoursToAdd hours"));
     $date_accepted = $current_datetime;
 }
 

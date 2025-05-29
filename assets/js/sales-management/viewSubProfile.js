@@ -48,12 +48,7 @@ $(document).ready(function () {
         $("#far_view").val(data.far || "");
         $("#customerPreference_view").val(data.customer_preference || "");
         $("#tintShade_view").val(data.tint_shade || "");
-
-        // Show modal
-        const modal = new bootstrap.Modal(
-          document.getElementById("viewSubProfilingModal")
-        );
-        modal.show();
+        $("#id_view").val(data.subprofile_id || "");
       },
       error: function (xhr, status, error) {
         console.error(error);

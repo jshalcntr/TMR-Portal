@@ -6,7 +6,6 @@ include('../../dbconn.php');
 $ticket_id = $_GET['ticket_id'] ?? '';
 $user_id = $_SESSION['user']['id'];
 
-
 if (empty($ticket_id)) {
     echo json_encode(['status' => 'error', 'message' => 'Ticket ID is required']);
     exit;
@@ -29,6 +28,8 @@ $query = "
         tc.ticket_user_id = a.id 
     WHERE 
         tc.ticket_id = ?
+    ORDER BY 
+        tc.ticket_convo_date ASC
 ";
 $stmt = $conn->prepare($query);
 $stmt->bind_param('s', $ticket_id);
@@ -37,6 +38,7 @@ $result = $stmt->get_result();
 
 $messages = [];
 while ($row = $result->fetch_assoc()) {
+    $row['session_user_id'] = $user_id; // Add session user ID into each message
     $messages[] = $row;
 }
 

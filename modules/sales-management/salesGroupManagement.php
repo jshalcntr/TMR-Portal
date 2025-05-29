@@ -86,10 +86,29 @@ if (authorize(true, $conn)) {
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Team Members</h6>
+                                    <button type="button" class="btn btn-sm shadow-sm btn-primary" id="addToGroupBtn" data-bs-toggle="modal" data-bs-target="#addToGroupModal"><i class="fas fa-people-roof"></i> Add Member to Group</button>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-
+                                        <table class="table small" id="groupingsTable">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Member Name</th>
+                                                    <th scope="col">Group Initials
+                                                        <select id="filterGroupInitials" class="form-select form-select-sm">
+                                                            <option value="">All</option>
+                                                        </select>
+                                                    </th>
+                                                    <th scope="col">Group Number
+                                                        <select id="filterGroupNumber" class="form-select form-select-sm">
+                                                            <option value="">All</option>
+                                                        </select>
+                                                    </th>
+                                                    <th scope="col">Position</th>
+                                                    <th scope="col">Actions</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -103,11 +122,16 @@ if (authorize(true, $conn)) {
 
     <?php include "../components/sales-management/createNewGroupModal.php" ?>
     <?php include "../components/sales-management/editGroupDetailsModal.php" ?>
+    <?php include "../components/sales-management/addToGroupModal.php" ?>
+    <?php include "../components/sales-management/moveMemberModal.php" ?>
 </body>
 <?php include '../components/shared/external-js-import.php'; ?>
 <script src="../../assets/js/sales-management/groupManagement.js"></script>
 <script src="../../assets/js/sales-management/createNewGroup.js"></script>
 <script src="../../assets/js/sales-management/editGroupDetails.js"></script>
 <script src="../../assets/js/sales-management/archiveGroup.js"></script>
+<script src="../../assets/js/sales-management/addToGroup.js"></script>
+<script src="../../assets/js/sales-management/moveMember.js"></script>
+<script src="../../assets/js/sales-management/removeFromGroup.js"></script>
 
 </html>

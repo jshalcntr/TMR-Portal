@@ -96,5 +96,6 @@ if (authorize(true, $conn)) {
 <script src="../../assets/js/sales-management/createSubprofiling.js"></script>
 <script src="../../assets/js/sales-management/subProfiling.js"></script>
 <script src="../../assets/js/sales-management/viewSubProfile.js"></script>
+<script src="../../assets/js/sales-management/editSubProfile.js"></script>
 
 </html>

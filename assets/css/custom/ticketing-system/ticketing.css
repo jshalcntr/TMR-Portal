@@ -190,3 +190,22 @@
     background-color: #356b49;
     color: #fff;
 }
+
+.chat-message {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+#chatHistory {
+    overflow-y: auto;
+    /* scroll vertical */
+    flex-grow: 1;
+    /* fill available space */
+}
+
+.chat-card .card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* to allow flex-grow on chatHistory */
+}

@@ -117,12 +117,14 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                             <!-- Category -->
                                             <div class="mb-3">
                                                 <label for="ticket_category" class="form-label fw-bold">Category</label>
-                                                <input type="text" name="ticket_category" id="ticket_category" class="form-control" placeholder="Enter category" required>
+                                                <input type="hidden" id="ticket_category" name="ticket_category">
+                                                <span id="ticket_category_display" class="form-text fw-bold"></span>
                                             </div>
                                             <!-- Subject -->
                                             <div class="mb-3">
                                                 <label for="ticket_subject" class="form-label fw-bold">Subject</label>
-                                                <input type="text" name="ticket_subject" id="ticket_subject" class="form-control" placeholder="Enter subject" required>
+                                                <input type="hidden" id="ticket_subject" name="ticket_subject">
+                                                <span id="ticket_subject_display" class="form-text fw-bold"></span>
                                             </div>
 
                                             <!-- Description -->
@@ -162,9 +164,9 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
 
                         <!-- Ticket Details Modal -->
                         <div class="modal fade" id="forApprovalticketModal" tabindex="-1" role="dialog" aria-labelledby="ticketModalLabel" aria-hidden="true">
-                            <div class="modal-dialog " role="document">
+                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
-                                    <div class="modal-header">
+                                    <div class="modal-header bg-primary text-white">
                                         <h5 class="fw-bold mb-3">Ticket #<span id="ticketModalId"></span> For Approval</h5>
                                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -232,7 +234,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
 
 
                                         <!-- Approval & Rejection Buttons -->
-                                        <div class="d-flex justify-content-center gap-3 mt-4">
+                                        <div id="approvalButtons" class="d-flex justify-content-center gap-3 mt-4">
                                             <button id="approveButton" class="btn btn-primary">
                                                 <i class="fa-solid fa-check-circle me-1"></i> Approve
                                             </button>
@@ -246,26 +248,25 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                         </div>
                         <!-- Modal -->
                         <div class="modal fade" id="ticketsModal" tabindex="-1" aria-labelledby="ticketModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
+                            <div class="modal-dialog modal-lg modal-dialog-centered">
                                 <div class="modal-content">
-                                    <div class="modal-header">
+                                    <div class="modal-header bg-primary text-white">
+                                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-ticket-alt me-2"></i> Ticket #<span id="ticketNumber"></span></h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body p-4">
+                                    <div class="modal-body p-4 row">
                                         <!-- Header with Chat Button -->
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <h5 class="modal-title fw-bold"><i class="fa-solid fa-ticket-alt me-2"></i> Ticket #<span id="ticketNumber"></span></h5>
-                                            <button id="openChatButton" class="btn btn-outline-secondary btn-sm d-flex align-items-center"
+                                        <!-- Ticket Information in a Card -->
+                                        <div class="card shadow-sm border-0 col-md-6 ticket-details-card"> <!-- Left card -->
+                                            <div class="card-body p-3">
+                                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                                    <!-- <button id="openChatButton" class="btn btn-outline-secondary btn-sm d-flex align-items-center"
                                                 data-id="" data-title="" data-requestor=""
                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                 title="Chat with MIS">
                                                 <i class="fa-solid fa-comments me-1"></i> Chat
-                                            </button>
-                                        </div>
-
-                                        <!-- Ticket Information in a Card -->
-                                        <div class="card shadow-sm border-0">
-                                            <div class="card-body p-3">
+                                            </button> -->
+                                                </div>
                                                 <table class="table table-bordered table-striped table-sm mb-0">
                                                     <tbody>
                                                         <tr>
@@ -331,6 +332,17 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                                     </tbody>
 
                                                 </table>
+                                            </div>
+                                        </div>
+                                        <!-- Right: Chatbox -->
+                                        <div id="chatBoxDiv" class="card shadow-sm border-0 col-md-6 d-flex flex-column chat-card"> <!-- Right card -->
+                                            <div id="chatHistoryDiv" class="card-body p-3 d-flex flex-column">
+                                                <h6 id="chatHistoryTitle" class="text-gray-600 border-bottom pb-2">Chat History</h6>
+                                                <div id="chatHistory" class="overflow-auto flex-grow-1 mb-3"></div>
+                                                <div class="input-group">
+                                                    <input type="text" id="chatInput" class="form-control" placeholder="Type a message...">
+                                                    <button id="sendChatMessage" class="btn btn-primary">Send</button>
+                                                </div>
                                             </div>
                                         </div>
 

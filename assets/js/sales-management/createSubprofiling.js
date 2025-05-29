@@ -45,7 +45,7 @@ $(document).ready(function () {
             if ($("#businessNatureRow").hasClass("d-none")) {
                 $("#businessNatureRow").removeClass("d-none");
                 $("#jobDemoRow").removeClass("d-none");
-                $("#businessSizeRow").prop("required", true);
+                $("#businessSizeRow").removeClass("required", true);
                 $("#businessSizeRow").prop("required", true);
                 $("#jobDemo").prop("required", true);
             }

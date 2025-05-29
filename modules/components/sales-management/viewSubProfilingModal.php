@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="../../assets/css/custom/sales-management/viewSubProfilingModal.css">
 <div class="modal fade" id="viewSubProfilingModal" tabindex="-1" aria-labelledby="viewSubProfilingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
@@ -6,9 +7,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-
             <div class="modal-body px-5">
-                <form id="createSubprofilingForm" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <form id="editSubprofilingForm" enctype="multipart/form-data" class="needs-validation" novalidate>
                     <div class="row justify-content-center align-items-center">
                         <label for="clientFirstName_view" class="col-form-label">Client Name</label>
                         <div class="col form-group">
@@ -276,9 +276,21 @@
                             <div class="invalid-feedback">Please input shade of tint</div>
                         </div>
                     </div>
-                    <div class="modal-footer mt-3">
-                        <button type="submit" class="btn btn-primary">Close</button>
-                        <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> -->
+                    <input type="hidden" name="id" id="id_view">
+                    <div class="row action-row">
+                        <div class="col d-flex justify-content-end align-items-end action-column" id="viewActionsRow">
+                            <button type="button" class="btn btn-sm shadow-sm btn-primary" id="editButton">
+                                <i class="fas fa-pencil"></i> Edit
+                            </button>
+                        </div>
+                        <div class="col d-none justify-content-end align-items-end action-column" id="editActionsRow">
+                            <button type="button" class="btn btn-sm shadow-sm btn-danger" id="cancelButton">
+                                <i class="fas fa-ban"></i> Cancel
+                            </button>
+                            <button type="submit" class="btn btn-sm shadow-sm btn-primary" id="saveButton">
+                                <i class="fa-regular fa-floppy-disk"></i> Save
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>

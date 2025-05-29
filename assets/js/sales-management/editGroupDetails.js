@@ -76,6 +76,7 @@ $(document).ready(function () {
                                     confirmButtonColor: 'var(--bs-success)'
                                 }).then(() => {
                                     $('#groupsTable').DataTable().ajax.reload();
+                                    $('#groupingsTable').DataTable().ajax.reload();
                                     $("#editGroupDetailsForm")[0].reset();
                                     $("#editGroupDetailsModal").modal('hide');
                                 });

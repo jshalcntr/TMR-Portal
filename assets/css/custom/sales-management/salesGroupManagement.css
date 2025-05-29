@@ -1,35 +1,28 @@
-.table td {
-    vertical-align: middle !important;
-    text-align: center;
-}
-.table thead th {
-    vertical-align: middle;
-    text-align: left;
-}
-.table th,
-.table td {
-    padding: 0.3rem 0.5rem;
-}
 .table-bordered th,
 .table-bordered td {
     border: 1px solid var(--gray-dark);
     margin: 0 !important;
     color: var(--dark);
 }
-#groupsTable {
+#groupsTable,
+#groupingsTable {
     border-left: 1px solid var(--gray-dark);
     border-bottom: 1px solid var(--gray-dark);
 }
-#groupsTable tbody tr:nth-child(odd) {
+#groupsTable tbody tr:nth-child(odd),
+#groupingsTable tbody tr:nth-child(odd) {
     background-color: var(--bs-white);
 }
-#groupsTable tbody tr:nth-child(even) {
+#groupsTable tbody tr:nth-child(even),
+#groupingsTable tbody tr:nth-child(even) {
     background-color: var(--bs-table-bg);
 }
-#groupsTable {
+#groupsTable,
+#groupingsTable {
     --bs-table-bg: none;
 }
-#groupsTable thead th {
+#groupsTable thead th,
+#groupingsTable thead th {
     background-color: var(--primary);
     color: var(--text-white);
 }

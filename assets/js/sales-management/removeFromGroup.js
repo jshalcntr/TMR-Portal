@@ -1,29 +1,31 @@
 $(document).ready(function () {
-    $(document).on('click', '.archiveGroupBtn', function () {
+    $(document).on('click', '.removeMemberBtn', function () {
+        const accountId = $(this).data('account-id');
+
         Swal.fire({
-            title: `Are you sure you want to archive this group?`,
+            title: `Are you sure you want to remove this member?`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: 'var(--primary-color)',
             cancelButtonColor: 'var(--bs-danger)',
-            confirmButtonText: 'Yes, archive it!'
+            confirmButtonText: 'Yes, remove it!'
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "POST",
-                    url: "../../backend/sales-management/archiveGroup.php",
+                    url: "../../backend/sales-management/removeFromGroup.php",
                     data: {
-                        groupId: $(this).data('group-id')
+                        accountId: accountId
                     },
                     success: function (response) {
-                        if (response === "internal-error") {
+                        if (response.status === 'internal-error') {
                             Swal.fire({
                                 title: 'Error! ',
                                 text: `${response.message}`,
                                 icon: 'error',
                                 confirmButtonColor: 'var(--bs-danger)'
                             })
-                        } else {
+                        } else if (response.status === "success") {
                             Swal.fire({
                                 title: 'Success! ',
                                 text: `${response.message}`,
@@ -33,10 +35,11 @@ $(document).ready(function () {
                                 $('#groupsTable').DataTable().ajax.reload();
                                 $('#groupingsTable').DataTable().ajax.reload();
                             })
+
                         }
                     }
                 });
             }
-        })
+        });
     });
 });

@@ -11,6 +11,7 @@ $baseUrl = $protocol . "://" . $host . $basePath . "/uploads/tickets/";
 
 // Ensure session contains user department
 $user_dept = $_SESSION['user']['department'] ?? null;
+$user_role = $_SESSION['user']['role'] ?? null;
 
 $data = [];
 
@@ -72,6 +73,7 @@ if ($user_dept) {
                 data-approved='{$dateApproved}'
                 data-attachment-url='" . htmlspecialchars($ticketAttachmentUrl, ENT_QUOTES, 'UTF-8') . "'
                 data-approval-attachment-url='" . htmlspecialchars($approvalAttachmentUrl, ENT_QUOTES, 'UTF-8') . "'
+                data-user-role='{$user_role}'
             >
                 <i class='fa fa-eye'></i>
             </button>

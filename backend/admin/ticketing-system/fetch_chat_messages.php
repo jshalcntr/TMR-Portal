@@ -37,6 +37,7 @@ $result = $stmt->get_result();
 
 $messages = [];
 while ($row = $result->fetch_assoc()) {
+    $row['session_user_id'] = $user_id; // Add session user ID into each message
     $messages[] = $row;
 }
 

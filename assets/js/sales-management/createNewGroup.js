@@ -47,6 +47,7 @@ $(document).ready(function () {
                                     confirmButtonColor: "var(--bs-success)",
                                 }).then(() => {
                                     $('#groupsTable').DataTable().ajax.reload();
+                                    $('#groupingsTable').DataTable().ajax.reload();
                                     $('#createNewGroupModal').modal('hide');
                                 });
                             }

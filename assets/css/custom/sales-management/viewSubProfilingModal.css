@@ -1,0 +1,12 @@
+.action-row {
+  height: auto;
+  position: relative;
+  display: flex;
+}
+
+#editActionsRow {
+  height: auto;
+  position: relative;
+  display: flex;
+  gap: 10px;
+}

@@ -2,10 +2,6 @@
     vertical-align: middle !important;
     text-align: center;
 }
-.table thead th {
-    vertical-align: middle;
-    text-align: center;
-}
 .table th,
 .table td {
     padding: 0.3rem 0.5rem;
