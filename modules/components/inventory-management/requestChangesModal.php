@@ -8,7 +8,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
             </div>
-            <div class="modal-body p-xl-3 d-flex flex-column align-items-center" style="gap: 8px;">
+            <div class="modal-body custom-scrollable-body p-xl-3 d-flex flex-column align-items-center" style="gap: 8px;">
                 <div class="row">
                     <button type="button" class="btn btn-warning shadow-sm" id="editFABtn" data-bs-toggle="modal" data-bs-target="#editFAModal" style="width: fit-content;"><i class="fas fa-money-check-pen"></i> Edit FA Number</button>
                 </div>

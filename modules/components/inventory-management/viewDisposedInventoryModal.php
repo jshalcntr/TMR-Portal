@@ -5,7 +5,7 @@
                 <h3 class="modal-title" id="viewDisposeItemsModalLabel">Disposed Items</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body custom-scrollable-body">
                 <div class="table-responsive mb-3">
                     <table class="table table-bordered" id="disposedItemsTable" style="width: 100%;">
                         <thead>

@@ -340,7 +340,7 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                                 <h6 id="chatHistoryTitle" class="text-gray-600 border-bottom pb-2">Chat History</h6>
                                                 <div id="chatHistory" class="overflow-auto flex-grow-1 mb-3"></div>
                                                 <div class="input-group">
-                                                    <input type="text" id="chatInput" class="form-control" placeholder="Type a message...">
+                                                    <textarea id="chatInput" class="form-control" placeholder="Type a message..." rows="3"></textarea>
                                                     <button id="sendChatMessage" class="btn btn-primary">Send</button>
                                                 </div>
                                             </div>
@@ -356,19 +356,19 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                         </div>
 
                         <!-- Chatbox -->
-                        <div id="chatbox" class="chatbox">
+                        <!-- <div id="chatbox" class="chatbox">
                             <div class="chatbox-header">
                                 <span id="chatboxTitle">Ticket Title</span>
                                 <button id="closeChatbox" class="close-chatbox">&times;</button>
                             </div>
-                            <div id="chatboxMessages" class="chatbox-messages">
-                                <!-- Chat messages will be populated here -->
-                            </div>
+                            <div id="chatboxMessages" class="chatbox-messages"> -->
+                        <!-- Chat messages will be populated here -->
+                        <!-- </div>
                             <div class="chatbox-input">
                                 <input type="text" id="chatboxInput" placeholder="Type a message...">
                                 <button id="sendChatboxMessage">Send</button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                 </div>

@@ -5,7 +5,7 @@
                 <h3 class="modal-title" id="absoluteDeleteModalLabel">Request Absolute Deletion</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="absoluteDeleteForm" class="modal-body p-xl-3" style="gap: 8px;" autocomplete="off" novalidate>
+            <form id="absoluteDeleteForm" class="modal-body custom-scrollable-body p-xl-3" style="gap: 8px;" autocomplete="off" novalidate>
                 <div class="row form-group">
                     <label for="absoluteDeleteReason">Reason for Deletion:</label>
                     <textarea type="text" id="absoluteDeleteReason" name="absoluteDeleteReason" class="form-control form-control-sm" required></textarea>

@@ -7,7 +7,7 @@
                     <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
             </div>
-            <div class="modal-body p-xl-3">
+            <div class="modal-body custom-scrollable-body p-xl-3">
                 <div class="table-responsive mb-3">
                     <table class="table table-bordered" id="allRequestsTable" style="width:100%">
                         <thead>

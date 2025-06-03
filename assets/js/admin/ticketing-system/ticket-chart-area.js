@@ -143,4 +143,5 @@ $(document).ready(function () {
     }
 
     fetchChartData();
+    setInterval(fetchChartData, 60000);
 });

@@ -5,7 +5,7 @@
                 <h3 class="modal-title" id="createAccountModalLabel">Create New Account</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body custom-scrollable-body">
                 <form id="createAccountForm" class="container needs-validation" novalidate autocomplete="off">
                     <div class="row">
                         <h3 class="h5">Account Details</h3>

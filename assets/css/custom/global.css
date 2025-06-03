@@ -194,3 +194,8 @@
     vertical-align: middle;
     text-align: center;
 }
+
+.custom-scrollable-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}

@@ -365,8 +365,8 @@ const fetchItemCategory = (typeId, categoryId) => {
     const itemCategories = {
         "": [""],
         "Computer System": ['Desktop', 'NUC', 'AIO', 'Laptop', 'Hybrid Laptop', 'Network Video Recorder'],
-        "Computer Hardware": ['CPU Fan', 'Computer Case', 'Hard Drive', 'Motherboard', 'Optical Disk Drive', 'PowerSupply', 'Processor', 'RAM', 'Video Card'],
-        "Computer Peripherals": ['CCTV', 'HDMI Splitter', 'Headset', 'Keyboard', 'Monitor', 'Monitor Bracket', 'Mouse', 'Printer', 'Scanner', 'Speaker', 'UPS', 'UPS Battery', 'Webcam', 'Wireless HDMI', 'External Storage'],
+        "Computer Hardware": ['Case Fan', 'CPU Fan', 'Computer Case', 'Hard Drive', 'Motherboard', 'Optical Disk Drive', 'PowerSupply', 'Processor', 'RAM', 'Video Card'],
+        "Computer Peripherals": ['CCTV', 'HDMI Splitter', 'Headset', 'Keyboard', 'Monitor', 'Monitor Bracket', 'Mouse', 'Printer', 'Scanner', 'Speaker', 'UPS', 'UPS Battery', 'Webcam', 'Wifi Dongle', 'Wireless HDMI', 'External Storage'],
         "Network Peripherals": ['Access Point', 'POE Injector', 'Router', 'Switch'],
         "Audio & Visual Devices": ['Camera', 'Gimbal', 'HDMI Switcher', 'Microphone', 'Mixer', 'Speaker', 'Tripod', 'TV Bracket'],
         "MIS Tools": ['Crimping Tool', 'Drill', 'Hammer', 'Knockout Punch', 'Punching Tool', 'Screw Driver', 'Tester']

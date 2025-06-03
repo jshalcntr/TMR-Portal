@@ -5,7 +5,7 @@
                 <h3 class="modal-title" id="exportInventoryModalLabel">Export File</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-lg-3">
+            <div class="modal-body custom-scrollable-body p-lg-3">
                 <form class="container" id="exportInventoryForm" method="POST" action="../../backend/inventory-management/exportInventory.php" autocomplete="off">
                     <div class="row">
                         <div class="col">

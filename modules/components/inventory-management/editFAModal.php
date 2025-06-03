@@ -5,7 +5,7 @@
                 <h3 class="modal-title" id="editFAModalLabel">Edit FA Number</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="editFAForm" class="modal-body p-xl-3" style="gap: 8px;" autocomplete="off" novalidate>
+            <form id="editFAForm" class="modal-body custom-scrollable-body p-xl-3" style="gap: 8px;" autocomplete="off" novalidate>
                 <div class="row form-group">
                     <label for="newFA">Desired FA Number:</label>
                     <input type="text" id="newFA" name="newFA" class="form-control form-control-sm" required>

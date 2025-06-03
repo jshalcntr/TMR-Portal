@@ -12,7 +12,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
             </div>
-            <div class="modal-body p-xl-3">
+            <div class="modal-body custom-scrollable-body p-xl-3">
                 <form id="editInventoryForm" class="container needs-validation" novalidate autocomplete="off">
                     <div class="row mb-lg-3">
                         <div class="col">

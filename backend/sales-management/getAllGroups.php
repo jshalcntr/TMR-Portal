@@ -28,7 +28,7 @@ if (!$stmt) {
             $id = $row['group_id'];
             $groupName = $row['group_initials'];
             $groupNumber = $row['group_number'];
-            $groupMembers = 6;
+            $groupMembers = "?";
 
             $groups[] = [
                 "id" => $id,

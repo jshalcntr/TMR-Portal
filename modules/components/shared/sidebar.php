@@ -125,6 +125,21 @@
 
         <?php if ($_SESSION['user']['department_name'] == "Vehicle Sales" && $_SESSION['user']['section_name'] == "Marketing Professional"): ?>
             <div class="side-item">
+                <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'salesInquiry.php') !== false ? 'active' : '' ?>">
+                    <li class="iso-pro">
+
+                        <a href="/tmr-portal/modules/sales-management/salesInquiry.php">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <i class="fa-solid fa-clipboard-question svg"></i>
+                            <div class="text">Sales Inquiry</div>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="side-item">
                 <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'subProfiling.php') !== false ? 'active' : '' ?>">
                     <li class="iso-pro">
 

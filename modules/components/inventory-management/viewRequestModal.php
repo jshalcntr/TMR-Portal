@@ -5,7 +5,7 @@
                 <h3 class="modal-title" id="viewRequestModalLabel">Request</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-xl-4">
+            <div class="modal-body custom-scrollable-body p-xl-4">
                 <div class="row mb-3">
                     <div class="col">
                         <div class="row">
@@ -85,7 +85,7 @@
                 <h3 class="modal-title" id="viewRequestModalNotifLabel">Request</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-xl-4">
+            <div class="modal-body custom-scrollable-body p-xl-4">
                 <div class="row mb-3">
                     <div class="col">
                         <div class="row">

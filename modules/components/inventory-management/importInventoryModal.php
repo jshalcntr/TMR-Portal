@@ -5,7 +5,7 @@
                 <h3 class="modal-title" id="importInventoryModalLabel">Import File</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-lg-3">
+            <div class="modal-body custom-scrollable-body p-lg-3">
                 <form class="container" id="importInventoryForm" enctype="multipart/form-data" autocomplete="off">
                     <div class="row mb-3">
                         <div class="col">

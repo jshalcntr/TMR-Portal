@@ -315,6 +315,7 @@ function showClosedTicketDetails(ticket) {
     const formattedDateCreated = dateCreated ? formatDate(dateCreated) : 'N/A';
     document.getElementById('closedticketId').innerText = ticket.ticket_id;
     document.getElementById('closedticketRequestorId').innerText = ticket.full_name || 'N/A';
+    document.getElementById('closedticketHandlerId').innerText = ticket.handler_name || 'N/A';
     document.getElementById('closedticketRequestorDepartment').innerText = ticket.department || 'N/A';
     document.getElementById('closedticketSubject').innerText = ticket.ticket_subject || 'N/A';
     document.getElementById('closedticketDescription').innerText = ticket.ticket_description || 'N/A';
@@ -343,6 +344,7 @@ function showClosedTicketDetails(ticket) {
     fetchClosedChatboxMessages(ticket.ticket_id);
     isFirstLoad = 0; // Reset the flag when a new ticket is clicked$('#ticketModal').modal('hide');
     // Show the details modal
+    $('#ticketModal').modal('hide');
     $('#closedTicketDetailsModal').modal('show');
 
 }
@@ -567,7 +569,7 @@ function claimTicket(event) {
                     title: 'Ticket claimed successfully ',
                     showConfirmButton: true,
                 }).then(() => {
-                    // location.reload();
+                    location.reload();
                 });
             } else {
                 Swal.fire({
@@ -1109,21 +1111,17 @@ function refreshTicketList() {
 function speakAlert(message) {
     const speech = new SpeechSynthesisUtterance(message);
     speech.lang = 'en-US';
+    speech.rate = 0.8; // Slow down the speech (default is 1)
 
-    // Get the list of available voices
     const voices = window.speechSynthesis.getVoices();
-
-    // Find the Microsoft Zira voice
     const femaleVoice = voices.find(voice => voice.name === 'Google UK English Female');
 
-    // Set the Microsoft Zira voice if found
     if (femaleVoice) {
         speech.voice = femaleVoice;
     }
 
     window.speechSynthesis.speak(speech);
 }
-
 // window.speechSynthesis.onvoiceschanged = () => {
 //     console.log(window.speechSynthesis.getVoices());
 // };

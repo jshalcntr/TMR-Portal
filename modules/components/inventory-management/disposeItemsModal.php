@@ -5,7 +5,7 @@
                 <h3 class="modal-title" id="disposeItemsModalLabel">Dispose Items</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body custom-scrollable-body">
                 <form class="container" id="disposeItemsForm" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col">

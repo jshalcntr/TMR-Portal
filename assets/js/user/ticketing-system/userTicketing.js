@@ -165,75 +165,76 @@ $("#createTicketModal").on('hidden.bs.modal', function () {
     $('#ticketForm').hide();
     $('#subjectContainer').hide();
     $('#categoryContainer').show();
+    $('#categoryContainer .category-btn').removeClass('active');
 });
 
 $(document).ready(function () {
-  const table = $("#ticketsTable").DataTable({
-    ajax: "../../../backend/user/ticketing-system/get_all_tickets.php",
-    responsive: true,
-    pageLength: 10,
-    order: [[9, "desc"]], // Column 9 is "Created"
-    createdRow: function (row, data, dataIndex) {
-      const status = data[4]; // Status column
+    const table = $("#ticketsTable").DataTable({
+        ajax: "../../../backend/user/ticketing-system/get_all_tickets.php",
+        responsive: true,
+        pageLength: 10,
+        order: [[9, "desc"]], // Column 9 is "Created"
+        createdRow: function (row, data, dataIndex) {
+            const status = data[4]; // Status column
 
-      if (status === "FOR APPROVAL") {
-        $(row).addClass("table-warning");
-      } else if (status === "OPEN" || status === "APPROVED") {
-        $(row).addClass("table-default");
-      } else if (
-        status === "CLOSED" ||
-        status === "CANCELLED" ||
-        status === "REJECTED"
-      ) {
-        $(row).addClass("table-secondary");
-      }
-    },
-    columnDefs: [
-      {
-        targets: [7], // "Due Date" column
-        render: function (data, type, row) {
-          const dateFinished = row[11]; // Date Finished column
-
-          if (type === "display") {
-            if (dateFinished !== "N/A") {
-              return `<span class="countdown" data-finished="true">Finished</span>`;
+            if (status === "FOR APPROVAL") {
+                $(row).addClass("table-warning");
+            } else if (status === "OPEN" || status === "APPROVED") {
+                $(row).addClass("table-default");
+            } else if (
+                status === "CLOSED" ||
+                status === "CANCELLED" ||
+                status === "REJECTED"
+            ) {
+                $(row).addClass("table-secondary");
             }
-            return data !== "N/A"
-              ? `<span class="countdown" data-date="${data}">Loading...</span>`
-              : "N/A";
-          }
-          return data;
         },
-      },
-      {
-        targets: [8], // "Approval Due" column
-        render: function (data, type, row) {
-          const dateApproved = row[13]; // Date Approved
-          const dateFinished = row[11]; // Date Finished
+        columnDefs: [
+            {
+                targets: [7], // "Due Date" column
+                render: function (data, type, row) {
+                    const dateFinished = row[11]; // Date Finished column
 
-          if (type === "display") {
-            if (dateFinished !== "N/A" && dateApproved === "N/A") {
-              return "N/A";
-            }
-            if (dateApproved !== "N/A") {
-              return `<span class="countdown" data-approved="true">Approved</span>`;
-            }
-            return data !== "N/A"
-              ? `<span class="countdown" data-date="${data}">Loading...</span>`
-              : "N/A";
-          }
-          return data;
+                    if (type === "display") {
+                        if (dateFinished !== "N/A") {
+                            return `<span class="countdown" data-finished="true">Finished</span>`;
+                        }
+                        return data !== "N/A"
+                            ? `<span class="countdown" data-date="${data}">Loading...</span>`
+                            : "N/A";
+                    }
+                    return data;
+                },
+            },
+            {
+                targets: [8], // "Approval Due" column
+                render: function (data, type, row) {
+                    const dateApproved = row[13]; // Date Approved
+                    const dateFinished = row[11]; // Date Finished
+
+                    if (type === "display") {
+                        if (dateFinished !== "N/A" && dateApproved === "N/A") {
+                            return "N/A";
+                        }
+                        if (dateApproved !== "N/A") {
+                            return `<span class="countdown" data-approved="true">Approved</span>`;
+                        }
+                        return data !== "N/A"
+                            ? `<span class="countdown" data-date="${data}">Loading...</span>`
+                            : "N/A";
+                    }
+                    return data;
+                },
+            },
+        ],
+        drawCallback: function () {
+            updateCountdowns();
         },
-      },
-    ],
-    drawCallback: function () {
-      updateCountdowns();
-    },
-  });
-  // Reload the table every 2 seconds
-  setInterval(function () {
-    table.ajax.reload(null, false); // false keeps the current paging
-  }, 2000);
+    });
+    // Reload the table every 2 seconds
+    setInterval(function () {
+        table.ajax.reload(null, false); // false keeps the current paging
+    }, 2000);
 });
 
 function updateCountdowns() {

@@ -5,7 +5,7 @@
                 <h3 class="modal-title" id="viewRequestHistoryModalLabel">Request History</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" style="gap: 8px;">
+            <div class="modal-body custom-scrollable-body" style="gap: 8px;">
                 <div class="table-responsive mb-3">
                     <table class="table table-bordered" id="requestHistoryTable" style="width:100%">
                         <thead>

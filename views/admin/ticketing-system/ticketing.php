@@ -246,7 +246,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                                 <h6 id="chatHistoryTitle" class="text-gray-600 fw-bold border-bottom pb-2">Chat History</h6>
                                                 <div id="chatHistory" class="overflow-auto flex-grow-1 mb-3"></div>
                                                 <div class="input-group">
-                                                    <input type="text" id="chatInput" class="form-control" placeholder="Type a message...">
+                                                    <textarea id="chatInput" class="form-control" placeholder="Type a message..." rows="3"></textarea>
                                                     <button id="sendChatMessage" class="btn btn-primary">Send</button>
                                                 </div>
                                             </div>
@@ -447,6 +447,10 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                                             <td><span id="closedticketAttachment"></span></td>
                                                         </tr>
                                                         <tr>
+                                                            <th class="bg-light">Handler</th>
+                                                            <td><span id="closedticketHandlerId"></span></td>
+                                                        </tr>
+                                                        <tr>
                                                             <th class="bg-light">Conclusion</th>
                                                             <td><span id="closedticketConclusion"></span></td>
                                                         </tr>
@@ -460,7 +464,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                                 <h6 id="closeChatHistoryTitle" class="text-gray-600 border-bottom pb-2">Chat History</h6>
                                                 <div id="closeChatHistory" class="overflow-auto flex-grow-1 mb-3"></div>
                                                 <div class="input-group">
-                                                    <input type="text" id="closeChatInput" class="form-control" placeholder="Type a message...">
+                                                    <textarea id="closeChatInput" class="form-control" placeholder="Type a message..." rows="3"></textarea>
                                                     <button id="sendCloseChatMessage" class="btn btn-primary">Send</button>
                                                 </div>
                                             </div>

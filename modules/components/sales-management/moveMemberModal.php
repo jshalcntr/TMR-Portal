@@ -5,7 +5,7 @@
                 <h5 class="modal-title" id="moveMemberModalLabel">Move Member</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body custom-scrollable-body">
                 <form id="moveMemberForm" class="container needs-validation" novalidate>
                     <div class="row justify-content-center align-items-center">
                         <div class="col form-group">

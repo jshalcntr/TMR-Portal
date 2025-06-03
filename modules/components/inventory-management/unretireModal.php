@@ -5,7 +5,7 @@
                 <h3 class="modal-title" id="unretireModalLabel">Request to Unretire</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="unretireForm" class="modal-body p-xl-3" style="gap: 8px;" autocomplete="off" novalidate>
+            <form id="unretireForm" class="modal-body custom-scrollable-body p-xl-3" style="gap: 8px;" autocomplete="off" novalidate>
                 <div class="row form-group">
                     <label for="unretireReason">Reason for Unretire:</label>
                     <textarea type="text" id="unretireReason" name="unretireReason" class="form-control form-control-sm" required></textarea>

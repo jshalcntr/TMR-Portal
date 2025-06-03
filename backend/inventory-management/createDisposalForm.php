@@ -14,17 +14,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
-$forDisposalSql = "SELECT inventory_records_tbl.fa_number,
-                    inventory_records_tbl.item_type,
-                    inventory_records_tbl.item_category,
-                    inventory_records_tbl.user,
-                    inventory_records_tbl.department,
-                    inventory_records_tbl.date_acquired,
-                    inventory_disposal_tbl.date_added,
-                    inventory_disposal_tbl.remarks
-                    FROM inventory_records_tbl
-                    JOIN inventory_disposal_tbl ON inventory_records_tbl.id = inventory_disposal_tbl.inventory_id
-                    WHERE inventory_disposal_tbl.isDisposed = 0";
+$forDisposalSql = "SELECT inventory_records_tbl.fa_number, inventory_records_tbl.item_type, inventory_records_tbl.item_category, inventory_records_tbl.user, inventory_records_tbl.department, inventory_records_tbl.date_acquired, inventory_disposal_tbl.date_added, inventory_disposal_tbl.remarks FROM inventory_records_tbl JOIN inventory_disposal_tbl ON inventory_records_tbl.id = inventory_disposal_tbl.inventory_id WHERE inventory_disposal_tbl.isDisposed = 0 ORDER BY `inventory_records_tbl`.`item_category` ASC";
 $stmt = $conn->prepare($forDisposalSql);
 $data = [];
 if ($stmt == false) {

@@ -5,7 +5,7 @@
                 <h3 class="modal-title" id="finishRepairModalLabel">Finish Repair</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-lg-4">
+            <div class="modal-body custom-scrollable-body p-lg-4">
                 <form class="container" id="finishRepairForm" autocomplete="off">
                     <div class="form-group mb-3">
                         <label for="date_repaired">Date Repaired</label>

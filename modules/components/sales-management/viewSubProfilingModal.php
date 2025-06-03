@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <div class="modal-body px-5">
+            <div class="modal-body custom-scrollable-body px-5">
                 <form id="editSubprofilingForm" enctype="multipart/form-data" class="needs-validation" novalidate>
                     <div class="row justify-content-center align-items-center">
                         <label for="clientFirstName_view" class="col-form-label">Client Name</label>
