@@ -3,7 +3,8 @@ session_start();
 require('../../backend/dbconn.php');
 
 $subProfileId = $_GET['subProfileId'];
-$sql = "SELECT * FROM sales_subprofilings_tbl WHERE subprofile_id = ?";
+$sql = "SELECT * FROM sales_subprofilings_tbl WHERE subprofile_id = ?
+        JOIN sales_customers_tbl ON sales_subprofilings_tbl.customer_id = sales_customers_tbl.customer_id";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {

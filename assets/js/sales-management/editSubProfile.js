@@ -1,7 +1,6 @@
 $(document).ready(function () {
   $(document).on("click", ".viewSubProfileModal", function (e) {
     e.preventDefault();
-    console.log("Hi");
     const subProfileId = $(this).data("sub-profile-id");
 
     $.ajax({
@@ -49,7 +48,6 @@ $(document).ready(function () {
         $("#customerPreference_view").val(data.customer_preference || "");
         $("#tintShade_view").val(data.tint_shade || "");
 
-        console.log("document ready");
         $("#editSubprofilingForm")
           .find("input, select, textarea")
           .not("[type=hidden]")
@@ -76,8 +74,12 @@ $(document).ready(function () {
         .not("[type=hidden]")
         .prop("disabled", false);
 
-      $("#viewActionsRow").addClass("d-none");
-      $("#editActionsRow").removeClass("d-none");
+      if($("#viewActionsRow").hasClass('d-flex')){
+        $("#viewActionsRow").removeClass("d-flex");
+        $("#viewActionsRow").addClass("d-none");
+        $("#editActionsRow").removeClass("d-none");
+        $("#editActionsRow").addClass("d-flex");
+      }
     });
 
     $(document).on("click", "#cancelButton", function () {
@@ -86,8 +88,12 @@ $(document).ready(function () {
         .not("[type=hidden]")
         .prop("disabled", true);
 
-      $("#editActionsRow").addClass("d-none");
-      $("#viewActionsRow").removeClass("d-none");
+        if($("#editActionsRow").hasClass('d-flex')){
+          $("#editActionsRow").removeClass("d-flex");
+          $("#editActionsRow").addClass("d-none");
+          $("#viewActionsRow").removeClass("d-none");
+          $("#viewActionsRow").addClass("d-flex");
+        }
     });
   });
 
@@ -221,7 +227,6 @@ $(document).ready(function () {
         confirmButtonText: "Yes, save it!",
         cancelButtonText: "Cancel",
       }).then((result) => {
-        // console.log(formData);
         if (result.isConfirmed) {
           $.ajax({
             type: "POST",

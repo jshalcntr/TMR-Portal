@@ -207,8 +207,9 @@ function fetchAndShowTickets(card) {
                         priorityClass = 'text-secondary'; // Default class for other priorities
                     }
 
+                    const escapedJson = JSON.stringify(ticket);
                     const row = `
-                        <tr class="clickable-row" data-ticket='${JSON.stringify(ticket)}'>
+                        <tr class="clickable-row" data-ticket='${escapedJson}'>
                             <td>#${ticketId}</td>
                             <td>${fullName} - ${department}</td>
                             <td>${formattedDateCreated}</td>
@@ -695,6 +696,7 @@ function saveTicketDetails() {
                     title: 'Error',
                     text: response.message
                 });
+
             }
         },
         error: function (xhr, status, error) {
@@ -813,11 +815,21 @@ function requestReopen() {
 // Function to save the conclusion and update the ticket status to "CLOSED"
 function saveConclusion() {
     const ticketId = document.getElementById('ticketId').innerText;
-    const conclusion = document.getElementById('conclusionTextArea').value;
+    const conclusion = document.getElementById('conclusionTextArea').value.trim();
+
+    // Validate conclusion before sending
+    if (conclusion === '') {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Missing Conclusion',
+            text: 'Please provide a conclusion before closing the ticket.'
+        });
+        return; // stop here if conclusion is empty
+    }
 
     // Send updated details to the backend
     $.ajax({
-        url: '../../../backend/admin/ticketing-system/close_ticket.php', // Adjust the path as needed
+        url: '../../../backend/admin/ticketing-system/close_ticket.php',
         method: 'POST',
         data: {
             ticket_id: ticketId,
@@ -833,12 +845,20 @@ function saveConclusion() {
                 }).then(() => {
                     location.reload();
                 });
+
+                // ✅ Only hide elements after successful closing
+                document.getElementById('conclusionTextArea').style.display = 'none';
+                document.getElementById('saveConclusionButton').style.display = 'none';
+                document.getElementById('closeTicketButton').style.display = 'inline-block';
+
             } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: response.message
                 });
+
+                // ❌ Don't hide UI on error!
             }
         },
         error: function (xhr, status, error) {
@@ -849,11 +869,8 @@ function saveConclusion() {
             });
         }
     });
-
-    document.getElementById('conclusionTextArea').style.display = 'none';
-    document.getElementById('saveConclusionButton').style.display = 'none';
-    document.getElementById('closeTicketButton').style.display = 'inline-block';
 }
+
 
 //request for reopen
 $(document).ready(function () {
@@ -1042,6 +1059,7 @@ $(document).ready(function () {
 // Function to refresh the list of ticket details
 function refreshTicketList() {
     // Fetch ticket counts from the backend
+
     $.ajax({
         url: '../../../backend/admin/ticketing-system/fetch_ticket_counts.php', // Adjust the path as needed
         method: 'GET',
@@ -1111,17 +1129,31 @@ function refreshTicketList() {
 function speakAlert(message) {
     const speech = new SpeechSynthesisUtterance(message);
     speech.lang = 'en-US';
-    speech.rate = 0.8; // Slow down the speech (default is 1)
+    speech.rate = 0.8;
 
-    const voices = window.speechSynthesis.getVoices();
-    const femaleVoice = voices.find(voice => voice.name === 'Google UK English Female');
+    function setVoiceAndSpeak() {
+        const voices = window.speechSynthesis.getVoices();
+        let selectedVoice = voices.find(v => v.name === 'Google UK English Female');
 
-    if (femaleVoice) {
-        speech.voice = femaleVoice;
+        if (!selectedVoice && voices.length > 0) {
+            selectedVoice = voices.find(v => v.lang.startsWith('en')) || voices[0]; // fallback
+        }
+
+        if (selectedVoice) {
+            speech.voice = selectedVoice;
+        }
+
+        window.speechSynthesis.speak(speech);
     }
 
-    window.speechSynthesis.speak(speech);
+    // If voices are not yet loaded
+    if (window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.onvoiceschanged = setVoiceAndSpeak;
+    } else {
+        setVoiceAndSpeak();
+    }
 }
+
 // window.speechSynthesis.onvoiceschanged = () => {
 //     console.log(window.speechSynthesis.getVoices());
 // };

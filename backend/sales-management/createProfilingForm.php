@@ -40,8 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $tintShade = sanitize($_POST['tintShade'] ?? '');
     $createdBy = $_SESSION['user']['id'];
 
-
-    // Prepare SQL query //store it first inside the variable (sql) then inclue it inside the statement
     $sql = "INSERT INTO sales_subprofilings_tbl (
         client_first_name, client_middle_name, client_last_name, conduction_sticker_number, inquiry_date,
         phone, birth_date, gender, marital_status, job_level,
@@ -52,7 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
 
-    // Check if the prepared statement was successfully created
     if ($stmt === false) {
         header('Content-Type: application/json');
         echo json_encode([
@@ -61,7 +58,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "data" => $conn->error
         ]);
     } else {
-        // Bind parameters to the prepared statement
         $stmt->bind_param(
             "ssssssssssssssssssssssssssssi",
             $clientFirstName,
@@ -95,7 +91,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $createdBy
         );
 
-        // Execute the prepared statement
         if (!$stmt->execute()) {
             header('Content-Type: application/json');
             echo json_encode([

@@ -20,7 +20,6 @@ if (authorize(true, $conn)) {
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,7 +48,6 @@ if (authorize(true, $conn)) {
 </head>
 
 <body id="page-top">
-
     <div id="wrapper">
         <?php include "../components/shared/sidebar.php" ?>
         <div id="content-wrapper" class="d-flex flex-column">

@@ -1,5 +1,4 @@
-<link rel="stylesheet" href="../../assets/css/custom/sales-management/viewSubProfilingModal.css">
-<div class="modal fade" id="viewSubProfilingModal" tabindex="-1" aria-labelledby="viewSubProfilingModalLabel" aria-hidden="true">
+<div class="modal fade" id="viewSubProfilingModal" tabindex="-1" aria-labelledby="viewSubProfilingModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header d-flex justify-content-between align-items-center">
@@ -51,16 +50,17 @@
                                 <option value="" selected hidden>--Select Gender--</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
+                                <option value="LGBT+">LGBT+</option>
                             </select>
                         </div>
                         <div class="col form-group">
                             <label for="maritalStatus_view" class="form-label">Marital Status</label>
                             <select name="maritalStatus" id="maritalStatus_view" class="form-select form-select-sm" required disabled>
                                 <option value="" selected hidden>--Select Marital Status--</option>
-                                <option value="single">Single</option>
-                                <option value="married">Married</option>
-                                <option value="separated">Separated</option>
-                                <option value="widow">Widow</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Separated">Separated</option>
+                                <option value="Widow">Widow</option>
                             </select>
                         </div>
                     </div>
@@ -85,9 +85,9 @@
                             <label for="workNature_view" class="form-label">Occupation/Business</label>
                             <select name="workNature" id="workNature_view" class="form-select form-select-sm" required disabled>
                                 <option value="" selected hidden>--Select Profession or Business--</option>
-                                <option value="profession">Profession</option>
-                                <option value="business">Business</option>
-                                <option value="both">Profession and Business (if both apply)</option>
+                                <option value="Profession">Profession</option>
+                                <option value="Business">Business</option>
+                                <option value="Both">Profession and Business (if both apply)</option>
                                 <option value="Not Applicable">Not Applicable</option>
                             </select>
                         </div>
@@ -95,7 +95,7 @@
                     <div id="professionRow" class="row justify-content-center align-items-center d-none">
                         <div class="col form-group">
                             <label for="profession_view" class="form-label">Profession</label>
-                            <input type="text" id="profession_view" name="profession" class="form-control form-control-sm" placeholder="Ex. Teacher, Doctor, Accountant" title="If OFW, put what kind of job he/she have">
+                            <input type="text" id="profession_view" name="Profession" class="form-control form-control-sm" placeholder="Ex. Teacher, Doctor, Accountant" title="If OFW, put what kind of job he/she have">
                         </div>
                     </div>
                     <div id="businessNatureRow" class="row justify-content-center align-items-center d-none">
@@ -103,39 +103,39 @@
                             <label for="businessNature_view" class="form-label">Business Nature</label>
                             <select name="businessNature" id="businessNature_view" class="form-select form-select-sm">
                                 <option value="" selected hidden>--Select Business Type--</option>
-                                <option value="agricultural">Agricultural</option>
-                                <option value="automotive">Automotive</option>
-                                <option value="bpo">BPO</option>
-                                <option value="clinic">Clinic</option>
-                                <option value="construction">Construction</option>
-                                <option value="employed">Employed/No Business</option>
-                                <option value="enterprise">Enterprise</option>
-                                <option value="ecommerce">E-Commerce</option>
-                                <option value="foodServices">Food Services</option>
-                                <option value="genMerchandise">General Merchandise</option>
-                                <option value="genServices">General Services</option>
-                                <option value="government">Government</option>
-                                <option value="hospt">Hospital/Tourism</option>
-                                <option value="tech">IT/Tech</option>
-                                <option value="landscaping">Landscaping</option>
-                                <option value="logistics">Logistics</option>
-                                <option value="manufacturing">Manufacturing</option>
-                                <option value="healthcare">Pharmacy/Healthcare</option>
-                                <option value="rental">Rental</option>
-                                <option value="retailShop">Retail Shop</option>
-                                <option value="trading">Trading</option>
-                                <option value="transpo">Transportation or Grab</option>
-                                <option value="travel">Travel</option>
-                                <option value="trucking">Trucking</option>
-                                <option value="utilityServices">Utility Services</option>
-                                <option value="wholesale">Wholesale</option>
+                                <option value="Agricultural">Agricultural</option>
+                                <option value="Automotive">Automotive</option>
+                                <option value="BPO">BPO</option>
+                                <option value="Clinic">Clinic</option>
+                                <option value="Construction">Construction</option>
+                                <option value="Employed">Employed/No Business</option>
+                                <option value="Enterprise">Enterprise</option>
+                                <option value="Ecommerce">E-Commerce</option>
+                                <option value="Food Services">Food Services</option>
+                                <option value="General Merchandise">General Merchandise</option>
+                                <option value="General Services">General Services</option>
+                                <option value="Government">Government</option>
+                                <option value="Hospital">Hospital/Tourism</option>
+                                <option value="IT/TECH">IT/Tech</option>
+                                <option value="Landscaping">Landscaping</option>
+                                <option value="Logistics">Logistics</option>
+                                <option value="Manufacturing">Manufacturing</option>
+                                <option value="Healthcare">Pharmacy/Healthcare</option>
+                                <option value="Rental">Rental</option>
+                                <option value="Retail Shop">Retail Shop</option>
+                                <option value="Trading">Trading</option>
+                                <option value="Transportation">Transportation or Grab</option>
+                                <option value="Travel">Travel</option>
+                                <option value="Trucking">Trucking</option>
+                                <option value="Utility Services">Utility Services</option>
+                                <option value="Wholesale">Wholesale</option>
                             </select>
                         </div>
                     </div>
                     <div id="jobDemoRow" class="row justify-content-center align-items-center d-none">
                         <div class="col form-group">
                             <label for="jobDemo_view" class="form-label">Job Demographics</label>
-                            <input type="text" id="jobDemo_view" name="jobDemo" class="form-control form-control-sm" placeholder="Town and Province only">
+                            <input type="text" id="jobDemo_view" name="Job Demographics" class="form-control form-control-sm" placeholder="Town and Province only">
                         </div>
                     </div>
                     <div id="businessSizeRow" class="row justify-content-center align-items-center d-none">
@@ -143,17 +143,17 @@
                             <label for="businessSize_view" class="form-label">Business Size Classification</label>
                             <select name="businessSize" id="businessSize_view" class="form-select form-select-sm">
                                 <option value="" selected hidden>--Select Business Size Classification--</option>
-                                <option value="microEntrep">Micro Enterprise (1-9 Employees)</option>
-                                <option value="smallEntrep">Small Enterprise (10-99 Employees)</option>
-                                <option value="mediumEntrep">Medium Enterprise (100-199 Employees)</option>
-                                <option value="largeEntrep">Large Enterprise (200+ Employees)</option>
+                                <option value="Micro Enterprise">Micro Enterprise (1-9 Employees)</option>
+                                <option value="Small Enterprise">Small Enterprise (10-99 Employees)</option>
+                                <option value="Medium Enterprise">Medium Enterprise (100-199 Employees)</option>
+                                <option value="Large Enterprise">Large Enterprise (200+ Employees)</option>
                             </select>
                         </div>
                     </div>
                     <div class="row justify-content-center align-items-center">
                         <div class="col form-group">
                             <label for="tamarawRelease_view" class="form-label">For TAMARAW Release</label>
-                            <input type="text" id="tamarawRelease_view" name="tamarawRelease" class="form-control form-control-sm" placeholder="Note N/A if not TAMARAW release" required title="Please indicate vehicles currently owned. Ex. Toyota Hilux, Mitsubishi L300, Isuzu Traviz, etc." required disabled>
+                            <input type="text" id="tamarawRelease_view" name="Tamaraw Release" class="form-control form-control-sm" placeholder="Note N/A if not TAMARAW release" required title="Please indicate vehicles currently owned. Ex. Toyota Hilux, Mitsubishi L300, Isuzu Traviz, etc." required disabled>
                         </div>
                     </div>
                     <div class="row justify-content-center align-items-center">
@@ -162,12 +162,15 @@
                             <label for="householdIncome_view" class="form-label">Average Household Income</label>
                             <select name="householdIncome" id="householdIncome_view" class="form-select form-select-sm" required title="Combined borrower & Co-borrower" required disabled>
                                 <option value="" selected hidden>--Select Average Household Income--</option>
-                                <option value="option1">50k and below</option>
-                                <option value="option2">50k-60k</option>
-                                <option value="option3">70k-80k</option>
-                                <option value="option4">90k-100k</option>
-                                <option value="option5">110k-400k</option>
-                                <option value="option6">500k and up</option>
+                                <option value="50k and below">50k and below</option>
+                                <option value="51k-60k">51k-60k</option>
+                                <option value="61k-70k">61k-70k</option>
+                                <option value="71k-80k">71k-80k</option>
+                                <option value="81k-90k">81k-90k</option>
+                                <option value="91k-100k">91k-100k</option>
+                                <option value="101k-400k">101k-400k</option>
+                                <option value="401k-500k">401k-500k</option>
+                                <option value="501k and up">501k and up</option>
                             </select>
                         </div>
                     </div>
@@ -176,40 +179,40 @@
                             <label for="salesSource_view" class="form-label">Source of Sales</label>
                             <select name="salesSource" id="salesSource_view" class="form-select form-select-sm" required disabled>
                                 <option value="" selected hidden>--Select Source of Sales--</option>
-                                <option value="referral">Referral</option>
-                                <option value="repeat_client">Repeat Client</option>
-                                <option value="mall_display">Mall Display</option>
-                                <option value="walkIn">Walk-in</option>
-                                <option value="callIn">Call-in</option>
-                                <option value="saturation">Saturation</option>
-                                <option value="satellite">Satellite</option>
-                                <option value="officeSale">Office Sale</option>
-                                <option value="personalFb">Personal Facebook</option>
-                                <option value="fbPage">Group Facebook Page</option>
-                                <option value="tmrFb">TMR Facebook Page</option>
-                                <option value="instagram">Instagram (Personal Account)</option>
-                                <option value="tmrIg">TMR Instragram</option>
-                                <option value="tmrTiktok">TMR Tiktok</option>
-                                <option value="youtube">Youtube</option>
+                                <option value="Referral">Referral</option>
+                                <option value="Repeat Client">Repeat Client</option>
+                                <option value="Mall Display">Mall Display</option>
+                                <option value="Walk-in">Walk-in</option>
+                                <option value="Call-in">Call-in</option>
+                                <option value="Saturation">Saturation</option>
+                                <option value="Satellite">Satellite</option>
+                                <option value="Office Sale">Office Sale</option>
+                                <option value="Personal Facebook">Personal Facebook</option>
+                                <option value="Group Facebook Page">Group Facebook Page</option>
+                                <option value="TMR Facebook Page">TMR Facebook Page</option>
+                                <option value="Instagram">Instagram (Personal Account)</option>
+                                <option value="TMR Instagram">TMR Instragram</option>
+                                <option value="TMR Tiktok">TMR Tiktok</option>
+                                <option value="Youtube">Youtube</option>
                             </select>
                         </div>
                     </div>
                     <div id="referralRow" class="row justify-content-center align-items-center d-none">
                         <div class="col form-group">
                             <label for="referralSource_view" class="form-label">Who referred the client?</label>
-                            <input type="text" id="referralSource_view" name="referralSource" class="form-control form-control-sm" placeholder="Enter name of referrer">
+                            <input type="text" id="referralSource_view" name="Referral Source" class="form-control form-control-sm" placeholder="Enter name of referrer">
                         </div>
                     </div>
                     <div id="repeatClientRow" class="row justify-content-center align-items-center d-none">
                         <div class="col form-group">
                             <label for="repeatClient_view" class="form-label">Indicate 1st year of release</label>
-                            <input type="text" id="repeatClient_view" name="repeatClient" class="form-control form-control-sm">
+                            <input type="text" id="repeatClient_view" name="Repeat Client" class="form-control form-control-sm">
                         </div>
                     </div>
                     <div id="mallDisplayRow" class="row justify-content-center align-items-center d-none">
                         <div class="col form-group">
                             <label for="mallDisplay_view" class="form-label">Indicate what mall</label>
-                            <input type="text" id="mallDisplay_view" name="mallDisplay" class="form-control form-control-sm">
+                            <input type="text" id="mallDisplay_view" name="Mall Display" class="form-control form-control-sm">
                         </div>
                     </div>
                     <div class="row justify-content-center align-items-center">
@@ -217,9 +220,9 @@
                             <label for="releaseManner_view" class="form-label">Manner of Release</label>
                             <select name="releaseManner" id="releaseManner_view" class="form-select form-select-sm" required disabled>
                                 <option value="" selected hidden>--Select Manner of Release--</option>
-                                <option value="actual">Actual</option>
-                                <option value="technical">Technical</option>
-                                <option value="unitPrep">Unit Preparation</option>
+                                <option value="Actual">Actual</option>
+                                <option value="Technical">Technical</option>
+                                <option value="Unit Preparation">Unit Preparation</option>
                             </select>
                         </div>
                     </div>
@@ -234,8 +237,8 @@
                             <label for="releaseMode_view" class="form-label">Mode of Release</label>
                             <select name="releaseMode" id="releaseMode_view" class="form-select form-select-sm" required disabled>
                                 <option value="" selected hidden>--Select Mode of Release--</option>
-                                <option value="pickup">Pick-Up</option>
-                                <option value="deliver">Deliver</option>
+                                <option value="Pick-Up">Pick-Up</option>
+                                <option value="Deliver">Deliver</option>
                             </select>
                         </div>
                     </div>
@@ -244,8 +247,8 @@
                             <label for="reservationMode_view" class="form-label">Mode of Reservation</label>
                             <select name="reservationMode" id="reservationMode_view" class="form-select form-select-sm" required title="(if NO RESERVATION, full DP agad, considered as DEALER)" required disabled>
                                 <option value="" selected hidden>--Select Mode of Reservation--</option>
-                                <option value="online">Online</option>
-                                <option value="dealer">Dealer</option>
+                                <option value="Online">Online</option>
+                                <option value="Dealer">Dealer</option>
                             </select>
                         </div>
                     </div>
@@ -254,9 +257,9 @@
                             <label for="far_view" class="form-label">F.A.R.</label>
                             <select name="far" id="far_view" class="form-select form-select-sm" required disabled>
                                 <option value="" selected hidden>--Select F.A.R.--</option>
-                                <option value="firstTime">First Time</option>
-                                <option value="additionalUnit">Additional Unit</option>
-                                <option value="replacement">Replacement (with trade-in)</option>
+                                <option value="First Time">First Time</option>
+                                <option value="Additional Unit">Additional Unit</option>
+                                <option value="Replacement">Replacement (with trade-in)</option>
                             </select>
                         </div>
                     </div>
@@ -265,9 +268,9 @@
                             <label for="customerPreference_view" class="form-label">Customer Preference for Accessories</label>
                             <select name="customerPreference" id="customerPreference_view" class="form-select form-select-sm" required disabled>
                                 <option value="" selected hidden>--Select Customer Preference for Accessories--</option>
-                                <option value="safety">Safety</option>
-                                <option value="looks">Looks</option>
-                                <option value="lifestlye">Lifestyle</option>
+                                <option value="Safety">Safety</option>
+                                <option value="Looks">Looks</option>
+                                <option value="Lifestyle">Lifestyle</option>
                             </select>
                         </div>
                         <div class="col form-group">
@@ -283,7 +286,7 @@
                                 <i class="fas fa-pencil"></i> Edit
                             </button>
                         </div>
-                        <div class="col d-none justify-content-end align-items-end action-column" id="editActionsRow">
+                        <div class="col d-none justify-content-end align-items-end action-column gap-2" id="editActionsRow">
                             <button type="button" class="btn btn-sm shadow-sm btn-danger" id="cancelButton">
                                 <i class="fas fa-ban"></i> Cancel
                             </button>

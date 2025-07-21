@@ -4,7 +4,7 @@ include('../../dbconn.php');
 session_start();
 
 // Fetch handler names from the MIS department
-$query = "SELECT id, full_name FROM accounts_tbl WHERE department = 'MIS'";
+$query = "SELECT id, full_name FROM accounts_tbl WHERE department = '8'";
 $result = $conn->query($query);
 
 if ($result) {

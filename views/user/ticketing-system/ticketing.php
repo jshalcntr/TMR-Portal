@@ -70,20 +70,20 @@ if (authorize($_SESSION['user']['role'] == "USER" || $_SESSION['user']['role'] =
                                     <tr>
                                         <th>Ticket#</th>
                                         <th>Type</th>
-                                        <th>Subject</th>
-                                        <th>Priority</th>
-                                        <th>Status</th>
+                                        <th class="d-none d-sm-table-cell">Subject</th>
+                                        <th class="d-none d-sm-table-cell">Priority</th>
+                                        <th class="d-none d-sm-table-cell">Status</th>
                                         <th>Requestor</th>
                                         <th>Handler</th>
                                         <th>Due Date</th>
-                                        <th>Approval Due</th>
-                                        <th>Created</th>
-                                        <th>Accepted</th>
-                                        <th>Finished</th>
-                                        <th>Approval Reason</th>
-                                        <th>Date Approved</th>
-                                        <th>Attachment</th>
-                                        <th>Approval Attachment</th>
+                                        <th class="d-none d-sm-table-cell">Approval Due</th>
+                                        <th class="d-none d-sm-table-cell">Created</th>
+                                        <th class="d-none d-sm-table-cell">Accepted</th>
+                                        <th class="d-none d-sm-table-cell">Finished</th>
+                                        <th class="d-none d-sm-table-cell">Approval Reason</th>
+                                        <th class="d-none d-sm-table-cell">Date Approved</th>
+                                        <th class="d-none d-sm-table-cell">Attachment</th>
+                                        <th class="d-none d-sm-table-cell">Approval Attachment</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>

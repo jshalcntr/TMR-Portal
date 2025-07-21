@@ -81,7 +81,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     // Fetch ticket counts from the backend
     $.ajax({
-        url: '../../backend/admin/ticketing-system/fetch_ticket_counts.php', // Adjust the path as needed
+        url: '../../backend/shared/ticketing-system/fetch_ticket_counts.php', // Adjust the path as needed
         method: 'GET',
         success: function (response) {
             if (response.status === 'success') {
@@ -93,7 +93,7 @@ $(document).ready(function () {
                 $('#open-tickets').text(data.open || 0);
                 $('#for-approval-tickets').text(data.for_approval || 0);
                 $('#unassigned-tickets').text(data.unassigned || 0);
-                $('#closed-tickets').text(data.finished || 0);
+                $('#closed-tickets').text(data.closed || 0);
                 $('#all-tickets').text(data.all || 0);
             } else {
                 console.error('Error:', response.message);

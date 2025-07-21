@@ -209,3 +209,8 @@
     height: 100%;
     /* to allow flex-grow on chatHistory */
 }
+
+table {
+    table-layout: auto;
+    word-break: break-word;
+}

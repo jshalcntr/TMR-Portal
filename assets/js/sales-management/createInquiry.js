@@ -1,81 +1,527 @@
+function validateRequiredFields(container) {
+    let valid = true;
+    container.find("input[required], select[required]").each(function () {
+        const val = $(this).val()?.trim();
+        if (!val) {
+            $(this).addClass("is-invalid");
+            valid = false;
+            setTimeout(() => $(this).removeClass("is-invalid"), 3000);
+        } else {
+            $(this).removeClass("is-invalid");
+        }
+    });
+    return valid;
+}
+
+function validateRadioGroup(container, name, groupClass) {
+    const radioSelected = container.find(`input[name='${name}']:checked`).length > 0;
+    const radioGroup = container.find(`.${groupClass}`);
+    if (!radioSelected) {
+        radioGroup.addClass("radio-invalid");
+        container.find(".invalid-feedback").first().show();
+        setTimeout(() => {
+            radioGroup.removeClass("radio-invalid");
+            container.find(".invalid-feedback").first().hide();
+        }, 3000);
+        return false;
+    } else {
+        radioGroup.removeClass("radio-invalid");
+        container.find(".invalid-feedback").first().hide();
+        return true;
+    }
+}
+
 $(document).ready(function () {
     $(document).on('click', '.radio-column', function () {
         $(this).find(`input[type="radio"]`).prop('checked', true).trigger('change');
     });
 
+    const steps = $(".form-step");
     let currentStep = 1;
 
-    const steps = $(".form-step");
     const stepValues = steps.map(function () {
         return parseInt($(this).data("step"));
     }).get();
+
+    const minStep = Math.min(...stepValues);
     const maxStep = Math.max(...stepValues);
 
-    function showStep(index) {
-        steps.each(function () {
-            const step = parseInt($(this).data("step"));
-            $(this).toggleClass("d-none", step !== index);
+    function toggleSelect2Fields(...dropdowns) {
+        dropdowns.forEach(id => {
+            const name = id.replace("#", "");
+            $(id).select2({
+                placeholder: `--Select ${name.charAt(0).toUpperCase() + name.slice(1)}--`,
+                width: '100%',
+                dropdownParent: $('#createInquiryModal')
+            });
         });
+    }
 
-        $("#previousBtn").toggle(index > Math.min(...stepValues));
+    function showStep(index) {
+        steps.toggleClass("d-none", true);
+        $(`.form-step[data-step="${index}"]`).removeClass("d-none");
+        if (index === 5) {
+            toggleSelect2Fields('#province', '#municipality', '#barangay');
+        };
+        if (index === 18) {
+            toggleSelect2Fields('#occupationProvince', '#occupationMunicipality', '#occupationBarangay');
+        };
+        $("#previousBtn").toggle(index > minStep);
         $("#nextBtn").toggle(index < maxStep);
+        $("#reviewBtn").toggle(index === maxStep);
     }
 
     function validateStep(index) {
         const current = $(`.form-step[data-step="${index}"]`);
         let isValid = true;
 
-        // current.find("input[required]").each(function () {
-        //     if (!this.value.trim()) {
-        //         $(this).addClass("is-invalid");
-        //         setTimeout(() => {
-        //             $(this).removeClass("is-invalid");
-        //         }, 3000);
-        //         isValid = false;
-        //     } else {
-        //         $(this).removeClass("is-invalid");
-        //     }
-        // });
+        const validationMap = {
+            1: () => validateRadioGroup(current, 'prospectType', 'prospectRadioGroup'),
+            4: () => {
+                let valid = validateRadioGroup(current, 'inquirySource', 'inquirySourceRadioGroup');
+                if (valid) {
+                    valid = validateRadioGroup(current, 'inquirySourceType', 'inquirySourceTypeRadioGroup') && validateRequiredFields(current);
+                }
+                return valid;
+            },
+            6: () => {
+                const phoneInput = current.find("#contactNumber");
+                const phPattern = /^(09\d{9}|\+639\d{9})$/;
+                const valid = phPattern.test(phoneInput.val().trim());
+                phoneInput.toggleClass("is-invalid", !valid);
+                if (!valid) setTimeout(() => phoneInput.removeClass("is-invalid"), 3000);
+                return valid;
+            },
+            7: () => validateRadioGroup(current, 'gender', 'genderRadioGroup'),
+            8: () => {
+                let valid = validateRadioGroup(current, 'maritalStatus', 'maritalStatusRadioGroup');
+                const othersInput = $("#maritalStatusOtherInput");
+                if ($("#maritalStatus_others").is(":checked")) {
+                    othersInput.prop("required", true);
+                    if (!othersInput[0].checkValidity()) {
+                        othersInput[0].reportValidity();
+                        valid = false;
+                    }
+                } else {
+                    othersInput.prop("required", false);
+                }
+                return valid;
+            },
+            10: () => validateRadioGroup(current, 'buyerType', 'buyerTypeRadioGroup'),
+            12: () => validateRadioGroup(current, 'tamarawVariant', 'tamarawVariantRadioGroup'),
+            13: () => validateRadioGroup(current, 'transactionType', 'transactionTypeRadioGroup'),
+            14: () => {
+                // validateRadioGroup(current, 'hasApplication', 'hasApplicationRadioGroup') && validateRadioGroup(current, 'hasReservation', 'hasReservationRadioGroup');
+                const isValidApp = validateRadioGroup(current, 'hasApplication', 'hasApplicationRadioGroup');
+                const isValidRes = validateRadioGroup(current, 'hasReservation', 'hasReservationRadioGroup');
+                return isValidApp && isValidRes;
+            },
+            16: () => {
+                const occupation = current.find("input[name='occupation']:checked").val();
+                const labelOne = occupation === "Business Owner" ? "Business Name" : "Employer Name";
+                const labelTwo = occupation === "Business Owner" ? "Complete Business Address" : "Complete Employer Address";
 
-        // if (index === 1) {
-        //     const selected = current.find("input[name='prospectType']:checked").length > 0;
-        //     const radioGroups = current.find(".prospectRadioGroup");
+                $("#occupationHeaderOne").text(labelOne);
+                $("#occupationHeaderTwo").text(labelTwo);
+                $("#occupationFeedback").text(`Please provide a valid ${labelOne}.`);
+                return validateRadioGroup(current, 'occupation', 'occupationRadioGroup')
+            },
+            19: () => validateRadioGroup(current, 'businessCategory', 'businessCategoryRadioGroup'),
+            20: () => validateRadioGroup(current, 'monthlyAverage', 'monthlyAverageRadioGroup'),
+            21: () => validateRadioGroup(current, 'businessSize', 'businessSizeRadioGroup'),
+        };
 
-        //     if (!selected) {
-        //         radioGroups.addClass("radio-invalid");
+        if (validationMap[index]) {
+            isValid = validationMap[index]();
+        } else {
+            isValid = validateRequiredFields(current);
+        }
 
-        //         current.find(".invalid-feedback").show();
-
-        //         setTimeout(() => {
-        //             radioGroups.removeClass("radio-invalid");
-        //             current.find(".invalid-feedback").hide();
-        //         }, 3000);
-
-        //         isValid = false;
-        //     } else {
-        //         radioGroups.removeClass("radio-invalid");
-        //         current.find(".invalid-feedback").hide();
-        //     }
-        // }
-
+        // isValid = true;
         return isValid;
     }
 
-    $("#nextBtn").click(function () {
+    $("#nextBtn").click(() => {
         if (validateStep(currentStep)) {
+            if (currentStep === 11 && $("#unitInquired").val() !== "TAMARAW") {
+                currentStep++
+                $("#additionalUnit").prop("required", false);
+                $("#tamarawSpecificUsage").prop("required", false);
+            } else if (currentStep === 11 && $("#unitInquired").val() === "TAMARAW") {
+                $("#additionalUnit").prop("required", true);
+                $("#tamarawSpecificUsage").prop("required", true);
+            };
+            if (currentStep === 14 && $(".form-step[data-step='14']").find("input[name='hasReservation']:checked").val() !== "Yes") {
+                currentStep++;
+                $("#reservationDate").prop("required", false);
+            } else if (currentStep === 14 && $(".form-step[data-step='14']").find("input[name='hasReservation']:checked").val() === "Yes") {
+                $("#reservationDate").prop("required", true);
+            }
+            if (currentStep === 18 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "Business Owner") {
+                currentStep++
+            }
+            if (currentStep === 20 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "Business Owner") {
+                currentStep++
+                if ($("#unitInquired").val() !== "TAMARAW") {
+                    currentStep++;
+                    currentStep++;
+                    currentStep++;
+                }
+            }
+            if (currentStep === 21 && $("#unitInquired").val() !== "TAMARAW") {
+                currentStep++;
+                currentStep++;
+                currentStep++;
+            }
+            // if (currentStep === 22 && $("#unitInquired").val() !== "TAMARAW") {
+            //     currentStep++;
+            // }
             currentStep++;
             showStep(currentStep);
         }
     });
 
-    $("#previousBtn").click(function () {
+    $("#previousBtn").click(() => {
+        if (currentStep === 13 && $("#unitInquired").val() !== "TAMARAW") {
+            currentStep--;
+        };
+        if (currentStep === 16 && $(".form-step[data-step='14']").find("input[name='hasReservation']:checked").val() !== "Yes") {
+            currentStep--;
+        };
+        if (currentStep === 20 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "Business Owner") {
+            currentStep--;
+        }
+        if (currentStep === 22 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "Business Owner") {
+            currentStep--;
+        }
+        if (currentStep === 25 && $("#unitInquired").val() !== "TAMARAW") {
+            currentStep--;
+            currentStep--;
+            currentStep--;
+            if ($(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "Business Owner") {
+                currentStep--;
+            }
+        }
         currentStep--;
         showStep(currentStep);
     });
 
     showStep(currentStep);
+
     $(document).on('change', 'input[name="inquirySource"]', function () {
         const selectedValue = $('input[name="inquirySource"]:checked').val();
-        console.log("Inquiry Source changed to:", selectedValue);
+        if (selectedValue === 'Face To Face') {
+            if ($("#f2fSource").hasClass('d-none')) {
+                $("#f2fSource").removeClass('d-none');
+            }
+            if (!$("#onlineSource").hasClass('d-none')) {
+                $("#onlineSource").addClass('d-none');
+                // $("#onlineSource").val("");
+            }
+        } else if (selectedValue === 'Online') {
+            if ($("#onlineSource").hasClass('d-none')) {
+                $("#onlineSource").removeClass('d-none');
+            }
+            if (!$("#f2fSource").hasClass('d-none')) {
+                $("#f2fSource").addClass('d-none');
+            }
+        } else {
+            if (!$("#f2fSource").hasClass('d-none')) {
+                $("#f2fSource").addClass('d-none');
+            }
+            if (!$("#onlineSource").hasClass('d-none')) {
+                $("#onlineSource").addClass('d-none');
+            }
+        }
+        $('input[name="inquirySourceType"]:checked').prop('checked', false).trigger('change');
+        if (!$("#mallDisplayGroup").hasClass("d-none")) {
+            $("#mallDisplayGroup").addClass("d-none");
+            $("#mallDisplay").prop("required", false);
+        }
+    });
+    $(document).on('change', 'input[name="inquirySourceType"]', function () {
+        const selectedValue = $('input[name="inquirySourceType"]:checked').val();
+        if (selectedValue === "Mall Display") {
+            $.ajax({
+                type: "GET",
+                url: "../../backend/sales-management/getAllMalls.php",
+                success: function (response) {
+                    if (response.status === "internal-error") {
+                        Swal.fire({
+                            title: 'Error! ',
+                            text: `${response.message}`,
+                            icon: 'error',
+                            confirmButtonColor: 'var(--bs-danger)'
+                        })
+                    } else if (response.status === "success") {
+                        const malls = response.data;
+                        $("#mallDisplay").empty().append(`<option value="">--Select Mall--</option>`);
+                        malls.forEach(mall => {
+                            $("#mallDisplay").append(`<option value="${mall.mall_name}">${mall.mall_name}</option>`);
+                        });
+                    }
+                }
+            });
+            if ($("#mallDisplayGroup").hasClass("d-none")) {
+                $("#mallDisplayGroup").removeClass("d-none");
+                $("#mallDisplay").prop("required", true);
+            }
+            const $modalBody = $(document).find('.custom-scrollable-body');
+            $modalBody.animate({
+                scrollTop: $modalBody[0].scrollHeight
+            }, 500);
+        } else {
+            if (!$("#mallDisplayGroup").hasClass("d-none")) {
+                $("#mallDisplayGroup").addClass("d-none");
+                $("#mallDisplay").prop("required", false);
+            }
+        }
+    });
+
+    $("#createInquiryBtn").on('click', function (e) {
+        $("#createInquiryForm")[0].reset();
+        $("input[name='inquirySource']").trigger('change');
+        $('input[name="inquirySourceType"]').trigger('change');
+        $('#municipality').prop('disabled', true);
+        $('#barangay').prop('disabled', true);
+        $('#occupationMunicipality').prop('disabled', true);
+        $('#occupationBarangay').prop('disabled', true);
+
+
+        currentStep = 1;
+        showStep(currentStep);
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "https://psgc.gitlab.io/api/provinces/",
+            success: function (response) {
+                $('#province').empty().append(`<option value="" selected hidden>--Select Province--</option></option>`);
+                $('#municipality').empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
+                $('#barangay').empty().append(`<option value="" selected hidden>--Select Barangay--</option></option>`);
+                response.forEach(province => {
+                    $('#province').append(`<option value="${province.name}" data-code="${province.code}">${province.name}</option>`);
+                });
+                toggleSelect2Fields('#province');
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(status);
+                console.error('AJAX error:', error);
+                Swal.fire({
+                    title: 'Error! ',
+                    text: 'An internal error occurred. Please contact MIS.',
+                    icon: 'error',
+                    confirmButtonColor: 'var(--bs-danger)'
+                })
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "../../backend/sales-management/getAllVehicles.php",
+            success: function (response) {
+                if (response.status === 'internal-error') {
+                    Swal.fire({
+                        title: 'Error! ',
+                        text: `${response.message}`,
+                        icon: 'error',
+                        confirmButtonColor: 'var(--bs-danger)'
+                    });
+                } else if (response.status === 'success') {
+                    const vehicles = response.data;
+                    $("#unitInquired").empty().append(`<option value="" disabled selected hidden>--Select Vehicle--</option>`);
+                    vehicles.forEach(vehicle => {
+                        $("#unitInquired").append(`<option value="${vehicle.vehicle_name}">${vehicle.vehicle_name}</option>`);
+                    });
+
+                }
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "https://psgc.gitlab.io/api/provinces/",
+            success: function (response) {
+                $('#occupationProvince').empty().append(`<option value="" selected hidden>--Select OccupationProvince--</option></option>`);
+                $('#occupationMunicipality').empty().append(`<option value="" selected hidden>--Select OccupationMunicipality--</option></option>`);
+                $('#occupationBarangay').empty().append(`<option value="" selected hidden>--Select OccupationBarangay--</option></option>`);
+                response.forEach(province => {
+                    $('#occupationProvince').append(`<option value="${province.name}" data-code="${province.code}">${province.name}</option>`);
+                });
+                toggleSelect2Fields('#occupationProvince');
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(status);
+                console.error('AJAX error:', error);
+                Swal.fire({
+                    title: 'Error! ',
+                    text: 'An internal error occurred. Please contact MIS.',
+                    icon: 'error',
+                    confirmButtonColor: 'var(--bs-danger)'
+                })
+            }
+        });
+
+        $("#maritalStatusOtherGroup").addClass("d-none");
+        $("#maritalStatusOtherInput").removeAttr("required").removeClass("is-invalid");
+    });
+
+    $("#province").on('change', function () {
+        const provinceCode = $(this).find(':selected').data('code');
+        $("#province_review").val($(this).val()).trigger('change');
+        $.ajax({
+            type: "GET",
+            url: `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`,
+            dataType: "json",
+            success: function (response) {
+                $('#municipality').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
+                response.forEach(municipality => {
+                    $('#municipality').append(`<option value="${municipality.name}" data-code="${municipality.code}">${municipality.name}</option>`);
+                });
+                $('#municipality_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
+                response.forEach(municipality => {
+                    $('#municipality_review').append(`<option value="${municipality.name}" data-code="${municipality.code}">${municipality.name}</option>`);
+                });
+                toggleSelect2Fields('#municipality');
+            },
+            error: function (xhr, status, error) {
+                console.error('XHR : ', xhr.responseText);
+                console.error('Status : ', status);
+                console.error('AJAX error : ', error);
+                Swal.fire({
+                    title: 'Error! ',
+                    text: 'An internal error occurred. Please contact MIS.',
+                    icon: 'error',
+                    confirmButtonColor: 'var(--bs-danger)'
+                })
+            }
+        });
+    });
+    $("#municipality").on('change', function () {
+        const municipalityCode = $(this).find(':selected').data('code');
+        $("#municipality_review").val($(this).val()).trigger('change');
+        $.ajax({
+            type: "GET",
+            url: `https://psgc.gitlab.io/api/cities-municipalities/${municipalityCode}/barangays/`,
+            dataType: "json",
+            success: function (response) {
+                $('#barangay').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Barangay--</option></option>`);
+                response.forEach(barangay => {
+                    $('#barangay').append(`<option value="${barangay.name}" data-code="${barangay.code}">${barangay.name}</option>`);
+                });
+                $('#barangay_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Barangay--</option></option>`);
+                response.forEach(barangay => {
+                    $('#barangay_review').append(`<option value="${barangay.name}" data-code="${barangay.code}">${barangay.name}</option>`);
+                });
+                toggleSelect2Fields('#barangay');
+            },
+            error: function (xhr, status, error) {
+                console.error('XHR : ', xhr.responseText);
+                console.error('Status : ', status);
+                console.error('AJAX error : ', error);
+                Swal.fire({
+                    title: 'Error! ',
+                    text: 'An internal error occurred. Please contact MIS.',
+                    icon: 'error',
+                    confirmButtonColor: 'var(--bs-danger)'
+                })
+            }
+        });
+    });
+    $("#barangay").on('change', function () {
+        $("#barangay_review").val($(this).val()).trigger('change');
+    });
+    $("#occupationProvince").on('change', function () {
+        const provinceCode = $(this).find(':selected').data('code');
+        $("#occupationProvince_review").val($(this).val()).trigger('change');
+        $.ajax({
+            type: "GET",
+            url: `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`,
+            dataType: "json",
+            success: function (response) {
+                $('#occupationMunicipality').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select OccupationMunicipality--</option></option>`);
+                response.forEach(municipality => {
+                    $('#occupationMunicipality').append(`<option value="${municipality.name}" data-code="${municipality.code}">${municipality.name}</option>`);
+                });
+                $('#occupationMunicipality_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
+                response.forEach(municipality => {
+                    $('#occupationMunicipality_review').append(`<option value="${municipality.name}" data-code="${municipality.code}">${municipality.name}</option>`);
+                });
+                toggleSelect2Fields('#occupationMunicipality');
+            },
+            error: function (xhr, status, error) {
+                console.error('XHR : ', xhr.responseText);
+                console.error('Status : ', status);
+                console.error('AJAX error : ', error);
+                Swal.fire({
+                    title: 'Error! ',
+                    text: 'An internal error occurred. Please contact MIS.',
+                    icon: 'error',
+                    confirmButtonColor: 'var(--bs-danger)'
+                })
+            }
+        });
+    });
+    $("#occupationMunicipality").on('change', function () {
+        const municipalityCode = $(this).find(':selected').data('code');
+        $("#occupationMunicipality_review").val($(this).val()).trigger('change');
+        $.ajax({
+            type: "GET",
+            url: `https://psgc.gitlab.io/api/cities-municipalities/${municipalityCode}/barangays/`,
+            dataType: "json",
+            success: function (response) {
+                $('#occupationBarangay').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select OccupationBarangay--</option></option>`);
+                response.forEach(barangay => {
+                    $('#occupationBarangay').append(`<option value="${barangay.name}" data-code="${barangay.code}">${barangay.name}</option>`);
+                });
+                $('#occupationBarangay_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
+                response.forEach(barangay => {
+                    $('#occupationBarangay_review').append(`<option value="${barangay.name}" data-code="${barangay.code}">${barangay.name}</option>`);
+                });
+                toggleSelect2Fields('#occupationBarangay');
+            },
+            error: function (xhr, status, error) {
+                console.error('XHR : ', xhr.responseText);
+                console.error('Status : ', status);
+                console.error('AJAX error : ', error);
+                Swal.fire({
+                    title: 'Error! ',
+                    text: 'An internal error occurred. Please contact MIS.',
+                    icon: 'error',
+                    confirmButtonColor: 'var(--bs-danger)'
+                })
+            }
+        });
+    });
+    $("#occupationBarangay").on('change', function () {
+        $("#occupationBarangay_review").val($(this).val()).trigger('change');
+    });
+    $(document).on("change", ".form-step[data-step='8'] input[type='radio']:checked", function () {
+        const othersGroup = $("#maritalStatusOtherGroup");
+        const othersInput = $("#maritalStatusOtherInput");
+        const selected = $('.form-step[data-step="8"] input[type="radio"]:checked').val();
+        if (selected === "Others") {
+            othersGroup.removeClass("d-none");
+            othersInput.attr("required", true).focus();
+        } else {
+            othersInput.val("");
+            othersGroup.addClass("d-none");
+            othersInput.removeAttr("required").removeClass("is-invalid");
+        }
+    });
+    $(document).on('change', 'input[name="buyerDecisionHold"]', function () {
+        if ($(this).val() === "Yes") {
+            if ($("#buyerDecisionHoldReasonGroup").hasClass('d-none')) {
+                $("#buyerDecisionHoldReasonGroup").removeClass('d-none');
+                $("#buyerDecisionHoldReason").attr("required", true).focus();
+            }
+        } else {
+            if (!$("#buyerDecisionHoldReasonGroup").hasClass('d-none')) {
+                $("#buyerDecisionHoldReasonGroup").addClass('d-none');
+                $("#buyerDecisionHoldReason").removeAttr("required").removeClass("is-invalid");
+            }
+        }
     });
 });

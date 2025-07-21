@@ -5,7 +5,12 @@ $(document).ready(function () {
             type: "GET",
         },
         columns: [
-            { data: "clientFirstName" },
+            {
+                data: "clientFirstName",
+                render: function (data, type, row) {
+                    return `${row.clientFirstName} ${row.clientLastName}`;
+                }
+            },
             { data: "csNumber" },
             { data: "inquiryDate" },
             { data: "phone" },
@@ -15,7 +20,8 @@ $(document).ready(function () {
             {
                 data: "id",
                 render: function (data, type, row) {
-                    return `<i class="fas fa-xl fa-circle-info viewSubProfileModal text-primary" data-sub-profile-id="${data}" role="button" data-bs-toggle="modal" data-bs-target="#viewSubProfilingModal"></i>`;
+                    return `<i class="fas fa-xl fa-circle-info viewSubProfileModal text-primary" data-sub-profile-id="${data}"
+                    role="button" data-bs-toggle="modal" data-bs-target="#viewSubProfilingModal"></i>`;
                 },
             },
         ],

@@ -188,13 +188,19 @@ $(document).ready(function () {
             ) {
                 $(row).addClass("table-secondary");
             }
+            // ⛔ Add d-none d-sm-table-cell to these columns manually
+            // Indexes to HIDE on mobile
+            const hideOnMobile = [2, 3, 4, 8, 9, 10, 11, 12, 13, 14, 15];
+
+            hideOnMobile.forEach(function (colIdx) {
+                $("td", row).eq(colIdx).addClass("d-none d-sm-table-cell");
+            });
         },
         columnDefs: [
             {
-                targets: [7], // "Due Date" column
+                targets: [7], // Due Date
                 render: function (data, type, row) {
-                    const dateFinished = row[11]; // Date Finished column
-
+                    const dateFinished = row[11];
                     if (type === "display") {
                         if (dateFinished !== "N/A") {
                             return `<span class="countdown" data-finished="true">Finished</span>`;
@@ -207,10 +213,10 @@ $(document).ready(function () {
                 },
             },
             {
-                targets: [8], // "Approval Due" column
+                targets: [8], // Approval Due
                 render: function (data, type, row) {
-                    const dateApproved = row[13]; // Date Approved
-                    const dateFinished = row[11]; // Date Finished
+                    const dateApproved = row[13];
+                    const dateFinished = row[11];
 
                     if (type === "display") {
                         if (dateFinished !== "N/A" && dateApproved === "N/A") {
@@ -225,7 +231,10 @@ $(document).ready(function () {
                     }
                     return data;
                 },
+                className: 'd-none d-sm-table-cell' // ✅ Hide on XS, show on SM+
             },
+            // Add class names to hide these columns on small devices
+            { targets: [2, 3, 4, 8, 9, 10, 11, 12, 13, 14, 15], className: 'd-none d-sm-table-cell' }
         ],
         drawCallback: function () {
             updateCountdowns();

@@ -1305,3 +1305,26 @@ $(document).ready(function () {
         return formattedDateTime.replace(',', ' |');
     }
 });
+
+function runBackupScript() {
+    fetch('../../../backend/s-admin/ticketing-system/backup_and_transfer.php') // Your PHP backup script URL
+        .then(response => response.text())
+        .then(data => {
+            console.log("✅ Backup Triggered: ", data);
+        })
+        .catch(error => {
+            console.error("❌ Error triggering backup: ", error);
+        });
+}
+
+// Check every minute if time is 6:00 PM
+setInterval(() => {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+
+    // Run only once at 6:00 PM (18:00)
+    if (hours === 9 && minutes === 18) {
+        runBackupScript();
+    }
+}, 60000); // Check every 60 seconds

@@ -17,6 +17,11 @@ if (authorize(true, $conn)) {
 } else {
     header("Location: ../../index.php");
 }
+$url = ($authRole == "ADMIN")
+    ? "/tmr-portal/views/admin/ticketing-system/ticketing.php"
+    : (($authRole == "USER" || $authRole == "HEAD")
+        ? "/tmr-portal/views/user/ticketing-system/ticketing.php"
+        : "/tmr-portal/views/s-admin/ticketing-system/ticketing.php");
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +68,7 @@ if (authorize(true, $conn)) {
 
                     <!-- Content Row -->
                     <div class="row">
-                        <div class="col-xl-4 col-md-6 mb-4 pointer-event" id="pendingTicketsLink">
+                        <div class="col-xl-4 col-md-6 mb-4 pointer-event" id="pendingTicketsLink" onclick="window.location.href='<?= $url ?>'">
                             <div class="card border-left-info shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -79,7 +84,7 @@ if (authorize(true, $conn)) {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-md-6 mb-4" id="forApprovalTicketsLink">
+                        <div class="col-xl-4 col-md-6 mb-4" id="forApprovalTicketsLink" onclick="window.location.href='<?= $url ?>'">
                             <div class="card border-left-warning shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -96,7 +101,7 @@ if (authorize(true, $conn)) {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-md-6 mb-4" id="finishedTicketsLink">
+                        <div class="col-xl-4 col-md-6 mb-4" id="finishedTicketsLink" onclick="window.location.href='<?= $url ?>'">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">

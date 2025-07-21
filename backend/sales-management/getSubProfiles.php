@@ -2,18 +2,9 @@
 session_start();
 require('../../backend/dbconn.php');
 
-$sql = "SELECT
-    client_first_name,
-    client_middle_name,
-    client_last_name,
-    conduction_sticker_number,
-    inquiry_date,
-    phone,
-    gender,
-    job_level,
-    work_nature,
-    subprofile_id
-FROM sales_subprofilings_tbl WHERE created_by = ?";
+$sql = "SELECT * FROM sales_subprofilings_tbl
+        JOIN sales_customers_tbl ON sales_subprofilings_tbl.customer_id = sales_customers_tbl.customer_id
+        WHERE created_by = ?";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {
@@ -39,12 +30,12 @@ if (!$stmt) {
         $subProfiles = [];
         while ($subProfileResult = $subProfileResults->fetch_assoc()) {
             $id = $subProfileResult['subprofile_id'];
-            $clientFirstName = $subProfileResult['client_first_name'];
-            $clientMiddleName = $subProfileResult['client_middle_name'];
-            $clientLastName = $subProfileResult['client_last_name'];
+            $clientFirstName = $subProfileResult['customer_firstname'];
+            $clientMiddleName = $subProfileResult['customer_middlename'];
+            $clientLastName = $subProfileResult['customer_lastname'];
             $csNumber = $subProfileResult['conduction_sticker_number'];
             $inquiryDate = $subProfileResult['inquiry_date'];
-            $phone = $subProfileResult['phone'];
+            $phone = $subProfileResult['contact_number'];
             $gender = $subProfileResult['gender'];
             $jobLevel = $subProfileResult['job_level'];
             $workNature = $subProfileResult['work_nature'];

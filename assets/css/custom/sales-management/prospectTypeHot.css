@@ -1,0 +1,26 @@
+.table td {
+    padding: 0.3rem 0.5rem;
+}
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid var(--gray-dark);
+    margin: 0 !important;
+    color: var(--dark);
+}
+#prospectTypeHotModal {
+    border-left: 1px solid var(--gray-dark);
+    border-bottom: 1px solid var(--gray-dark);
+}
+#prospectTypeHotModal tbody tr:nth-child(odd) {
+    background-color: var(--bs-white);
+}
+#prospectTypeHotModal tbody tr:nth-child(even) {
+    background-color: var(--bs-table-bg);
+}
+#prospectTypeHotModal {
+    --bs-table-bg: none;
+}
+#prospectTypeHotModal thead th {
+    background-color: var(--primary);
+    color: var(--text-white);
+}

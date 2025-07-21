@@ -7,17 +7,26 @@ include('../../dbconn.php');
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $ticket_category = isset($_POST['ticket_category']) ? $conn->real_escape_string($_POST['ticket_category']) : '';
-    $ticket_subject = isset($_POST['ticket_subject']) ? $conn->real_escape_string($_POST['ticket_subject']) : '';
-    $ticket_content = isset($_POST['ticket_content']) ? $conn->real_escape_string($_POST['ticket_content']) : '';
-    $ticket_requestor_id = $_SESSION['user']['id'] ?? null;
 
+    // Sanitize text input
+    function clean_input($data)
+    {
+        return htmlspecialchars(strip_tags(trim($data)), ENT_QUOTES, 'UTF-8');
+    }
+
+    // Sanitize user inputs
+    $ticket_category = isset($_POST['ticket_category']) ? clean_input($_POST['ticket_category']) : '';
+    $ticket_subject  = isset($_POST['ticket_subject']) ? clean_input($_POST['ticket_subject']) : '';
+    $ticket_content  = isset($_POST['ticket_content']) ? clean_input($_POST['ticket_content']) : '';
+
+    // Get requestor ID from session
+    $ticket_requestor_id = $_SESSION['user']['id'] ?? null;
     if (!$ticket_requestor_id) {
         echo json_encode(["status" => "error", "message" => "User session expired. Please log in again."]);
         exit;
     }
 
-    // 🔍 Fetch department of the requestor
+    // Get department from DB
     $department = null;
     $dept_stmt = $conn->prepare("SELECT department FROM accounts_tbl WHERE id = ?");
     $dept_stmt->bind_param("i", $ticket_requestor_id);
@@ -31,9 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
 
-    // File upload setup
+    // File upload settings
     $allowed_extensions = ['jpg', 'jpeg', 'png', 'pdf', 'docx'];
-    $max_file_size = 2 * 1024 * 1024; // 2 MB
+    $max_file_size = 2 * 1024 * 1024; // 2MB
     $upload_dir = "../../../uploads/tickets/";
 
     if (!is_dir($upload_dir) && !mkdir($upload_dir, 0777, true)) {
@@ -46,7 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $file_name = '';
     $new_target_path = '';
 
-    if (isset($_FILES['ticket_attachment']) && $_FILES['ticket_attachment']['error'] == UPLOAD_ERR_OK) {
+    // If file is uploaded
+    if (isset($_FILES['ticket_attachment']) && $_FILES['ticket_attachment']['error'] === UPLOAD_ERR_OK) {
         $file = $_FILES['ticket_attachment'];
         $file_extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
@@ -59,16 +69,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 exit;
             }
         } else {
-            echo json_encode(["status" => "error", "message" => "Invalid file type or size. Upload .jpg, .png, .pdf, or .docx files under 2 MB."]);
+            echo json_encode([
+                "status" => "error",
+                "message" => "Invalid file type or size. Allowed: jpg, jpeg, png, pdf, docx (Max: 2MB)"
+            ]);
             exit;
         }
     }
 
-    // ✅ Insert with department
+    // Insert ticket into database
     $sql = "INSERT INTO ticket_records_tbl 
             (ticket_requestor_id, ticket_subject, ticket_type, ticket_description, ticket_status, date_created, ticket_attachment, requestor_department)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
     $stmt = $conn->prepare($sql);
 
     if ($stmt) {
@@ -85,7 +97,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         );
 
         if ($stmt->execute()) {
-            echo json_encode(["status" => "success", "message" => "Ticket submitted successfully.", "attachment" => $new_target_path]);
+            echo json_encode([
+                "status" => "success",
+                "message" => "Ticket submitted successfully.",
+                "attachment" => $new_target_path
+            ]);
         } else {
             echo json_encode(["status" => "error", "message" => "Unable to submit ticket.", "data" => $stmt->error]);
         }

@@ -1,0 +1,37 @@
+.fc-day-today {
+  background-color: #d1e7dd !important;
+  border-color: #d1e7dd;
+  color: white !important;
+}
+
+.fc .fc-button-group .fc-today-button,
+.fc .fc-toolbar .fc-today-button {
+  background-color: #198754;
+  border: #198754;
+}
+
+.fc-today-button:active {
+  background-color: #198754 !important;
+  border-color: #198754 !important;
+}
+
+.fc-day-today .fc-daygrid-day-number {
+  color: white !important;
+}
+
+.fc-button-group .fc-button {
+  background-color: #198754 !important;
+  border-color: #198754 !important;
+  color: white !important;
+}
+
+.fc-button:hover {
+  background-color: #328d64 !important;
+  border-color: #328d64 !important;
+}
+
+.fc-header-toolbar {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 5px;
+}

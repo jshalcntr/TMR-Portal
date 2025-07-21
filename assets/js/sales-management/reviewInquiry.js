@@ -1,0 +1,525 @@
+$(document).ready(function () {
+    function populateInquiryFields() {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "https://psgc.gitlab.io/api/provinces/",
+            success: function (response) {
+                $('#province_review').empty().append(`<option value="" selected hidden>--Select Province--</option></option>`);
+                $('#municipality_review').empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
+                $('#barangay_review').empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
+                response.forEach(province => {
+                    $('#province_review').append(`<option value="${province.name}" data-code="${province.code}">${province.name}</option>`);
+                });
+
+                $("#province_review").select2({
+                    placeholder: `--Select Province--`,
+                    width: '100%',
+                    dropdownParent: $('#reviewInquiryModal')
+                });
+                $("#municipality_review").select2({
+                    placeholder: `--Select Municipality--`,
+                    width: '100%',
+                    dropdownParent: $('#reviewInquiryModal')
+                });
+                $("#barangay_review").select2({
+                    placeholder: `--Select Barangay--`,
+                    width: '100%',
+                    dropdownParent: $('#reviewInquiryModal')
+                });
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(status);
+                console.error('AJAX error:', error);
+                Swal.fire({
+                    title: 'Error! ',
+                    text: 'An internal error occurred. Please contact MIS.',
+                    icon: 'error',
+                    confirmButtonColor: 'var(--bs-danger)'
+                })
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "../../backend/sales-management/getAllVehicles.php",
+            success: function (response) {
+                if (response.status === 'internal-error') {
+                    Swal.fire({
+                        title: 'Error! ',
+                        text: `${response.message}`,
+                        icon: 'error',
+                        confirmButtonColor: 'var(--bs-danger)'
+                    });
+                } else if (response.status === 'success') {
+                    const vehicles = response.data;
+                    $("#unitInquired_review").empty().append(`<option value="" hidden>--Select Vehicle--</option>`);
+                    vehicles.forEach(vehicle => {
+                        $("#unitInquired_review").append(`<option value="${vehicle.vehicle_name}">${vehicle.vehicle_name}</option>`);
+                    });
+
+                }
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "https://psgc.gitlab.io/api/provinces/",
+            success: function (response) {
+                $('#occupationProvince_review').empty().append(`<option value="" selected hidden>--Select Province--</option></option>`);
+                $('#occupationMunicipality_review').empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
+                $('#occupationBarangay_review').empty().append(`<option value="" selected hidden>--Select Barangay--</option></option>`);
+                response.forEach(province => {
+                    $('#occupationProvince_review').append(`<option value="${province.name}" data-code="${province.code}">${province.name}</option>`);
+                });
+                $("#occupationProvince_review").select2({
+                    placeholder: `--Select Province--`,
+                    width: '100%',
+                    dropdownParent: $('#reviewInquiryModal')
+                });
+                $("#occupationMunicipality_review").select2({
+                    placeholder: `--Select Municipality--`,
+                    width: '100%',
+                    dropdownParent: $('#reviewInquiryModal')
+                });
+                $("#occupationBarangay_review").select2({
+                    placeholder: `--Select Barangay--`,
+                    width: '100%',
+                    dropdownParent: $('#reviewInquiryModal')
+                });
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(status);
+                console.error('AJAX error:', error);
+                Swal.fire({
+                    title: 'Error! ',
+                    text: 'An internal error occurred. Please contact MIS.',
+                    icon: 'error',
+                    confirmButtonColor: 'var(--bs-danger)'
+                })
+            }
+        });
+    }
+    function migrateInquiryData() {
+        const prospectType = $('input[name="prospectType"]:checked').val();
+        const customerFirstName = $("#customerFirstName").val();
+        const customerMiddleName = $("#customerMiddleName").val();
+        const customerLastName = $("#customerLastName").val();
+        const street = $("#street").val();
+        const contactNumber = $("#contactNumber").val();
+        const gender = $('input[name="gender"]:checked').val();
+        const maritalStatus = $('input[name="maritalStatus"]:checked').val();
+        const maritalStatusOther = $("#maritalStatusOtherInput").val();
+        const birthday = $("#birthday").val();
+        const occupation = $('input[name="occupation"]:checked').val();
+        const businessName = $("#businessName").val();
+        const occupationStreet = $("#occupationStreet").val();
+        const businessCategory = $('input[name="businessCategory"]:checked').val();
+        const businessSize = $('input[name="businessSize"]:checked').val();
+        const monthlyAverage = $('input[name="monthlyAverage"]:checked').val();
+
+        const inquiryDate = $('#inquiryDate').val();
+        const inquirySource = $('input[name="inquirySource"]:checked').val();
+        const inquirySourceType = $('input[name="inquirySourceType"]:checked').val();
+        const mallDisplay = $("#mallDisplay").val();
+        const buyerType = $('input[name="buyerType"]:checked').val();
+        const unitInquired = $("#unitInquired").val();
+        const tamarawVariant = $('input[name="tamarawVariant"]:checked').val();
+        const transactionType = $('input[name="transactionType"]:checked').val();
+        const hasApplication = $('input[name="hasApplication"]:checked').val();
+        const hasReservation = $('input[name="hasReservation"]:checked').val();
+        const reservationDate = $('#reservationDate').val();
+        const additionalUnit = $("#additionalUnit").val();
+        const tamarawSpecificUsage = $("#tamarawSpecificUsage").val();
+        const buyerDecisionHold = $('input[name="buyerDecisionHold"]:checked').val();
+        const buyerDecisionHoldReason = $("#buyerDecisionHoldReason").val();
+        const appointmentDate = $("#appointmentDate").val();
+        const appointmentTime = $("#appointmentTime").val();
+
+        // console.log(
+        //     `
+        //     Create Form Data
+
+        //     prospectType: ${prospectType}
+        //     customerFirstName: ${customerFirstName}
+        //     customerMiddleName: ${customerMiddleName}
+        //     customerLastName: ${customerLastName}
+        //     street: ${street}
+        //     contactNumber: ${contactNumber}
+        //     gender: ${gender}
+        //     maritalStatus: ${maritalStatus}
+        //     maritalStatusOther: ${maritalStatusOther}
+        //     birthday: ${birthday}
+        //     occupation: ${occupation}
+        //     businessName: ${businessName}
+        //     occupationStreet: ${occupationStreet}
+        //     businessCategory: ${businessCategory}
+        //     businessSize: ${businessSize}
+        //     monthlyAverage: ${monthlyAverage}
+
+        //     inquiryDate: ${inquiryDate}
+        //     inquirySource: ${inquirySource}
+        //     inquirySourceType: ${inquirySourceType}
+        //     mallDisplay: ${mallDisplay}
+        //     buyerType: ${buyerType}
+        //     unitInquired: ${unitInquired}
+        //     tamarawVariant: ${tamarawVariant}
+        //     transactionType: ${transactionType}
+        //     hasApplication: ${hasApplication}
+        //     hasReservation: ${hasReservation}
+        //     reservationDate: ${reservationDate}
+        //     additionalUnit: ${additionalUnit}
+        //     tamarawSpecificUsage: ${tamarawSpecificUsage}
+        //     buyerDecisionHold: ${buyerDecisionHold}
+        //     buyerDecisionHoldReason: ${buyerDecisionHoldReason}
+        //     appointmentDate: ${appointmentDate}
+        //     appointmentTime: ${appointmentTime}
+        //     `
+        // );
+
+        if (prospectType === "Hot") {
+            $("#prospectType_hot_review").prop('checked', true);
+        } else if (prospectType === "Warm") {
+            $("#prospectType_warm_review").prop('checked', true);
+        } else if (prospectType === "Cold") {
+            $("#prospectType_cold_review").prop('checked', true);
+        }
+        $("#customerFirstName_review").val(customerFirstName);
+        $("#customerMiddleName_review").val(customerMiddleName);
+        $("#customerLastName_review").val(customerLastName);
+        $("#street_review").val(street);
+        $("#contactNumber_review").val(contactNumber);
+        if (gender === "Male") {
+            $("#gender_male_review").prop('checked', true);
+        } else if (gender === "Female") {
+            $("#gender_female_review").prop('checked', true);
+        } else if (gender === "LGBT") {
+            $("#gender_otlgbt_review").prop('checked', true);
+        }
+        $("#maritalStatus_review").val(maritalStatus).trigger('change');
+        $("#maritalStatusOtherInput_review").val(maritalStatusOther);
+        $("#birthday_review").val(birthday);
+        $("#occupation_review").val(occupation).trigger('change');
+        $("#businessName_review").val(businessName);
+        $("#occupationStreet_review").val(occupationStreet);
+        $("#businessCategory_review").val(businessCategory);
+        $("#businessSize_review").val(businessSize);
+        $("#monthlyAverage_review").val(monthlyAverage);
+
+        $("#inquiryDate_review").val(inquiryDate);
+        $("#inquirySource_review").val(inquirySource).trigger('change');
+        if (inquirySource === "Face To Face") {
+            $("#f2fSource_review").val(inquirySourceType).trigger('change');
+        } else if (inquirySource === "Online") {
+            $("#onlineSource_review").val(inquirySourceType).trigger('change');
+        }
+        $("#f2fSource_review").val(inquirySourceType);
+        $("#onlineSource_review").val(inquirySourceType);
+        $("#mallDisplay_review").val(mallDisplay);
+        if (buyerType === "First-Time") {
+            $("#buyerType_first_review").prop('checked', true);
+        } else if (buyerType === "Replacement") {
+            $("#buyerType_replacement_review").prop('checked', true);
+        } else if (buyerType === "additional") {
+            $("#buyerType_additional_review").prop('checked', true);
+        }
+        $("#unitInquired_review").val(unitInquired).trigger('change');
+        $("#tamarawVariant_review").val(tamarawVariant);
+        $("#transactionType_review").val(transactionType);
+        if (hasApplication === "Yes") {
+            $("#hasApplication_yes_review").prop('checked', true).trigger('change');
+        } else if (hasApplication === "No") {
+            $("#hasApplication_no_review").prop('checked', true).trigger('change');
+        }
+        if (hasReservation === "Yes") {
+            $("#hasReservation_yes_review").prop('checked', true).trigger('change');
+        } else if (hasReservation === "No") {
+            $("#hasReservation_no_review").prop('checked', true).trigger('change');
+        }
+        $("#reservationDate_review").val(reservationDate);
+        $("#additionalUnit_review").val(additionalUnit);
+        $("#tamarawSpecificUsage_review").val(tamarawSpecificUsage);
+        if (buyerDecisionHold === "Yes") {
+            $("#buyerDecisionHold_yes_review").prop('checked', true);
+        } else if (buyerDecisionHold === "No") {
+            $("#buyerDecisionHold_no_review").prop('checked', true);
+        }
+        $("#buyerDecisionHoldReason_review").val(buyerDecisionHoldReason);
+        $("#appointmentDate_review").val(appointmentDate);
+        $("#appointmentTime_review").val(appointmentTime);
+
+        if (maritalStatus === "Others") {
+            $("#maritalStatusOtherGroup_review").removeClass("d-none");
+            $("#maritalStatusOtherInput_review").attr("required", true).focus();
+        } else {
+            $("#maritalStatusOtherGroup_review").addClass("d-none");
+            $("#maritalStatusOtherInput_review").removeAttr("required").removeClass("is-invalid");
+        }
+    }
+
+    populateInquiryFields();
+
+    $("#province_review").on('change', function () {
+        const provinceCode = $(this).find(':selected').data('code');
+        $.ajax({
+            type: "GET",
+            url: `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`,
+            dataType: "json",
+            success: function (response) {
+                $('#municipality_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
+                response.forEach(municipality => {
+                    $('#municipality_review').append(`<option value="${municipality.name}" data-code="${municipality.code}">${municipality.name}</option>`);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('XHR : ', xhr.responseText);
+                console.error('Status : ', status);
+                console.error('AJAX error : ', error);
+                Swal.fire({
+                    title: 'Error! ',
+                    text: 'An internal error occurred. Please contact MIS.',
+                    icon: 'error',
+                    confirmButtonColor: 'var(--bs-danger)'
+                })
+            }
+        });
+    });
+    $("#municipality_review").on('change', function () {
+        const municipalityCode = $(this).find(':selected').data('code');
+        $.ajax({
+            type: "GET",
+            url: `https://psgc.gitlab.io/api/cities-municipalities/${municipalityCode}/barangays/`,
+            dataType: "json",
+            success: function (response) {
+                $('#barangay_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Barangay--</option></option>`);
+                response.forEach(barangay => {
+                    $('#barangay_review').append(`<option value="${barangay.name}" data-code="${barangay.code}">${barangay.name}</option>`);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('XHR : ', xhr.responseText);
+                console.error('Status : ', status);
+                console.error('AJAX error : ', error);
+                Swal.fire({
+                    title: 'Error! ',
+                    text: 'An internal error occurred. Please contact MIS.',
+                    icon: 'error',
+                    confirmButtonColor: 'var(--bs-danger)'
+                })
+            }
+        });
+    });
+    $("#occupationProvince_review").on('change', function () {
+        const provinceCode = $(this).find(':selected').data('code');
+        $.ajax({
+            type: "GET",
+            url: `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`,
+            dataType: "json",
+            success: function (response) {
+                $('#occupationMunicipality_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select OccupationMunicipality--</option></option>`);
+                response.forEach(municipality => {
+                    $('#occupationMunicipality_review').append(`<option value="${municipality.name}" data-code="${municipality.code}">${municipality.name}</option>`);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('XHR : ', xhr.responseText);
+                console.error('Status : ', status);
+                console.error('AJAX error : ', error);
+                Swal.fire({
+                    title: 'Error! ',
+                    text: 'An internal error occurred. Please contact MIS.',
+                    icon: 'error',
+                    confirmButtonColor: 'var(--bs-danger)'
+                })
+            }
+        });
+    });
+    $("#occupationMunicipality_review").on('change', function () {
+        const municipalityCode = $(this).find(':selected').data('code');
+        $.ajax({
+            type: "GET",
+            url: `https://psgc.gitlab.io/api/cities-municipalities/${municipalityCode}/barangays/`,
+            dataType: "json",
+            success: function (response) {
+                $('#occupationBarangay_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select OccupationBarangay--</option></option>`);
+                response.forEach(barangay => {
+                    $('#occupationBarangay_review').append(`<option value="${barangay.name}" data-code="${barangay.code}">${barangay.name}</option>`);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('XHR : ', xhr.responseText);
+                console.error('Status : ', status);
+                console.error('AJAX error : ', error);
+                Swal.fire({
+                    title: 'Error! ',
+                    text: 'An internal error occurred. Please contact MIS.',
+                    icon: 'error',
+                    confirmButtonColor: 'var(--bs-danger)'
+                })
+            }
+        });
+    });
+    $(document).on("change", "#maritalStatus_review", function () {
+        const othersGroup = $("#maritalStatusOthersRow_review");
+        const othersInput = $("#maritalStatusOtherInput_review");
+        const selected = $("#maritalStatus_review").val();
+        if (selected === "Others") {
+            if (othersGroup.hasClass('d-none')) {
+                othersGroup.removeClass("d-none");
+                othersGroup.addClass("d-flex");
+                othersInput.attr("required", true).focus();
+            }
+        } else {
+            if (othersGroup.hasClass('d-flex')) {
+                othersGroup.addClass("d-none");
+                othersGroup.removeClass("d-flex");
+                othersInput.removeAttr("required").removeClass("is-invalid");
+            }
+        }
+    });
+    $(document).on("change", "#occupation_review", function () {
+        if ($(this).val() === "Business Owner") {
+            $(".occupationLabel").text("Business");
+            if ($("#businessCategoryRow_review").hasClass("d-none")) {
+                $("#businessCategoryRow_review").removeClass("d-none");
+                $("#businessCategoryRow_review").addClass("d-flex");
+                $("#businessSizeRow_review").removeClass("d-none");
+                $("#businessSizeRow_review").addClass("d-flex");
+                $("#businessCategory_review").attr("required", true);
+                $("#businessSize_review").attr("required", true);
+            }
+        } else if ($(this).val() === "Employed") {
+            $(".occupationLabel").text("Employer");
+            if ($("#businessCategoryRow_review").hasClass("d-flex")) {
+                $("#businessCategoryRow_review").removeClass("d-flex");
+                $("#businessCategoryRow_review").addClass("d-none");
+                $("#businessSizeRow_review").removeClass("d-flex");
+                $("#businessSizeRow_review").addClass("d-none");
+                $("#businessCategory_review").removeAttr("required");
+                $("#businessSize_review").removeAttr("required");
+            }
+        } else {
+            $(".occupationLabel").text("Occupation");
+            if ($("#businessCategoryRow_review").hasClass("d-flex")) {
+                $("#businessCategoryRow_review").removeClass("d-flex");
+                $("#businessCategoryRow_review").addClass("d-none");
+                $("#businessSizeRow_review").removeClass("d-flex");
+                $("#businessSizeRow_review").addClass("d-none");
+                $("#businessCategory_review").removeAttr("required");
+                $("#businessSize_review").removeAttr("required");
+            }
+        }
+    });
+    $(document).on('change', '#inquirySource_review', function () {
+        if ($(this).val() === "Face To Face") {
+            if ($("#f2fSourceRow_review").hasClass('d-none')) {
+                $("#f2fSourceRow_review").removeClass('d-none');
+            }
+            if (!$("#onlineSourceRow_review").hasClass('d-none')) {
+                $("#onlineSourceRow_review").addClass('d-none');
+                $("#onlineSource_review").val("").trigger('change');
+            }
+        } else if ($(this).val() === "Online") {
+            if ($("#onlineSourceRow_review").hasClass('d-none')) {
+                $("#onlineSourceRow_review").removeClass('d-none');
+            }
+            if (!$("#f2fSourceRow_review").hasClass('d-none')) {
+                $("#f2fSourceRow_review").addClass('d-none');
+                $("#f2fSource_review").val("").trigger('change');
+            }
+        }
+    });
+    $(document).on('change', '#f2fSource_review', function () {
+        if ($(this).val() === "Mall Display") {
+            if ($("#mallDisplayRow_review").hasClass('d-none')) {
+                $("#mallDisplayRow_review").removeClass('d-none');
+                $("#mallDisplay_review").attr('required', true);
+            }
+        } else {
+            if (!$("#mallDisplayRow_review").hasClass('d-none')) {
+                $("#mallDisplayRow_review").addClass('d-none');
+                $("#mallDisplay_review").removeAttr('required');
+                $("#mallDisplay_review").val('');
+            }
+        }
+    });
+    $(document).on('change', '#unitInquired_review', function () {
+        if ($(this).val() === "TAMARAW") {
+            if ($("#tamarawVariantRow_review").hasClass('d-none')) {
+                $("#tamarawVariantRow_review").removeClass('d-none');
+                $("#tamarawVariant_review").attr('required', true);
+
+                $("#additionalUnitRow_review").removeClass("d-none");
+                $("#tamarawSpecificUsageRow_review").removeClass("d-none");
+                $("#buyerDecisionHoldRow_review").removeClass("d-none");
+            }
+        } else {
+            if (!$("#tamarawVariantRow_review").hasClass('d-none')) {
+                $("#tamarawVariantRow_review").addClass('d-none');
+                $("#tamarawVariant_review").removeAttr('required');
+                $("#tamarawVariant_review").val('');
+
+                $("#additionalUnitRow_review").addClass("d-none");
+                $("#additionalUnit_review").val("");
+                $("#tamarawSpecificUsageRow_review").addClass("d-none");
+                $("#tamarawSpecificUsage_review").val("");
+                $("#buyerDecisionHoldRow_review").addClass("d-none");
+                $('#buyerDecisionHold_yes_review, #buyerDecisionHold_no_review').prop('checked', false).trigger('change');
+            }
+        }
+    });
+    $(document).on('change', '#hasReservation_yes_review, #hasReservation_no_review', function () {
+        if ($(this).val() === "Yes") {
+            if ($("#reservationDateRow_review").hasClass('d-none')) {
+                $("#reservationDateRow_review").removeClass('d-none');
+                $("#reservationDate_review").attr("required", true);
+            }
+        } else if ($(this).val() === "No") {
+            if (!$("#reservationDateRow_review").hasClass('d-none')) {
+                $("#reservationDateRow_review").addClass('d-none');
+                $("#reservationDate_review").removeAttr("required");
+                $("#reservationDate_review").val("");
+            }
+        }
+    });
+    $(document).on('change', '#buyerDecisionHold_yes_review, #buyerDecisionHold_no_review', function () {
+        if ($(this).val() === "Yes") {
+            if ($("#buyerDecisionHoldReasonRow_review").hasClass('d-none')) {
+                $("#buyerDecisionHoldReasonRow_review").removeClass('d-none');
+                $("#buyerDecisionHoldReason_review").attr("required", true);
+            }
+        } else if ($(this).val() === "No") {
+            if (!$("#buyerDecisionHoldReasonRow_review").hasClass('d-none')) {
+                $("#buyerDecisionHoldReasonRow_review").addClass('d-none');
+                $("#buyerDecisionHoldReason_review").removeAttr("required");
+                $("#buyerDecisionHoldReason_review").val("");
+            }
+        }
+    });
+
+    $("#reviewInquiryForm").submit(function (e) {
+        e.preventDefault();
+        const formData = new FormData(this); // Use FormData on the form DOM element
+
+        console.log('--- Form Data ---');
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+    });
+
+    $("#reviewBtn").on('click', function () {
+        if (validateRequiredFields($(".form-step[data-step='25']"))) {
+            migrateInquiryData();
+            $("#createInquiryModal").modal('hide');
+            $("#reviewInquiryModal").modal('show');
+        }
+    });
+    $("#previousBtn_review").on('click', function () {
+        $("#createInquiryModal").modal('show');
+        $("#reviewInquiryModal").modal('hide');
+    });
+    // populateInquiryFields();
+});
