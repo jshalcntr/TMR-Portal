@@ -1,19 +1,19 @@
-<div class="modal fade" id="viewInventoryModal" tabindex="-1" aria-labelledby="viewInventoryModalLabel" aria-hidden="true">
+<div class="modal fade" id="viewInventoryModal" tabindex="-1" aria-labelledby="viewInventoryModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-        <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center px-4">
-                <h3 class="modal-title" id="viewInventoryModalLabel">Item View | Asset #: <span id="assetNumber_edit"></span></h3>
-                <div class="header-actions d-flex align-items-center" style="gap: 8px;">
-                    <?php if ($authorizations['inventory_edit'] && !$authorizations['inventory_super']): ?>
-                        <button type="button" class="btn btn-circle shadow-sm btn-info" id="requestChangesBtn" role="button" data-bs-placement="bottom" title="Request Changes" data-bs-target="#requestChangesModal" data-bs-toggle="tooltip"><i class="fa-solid fa-comment-pen"></i></button>
-                    <?php elseif ($authorizations['inventory_super']): ?>
-                        <button type="button" class="btn btn-circle shadow-sm btn-primary" id="viewAllRequestsBtn" role="button" data-bs-placement="bottom" title="Requests" data-bs-target="#viewAllRequestsModal" data-bs-toggle="tooltip"><i class="fa-solid fa-bell-exclamation"></i></button>
-                    <?php endif; ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <form id="editInventoryForm" class="container needs-validation" novalidate autocomplete="off">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center px-4">
+                    <h3 class="modal-title" id="viewInventoryModalLabel">Item View | Asset #: <span id="assetNumber_edit"></span></h3>
+                    <div class="header-actions d-flex align-items-center" style="gap: 8px;">
+                        <?php if ($authorizations['inventory_edit'] && !$authorizations['inventory_super']): ?>
+                            <button type="button" class="btn btn-circle shadow-sm btn-info" id="requestChangesBtn" role="button" data-bs-placement="bottom" title="Request Changes" data-bs-target="#requestChangesModal" data-bs-toggle="tooltip"><i class="fa-solid fa-comment-pen"></i></button>
+                        <?php elseif ($authorizations['inventory_super']): ?>
+                            <button type="button" class="btn btn-circle shadow-sm btn-light text-primary" id="viewAllRequestsBtn" role="button" data-bs-placement="bottom" title="Requests" data-bs-target="#viewAllRequestsModal" data-bs-toggle="tooltip"><i class="fa-solid fa-bell-exclamation"></i></button>
+                        <?php endif; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-body custom-scrollable-body p-xl-3">
-                <form id="editInventoryForm" class="container needs-validation" novalidate autocomplete="off">
+                <div class="modal-body custom-scrollable-body p-xl-3">
                     <div class="row mb-lg-3">
                         <div class="col">
                             <h4 class="mb-2">Item Details</h4>
@@ -123,7 +123,10 @@
                             </div>
                         </div>
                     </div>
-                    <?php if ($authorizations['inventory_edit']): ?>
+                    <input type="hidden" name="id" id="id_edit">
+                </div>
+                <?php if ($authorizations['inventory_edit']): ?>
+                    <div class="modal-footer">
                         <div class="row action-row">
                             <div class="col d-flex justify-content-end align-items-end action-column" id="viewActionsRow">
                                 <button type="button" class="btn btn-sm shadow-sm btn-danger" id="retireInventoryButton"><i class="fas fa-calendar-xmark"></i> Retire</button>
@@ -138,10 +141,9 @@
                                 <button type="button" class="btn btn-sm shadow-sm btn-danger" id="disposeButton"><i class="fas fa-dumpster"></i> Dispose</button>
                             </div>
                         </div>
-                    <?php endif; ?>
-                    <input type="hidden" name="id" id="id_edit">
-                </form>
+                    </div>
+                <?php endif; ?>
             </div>
-        </div>
+        </form>
     </div>
 </div>

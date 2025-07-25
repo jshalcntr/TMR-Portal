@@ -1,12 +1,12 @@
-<div class="modal fade" id="createInventoryModal" tabindex="-1" aria-labelledby="createInventoryModalLabel" aria-hidden="true">
+<div class="modal fade" id="createInventoryModal" tabindex="-1" aria-labelledby="createInventoryModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-        <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center px-4">
-                <h3 class="modal-title" id="createInventoryModalLabel">Add New Item</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body custom-scrollable-body">
-                <form id="createInventoryForm" class="container needs-validation" novalidate autocomplete="off">
+        <form id="createInventoryForm" class="container needs-validation" novalidate autocomplete="off">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-between align-items-center px-4">
+                    <h3 class="modal-title" id="createInventoryModalLabel">Add New Item</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body custom-scrollable-body">
                     <div class="row mb-lg-2">
                         <div class="col">
                             <h4 class="mb-2">Item Details</h4>
@@ -23,6 +23,7 @@
                                 </select>
                                 <div class="invalid-feedback">Please Select Item Type</div>
                             </div>
+
                             <div class="mb-2 form-group">
                                 <label for="itemCategory" class="col-form-label">Item Category</label>
                                 <select name="itemCategory" id="itemCategory" class="form-control form-control-sm form-select" required>
@@ -77,7 +78,11 @@
                             </div>
                         </div>
                         <div class="col">
-                            <h4 class="mb-2">Supply Details</h4>
+                            <h4 class="mb-3">Supply Details</h4>
+                            <div class="mb-2 form-check">
+                                <input type="checkbox" name="isFreebies" id="isFreebies" class="form-check-input">
+                                <label for="isFreebies" class="form-check-label">Mark as Freebies</label>
+                            </div>
                             <div class="mb-2 form-group">
                                 <label for="dateAcquired" class="col-form-label">Date Acquired</label>
                                 <input type="date" name="dateAcquired" id="dateAcquired" class="form-control form-control-sm" max="<?= date('Y-m-d') ?>" value="<?= date('Y-m-d') ?>" required>
@@ -111,13 +116,15 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="modal-footer">
                     <div class="row action-row">
                         <div class="col d-flex justify-content-end align-items-end">
                             <button type="submit" class="btn btn-sm shadow-sm btn-primary"><i class="fas fa-floppy-disk"></i> Add to Inventory</button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>

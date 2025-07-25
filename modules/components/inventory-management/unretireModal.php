@@ -1,7 +1,7 @@
 <div id="unretireModal" class="modal fade" tabindex="-1" aria-labelledby="unretireModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content px-3">
-            <div class="modal-header d-flex justify-content-between align-items-center px-4">
+            <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center px-4">
                 <h3 class="modal-title" id="unretireModalLabel">Request to Unretire</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>

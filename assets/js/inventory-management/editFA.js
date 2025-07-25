@@ -17,8 +17,9 @@ $(document).ready(function () {
         $("#newFA, #newFAReason").removeClass('is-invalid');
 
         const faFormat = /^TMRMIS\d{2}-\d{4}$/;
-
-        if (!faFormat.test(newFA)) {
+        if (newFA === "Freebies") {
+            formIsValid = true;
+        } else if (!faFormat.test(newFA)) {
             $("#newFA")[0].setCustomValidity('Invalid FA Number Format');
             $("#newFA").next(".invalid-feedback").text('Invalid FA Number Format');
             formIsValid = false;

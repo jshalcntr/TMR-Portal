@@ -17,6 +17,7 @@ $(document).ready(function () {
         $("#user").val("");
         $("#computerName").val("");
         $("#department").val("");
+        $("#isFreebies").prop('checked', false);
         $("#supplierName").val("");
         $("#serialNumber").val("");
         $("#price").val("");

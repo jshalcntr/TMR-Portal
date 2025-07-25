@@ -1,7 +1,7 @@
 <div class="modal fade" id="viewAllRequestsModal" tabindex="-1" aria-labelledby="viewAllRequestsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrolable modal-lg">
         <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center px-4">
+            <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center px-4">
                 <h3 class="moda-title" id="viewAllRequestsModalLabel">Requests</h3>
                 <div class="header-actions d-flex align-items-center" style="gap: 8px;">
                     <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

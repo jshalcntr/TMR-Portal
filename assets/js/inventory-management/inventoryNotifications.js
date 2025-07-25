@@ -56,7 +56,7 @@ $(document).ready(function () {
                                 $("#inventoryNotificationsBody").append(`<hr>`);
                             }
                             $("#inventoryNotificationsBody").append(`
-                                <div class="row notification-row" role="button" data-notification-id="${notification.notification_id}" data-notification-type="${notification.notification_type}" data-inventory-id="${notification.inventory_id}" data-bs-toggle="modal" data-bs-target="#viewRequestModalNotif">
+                                <div class="row notification-row ml-2" role="button" data-notification-id="${notification.notification_id}" data-notification-type="${notification.notification_type}" data-inventory-id="${notification.inventory_id}" data-bs-toggle="modal" data-bs-target="#viewRequestModalNotif">
                                     <img src="${notification.sender_profile === 'no-link' ? '../../assets/img/no-profile.png' : notification.sender_profile}" style="width: 50px !important; height:50px !important; padding-left: 0px !important; padding-right: 0px !important;">
                                     <div class="col">
                                         <div class="d-flex flex-row align-items-center">
@@ -136,7 +136,7 @@ $(document).ready(function () {
                                 $("#inventoryNotificationsBody").append(`<hr>`);
                             }
                             $("#inventoryNotificationsBody").append(`
-                                <div class="row notification-row" role="button" data-notification-id="${notification.notification_id}" data-notification-type="${notification.notification_type}" data-inventory-id="${notification.inventory_id}">
+                                <div class="row notification-row ml-2" role="button" data-notification-id="${notification.notification_id}" data-notification-type="${notification.notification_type}" data-inventory-id="${notification.inventory_id}">
                                     <img src="${notification.sender_profile === 'no-link' ? '../../assets/img/no-profile.png' : notification.sender_profile}" style="width: 50px !important; height:50px !important; padding-left: 0px !important; padding-right: 0px !important;">
                                     <div class="col">
                                         <div class="d-flex flex-row align-items-center">

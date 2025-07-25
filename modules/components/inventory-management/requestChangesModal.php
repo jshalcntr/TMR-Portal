@@ -1,10 +1,10 @@
 <div id="requestChangesModal" class="modal fade" tabindex="-1" aria-labelledby="requestChangesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center px-4">
-                <h3 class="modal-title" id="requestChangesModalLabel">Request Changes | Asset #: <span id="assetNumber_request"></span></h3>
+            <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center px-4">
+                <h6 class="modal-title" id="requestChangesModalLabel">Request Changes | Asset #: <span id="assetNumber_request"></span></h6>
                 <div class="header-actions d-flex align-items-center" style="gap: 8px;">
-                    <button type="button" class="btn btn-circle shadow-sm btn-primary" id="viewRequestHistoryBtn" role="button" data-bs-placement="bottom" title="Requests History" data-bs-target="#viewRequestHistoryModal" data-bs-toggle="tooltip"><i class="fa-solid fa-rectangle-history"></i></button>
+                    <button type="button" class="btn btn-circle shadow-sm btn-light text-primary" id="viewRequestHistoryBtn" role="button" data-bs-placement="bottom" title="Requests History" data-bs-target="#viewRequestHistoryModal" data-bs-toggle="tooltip"><i class="fa-solid fa-rectangle-history"></i></button>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
             </div>

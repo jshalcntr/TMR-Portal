@@ -2,7 +2,25 @@
 require '../dbconn.php';
 
 $inventoryId = $_GET['inventoryId'];
-$sql = "SELECT * FROM inventory_disposal_tbl WHERE inventory_id = ?";
+$sql = "SELECT 
+        inventory_records_tbl.fa_number,
+        inventory_records_tbl.item_type,
+        inventory_records_tbl.item_category,
+        inventory_records_tbl.brand,
+        inventory_records_tbl.model,
+        inventory_records_tbl.item_specification,
+        inventory_records_tbl.user,
+        inventory_records_tbl.computer_name,
+        inventory_records_tbl.department,
+        inventory_records_tbl.date_acquired,
+        inventory_records_tbl.supplier,
+        inventory_records_tbl.serial_number,
+        inventory_records_tbl.price,
+        inventory_records_tbl.status,
+        inventory_disposal_tbl.remarks
+        FROM inventory_disposal_tbl
+        JOIN inventory_records_tbl ON inventory_disposal_tbl.inventory_id = inventory_records_tbl.id
+        WHERE inventory_id = ?";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {

@@ -23,7 +23,7 @@
 
 .table-bordered th,
 .table-bordered td {
-    border: 1px solid var(--gray-dark);
+    /* border: 1px solid var(--gray-dark); */
     margin: 0 !important;
     color: var(--dark);
 }
@@ -54,13 +54,13 @@
     background-color: var(--primary);
     color: var(--text-white);
 }
-#forDisposalTable,
+/* #forDisposalTable,
 #disposableItemsTable,
 #disposedListTable,
 #disposedItemsTable {
     border-left: 1px solid var(--gray-dark);
     border-bottom: 1px solid var(--gray-dark);
-}
+} */
 
 .custom-upload-dropzone {
     border: 5px dashed var(--text-gray);
@@ -93,6 +93,6 @@ a.text-danger {
     transition: color 150ms ease-out;
 }
 
-h6{
+h6 {
     margin-bottom: 0 !important;
 }

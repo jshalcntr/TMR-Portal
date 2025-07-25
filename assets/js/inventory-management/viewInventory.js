@@ -30,6 +30,7 @@ $(document).ready(function () {
                 } else {
                     const inventoryData = response.data[0];
                     $("#assetNumber_edit").text((inventoryData.fa_number) ? inventoryData.fa_number : "Non-Fixed Asset");
+                    $("#assetNumber_request").text((inventoryData.fa_number) ? inventoryData.fa_number : "Non-Fixed Asset");
                     $("#itemType_edit").val(inventoryData.item_type).trigger('change');
                     $("#itemCategory_edit").val(inventoryData.item_category);
                     $("#itemBrand_edit").val(inventoryData.brand);
@@ -230,6 +231,7 @@ $(document).ready(function () {
                     const inventoryData = response.data[0];
 
                     $("#assetNumber_edit").text((inventoryData.fa_number) ? inventoryData.fa_number : "Non-Fixed Asset");
+                    $("#assetNumber_request").text((inventoryData.fa_number) ? inventoryData.fa_number : "Non-Fixed Asset");
                     $("#itemType_edit").val(inventoryData.item_type);
                     $("#itemCategory_edit").val(inventoryData.item_category);
                     $("#itemBrand_edit").val(inventoryData.brand);

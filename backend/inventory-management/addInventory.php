@@ -17,7 +17,37 @@ $status = "Active";
 $remarks = $_POST['remarks'];
 $newFaNumber = "";
 
-if ($itemPrice > 9999.4) {
+if (isset($_POST['isFreebies'])) {
+    $newFaNumber = "Freebies";
+    $addItemSql = "INSERT INTO inventory_records_tbl(item_type, item_category, item_specification, brand, model, date_acquired, supplier, serial_number, remarks,user, computer_name, department, status, price, fa_number)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($addItemSql);
+
+    if (!$stmt) {
+        header('Content-Type: application/json');
+        echo json_encode([
+            "status" => "internal-error",
+            "message" => "Internal Error. Please Contact the Programmer",
+            "data" => $conn->error
+        ]);
+    } else {
+        $stmt->bind_param("sssssssssssssds", $itemType, $itemCategory, $itemSpecification, $itemBrand, $itemModel, $dateAcquired, $supplier, $serialNumber, $remarks, $user, $computerName, $separtment, $status, $itemPrice, $newFaNumber);
+        if (!$stmt->execute()) {
+            header('Content-Type: application/json');
+            echo json_encode([
+                "status" => "internal-error",
+                "message" => "Internal Error. Please Contact the Programmer",
+                "data" => $stmt->error
+            ]);
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode([
+                "status" => "success",
+                "message" => "Fixed Asset $newFaNumber Added Successfully!",
+            ]);
+        }
+    }
+} else if ($itemPrice > 9999.4) {
     $currentYear = date('y', strtotime($dateAcquired));
     $latestFaNumberSql = "SELECT fa_number FROM inventory_records_tbl
                             WHERE fa_number IS NOT NULL AND fa_number <> ''

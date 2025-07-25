@@ -2,8 +2,8 @@ $(document).ready(function () {
     $(document).on('click', '.viewDisposalModalBtn', function () {
         $.ajax({
             type: "GET",
-            url: "../../backend/inventory-management/getInventory.php",
-            data: { id: $(this).data('inventory-id') },
+            url: "../../backend/inventory-management/getDisposal.php",
+            data: { inventoryId: $(this).data('inventory-id') },
             success: function (response) {
                 console.log(response.data[0]);
                 if (response.status === "internal-error") {
@@ -28,7 +28,7 @@ $(document).ready(function () {
                     $("#supplierName_disposal").text(itemData.supplier);
                     $("#serialNumber_disposal").text(itemData.serial_number);
                     $("#remarks_disposal").text(itemData.remarks);
-                    $("#price_disposal").text(itemData.price);
+                    $("#price_disposal").text(convertToPhp(itemData.price));
 
                 }
             }

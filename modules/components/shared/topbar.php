@@ -11,7 +11,7 @@ date_default_timezone_set('Asia/Manila');
         <i class="fa fa-bars"></i>
     </button>
 
-    Topbar Navbar
+    <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
         <!-- Nav Item - Alerts -->
 
@@ -23,7 +23,7 @@ date_default_timezone_set('Asia/Manila');
                 <span class="badge badge-danger badge-counter">3+</span>
             </a> -->
 
-            <!-- <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+        <!-- <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                     Alerts Center

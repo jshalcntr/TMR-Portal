@@ -35,7 +35,7 @@ $(document).ready(function () {
             { "data": "user" },
             { "data": "computerName" },
             { "data": "department" },
-            { "data": "dateRetiredReadable" },
+            { "data": "dateRetiredReadable", },
             {
                 "data": "id", render: function (data, type, row) {
                     return `<i class="fas fa-xl fa-circle-info viewDisposalModalBtn text-primary" data-inventory-id="${data}" role="button" data-bs-toggle="modal" data-bs-target="#viewDisposalModal"></i>`
@@ -43,7 +43,7 @@ $(document).ready(function () {
             },
         ],
         "columnDefs": [{
-            "targets": [4],
+            "targets": [6],
             "type": "date",
             "orderDataType": "dom-data-order"
         }],
