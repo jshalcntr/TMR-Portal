@@ -883,7 +883,7 @@ $(document).ready(function () {
     // Handle submission of changes
     $('#submitChangesButton').on('click', function () {
         const ticketId = $('#closedticketId').text();
-        const changesDescription = $('#ticketChangesDescription').val();
+        const changesDescription = $('#ticketReopenDescription').val();
 
         if (changesDescription.trim() === '') {
             Swal.fire({

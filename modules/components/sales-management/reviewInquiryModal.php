@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <form id="reviewInquiryForm" class="needs-validation w-100" novalidate>
             <div class="modal-content">
-                <div class="modal-header d-flex justify-content-between align-items-center">
+                <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h5 class="modal-title" id="reviewInquiryModalLabel">Review Inquiry</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -181,6 +181,11 @@
                                     <select name="occupationBarangay" id="occupationBarangay_review" class="form-select form-select-sm" disabled required></select>
                                     <div class="invalid-feedback">Please select a Barangay.</div>
                                 </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <label for="occupationStreet_review" class="mb-0 flex-grow-1">Street Address</label>
+                                <input type="text" name="occupationStreet" id="occupationStreet_review" class="form-control form-control-sm">
+                                </input>
                             </div>
                         </div>
                         <div class="row d-none" id="businessCategoryRow_review">

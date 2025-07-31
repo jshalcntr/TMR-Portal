@@ -1,7 +1,7 @@
 <div id="inquiryAlerts" class="modal fade" tabindex="-1" aria-labelledby="inquiryAlertsLabel" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center px-4">
+            <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center px-4">
                 <h3 class="modal-title" id="inquiryAlertsLabel">Notifications</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>

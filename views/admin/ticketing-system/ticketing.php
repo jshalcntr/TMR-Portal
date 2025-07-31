@@ -478,8 +478,8 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                                 </button>
                                             </div>
                                             <div id="changesSection" class="mt-3 border rounded p-3 bg-light" style="display: none;">
-                                                <label for="ticketChangesDescription" class="fw-bold">Reason for Reopening:</label>
-                                                <textarea id="ticketChangesDescription" class="form-control mt-2" rows="3" placeholder="Enter reason..."></textarea>
+                                                <label for="ticketReopenDescription" class="fw-bold">Reason for Reopening:</label>
+                                                <textarea id="ticketReopenDescription" class="form-control mt-2" rows="3" placeholder="Enter reason..."></textarea>
 
                                                 <div class="d-flex justify-content-between mt-3">
                                                     <button id="submitChangesButton" class="btn btn-outline-success">

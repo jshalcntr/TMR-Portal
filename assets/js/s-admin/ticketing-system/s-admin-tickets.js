@@ -145,9 +145,11 @@ function fetchAndShowTickets(card) {
             <tr>
                 <th>Ticket ID</th>
                 <th>Requestor</th>
-                <th>Date Requested</th>
+                <th>Requested</th>
+                <th>Claimed</th>
                 <th>Subject</th>
                 <th>Status</th>
+                <th>Handler</th>
                 <th>Due Date</th>
                 <th id="dateClosedHeader">Date Closed</th>
                 <th>Attachment</th>
@@ -179,10 +181,13 @@ function fetchAndShowTickets(card) {
                     const dueDate = ticket.ticket_due_date ?? '';
                     const dateClosed = ticket.date_finished ?? '';
                     const dateCreated = ticket.date_created ?? '';
+                    const dateAccepted = ticket.date_accepted ?? '';
+                    const handler_name = ticket.handler_name ?? '';
 
                     const formattedDueDate = dueDate ? formatDate(dueDate) : 'N/A';
                     const formattedDateClosed = dateClosed ? formatDate(dateClosed) : 'N/A';
                     const formattedDateCreated = dateCreated ? formatDate(dateCreated) : 'N/A';
+                    const formattedDateClaim = dateAccepted ? formatDate(dateAccepted) : 'N/A';
                     // Only add the class if the ticket is not CLOSED
                     const dueTimerClass = ticket.ticket_status !== 'CLOSED' ? 'ticket-due-timer' : '';
 
@@ -208,11 +213,13 @@ function fetchAndShowTickets(card) {
 
                     const row = `
                         <tr class="clickable-row" data-ticket='${JSON.stringify(ticket)}'>
-                            <td>#${ticketId}</td>
+                            <td>${ticketId}</td>
                             <td>${fullName} - ${department}</td>
                             <td>${formattedDateCreated}</td>
+                            <td>${formattedDateClaim}</td>
                             <td>${subject}</td>
                             <td>${status}</td>
+                            <td>${handler_name}</td>
                             <td class="${dueTimerClass} ${priorityClass}" data-due-date="${dueDate}">${formattedDueDate}</td>
                             <td class="date-closed-cell" style="${showDateClosed ? '' : 'display: none;'}">${formattedDateClosed}</td>
                             <td>${attachmentLink}</td>
@@ -1045,6 +1052,7 @@ $(document).ready(function () {
 // Function to refresh the list of ticket details
 function refreshTicketList() {
     // Fetch ticket counts from the backend
+
     $.ajax({
         url: '../../../backend/admin/ticketing-system/fetch_ticket_counts.php', // Adjust the path as needed
         method: 'GET',
@@ -1084,6 +1092,10 @@ function refreshTicketList() {
                     speakAlert('You have ' + data.open + ' new open ' + ticket + '.');
                     showNotification('You have ' + data.open + ' new open ' + ticket + '.');
                 }
+                if (data.unassigned > previousCounts.unassigned) {
+                    speakAlert('There is ' + data.unassigned + ' unassigned ' + ticket + '.');
+                    showNotification('There is ' + data.unassigned + ' unassigned ' + ticket + '.');
+                }
 
                 // Update previous counts
                 previousCounts = data;
@@ -1110,19 +1122,29 @@ function refreshTicketList() {
 function speakAlert(message) {
     const speech = new SpeechSynthesisUtterance(message);
     speech.lang = 'en-US';
+    speech.rate = 0.8;
 
-    // Get the list of available voices
-    const voices = window.speechSynthesis.getVoices();
+    function setVoiceAndSpeak() {
+        const voices = window.speechSynthesis.getVoices();
+        let selectedVoice = voices.find(v => v.name === 'Google UK English Female');
 
-    // Find the Microsoft Zira voice
-    const femaleVoice = voices.find(voice => voice.name === 'Google UK English Female');
+        if (!selectedVoice && voices.length > 0) {
+            selectedVoice = voices.find(v => v.lang.startsWith('en')) || voices[0]; // fallback
+        }
 
-    // Set the Microsoft Zira voice if found
-    if (femaleVoice) {
-        speech.voice = femaleVoice;
+        if (selectedVoice) {
+            speech.voice = selectedVoice;
+        }
+
+        window.speechSynthesis.speak(speech);
     }
 
-    window.speechSynthesis.speak(speech);
+    // If voices are not yet loaded
+    if (window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.onvoiceschanged = setVoiceAndSpeak;
+    } else {
+        setVoiceAndSpeak();
+    }
 }
 
 // window.speechSynthesis.onvoiceschanged = () => {

@@ -200,7 +200,7 @@ $(document).ready(function () {
             $("#gender_otlgbt_review").prop('checked', true);
         }
         $("#maritalStatus_review").val(maritalStatus).trigger('change');
-        $("#maritalStatusOtherInput_review").val(maritalStatusOther);
+        $("#maritalStatusOtherInput_review").val(maritalStatusOther === null || maritalStatusOther === "" ? maritalStatus : maritalStatusOther);
         $("#birthday_review").val(birthday);
         $("#occupation_review").val(occupation).trigger('change');
         $("#businessName_review").val(businessName);
@@ -243,9 +243,9 @@ $(document).ready(function () {
         $("#additionalUnit_review").val(additionalUnit);
         $("#tamarawSpecificUsage_review").val(tamarawSpecificUsage);
         if (buyerDecisionHold === "Yes") {
-            $("#buyerDecisionHold_yes_review").prop('checked', true);
+            $("#buyerDecisionHold_yes_review").prop('checked', true).trigger('change');
         } else if (buyerDecisionHold === "No") {
-            $("#buyerDecisionHold_no_review").prop('checked', true);
+            $("#buyerDecisionHold_no_review").prop('checked', true).trigger('change');
         }
         $("#buyerDecisionHoldReason_review").val(buyerDecisionHoldReason);
         $("#appointmentDate_review").val(appointmentDate);
@@ -367,6 +367,7 @@ $(document).ready(function () {
         const othersInput = $("#maritalStatusOtherInput_review");
         const selected = $("#maritalStatus_review").val();
         if (selected === "Others") {
+            othersInput.val("");
             if (othersGroup.hasClass('d-none')) {
                 othersGroup.removeClass("d-none");
                 othersGroup.addClass("d-flex");
@@ -378,6 +379,7 @@ $(document).ready(function () {
                 othersGroup.removeClass("d-flex");
                 othersInput.removeAttr("required").removeClass("is-invalid");
             }
+            othersInput.val($(this).val());
         }
     });
     $(document).on("change", "#occupation_review", function () {
@@ -502,12 +504,16 @@ $(document).ready(function () {
 
     $("#reviewInquiryForm").submit(function (e) {
         e.preventDefault();
-        const formData = new FormData(this); // Use FormData on the form DOM element
+        const formData = $(this).serialize();
 
-        console.log('--- Form Data ---');
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
-        }
+        $.ajax({
+            type: "POST",
+            url: "../../backend/sales-management/createInquiry.php",
+            data: formData,
+            success: function (response) {
+                console.log(response);
+            }
+        });
     });
 
     $("#reviewBtn").on('click', function () {

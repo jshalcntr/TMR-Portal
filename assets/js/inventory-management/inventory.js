@@ -366,7 +366,7 @@ const fetchItemCategory = (typeId, categoryId) => {
         "": [""],
         "Computer System": ['Desktop', 'NUC', 'AIO', 'Laptop', 'Hybrid Laptop', 'Network Video Recorder'],
         "Computer Hardware": ['Case Fan', 'CPU Fan', 'Computer Case', 'Hard Drive', 'Motherboard', 'Optical Disk Drive', 'PowerSupply', 'Processor', 'RAM', 'Video Card'],
-        "Computer Peripherals": ['CCTV', 'HDMI Splitter', 'Headset', 'Keyboard', 'Monitor', 'Monitor Bracket', 'Mouse', 'Printer', 'Scanner', 'Speaker', 'UPS', 'UPS Battery', 'Webcam', 'Wifi Dongle', 'Wireless HDMI', 'External Storage'],
+        "Computer Peripherals": ['CCTV', 'External Storage', "Flash Drive", 'HDMI Splitter', 'Headset', 'Keyboard', 'Monitor', 'Monitor Bracket', 'Mouse', 'Printer', 'Scanner', 'Speaker', 'UPS', 'UPS Battery', 'Webcam', 'Wi-Fi Dongle', 'Wireless HDMI'],
         "Network Peripherals": ['Access Point', 'POE Injector', 'Router', 'Switch'],
         "Audio & Visual Devices": ['Camera', 'Gimbal', 'HDMI Switcher', 'Microphone', 'Mixer', 'Speaker', 'Tripod', 'TV Bracket'],
         "MIS Tools": ['Crimping Tool', 'Drill', 'Hammer', 'Knockout Punch', 'Punching Tool', 'Screw Driver', 'Tester']

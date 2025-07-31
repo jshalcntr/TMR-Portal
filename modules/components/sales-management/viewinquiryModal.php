@@ -2,7 +2,7 @@
 <div class="modal fade" id="viewInquiryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="viewInquiryModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center">
+            <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
                 <h5 class="modal-title" id="viewInquiryModalLabel">Inquiry Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>

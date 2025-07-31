@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <form id="viewInquiryModalDetails" class="needs-validation w-100" novalidate>
             <div class="modal-content">
-                <div class="modal-header d-flex justify-content-between align-items-center">
+                <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h5 class="modal-title" id="viewInquiryModalDetailsLabel">View Inquiry</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

@@ -15,9 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Sanitize user inputs
-    $ticket_category = isset($_POST['ticket_category']) ? clean_input($_POST['ticket_category']) : '';
-    $ticket_subject  = isset($_POST['ticket_subject']) ? clean_input($_POST['ticket_subject']) : '';
-    $ticket_content  = isset($_POST['ticket_content']) ? clean_input($_POST['ticket_content']) : '';
+    $ticket_category = filter_input(INPUT_POST, 'ticket_category', FILTER_SANITIZE_STRING);
+    $ticket_subject = filter_input(INPUT_POST, 'ticket_subject', FILTER_SANITIZE_STRING);
+    $ticket_content = filter_input(INPUT_POST, 'ticket_content', FILTER_SANITIZE_STRING);
+
 
     // Get requestor ID from session
     $ticket_requestor_id = $_SESSION['user']['id'] ?? null;

@@ -1,7 +1,7 @@
 <div class="modal fade" id="moveMemberModal" tabindex="-1" aria-labelledby="moveMemberModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center">
+            <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
                 <h5 class="modal-title" id="moveMemberModalLabel">Move Member</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>

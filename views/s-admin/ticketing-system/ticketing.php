@@ -54,8 +54,8 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-12 row">
-                            <div class="card shadow mb-4 col-md-2" data-category="all-overdue" onclick="fetchAndShowTickets(this)">
+                        <div class="col-md-10 row">
+                            <div class="card shadow mb-4 col-md-4" data-category="all-overdue" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">All Overdue Tasks</h6>
                                 </div>
@@ -63,7 +63,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                     <h1 class="card-title font-weight-bold" id="all-overdue-tasks">0</h1>
                                 </div>
                             </div>
-                            <div class="card shadow mb-4 col-md-2" data-category="all-today-due" onclick="fetchAndShowTickets(this)">
+                            <div class="card shadow mb-4 col-md-4" data-category="all-today-due" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">All Tickets Due Today</h6>
                                 </div>
@@ -71,7 +71,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                     <h1 class="card-title font-weight-bold" id="all-today-due-tickets">0</h1>
                                 </div>
                             </div>
-                            <div class="card shadow mb-4 col-md-2" data-category="all-open" onclick="fetchAndShowTickets(this)">
+                            <div class="card shadow mb-4 col-md-4" data-category="all-open" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">All Open Tickets</h6>
                                 </div>
@@ -79,7 +79,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                     <h1 class="card-title font-weight-bold" id="all-open-tickets">0</h1>
                                 </div>
                             </div>
-                            <div class="card shadow mb-4 col-md-2" data-category="all-for-approval" onclick="fetchAndShowTickets(this)">
+                            <div class="card shadow mb-4 col-md-4" data-category="all-for-approval" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">All For Approval Tickets</h6>
                                 </div>
@@ -87,7 +87,15 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                     <h1 class="card-title font-weight-bold" id="all-for-approval-tickets">0</h1>
                                 </div>
                             </div>
-                            <div class="card shadow mb-4 col-md-2" data-category="reopen-tickets" onclick="fetchAndShowTickets(this)">
+                            <div class="card shadow mb-4 col-md-4" data-category="unassigned" onclick="fetchAndShowTickets(this)">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Unassigned Tickets</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h1 class="card-title font-weight-bold" id="unassigned-tickets">0</h1>
+                                </div>
+                            </div>
+                            <div class="card shadow mb-4 col-md-4" data-category="reopen-tickets" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Request Reopen</h6>
                                 </div>
@@ -96,8 +104,8 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 row">
-                            <div class="card shadow mb-4 col-md-2" data-category="overdue" onclick="fetchAndShowTickets(this)">
+                        <div class="col-md-2 row">
+                            <!-- <div class="card shadow mb-4 col-md-2" data-category="overdue" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Overdue Tasks</h6>
                                 </div>
@@ -128,16 +136,9 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                 <div class="card-body text-center">
                                     <h1 class="card-title font-weight-bold" id="for-approval-tickets">0</h1>
                                 </div>
-                            </div>
-                            <div class="card shadow mb-4 col-md-2" data-category="unassigned" onclick="fetchAndShowTickets(this)">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Unassigned Tickets</h6>
-                                </div>
-                                <div class="card-body text-center">
-                                    <h1 class="card-title font-weight-bold" id="unassigned-tickets">0</h1>
-                                </div>
-                            </div>
-                            <div class="card shadow mb-4 col-md-2" data-category="finished" onclick="fetchAndShowTickets(this)">
+                            </div> -->
+
+                            <div class="card shadow mb-4 col-md-12" data-category="finished" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Closed Tickets</h6>
                                 </div>
