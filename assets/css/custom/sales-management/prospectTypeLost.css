@@ -14,7 +14,7 @@
 #prospectTypeLostModal tbody tr:nth-child(odd) {
   background-color: var(--bs-white);
 }
-#prospectTypeLostModal tbody tr:nth-child(even) {
+#prospectTypeL ostModal tbody tr:nth-child(even) {
   background-color: var(--bs-table-bg);
 }
 #prospectTypeLostModal {

@@ -11,7 +11,6 @@ function number_format(number, decimals, dec_point, thousands_sep) {
         toFixedFix = function (n, prec) {
             return (Math.round(n * Math.pow(10, prec)) / Math.pow(10, prec)).toString();
         };
-
     s = (prec ? toFixedFix(n, prec) : Math.round(n).toString()).split('.');
     if (s[0].length > 3) {
         s[0] = s[0].replace(/\B(?=(\d{3})+(?!\d))/g, sep);
@@ -23,16 +22,16 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 $(document).ready(function () {
-    const ctx = $("#ticketAreaChart");
+    let lineChartInstance = null;
+    let pieChartInstance = null;
 
-    let chartInstance = null;
+    const lineCtx = $("#ticketAreaChart");
+    const pieCtx = document.getElementById('ticketPieChart').getContext('2d');
 
-    function renderChart(ctx, labels, data) {
-        if (chartInstance) {
-            chartInstance.destroy();
-        }
+    function renderLineChart(labels, data) {
+        if (lineChartInstance) lineChartInstance.destroy();
 
-        chartInstance = new Chart(ctx, {
+        lineChartInstance = new Chart(lineCtx, {
             type: 'line',
             data: {
                 labels: labels,
@@ -54,44 +53,24 @@ $(document).ready(function () {
             },
             options: {
                 maintainAspectRatio: false,
-                layout: {
-                    padding: {
-                        left: 10,
-                        right: 25,
-                        top: 25,
-                        bottom: 0
-                    }
-                },
+                layout: { padding: { left: 10, right: 25, top: 25, bottom: 0 } },
                 scales: {
-                    xAxes: [{
-                        gridLines: {
-                            display: false,
-                            drawBorder: false
-                        },
-                        ticks: {
-                            maxTicksLimit: 31
-                        }
-                    }],
+                    xAxes: [{ gridLines: { display: false }, ticks: { maxTicksLimit: 31 } }],
                     yAxes: [{
                         ticks: {
                             maxTicksLimit: 5,
                             padding: 10,
-                            callback: function (value) {
-                                return number_format(value);
-                            }
+                            callback: value => number_format(value)
                         },
                         gridLines: {
                             color: "rgb(234, 236, 244)",
                             zeroLineColor: "rgb(234, 236, 244)",
-                            drawBorder: false,
                             borderDash: [2],
                             zeroLineBorderDash: [2]
                         }
-                    }],
+                    }]
                 },
-                legend: {
-                    display: false
-                },
+                legend: { display: false },
                 tooltips: {
                     backgroundColor: "rgb(255,255,255)",
                     bodyFontColor: "#858796",
@@ -117,7 +96,44 @@ $(document).ready(function () {
         });
     }
 
-    function fetchChartData(startDate = '', endDate = '') {
+    function renderPieChart(labels, data) {
+        if (pieChartInstance) pieChartInstance.destroy();
+
+        pieChartInstance = new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Closed Tickets',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(78, 115, 223, 0.7)', 'rgba(28, 200, 138, 0.7)', 'rgba(54, 185, 204, 0.7)',
+                        'rgba(246, 194, 62, 0.7)', 'rgba(231, 74, 59, 0.7)', 'rgba(133, 135, 150, 0.7)',
+                        'rgba(93, 123, 247, 0.7)', 'rgba(255, 99, 132, 0.7)', 'rgba(102, 102, 255, 0.7)',
+                        'rgba(153, 204, 255, 0.7)'
+                    ],
+                    borderColor: 'rgba(255, 255, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true, position: 'top' },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return `${tooltipItem.label}: ${tooltipItem.raw}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function fetchLineChartData(startDate = '', endDate = '') {
         $.ajax({
             url: '../../../backend/admin/ticketing-system/fetch_closed_tickets.php',
             type: 'GET',
@@ -125,31 +141,44 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.status === 'success') {
-                    const chartData = response.data;
-                    const labels = [];
-                    const ticketCounts = [];
-
-                    $.each(chartData, function (index, item) {
+                    const labels = response.data.map(item => {
                         const dateObj = new Date(item.date);
-                        const options = { month: 'short', day: '2-digit' };
-                        const label = dateObj.toLocaleDateString('en-US', options);
-                        labels.push(label);
-                        ticketCounts.push(item.ticket_count);
+                        return dateObj.toLocaleDateString('en-US', { month: 'short', day: '2-digit' });
                     });
-
-                    renderChart(ctx, labels, ticketCounts);
+                    const data = response.data.map(item => item.ticket_count);
+                    renderLineChart(labels, data);
                 } else {
-                    console.error("No data found");
+                    console.error("Line chart: No data found");
                 }
             },
             error: function (xhr, status, error) {
-                console.error('Error fetching chart data:', error);
+                console.error('Line chart error:', error);
             }
         });
     }
 
-    // Filter button
-    $('#filterBtn').on('click', function () {
+    function fetchPieChartData(startDate = '', endDate = '') {
+        $.ajax({
+            url: '../../../backend/admin/ticketing-system/fetch_tickets_by_department.php',
+            method: 'GET',
+            data: { start_date: startDate, end_date: endDate },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    const labels = response.data.map(item => item.department);
+                    const data = response.data.map(item => item.ticket_count);
+                    renderPieChart(labels, data);
+                } else {
+                    console.error("Pie chart: No data found");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Pie chart error:', error);
+            }
+        });
+    }
+
+    function applyDateFilter() {
         const startDate = $('#startDate').val();
         const endDate = $('#endDate').val();
 
@@ -158,16 +187,19 @@ $(document).ready(function () {
             return;
         }
 
-        fetchChartData(startDate, endDate);
-    });
+        fetchLineChartData(startDate, endDate);
+        fetchPieChartData(startDate, endDate);
+    }
 
-    // Load default data (current month)
+    $('#filterBtn').on('click', applyDateFilter);
+
+    // Auto-load current month by default
     const today = new Date();
-    const start = new Date(today.getFullYear(), today.getMonth(), 1);
-    const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+    const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    $('#startDate').val(firstDay.toISOString().split('T')[0]);
+    $('#endDate').val(lastDay.toISOString().split('T')[0]);
 
-    $('#startDate').val(start.toISOString().split('T')[0]);
-    $('#endDate').val(end.toISOString().split('T')[0]);
-
-    fetchChartData($('#startDate').val(), $('#endDate').val());
+    fetchLineChartData($('#startDate').val(), $('#endDate').val());
+    fetchPieChartData($('#startDate').val(), $('#endDate').val());
 });

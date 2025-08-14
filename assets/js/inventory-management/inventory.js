@@ -18,6 +18,7 @@ const populateTable = () => {
                 const table = $("#inventoryTable").DataTable({
                     data: response.data,
                     columns: [
+                        { data: "id" },
                         { data: "faNumber" },
                         { data: "user" },
                         { data: "computerName" },
@@ -53,33 +54,33 @@ const populateTable = () => {
                     destroy: true,
                     serverSide: false,
                     processing: true,
-                    order: [[7, "desc"]],
+                    order: [[8, "desc"]],
                     columnDefs: [
                         {
-                            targets: [1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14],
+                            targets: [2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 14, 15],
                             orderable: false
                         },
                         {
-                            targets: [7],
+                            targets: [8],
                             type: "date",
                             orderDataType: "dom-data-order"
                         },
                         {
-                            targets: [12],
+                            targets: [13],
                             type: "num"
                         }
                     ],
                     createdRow: function (row, data) {
-                        $('td', row).eq(7).attr('data-order', data.dateAcquired);
+                        $('td', row).eq(8).attr('data-order', data.dateAcquired);
                     }
                 });
 
-                populateDropdown("#filterItemType", table, 3);
-                populateDropdown("#filterCategory", table, 4);
-                populateDropdown("#filterBrand", table, 5);
-                populateDropdown("#filterSupplier", table, 8);
-                populateDropdown("#filterDepartment", table, 10);
-                populateDropdown("#filterStatus", table, 11);
+                populateDropdown("#filterItemType", table, 4);
+                populateDropdown("#filterCategory", table, 5);
+                populateDropdown("#filterBrand", table, 6);
+                populateDropdown("#filterSupplier", table, 9);
+                populateDropdown("#filterDepartment", table, 11);
+                populateDropdown("#filterStatus", table, 12);
 
                 $("#filterItemType, #filterCategory, #filterBrand, #filterSupplier, #filterDepartment, #filterStatus").on("change", function () {
                     table.draw();
@@ -143,12 +144,12 @@ const populateTable = () => {
                         const department = $("#filterDepartment").val();
                         const status = $("#filterStatus").val();
 
-                        const matchesItemType = itemType === "" || data[3] === itemType; // Column 1: Item Type
-                        const matchesCategory = itemCategory === "" || data[4] === itemCategory; // Column 2: Item Category
-                        const matchesBrand = brand === "" || data[5] === brand; // Column 2: Brand
-                        const matchesSupplier = supplier === "" || data[8] === supplier; // Column 7: Supplier
-                        const matchesDepartment = department === "" || data[10] === department; // Column 9: Department
-                        const matchesStatus = status === "" || data[11] === status; // Column 10: Status
+                        const matchesItemType = itemType === "" || data[4] === itemType; // Column 1: Item Type
+                        const matchesCategory = itemCategory === "" || data[5] === itemCategory; // Column 2: Item Category
+                        const matchesBrand = brand === "" || data[6] === brand; // Column 2: Brand
+                        const matchesSupplier = supplier === "" || data[9] === supplier; // Column 7: Supplier
+                        const matchesDepartment = department === "" || data[11] === department; // Column 9: Department
+                        const matchesStatus = status === "" || data[12] === status; // Column 10: Status
 
                         return matchesItemType && matchesCategory && matchesBrand && matchesSupplier && matchesDepartment && matchesStatus;
                     },

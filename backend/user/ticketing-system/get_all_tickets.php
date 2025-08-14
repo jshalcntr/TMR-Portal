@@ -57,7 +57,7 @@ if ($user_dept) {
                 data-id='{$row['ticket_id']}'
                 data-subject='" . htmlspecialchars($row['ticket_subject'], ENT_QUOTES, 'UTF-8') . "'
                 data-type='" . htmlspecialchars($row['ticket_type'], ENT_QUOTES, 'UTF-8') . "'
-                data-description='" . htmlspecialchars($row['ticket_description'], ENT_QUOTES, 'UTF-8') . "'
+                data-description='" . html_entity_decode($row['ticket_description'], ENT_QUOTES, 'UTF-8') . "'
                 data-priority='" . htmlspecialchars($row['ticket_priority'], ENT_QUOTES, 'UTF-8') . "'
                 data-status='" . htmlspecialchars($row['ticket_status'], ENT_QUOTES, 'UTF-8') . "'
                 data-requestor='" . htmlspecialchars($row['requestor_name'] ?? 'Unknown', ENT_QUOTES, 'UTF-8') . "'

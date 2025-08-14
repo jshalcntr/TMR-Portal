@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="../../assets/css/custom/sales-management/prospectTypeWarm.css">
 <div class="modal fade" id="prospectTypeWarmModal" tabindex="-1" aria-labelledby="prospectTypeWarmLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">

@@ -15,6 +15,7 @@ $(document).ready(function () {
                     });
                 } else if (response.status === "success") {
                     const itemData = response.data[0];
+                    $("#inventoryId_disposal").text(itemData.id);
                     $("#faNumber_disposal").text(itemData.fa_number === "" ? "Non-Fixed Asset" : itemData.fa_number);
                     $("#itemType_disposal").text(itemData.item_type);
                     $("#itemCategory_disposal").text(itemData.item_category);
@@ -29,7 +30,6 @@ $(document).ready(function () {
                     $("#serialNumber_disposal").text(itemData.serial_number);
                     $("#remarks_disposal").text(itemData.remarks);
                     $("#price_disposal").text(convertToPhp(itemData.price));
-
                 }
             }
         });

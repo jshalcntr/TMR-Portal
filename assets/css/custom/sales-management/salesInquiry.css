@@ -41,3 +41,13 @@
     bottom: -27px;
     width: auto !important;
 }
+
+.masonry {
+  column-count: 3; /* how many columns */
+  column-gap: 1rem; /* space between columns */
+}
+
+.masonry > div {
+  break-inside: avoid; /* prevent items from splitting across columns */
+  margin-bottom: 1rem;
+}

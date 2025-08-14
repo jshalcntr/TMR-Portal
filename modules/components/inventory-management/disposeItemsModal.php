@@ -1,12 +1,12 @@
 <div class="modal fade" id="disposeItemsModal" tabindex="-1" aria-labelledby="disposeItemsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center px-4">
-                <h3 class="modal-title" id="disposeItemsModalLabel">Dispose Items</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body custom-scrollable-body">
-                <form class="container" id="disposeItemsForm" enctype="multipart/form-data">
+            <form id="disposeItemsForm" enctype="multipart/form-data">
+                <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center px-4">
+                    <h3 class="modal-title" id="disposeItemsModalLabel">Dispose Items</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body custom-scrollable-body px-4">
                     <div class="row">
                         <div class="col">
                             <div class="row">
@@ -42,8 +42,8 @@
                             <input type="hidden" name="disposableItemIds" id="disposableItemIds" value="">
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

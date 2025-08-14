@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="../../assets/css/custom/sales-management/prospectTypeLost.css">
 <div class="modal fade" id="prospectTypeLostModal" tabindex="-1" aria-labelledby="prospectTypeLostLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">

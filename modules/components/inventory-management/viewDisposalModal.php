@@ -11,6 +11,10 @@
                         <th class="text-center h4 fw-bold bg-light" colspan="2">Item Details</th>
                     </tr>
                     <tr>
+                        <th class="bg-light w-40">Inventory Id:</th>
+                        <td id="inventoryId_disposal">Inventory Id</td>
+                    </tr>
+                    <tr>
                         <th class="bg-light w-40">FA Number:</th>
                         <td id="faNumber_disposal">FA Number</td>
                     </tr>

@@ -1,8 +1,8 @@
 <div class="modal fade" id="createInventoryModal" tabindex="-1" aria-labelledby="createInventoryModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-        <form id="createInventoryForm" class="container needs-validation" novalidate autocomplete="off">
-            <div class="modal-content">
-                <div class="modal-header d-flex justify-content-between align-items-center px-4">
+        <div class="modal-content">
+            <form id="createInventoryForm" class="needs-validation" novalidate autocomplete="off">
+                <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center px-4">
                     <h3 class="modal-title" id="createInventoryModalLabel">Add New Item</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -124,7 +124,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>

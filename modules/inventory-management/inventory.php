@@ -80,6 +80,7 @@ if (authorize(true, $conn)) {
                                 <table class="table small" id="inventoryTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th scope="col">Inventory Id</th>
                                             <th scope="col">Asset No.</th>
                                             <th scope="col">User</th>
                                             <th scope="col">PC Name</th>

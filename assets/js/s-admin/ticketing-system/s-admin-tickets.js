@@ -292,7 +292,9 @@ function fetchAndShowTickets(card) {
                     $(`#${tableId}`).DataTable().destroy();
                 }
 
-                $(`#${tableId}`).DataTable();
+                $(`#${tableId}`).DataTable({
+                    "order": [[0, "desc"]] // Sort by date created in descending order
+                });
                 // Show the modal
                 $('#ticketModal').modal('show');
             } else {

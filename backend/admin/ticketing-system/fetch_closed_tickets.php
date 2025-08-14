@@ -1,27 +1,34 @@
 <?php
-
 header('Content-Type: application/json');
 session_start();
 include('../../dbconn.php');
-
-// Set timezone
 date_default_timezone_set('Asia/Manila');
 
-// Get current year and month
-$year = date('Y');
-$month = date('m');
+$startDate = isset($_GET['start_date']) ? $_GET['start_date'] : null;
+$endDate = isset($_GET['end_date']) ? $_GET['end_date'] : null;
 
-// Get number of days in the current month
-$daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-
-// Generate list of dates for the whole month
-$allDates = [];
-for ($day = 1; $day <= $daysInMonth; $day++) {
-    $date = date('Y-m-d', strtotime("$year-$month-$day"));
-    $allDates[$date] = 0;
+// Default to current month if no date provided
+if (!$startDate || !$endDate) {
+    $year = date('Y');
+    $month = date('m');
+    $startDate = "$year-$month-01";
+    $endDate = date("Y-m-t", strtotime($startDate));
 }
 
-// Query closed tickets grouped by date
+// Generate full date range
+$period = new DatePeriod(
+    new DateTime($startDate),
+    new DateInterval('P1D'),
+    (new DateTime($endDate))->modify('+1 day')
+);
+
+$allDates = [];
+foreach ($period as $date) {
+    $formatted = $date->format("Y-m-d");
+    $allDates[$formatted] = 0;
+}
+
+// Query closed tickets
 $query = "
     SELECT 
         DATE(date_finished) AS date, 
@@ -30,22 +37,19 @@ $query = "
         ticket_records_tbl 
     WHERE 
         LOWER(ticket_status) = 'closed' 
-        AND YEAR(date_finished) = '$year' 
-        AND MONTH(date_finished) = '$month'
+        AND DATE(date_finished) BETWEEN '$startDate' AND '$endDate'
     GROUP BY 
         DATE(date_finished)
 ";
 
 $result = $conn->query($query);
-
-// Update counts where applicable
-if ($result->num_rows > 0) {
+if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $allDates[$row['date']] = (int)$row['ticket_count'];
     }
 }
 
-// Format final data
+// Final output
 $data = [];
 foreach ($allDates as $date => $count) {
     $data[] = [

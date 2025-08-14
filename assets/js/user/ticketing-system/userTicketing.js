@@ -99,16 +99,49 @@ const categoryData = {
     ]
 };
 
+const explanations = {
+    // Category explanations
+    "Hardware Issues": "Issues related to physical devices like laptops, printers, or peripherals.",
+    "Software Issues": "Problems with applications or operating systems.",
+    "Network and Connectivity": "Issues related to internet, Wi-Fi, or VPN access.",
+    "Account and Access Management": "User account setup, access rights, and login issues.",
+    "Email and Communication": "Email configuration and issues with communication tools.",
+    "Security and Compliance": "Security incidents, malware, and compliance-related matters.",
+    "IT Service Requests": "Requests for IT equipment, software, or support.",
+    "System and Application Performance": "Performance problems with systems or apps.",
+    "Backup and Recovery": "Data backups, recovery, and disaster preparedness.",
+    "User Training and Support": "Training and guidance for users on IT topics.",
+    "Other/Miscellaneous": "Requests that don't fit into other categories.",
+
+    // Subject explanations
+    "Laptop/Desktop Issues": "Problems like system crashes, slow performance, or hardware failures.",
+    "Printer/Scanner Problems": "Troubles with printing, scanning, or driver errors.",
+    "Network Equipment (Routers, Switches)": "Issues with routers, switches, or other networking gear.",
+    "Peripheral Devices (Keyboard, Mouse)": "Malfunctions or setup issues for external devices.",
+    "Hardware Replacement or Upgrade": "Request to replace or upgrade hardware components.",
+
+    "Operating System Problems": "Windows, macOS, or Linux-related errors.",
+    "Software Installation/Update": "Help with installing or updating programs.",
+    "Application Crashes": "Apps closing unexpectedly or not launching.",
+    "License and Activation Issues": "Problems with software licensing or activation.",
+    "Compatibility Issues": "Software or hardware not working well together.",
+
+    // You can continue this for all subjects...
+};
+
+
 // Render Category Buttons
 $.each(categoryData, function (category) {
+    const explanation = explanations[category] || "";
     $('#categoryList').append(`
         <div class="col-6 col-md-5 mb-2">
-        <button type="button" class="btn btn-outline-secondary btn-sm category-btn" data-category="${category}">
+        <button type="button" class="btn btn-outline-secondary btn-sm category-btn" data-category="${category}" title="${explanation}">
             ${category}
         </button>
         </div>
     `);
 });
+
 
 // Handle Category Selection
 $(document).on('click', '.category-btn', function () {
@@ -125,16 +158,22 @@ $(document).on('click', '.category-btn', function () {
     const subjects = categoryData[selectedCategory];
     $('#subjectList').empty();
     subjects.forEach(subject => {
+        const explanation = explanations[subject] || "";
         $('#subjectList').append(`
-            <div class="col-6 col-md-5 mb-2">
-            <button type="button" class="btn btn-outline-secondary btn-sm subject-btn" data-subject="${subject}">
-                ${subject}
-            </button>
-            </div>
-        `);
+        <div class="col-6 col-md-5 mb-2">
+        <button type="button" class="btn btn-outline-secondary btn-sm subject-btn" data-subject="${subject}" title="${explanation}">
+            ${subject}
+        </button>
+        </div>
+    `);
     });
+    $('[title]').tooltip();
     $('#categoryContainer').hide(); // Hide subject container initially
     $('#subjectContainer').show();
+});
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip(); // for older Bootstrap
+    $('[title]').tooltip(); // for newer Bootstrap 5.x
 });
 
 // Handle Subject Selection
@@ -173,7 +212,7 @@ $(document).ready(function () {
         ajax: "../../../backend/user/ticketing-system/get_all_tickets.php",
         responsive: true,
         pageLength: 10,
-        order: [[9, "desc"]], // Column 9 is "Created"
+        order: [[0, "desc"]], // Column 9 is "Created"
         createdRow: function (row, data, dataIndex) {
             const status = data[4]; // Status column
 

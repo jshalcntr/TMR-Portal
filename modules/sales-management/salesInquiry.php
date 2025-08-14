@@ -46,6 +46,7 @@ if (authorize(true, $conn)) {
     <?php include "../components/shared/external-css-import.php" ?>
     <link rel="stylesheet" href="../../assets/css/custom/sales-management/salesInquiry.css">
     <link rel="stylesheet" href="../../assets/css/custom/sales-management/salesProspectInfo.css">
+    <link rel="stylesheet" href="../../assets/css/custom/sales-management/inquiryModal.css">
 
 </head>
 
@@ -67,13 +68,13 @@ if (authorize(true, $conn)) {
                         <div class="card-header py-3 d-flex align-items-center justify-content-between">
                             <h6 class="m-0 font-weight-bold text-primary">Inquiries</h6>
                             <div class="actions d-flex flex-row-reverse gap-3">
-                                <button class="btn btn-sm shadow-sm btn-primary createInquiryFormBtn" id="createInquiryBtn" data-bs-toggle="modal" data-bs-target="#createInquiryModal">
+                                <button class="btn btn-sm shadow-sm btn-primary" id="createInquiryBtn" data-bs-toggle="modal" data-bs-target="#createInquiryModal">
                                     <i class="fas fa-circle-plus"></i> Create Inquiry
                                 </button>
-                                <button class="btn btn-sm shadow-sm btn-success viewInquiryBtn" id="viewInquiryBtn" data-bs-toggle="modal" data-bs-target="#viewInquiryModal">
+                                <button class="btn btn-sm shadow-sm btn-success" id="viewInquiriesBtn" data-bs-toggle="modal" data-bs-target="#viewInquiriesModal">
                                     <i class=" fas fa-paperclip"></i> Inquiries
                                 </button>
-                                <button class="btn btn-sm shadow-sm btn-warning viewDemographicsBtn" id="viewDemographicsBtn" data-bs-toggle="modal" data-bs-target="#viewDemographicsModal">
+                                <button class="btn btn-sm shadow-sm btn-warning" id="viewDemographicsBtn" data-bs-toggle="modal" data-bs-target="#viewDemographicsModal">
                                     <i class="fas fa-chart-simple"></i> Demographics
                                 </button>
                             </div>
@@ -170,13 +171,11 @@ if (authorize(true, $conn)) {
             </div>
         </div>
     </div>
-    </div>
-    </div>
     <?php include "../components/sales-management/createInquiryModal.php" ?>
     <?php include "../components/sales-management/reviewInquiryModal.php" ?>
     <?php include "../components/sales-management/viewDemographicsModal.php" ?>
-    <?php include "../components/sales-management/viewInquiryModal.php" ?>
-    <?php include "../components/sales-management/viewInquiryModalDetails.php" ?>
+    <?php include "../components/sales-management/viewInquiriesModal.php" ?>
+    <?php include "../components/sales-management/viewInquiryDetailsModal.php" ?>
     <?php include "../components/sales-management/getprospectTypeHotModal.php" ?>
     <?php include "../components/sales-management/getprospectTypeWarmModal.php" ?>
     <?php include "../components/sales-management/getProspectTypeColdModal.php" ?>
@@ -186,11 +185,11 @@ if (authorize(true, $conn)) {
 <?php include '../components/shared/external-js-import.php'; ?>
 <script src="../../assets/js/sales-management/createInquiry.js"></script>
 <script src="../../assets/js/sales-management/reviewInquiry.js"></script>
-<script src="../../assets/js/sales-management/getInquiries.js"></script>
 <script src="../../assets/js/sales-management/viewDemographics.js"></script>
 <script src="../../assets/js/sales-management/getProspectData.js"></script>
 <script src="../../assets/js/sales-management/getSalesChart.js"></script>
-<script src="../../assets/js/sales-management/viewInquiryDetails.js"></script>
+<script src="../../assets/js/sales-management/viewInquiries.js"></script>
+<script src="../../assets/js/sales-management/viewInquiry.js"></script>
 <script src="../../assets/js/sales-management/viewProspectType.js"></script>
 
 </html>

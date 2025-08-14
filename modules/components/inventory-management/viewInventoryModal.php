@@ -1,9 +1,9 @@
 <div class="modal fade" id="viewInventoryModal" tabindex="-1" aria-labelledby="viewInventoryModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-        <form id="editInventoryForm" class="container needs-validation" novalidate autocomplete="off">
-            <div class="modal-content">
+        <div class="modal-content">
+            <form id="editInventoryForm" class="needs-validation" novalidate autocomplete="off">
                 <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center px-4">
-                    <h3 class="modal-title" id="viewInventoryModalLabel">Item View | Asset #: <span id="assetNumber_edit"></span></h3>
+                    <h3 class="modal-title" id="viewInventoryModalLabel">Item View | Inventory #: <span id="inventoryId_edit"></span></h3>
                     <div class="header-actions d-flex align-items-center" style="gap: 8px;">
                         <?php if ($authorizations['inventory_edit'] && !$authorizations['inventory_super']): ?>
                             <button type="button" class="btn btn-circle shadow-sm btn-info" id="requestChangesBtn" role="button" data-bs-placement="bottom" title="Request Changes" data-bs-target="#requestChangesModal" data-bs-toggle="tooltip"><i class="fa-solid fa-comment-pen"></i></button>
@@ -143,7 +143,7 @@
                         </div>
                     </div>
                 <?php endif; ?>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>

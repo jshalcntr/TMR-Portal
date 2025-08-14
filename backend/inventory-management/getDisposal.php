@@ -3,6 +3,7 @@ require '../dbconn.php';
 
 $inventoryId = $_GET['inventoryId'];
 $sql = "SELECT 
+        inventory_records_tbl.id,
         inventory_records_tbl.fa_number,
         inventory_records_tbl.item_type,
         inventory_records_tbl.item_category,

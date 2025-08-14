@@ -118,7 +118,10 @@ $(document).ready(function () {
 });
 
 
-
+function htmlDecode(input) {
+    const doc = new DOMParser().parseFromString(input, 'text/html');
+    return doc.documentElement.textContent;
+}
 
 // Function to handle card click (fetch tickets and show table modal)
 function fetchAndShowTickets(card) {
@@ -207,10 +210,17 @@ function fetchAndShowTickets(card) {
                         priorityClass = 'text-secondary'; // Default class for other priorities
                     }
 
-                    const escapedJson = JSON.stringify(ticket);
+                    function htmlEscape(str) {
+                        return str.replace(/&/g, '&amp;')
+                            .replace(/"/g, '&quot;')
+                            .replace(/'/g, '&#39;')
+                            .replace(/</g, '&lt;')
+                            .replace(/>/g, '&gt;');
+                    }
+                    const escapedJson = htmlEscape(JSON.stringify(ticket));
                     const row = `
                         <tr class="clickable-row" data-ticket='${escapedJson}'>
-                            <td>#${ticketId}</td>
+                            <td>${ticketId}</td>
                             <td>${fullName} - ${department}</td>
                             <td>${formattedDateCreated}</td>
                             <td>${subject}</td>
@@ -287,7 +297,9 @@ function fetchAndShowTickets(card) {
                     $(`#${tableId}`).DataTable().destroy();
                 }
 
-                $(`#${tableId}`).DataTable();
+                $(`#${tableId}`).DataTable({
+                    order: [[0, 'desc']]
+                });
                 // Show the modal
                 $('#ticketModal').modal('show');
             } else {
@@ -310,7 +322,10 @@ function showClosedTicketDetails(ticket) {
     const dateAccepted = ticket.date_accepted ?? '';
     const dateClosed = ticket.date_finished ?? '';
     const dateCreated = ticket.date_created ?? '';
-
+    let desc = ticket.ticket_description || 'N/A';
+    desc = htmlDecode(desc);
+    // Replace CRLF (\r\n), CR (\r), and LF (\n) with space or \n (your choice)
+    let cleanedDesc = desc.replace(/\\r\\n|\\n|\\r/g, '\n');
     const formattedDateAccepted = dateAccepted ? formatDate(dateAccepted) : 'N/A';
     const formattedDateClosed = dateClosed ? formatDate(dateClosed) : 'N/A';
     const formattedDateCreated = dateCreated ? formatDate(dateCreated) : 'N/A';
@@ -319,7 +334,7 @@ function showClosedTicketDetails(ticket) {
     document.getElementById('closedticketHandlerId').innerText = ticket.handler_name || 'N/A';
     document.getElementById('closedticketRequestorDepartment').innerText = ticket.department || 'N/A';
     document.getElementById('closedticketSubject').innerText = ticket.ticket_subject || 'N/A';
-    document.getElementById('closedticketDescription').innerText = ticket.ticket_description || 'N/A';
+    document.getElementById('closedticketDescription').innerText = cleanedDesc;
     document.getElementById('closedticketType').innerText = ticket.ticket_type || 'N/A';
     document.getElementById('closedticketAttachment').innerHTML = attachmentLink;
     document.getElementById('closedticketConclusion').innerText = ticket.ticket_conclusion || 'N/A';
@@ -432,12 +447,15 @@ function showTicketDetails(ticket) {
     if (formattedApprovalDueDate === 'N/A') {
         approvalDuedateClass = 'text-secondary';
     }
-
+    let desc = ticket.ticket_description || 'N/A';
+    desc = htmlDecode(desc);
+    // Replace CRLF (\r\n), CR (\r), and LF (\n) with space or \n (your choice)
+    let cleanedDesc = desc.replace(/\\r\\n|\\n|\\r/g, '\n');
     document.getElementById('ticketId').innerText = ticket.ticket_id || 'N/A';
     document.getElementById('ticketRequestorId').innerText = ticket.full_name || 'N/A';
     document.getElementById('ticketRequestorDepartment').innerText = ticket.department || 'N/A';
     document.getElementById('ticketSubject').innerText = ticket.ticket_subject || 'N/A';
-    document.getElementById('ticketDescription').innerText = ticket.ticket_description || 'N/A';
+    document.getElementById('ticketDescription').innerText = cleanedDesc;
     document.getElementById('ticketStatus').innerText = ticket.ticket_status || 'N/A';
     document.getElementById('ticketPriority').innerText = ticket.ticket_priority || 'N/A';
     document.getElementById('ticketHandlerName').innerText = ticket.handler_name || 'N/A';
@@ -488,7 +506,7 @@ function showUnassignedTicketDetails(ticket) {
         ? `<a href="../../../${ticket.ticket_attachment.replace(/^(\.\.\/)+/, '')}" target="_blank" class="badge badge-info">View Attachment</a>`
         : 'N/A';
     let desc = ticket.ticket_description || 'N/A';
-
+    desc = htmlDecode(desc);
     // Replace CRLF (\r\n), CR (\r), and LF (\n) with space or \n (your choice)
     let cleanedDesc = desc.replace(/\\r\\n|\\n|\\r/g, '\n');
     const dateCreated = ticket.date_created ?? '';

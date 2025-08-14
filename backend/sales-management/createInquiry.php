@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include('../dbconn.php');
 include('../middleware/helperFunction.php');
 
@@ -85,6 +85,7 @@ $buyerDecisionHold = $buyerDecisionHoldRaw === "Yes" ? 1 : ($buyerDecisionHoldRa
 $buyerDecisionHoldReason = filter_input(INPUT_POST, 'buyerDecisionHoldReason', FILTER_SANITIZE_STRING) ?? "";
 $appointmentDate = filter_input(INPUT_POST, 'appointmentDate', FILTER_SANITIZE_STRING);
 $appointmentTime = filter_input(INPUT_POST, 'appointmentTime', FILTER_SANITIZE_STRING);
+$agentId = $_SESSION['user']['id'];
 
 
 $sql1 = "INSERT INTO sales_customers_tbl (
@@ -106,8 +107,10 @@ $sql1 = "INSERT INTO sales_customers_tbl (
     occupation_street,
     business_name,
     business_category,
+    business_size,
     monthly_average
 ) VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -143,8 +146,10 @@ $sql2 = "INSERT INTO sales_inquiries_tbl(
     has_reservation,
     reservation_date,
     appointment_date,
-    appointment_time
+    appointment_time,
+    agent_id
 ) VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -186,7 +191,7 @@ if (!$stmt1) {
     respondWithError("Failed to Create Inquiry. Please Contact the Programmer", $conn->error);
 }
 $stmt1->bind_param(
-    "sssssssssssssssssss",
+    "ssssssssssssssssssss",
     $firstName,
     $middleName,
     $lastName,
@@ -205,6 +210,7 @@ $stmt1->bind_param(
     $occupationStreet,
     $businessName,
     $businessCategory,
+    $businessSize,
     $monthlyAverage
 );
 if (!$stmt1->execute()) {
@@ -221,7 +227,7 @@ if (!$stmt2) {
     respondWithError("Failed to Create Inquiry. Please Contact the Programmer", $conn->error);
 }
 $stmt2->bind_param(
-    "issssssssiisss",
+    "issssssssiisssi",
     $customerId,
     $prospectType,
     $inquiryDate,
@@ -235,7 +241,8 @@ $stmt2->bind_param(
     $hasReservation,
     $reservationDate,
     $appointmentDate,
-    $appointmentTime
+    $appointmentTime,
+    $agentId
 );
 if (!$stmt2->execute()) {
     $conn->rollback();

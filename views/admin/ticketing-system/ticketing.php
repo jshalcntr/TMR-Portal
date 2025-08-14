@@ -513,11 +513,23 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
 
 
                         <!------------------------------------------Charts--------------------------------------------------->
-                        <!-- line Chart -->
+                        <!-- Date Filter + Line Chart -->
                         <div class="col-md-8">
+                            <!-- Chart Card -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Closed Tickets</h6>
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                        <!-- Title -->
+                                        <h6 class="m-0 font-weight-bold text-primary">Closed Tickets</h6>
+
+                                        <!-- Date Filter -->
+                                        <div class="d-flex align-items-center mt-2 mt-md-0">
+                                            <input type="date" id="startDate" name="start_date" class="form-control form-control-sm mr-2">
+                                            <span class="mx-1">to</span>
+                                            <input type="date" id="endDate" name="end_date" class="form-control form-control-sm mx-2">
+                                            <button id="filterBtn" class="btn btn-sm btn-primary">Filter</button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-area">
@@ -526,6 +538,8 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                 </div>
                             </div>
                         </div>
+
+
                         <!-- Pie Chart -->
                         <div class="col-md-4">
                             <div class="card shadow mb-4">

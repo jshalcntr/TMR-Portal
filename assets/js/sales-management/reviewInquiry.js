@@ -511,7 +511,27 @@ $(document).ready(function () {
             url: "../../backend/sales-management/createInquiry.php",
             data: formData,
             success: function (response) {
-                console.log(response);
+                if (response.status === "success") {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: `${response.message}`,
+                        icon: 'success',
+                        confirmButtonColor: 'var(--bs-success)'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $("#reviewInquiryModal").modal('hide');
+                            // Reset Other Modal that has Tables
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: `${response.message}`,
+                        text: 'An internal error occurred. Please contact MIS.',
+                        icon: 'error',
+                        confirmButtonColor: 'var(--bs-danger)'
+                    });
+                }
             }
         });
     });
