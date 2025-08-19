@@ -21,7 +21,7 @@ $(document).on('click', '.viewInquiryDetailsBtn', function () {
                 const lastName = inquiryDetails.lastname;
                 const gender = inquiryDetails.gender;
                 const contactNumber = inquiryDetails.contact_number;
-                const streetAddress = inquiryDetails.street;
+                const streetAddress = inquiryDetails.street === "" ? "No Street Address" : inquiryDetails.street;
                 const barangay = inquiryDetails.barangay;
                 const municipality = inquiryDetails.municipality;
                 const province = inquiryDetails.province;
@@ -29,7 +29,7 @@ $(document).on('click', '.viewInquiryDetailsBtn', function () {
                 const birthday = convertToReadableDate(inquiryDetails.birthday);
 
                 const occupation = inquiryDetails.occupation;
-                const occupationStreetAddress = inquiryDetails.occupation_street;
+                const occupationStreetAddress = inquiryDetails.occupation_street === "" ? "No Street Address" : inquiryDetails.occupation_street;
                 const occupationBarangay = inquiryDetails.occupation_barangay;
                 const occupationMunicipality = inquiryDetails.occupation_municipality;
                 const occupationProvince = inquiryDetails.occupation_province;
@@ -72,6 +72,7 @@ $(document).on('click', '.viewInquiryDetailsBtn', function () {
                 $("#birthday_details").text(birthday);
 
                 $("#occupation_details").text(occupation);
+                $("#occupationName_details").text(businessName);
                 $("#occupationStreetAddress_details").text(occupationStreetAddress);
                 $("#occupationBarangay_details").text(occupationBarangay);
                 $("#occupationMunicipality_details").text(occupationMunicipality);

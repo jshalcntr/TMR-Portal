@@ -8,6 +8,9 @@ $(document).ready(function () {
                 $('#province_review').empty().append(`<option value="" selected hidden>--Select Province--</option></option>`);
                 $('#municipality_review').empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
                 $('#barangay_review').empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
+
+                $('#province_review').append(`<option value="National Capital Region" data-code="130000000" data-type="region">National Capital Region (NCR)</option>`);
+
                 response.forEach(province => {
                     $('#province_review').append(`<option value="${province.name}" data-code="${province.code}">${province.name}</option>`);
                 });
@@ -71,6 +74,9 @@ $(document).ready(function () {
                 $('#occupationProvince_review').empty().append(`<option value="" selected hidden>--Select Province--</option></option>`);
                 $('#occupationMunicipality_review').empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
                 $('#occupationBarangay_review').empty().append(`<option value="" selected hidden>--Select Barangay--</option></option>`);
+
+                $('#occupationProvince_review').append(`<option value="National Capital Region" data-code="130000000" data-type="region">National Capital Region (NCR)</option>`);
+
                 response.forEach(province => {
                     $('#occupationProvince_review').append(`<option value="${province.name}" data-code="${province.code}">${province.name}</option>`);
                 });
@@ -264,9 +270,18 @@ $(document).ready(function () {
 
     $("#province_review").on('change', function () {
         const provinceCode = $(this).find(':selected').data('code');
+        const provinceType = $(this).find(':selected').data('type');
+
+        let url = '';
+        if (provinceType === 'region' && provinceCode === 130000000) {
+            url = `https://psgc.gitlab.io/api/regions/${provinceCode}/cities-municipalities/`;
+        } else {
+            url = `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`;
+        }
+
         $.ajax({
             type: "GET",
-            url: `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`,
+            url: url,
             dataType: "json",
             success: function (response) {
                 $('#municipality_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
@@ -314,9 +329,18 @@ $(document).ready(function () {
     });
     $("#occupationProvince_review").on('change', function () {
         const provinceCode = $(this).find(':selected').data('code');
+        const provinceType = $(this).find(':selected').data('type');
+
+        let url = '';
+        if (provinceType === 'region' && provinceCode === 130000000) {
+            url = `https://psgc.gitlab.io/api/regions/${provinceCode}/cities-municipalities/`;
+        } else {
+            url = `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`;
+        }
+
         $.ajax({
             type: "GET",
-            url: `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`,
+            url: url,
             dataType: "json",
             success: function (response) {
                 $('#occupationMunicipality_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select OccupationMunicipality--</option></option>`);

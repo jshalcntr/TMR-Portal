@@ -767,7 +767,7 @@
                     <div class="form-step" data-step="22">
                         <div class="row justify-content-center align-items-center">
                             <label for="additionalUnit" class="h3 text-center">
-                                Additional Unit Currently used for Business
+                                Additional Unit Currently used for Business <span class="text-danger">*</span>
                             </label>
                         </div>
                         <div class="row justify-content-center align-items-center">
@@ -779,7 +779,7 @@
                     <div class="form-step" data-step="23">
                         <div class="row justify-content-center align-items-center">
                             <label for="tamarawSpecificUsage" class="h3 text-center">
-                                Specific Purpose or usage of Tamaraw
+                                Specific Purpose or usage of Tamaraw <span class="text-danger">*</span>
                             </label>
                         </div>
                         <div class="row justify-content-center align-items-center">

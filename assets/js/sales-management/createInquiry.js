@@ -287,35 +287,6 @@ $(document).ready(function () {
         $('#occupationMunicipality').prop('disabled', true);
         $('#occupationBarangay').prop('disabled', true);
 
-
-        currentStep = 1;
-        showStep(currentStep);
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "https://psgc.gitlab.io/api/provinces/",
-            success: function (response) {
-                $('#province').empty().append(`<option value="" selected hidden>--Select Province--</option></option>`);
-                $('#municipality').empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
-                $('#barangay').empty().append(`<option value="" selected hidden>--Select Barangay--</option></option>`);
-                response.forEach(province => {
-                    $('#province').append(`<option value="${province.name}" data-code="${province.code}">${province.name}</option>`);
-                });
-                toggleSelect2Fields('#province');
-            },
-            error: function (xhr, status, error) {
-                console.log(xhr.responseText);
-                console.log(status);
-                console.error('AJAX error:', error);
-                Swal.fire({
-                    title: 'Error! ',
-                    text: 'An internal error occurred. Please contact MIS.',
-                    icon: 'error',
-                    confirmButtonColor: 'var(--bs-danger)'
-                })
-            }
-        });
-
         $.ajax({
             type: "GET",
             url: "../../backend/sales-management/getAllVehicles.php",
@@ -338,6 +309,36 @@ $(document).ready(function () {
             }
         });
 
+        currentStep = 1;
+        showStep(currentStep);
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "https://psgc.gitlab.io/api/provinces/",
+            success: function (response) {
+                $('#province').empty().append(`<option value="" selected hidden>--Select Province--</option>`);
+                $('#municipality').empty().append(`<option value="" selected hidden>--Select Municipality--</option>`);
+                $('#barangay').empty().append(`<option value="" selected hidden>--Select Barangay--</option>`);
+
+                $('#province').append(`<option value="National Capital Region" data-code="130000000" data-type="region">National Capital Region (NCR)</option>`);
+
+                response.forEach(province => {
+                    $('#province').append(`<option value="${province.name}" data-code="${province.code}" data-type="province">${province.name}</option>`);
+                });
+
+                toggleSelect2Fields('#province');
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX error:', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'An internal error occurred. Please contact MIS.',
+                    icon: 'error',
+                    confirmButtonColor: 'var(--bs-danger)'
+                });
+            }
+        });
+
         $.ajax({
             type: "GET",
             dataType: "json",
@@ -346,6 +347,9 @@ $(document).ready(function () {
                 $('#occupationProvince').empty().append(`<option value="" selected hidden>--Select OccupationProvince--</option></option>`);
                 $('#occupationMunicipality').empty().append(`<option value="" selected hidden>--Select OccupationMunicipality--</option></option>`);
                 $('#occupationBarangay').empty().append(`<option value="" selected hidden>--Select OccupationBarangay--</option></option>`);
+
+                $('#occupationProvince').append(`<option value="National Capital Region" data-code="130000000" data-type="region">National Capital Region (NCR)</option>`);
+
                 response.forEach(province => {
                     $('#occupationProvince').append(`<option value="${province.name}" data-code="${province.code}">${province.name}</option>`);
                 });
@@ -370,20 +374,33 @@ $(document).ready(function () {
 
     $("#province").on('change', function () {
         const provinceCode = $(this).find(':selected').data('code');
+        const provinceType = $(this).find(':selected').data('type');
         $("#province_review").val($(this).val()).trigger('change');
+
+        let url = '';
+        if (provinceType === 'region' && provinceCode === 130000000) {
+            url = `https://psgc.gitlab.io/api/regions/${provinceCode}/cities-municipalities/`;
+        } else {
+            url = `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`;
+        }
+
         $.ajax({
             type: "GET",
-            url: `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`,
+            url: url,
             dataType: "json",
             success: function (response) {
-                $('#municipality').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
+                $('#municipality').prop('disabled', false).empty()
+                    .append(`<option value="" selected hidden>--Select Municipality--</option>`);
                 response.forEach(municipality => {
                     $('#municipality').append(`<option value="${municipality.name}" data-code="${municipality.code}">${municipality.name}</option>`);
                 });
-                $('#municipality_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
+
+                $('#municipality_review').prop('disabled', false).empty()
+                    .append(`<option value="" selected hidden>--Select Municipality--</option>`);
                 response.forEach(municipality => {
                     $('#municipality_review').append(`<option value="${municipality.name}" data-code="${municipality.code}">${municipality.name}</option>`);
                 });
+
                 toggleSelect2Fields('#municipality');
             },
             error: function (xhr, status, error) {
@@ -391,14 +408,15 @@ $(document).ready(function () {
                 console.error('Status : ', status);
                 console.error('AJAX error : ', error);
                 Swal.fire({
-                    title: 'Error! ',
+                    title: 'Error!',
                     text: 'An internal error occurred. Please contact MIS.',
                     icon: 'error',
                     confirmButtonColor: 'var(--bs-danger)'
-                })
+                });
             }
         });
     });
+
     $("#municipality").on('change', function () {
         const municipalityCode = $(this).find(':selected').data('code');
         $("#municipality_review").val($(this).val()).trigger('change');
@@ -435,10 +453,19 @@ $(document).ready(function () {
     });
     $("#occupationProvince").on('change', function () {
         const provinceCode = $(this).find(':selected').data('code');
+        const provinceType = $(this).find(':selected').data('type');
         $("#occupationProvince_review").val($(this).val()).trigger('change');
+
+        let url = '';
+        if (provinceType === 'region' && provinceCode === 130000000) {
+            url = `https://psgc.gitlab.io/api/regions/${provinceCode}/cities-municipalities/`;
+        } else {
+            url = `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`;
+        }
+
         $.ajax({
             type: "GET",
-            url: `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`,
+            url: url,
             dataType: "json",
             success: function (response) {
                 $('#occupationMunicipality').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select OccupationMunicipality--</option></option>`);

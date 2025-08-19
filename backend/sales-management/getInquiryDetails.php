@@ -73,6 +73,11 @@ if (!$stmt) {
         $inquiry = [];
         $inquiryResult = $stmt->get_result();
         while ($inquiryRow = $inquiryResult->fetch_assoc()) {
+            foreach ($inquiryRow as $key => $value) {
+                if (is_string($value)) {
+                    $inquiryRow[$key] = html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                }
+            }
             $inquiry[] = $inquiryRow;
         }
         header('Content-Type: application/json');
