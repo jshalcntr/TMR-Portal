@@ -36,6 +36,9 @@ if ($user_dept) {
         $ticketAttachmentUrl = $row['ticket_attachment']
             ? "../../../uploads/tickets/" . basename($row['ticket_attachment'])
             : '';
+        $ticketConclusionAttachmentUrl = $row['ticket_conclusion_attachment']
+            ? "../../../uploads/tickets/" . basename($row['ticket_conclusion_attachment'])
+            : '';
 
         $approvalAttachmentUrl = $row['for_approval_attachment']
             ? "../../../uploads/for_approval/" . basename($row['for_approval_attachment'])
@@ -72,6 +75,7 @@ if ($user_dept) {
                 data-reason='" . htmlspecialchars($row['for_approval_reason'], ENT_QUOTES, 'UTF-8') . "'
                 data-approved='{$dateApproved}'
                 data-attachment-url='" . htmlspecialchars($ticketAttachmentUrl, ENT_QUOTES, 'UTF-8') . "'
+                data-conclusion-attachment-url='" . htmlspecialchars($ticketConclusionAttachmentUrl, ENT_QUOTES, 'UTF-8') . "'
                 data-approval-attachment-url='" . htmlspecialchars($approvalAttachmentUrl, ENT_QUOTES, 'UTF-8') . "'
                 data-user-role='{$user_role}'
             >
@@ -80,6 +84,10 @@ if ($user_dept) {
         ";
         $ticketAttachmentHtml = $ticketAttachmentUrl
             ? "<a href='{$ticketAttachmentUrl}' target='_blank'>View Attachment</a>"
+            : 'No attachment.';
+
+        $ticketConclusionAttachmentHtml = $ticketConclusionAttachmentUrl
+            ? "<a href='{$ticketConclusionAttachmentUrl}' target='_blank'>View Attachment</a>"
             : 'No attachment.';
 
         $approvalAttachmentHtml = $approvalAttachmentUrl

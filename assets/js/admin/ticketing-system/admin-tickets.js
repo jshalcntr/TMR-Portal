@@ -319,6 +319,9 @@ function showClosedTicketDetails(ticket) {
     const attachmentLink = ticket.ticket_attachment
         ? `<a href="../../../${ticket.ticket_attachment.replace(/^(\.\.\/)+/, '')}" target="_blank" class="badge badge-info">View Attachment</a>`
         : 'N/A';
+    const conclusionAttachmentLink = ticket.ticket_conclusion_attachment
+        ? `<a href="../../../${ticket.ticket_conclusion_attachment.replace(/^(\.\.\/)+/, '')}" target="_blank" class="badge badge-info">View Attachment</a>`
+        : '';
     const dateAccepted = ticket.date_accepted ?? '';
     const dateClosed = ticket.date_finished ?? '';
     const dateCreated = ticket.date_created ?? '';
@@ -337,7 +340,7 @@ function showClosedTicketDetails(ticket) {
     document.getElementById('closedticketDescription').innerText = cleanedDesc;
     document.getElementById('closedticketType').innerText = ticket.ticket_type || 'N/A';
     document.getElementById('closedticketAttachment').innerHTML = attachmentLink;
-    document.getElementById('closedticketConclusion').innerText = ticket.ticket_conclusion || 'N/A';
+    document.getElementById('closedticketConclusion').innerHTML = ticket.ticket_conclusion + " " + conclusionAttachmentLink || 'N/A';
     document.getElementById('closedticketRequestDate').innerText = formattedDateCreated || 'N/A';
     document.getElementById('closedticketClaimDate').innerText = formattedDateAccepted || 'N/A';
     document.getElementById('closedticketCloseDate').innerText = formattedDateClosed || 'N/A';
@@ -651,9 +654,12 @@ function showConclusionTextArea() {
     let saveButton = document.getElementById('saveConclusionButton');
     let closeButton = document.getElementById('closeTicketButton');
     let cancelButton = document.getElementById('cancelsaveButton');
+    let conclusionAttachment = document.getElementById('conclusionAttachment');
+
 
     // Remove 'd-none' class to show elements
     textArea.classList.remove('fade', 'd-none');
+    conclusionAttachment.classList.remove('fade', 'd-none');
     textArea.classList.add('show');
     saveButton.classList.remove('d-none');
     cancelButton.classList.remove('d-none');
@@ -668,9 +674,12 @@ function cancelTicketDetails() {
     let cancelButton = document.getElementById('cancelsaveButton');
     let saveConclusionButton = document.getElementById('saveConclusionButton');
     let closeButton = document.getElementById('closeTicketButton');
+    let conclusionAttachment = document.getElementById('conclusionAttachment');
+
 
     // Hide text area and buttons
     textArea.classList.add('d-none');
+    conclusionAttachment.classList.add('d-none');
     cancelButton.classList.add('d-none');
     saveConclusionButton.classList.add('d-none');
 
@@ -834,6 +843,7 @@ function requestReopen() {
 function saveConclusion() {
     const ticketId = document.getElementById('ticketId').innerText;
     const conclusion = document.getElementById('conclusionTextArea').value.trim();
+    const fileInput = document.getElementById('conclusionAttachment');
 
     // Validate conclusion before sending
     if (conclusion === '') {
@@ -842,18 +852,26 @@ function saveConclusion() {
             title: 'Missing Conclusion',
             text: 'Please provide a conclusion before closing the ticket.'
         });
-        return; // stop here if conclusion is empty
+        return;
+    }
+
+    // Build FormData
+    const formData = new FormData();
+    formData.append('ticket_id', ticketId);
+    formData.append('ticket_status', 'CLOSED');
+    formData.append('ticket_conclusion', conclusion);
+
+    if (fileInput.files.length > 0) {
+        formData.append('ticket_conclusion_attachment', fileInput.files[0]);
     }
 
     // Send updated details to the backend
     $.ajax({
         url: '../../../backend/admin/ticketing-system/close_ticket.php',
         method: 'POST',
-        data: {
-            ticket_id: ticketId,
-            ticket_status: 'CLOSED',
-            ticket_conclusion: conclusion
-        },
+        data: formData,
+        processData: false,   // required for FormData
+        contentType: false,   // required for FormData
         success: function (response) {
             if (response.status === 'success') {
                 Swal.fire({
@@ -864,19 +882,16 @@ function saveConclusion() {
                     location.reload();
                 });
 
-                // ✅ Only hide elements after successful closing
                 document.getElementById('conclusionTextArea').style.display = 'none';
+                document.getElementById('conclusionAttachment').style.display = 'none';
                 document.getElementById('saveConclusionButton').style.display = 'none';
                 document.getElementById('closeTicketButton').style.display = 'inline-block';
-
             } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: response.message
                 });
-
-                // ❌ Don't hide UI on error!
             }
         },
         error: function (xhr, status, error) {

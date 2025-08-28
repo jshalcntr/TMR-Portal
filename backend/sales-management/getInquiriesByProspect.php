@@ -1,9 +1,7 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 session_start();
 include('../dbconn.php');
+include('../middleware/pipes.php');
 header('Content-Type: application/json');
 
 $sql = "SELECT
@@ -18,7 +16,7 @@ $sql = "SELECT
         sales_customers_tbl.customer_lastname
         FROM sales_inquiries_tbl
         JOIN sales_customers_tbl ON sales_inquiries_tbl.customer_id = sales_customers_tbl.customer_id
-        WHERE agent_id = ?
+        WHERE agent_id = ? AND  prospect_type = ?
 ";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
@@ -29,7 +27,7 @@ if (!$stmt) {
         "data" => $conn->error
     ]);
 } else {
-    $stmt->bind_param("i", $_SESSION['agent_id']);
+    $stmt->bind_param("is", $_SESSION['user']['id'], $_GET['prospectType']);
     if (!$stmt->execute()) {
         header('Content-Type: application/json');
         echo json_encode([
@@ -53,8 +51,10 @@ if (!$stmt) {
 
             $inquiries[] = [
                 "prospectType" => $prospectType,
+                "inquiryDateReadable" => convertToReadableDate($inquiryDate),
                 "inquiryDate" => $inquiryDate,
                 "unitInquired" => $unitInquired,
+                "appointmentDateReadable" => convertToReadableDate($appointmentDate),
                 "appointmentDate" => $appointmentDate,
                 "appointmentTime" => $appointmentTime,
                 "inquiryId" => $inquiryId,

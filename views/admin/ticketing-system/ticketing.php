@@ -260,6 +260,7 @@ if (authorize($_SESSION['user']['role'] == "ADMIN", $conn)) {
                                             <!-- Textarea (Initially Hidden) -->
                                             <textarea id="conclusionTextArea" class="form-control mt-2 d-none fade"
                                                 placeholder="Enter conclusion here..."></textarea>
+                                            <input type="file" name="conclusionAttachment" id="conclusionAttachment" class="form-control mt-2 d-none fade">
                                         </div>
 
                                         <!-- Sticky Footer Actions -->

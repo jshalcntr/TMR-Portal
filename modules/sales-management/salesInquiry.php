@@ -83,14 +83,13 @@ if (authorize(true, $conn)) {
                         <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-xl-3 col-md-6 mb-4">
-                                    <div class="card border-left-danger shadow h-85 py-2" data-bs-toggle="modal" data-bs-target="#prospectTypeHotModal" role="button">
+                                    <div class="card border-left-danger shadow h-85 py-2 prospectCard" data-prospect-type="Hot" role="button">
                                         <div class="card-body">
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col mr-2">
                                                     <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                         Hot Clients</div>
-                                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="prospectType_hot">
-                                                    </div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="prospectCountHot">0</div>
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="fas fa-fire fa-2x text-gray-300"></i>
@@ -99,16 +98,14 @@ if (authorize(true, $conn)) {
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-xl-3 col-md-6 mb-4">
-                                    <div class="card border-left-warning shadow h-85 py-2" data-bs-toggle="modal" data-bs-target="#prospectTypeWarmModal" role="button">
+                                    <div class="card border-left-warning shadow h-85 py-2 prospectCard" data-prospect-type="Warm" role="button">
                                         <div class="card-body">
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col mr-2">
                                                     <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                         Warm Clients</div>
-                                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="prospectType_warm">
-                                                    </div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="prospectCountWarm">0</div>
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="fas fa-mitten fa-2x text-gray-300"></i>
@@ -117,34 +114,30 @@ if (authorize(true, $conn)) {
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-xl-3 col-md-6 mb-4">
-                                    <div class="card border-left-info shadow h-85 py-2" data-bs-toggle="modal" data-bs-target="#prospectTypeColdModal" role="button">
+                                    <div class="card border-left-info shadow h-85 py-2 prospectCard" data-prospect-type="Cold" role="button">
                                         <div class="card-body">
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col mr-2">
                                                     <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                                         Cold Clients</div>
-                                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="prospectType_cold">
-                                                    </div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="prospectCountCold">0</div>
                                                 </div>
-                                                <div class=" col-auto">
+                                                <div class="col-auto">
                                                     <i class="fas fa-snowflake fa-2x text-gray-300"></i>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-xl-3 col-md-6 mb-4">
-                                    <div class="card border-left-secondary shadow h-85 py-2" data-bs-toggle="modal" data-bs-target="#prospectTypeLostModal" role="button">
+                                    <div class="card border-left-secondary shadow h-85 py-2 prospectCard" data-prospect-type="Lost" role="button">
                                         <div class="card-body">
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col mr-2">
                                                     <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
                                                         Lost Clients</div>
-                                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="prospectType_lost">
-                                                    </div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="prospectCountLost">0</div>
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="fas fa-person-circle-question fa-2x text-gray-300"></i>
@@ -176,20 +169,19 @@ if (authorize(true, $conn)) {
     <?php include "../components/sales-management/viewDemographicsModal.php" ?>
     <?php include "../components/sales-management/viewInquiriesModal.php" ?>
     <?php include "../components/sales-management/viewInquiryDetailsModal.php" ?>
-    <?php include "../components/sales-management/getprospectTypeHotModal.php" ?>
-    <?php include "../components/sales-management/getprospectTypeWarmModal.php" ?>
-    <?php include "../components/sales-management/getProspectTypeColdModal.php" ?>
-    <?php include "../components/sales-management/getProspectTypeLostModal.php" ?>
+    <?php include "../components/sales-management/viewInquiriesByProspectModal.php" ?>
+    <?php include "../components/sales-management/viewInquiryDetailsByProspectModal.php" ?>
     <?php include "../components/sales-management/inquiryAlertsModal.php" ?>
 </body>
 <?php include '../components/shared/external-js-import.php'; ?>
+<script src="../../assets/js/sales-management/salesInquiry.js"></script>
 <script src="../../assets/js/sales-management/createInquiry.js"></script>
 <script src="../../assets/js/sales-management/reviewInquiry.js"></script>
 <script src="../../assets/js/sales-management/viewDemographics.js"></script>
-<script src="../../assets/js/sales-management/getProspectData.js"></script>
 <script src="../../assets/js/sales-management/getSalesChart.js"></script>
 <script src="../../assets/js/sales-management/viewInquiries.js"></script>
 <script src="../../assets/js/sales-management/viewInquiry.js"></script>
-<script src="../../assets/js/sales-management/viewProspectType.js"></script>
+<script src="../../assets/js/sales-management/viewInquiriesByProspect.js"></script>
+<script src="../../assets/js/sales-management/viewInquiryByProspect.js"></script>
 
 </html>

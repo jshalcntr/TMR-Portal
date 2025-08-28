@@ -39,7 +39,6 @@ $(document).ready(function () {
                     }
                 },
             ],
-            dom: 't',
             destroy: true,
             serverSide: false,
             processing: false,

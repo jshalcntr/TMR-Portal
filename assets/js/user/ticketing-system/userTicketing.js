@@ -445,7 +445,7 @@ $(document).on('click', '.view-ticket', function () {
             $('#ticketEndTime').text('');
         }
 
-        $('#ticketConclusion').text(conclusion);
+        $('#ticketConclusion').html(conclusion + " " + (btn.data('conclusion-attachment-url') ? `<a href="${btn.data('conclusion-attachment-url')}" target="_blank">View Attachment</a>` : ''));
         $('#ticketDescription').text(description);
 
         if (approvalAttachmentUrl) {

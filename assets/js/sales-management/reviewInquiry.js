@@ -545,6 +545,7 @@ $(document).ready(function () {
                         if (result.isConfirmed) {
                             $("#reviewInquiryModal").modal('hide');
                             // Reset Other Modal that has Tables
+                            fetchInquiriesByProspectCount();
                         }
                     });
                 } else {

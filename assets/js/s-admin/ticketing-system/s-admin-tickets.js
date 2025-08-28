@@ -314,6 +314,9 @@ function showClosedTicketDetails(ticket) {
     const attachmentLink = ticket.ticket_attachment
         ? `<a href="../../../${ticket.ticket_attachment.replace(/^(\.\.\/)+/, '')}" target="_blank" class="badge badge-info">View Attachment</a>`
         : 'N/A';
+    const conclusionAttachmentLink = ticket.ticket_conclusion_attachment
+        ? `<a href="../../../${ticket.ticket_conclusion_attachment.replace(/^(\.\.\/)+/, '')}" target="_blank" class="badge badge-info">View Attachment</a>`
+        : '';
     document.getElementById('closedticketId').innerText = ticket.ticket_id;
     document.getElementById('closedticketRequestorId').innerText = ticket.full_name || 'N/A';
     document.getElementById('closedticketRequestorDepartment').innerText = ticket.department || 'N/A';
@@ -321,7 +324,7 @@ function showClosedTicketDetails(ticket) {
     document.getElementById('closedticketDescription').innerText = ticket.ticket_description || 'N/A';
     document.getElementById('closedticketType').innerText = ticket.ticket_type || 'N/A';
     document.getElementById('closedticketAttachment').innerHTML = attachmentLink;
-    document.getElementById('closedticketConclusion').innerText = ticket.ticket_conclusion || 'N/A';
+    document.getElementById('closedticketConclusion').innerHTML = ticket.ticket_conclusion + " " + conclusionAttachmentLink || 'N/A';
     // Check if ticket_id exists in ticket_convo_tbl
     $.ajax({
         url: '../../../backend/shared/ticketing-system/check_ticket_convo.php', // Replace with your actual endpoint

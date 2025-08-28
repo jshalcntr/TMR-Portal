@@ -7,16 +7,20 @@
     margin: 0 !important;
     color: var(--dark);
 } */
-#viewInquiriesModal tbody tr:nth-child(odd) {
+#viewInquiriesModal tbody tr:nth-child(odd),
+#viewInquiriesByProspectModal tbody tr:nth-child(odd) {
     background-color: var(--bs-white);
 }
-#viewInquiriesModal tbody tr:nth-child(even) {
+#viewInquiriesModal tbody tr:nth-child(even),
+#viewInquiriesByProspectModal tbody tr:nth-child(even) {
     background-color: var(--bs-table-bg);
 }
-#viewInquiriesModal {
+#viewInquiriesModal,
+#viewInquiriesByProspectModal {
     --bs-table-bg: none;
 }
-#viewInquiriesModal thead th {
+#viewInquiriesModal thead th,
+#viewInquiriesByProspectModal thead th {
     background-color: var(--primary);
     color: var(--text-white);
 }
