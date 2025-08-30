@@ -20,5 +20,5 @@ function post_int($key, $default = 0) {
 }
 function post_yesno($key) {
     $val = strtolower(trim($_POST[$key] ?? ''));
-    return $val === 'yes' ? 1 : ($val === 'no' ? 0 : null);
+    return $val === 'YES' ? 1 : ($val === 'NO' ? 0 : null);
 }

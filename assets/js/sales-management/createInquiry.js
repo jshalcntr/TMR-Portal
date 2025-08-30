@@ -32,6 +32,9 @@ function validateRadioGroup(container, name, groupClass) {
 }
 
 $(document).ready(function () {
+    $("input[type='text'], textarea").on('input', function () {
+        this.value = this.value.toUpperCase();
+    });
     $(document).on('click', '.radio-column', function () {
         $(this).find(`input[type="radio"]`).prop('checked', true).trigger('change');
     });
@@ -118,8 +121,8 @@ $(document).ready(function () {
             },
             16: () => {
                 const occupation = current.find("input[name='occupation']:checked").val();
-                const labelOne = occupation === "Business Owner" ? "Business Name" : "Employer Name";
-                const labelTwo = occupation === "Business Owner" ? "Complete Business Address" : "Complete Employer Address";
+                const labelOne = occupation === "BUSINESS OWNER" ? "Business Name" : "Employer Name";
+                const labelTwo = occupation === "BUSINESS OWNER" ? "Complete Business Address" : "Complete Employer Address";
 
                 $("#occupationHeaderOne").text(labelOne);
                 $("#occupationHeaderTwo").text(labelTwo);
@@ -151,16 +154,16 @@ $(document).ready(function () {
                 $("#additionalUnit").prop("required", true);
                 $("#tamarawSpecificUsage").prop("required", true);
             };
-            if (currentStep === 14 && $(".form-step[data-step='14']").find("input[name='hasReservation']:checked").val() !== "Yes") {
+            if (currentStep === 14 && $(".form-step[data-step='14']").find("input[name='hasReservation']:checked").val() !== "YES") {
                 currentStep++;
                 $("#reservationDate").prop("required", false);
-            } else if (currentStep === 14 && $(".form-step[data-step='14']").find("input[name='hasReservation']:checked").val() === "Yes") {
+            } else if (currentStep === 14 && $(".form-step[data-step='14']").find("input[name='hasReservation']:checked").val() === "YES") {
                 $("#reservationDate").prop("required", true);
             }
-            if (currentStep === 18 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "Business Owner") {
+            if (currentStep === 18 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "BUSINESS OWNER") {
                 currentStep++
             }
-            if (currentStep === 20 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "Business Owner") {
+            if (currentStep === 20 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "BUSINESS OWNER") {
                 currentStep++
                 if ($("#unitInquired").val() !== "TAMARAW") {
                     currentStep++;
@@ -185,20 +188,20 @@ $(document).ready(function () {
         if (currentStep === 13 && $("#unitInquired").val() !== "TAMARAW") {
             currentStep--;
         };
-        if (currentStep === 16 && $(".form-step[data-step='14']").find("input[name='hasReservation']:checked").val() !== "Yes") {
+        if (currentStep === 16 && $(".form-step[data-step='14']").find("input[name='hasReservation']:checked").val() !== "YES") {
             currentStep--;
         };
-        if (currentStep === 20 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "Business Owner") {
+        if (currentStep === 20 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "BUSINESS OWNER") {
             currentStep--;
         }
-        if (currentStep === 22 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "Business Owner") {
+        if (currentStep === 22 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "BUSINESS OWNER") {
             currentStep--;
         }
         if (currentStep === 25 && $("#unitInquired").val() !== "TAMARAW") {
             currentStep--;
             currentStep--;
             currentStep--;
-            if ($(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "Business Owner") {
+            if ($(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "BUSINESS OWNER") {
                 currentStep--;
             }
         }
@@ -210,7 +213,7 @@ $(document).ready(function () {
 
     $(document).on('change', 'input[name="inquirySource"]', function () {
         const selectedValue = $('input[name="inquirySource"]:checked').val();
-        if (selectedValue === 'Face To Face') {
+        if (selectedValue === 'FACE TO FACE') {
             if ($("#f2fSource").hasClass('d-none')) {
                 $("#f2fSource").removeClass('d-none');
             }
@@ -218,7 +221,7 @@ $(document).ready(function () {
                 $("#onlineSource").addClass('d-none');
                 // $("#onlineSource").val("");
             }
-        } else if (selectedValue === 'Online') {
+        } else if (selectedValue === 'ONLINE') {
             if ($("#onlineSource").hasClass('d-none')) {
                 $("#onlineSource").removeClass('d-none');
             }
@@ -241,7 +244,7 @@ $(document).ready(function () {
     });
     $(document).on('change', 'input[name="inquirySourceType"]', function () {
         const selectedValue = $('input[name="inquirySourceType"]:checked').val();
-        if (selectedValue === "Mall Display") {
+        if (selectedValue === "MALL DISPLAY") {
             $.ajax({
                 type: "GET",
                 url: "../../backend/sales-management/getAllMalls.php",
@@ -320,10 +323,10 @@ $(document).ready(function () {
                 $('#municipality').empty().append(`<option value="" selected hidden>--Select Municipality--</option>`);
                 $('#barangay').empty().append(`<option value="" selected hidden>--Select Barangay--</option>`);
 
-                $('#province').append(`<option value="National Capital Region" data-code="130000000" data-type="region">National Capital Region (NCR)</option>`);
+                $('#province').append(`<option value="NATIONAL CAPITAL REGION" data-code="130000000" data-type="region">NATIONAL CAPITAL REGION (NCR)</option>`);
 
                 response.forEach(province => {
-                    $('#province').append(`<option value="${province.name}" data-code="${province.code}" data-type="province">${province.name}</option>`);
+                    $('#province').append(`<option value="${province.name.toUpperCase()}" data-code="${province.code}" data-type="province">${province.name.toUpperCase()}</option>`);
                 });
 
                 toggleSelect2Fields('#province');
@@ -348,10 +351,10 @@ $(document).ready(function () {
                 $('#occupationMunicipality').empty().append(`<option value="" selected hidden>--Select OccupationMunicipality--</option></option>`);
                 $('#occupationBarangay').empty().append(`<option value="" selected hidden>--Select OccupationBarangay--</option></option>`);
 
-                $('#occupationProvince').append(`<option value="National Capital Region" data-code="130000000" data-type="region">National Capital Region (NCR)</option>`);
+                $('#occupationProvince').append(`<option value="NATIONAL CAPITAL REGION" data-code="130000000" data-type="region">NATIONAL CAPITAL REGION (NCR)</option>`);
 
                 response.forEach(province => {
-                    $('#occupationProvince').append(`<option value="${province.name}" data-code="${province.code}">${province.name}</option>`);
+                    $('#occupationProvince').append(`<option value="${province.name.toUpperCase()}" data-code="${province.code}">${province.name.toUpperCase()}</option>`);
                 });
                 toggleSelect2Fields('#occupationProvince');
             },
@@ -392,13 +395,13 @@ $(document).ready(function () {
                 $('#municipality').prop('disabled', false).empty()
                     .append(`<option value="" selected hidden>--Select Municipality--</option>`);
                 response.forEach(municipality => {
-                    $('#municipality').append(`<option value="${municipality.name}" data-code="${municipality.code}">${municipality.name}</option>`);
+                    $('#municipality').append(`<option value="${municipality.name.toUpperCase()}" data-code="${municipality.code}">${municipality.name.toUpperCase()}</option>`);
                 });
 
                 $('#municipality_review').prop('disabled', false).empty()
                     .append(`<option value="" selected hidden>--Select Municipality--</option>`);
                 response.forEach(municipality => {
-                    $('#municipality_review').append(`<option value="${municipality.name}" data-code="${municipality.code}">${municipality.name}</option>`);
+                    $('#municipality_review').append(`<option value="${municipality.name.toUpperCase()}" data-code="${municipality.code}">${municipality.name.toUpperCase()}</option>`);
                 });
 
                 toggleSelect2Fields('#municipality');
@@ -427,11 +430,11 @@ $(document).ready(function () {
             success: function (response) {
                 $('#barangay').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Barangay--</option></option>`);
                 response.forEach(barangay => {
-                    $('#barangay').append(`<option value="${barangay.name}" data-code="${barangay.code}">${barangay.name}</option>`);
+                    $('#barangay').append(`<option value="${barangay.name.toUpperCase()}" data-code="${barangay.code}">${barangay.name.toUpperCase()}</option>`);
                 });
                 $('#barangay_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Barangay--</option></option>`);
                 response.forEach(barangay => {
-                    $('#barangay_review').append(`<option value="${barangay.name}" data-code="${barangay.code}">${barangay.name}</option>`);
+                    $('#barangay_review').append(`<option value="${barangay.name.toUpperCase()}" data-code="${barangay.code}">${barangay.name.toUpperCase()}</option>`);
                 });
                 toggleSelect2Fields('#barangay');
             },
@@ -470,11 +473,11 @@ $(document).ready(function () {
             success: function (response) {
                 $('#occupationMunicipality').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select OccupationMunicipality--</option></option>`);
                 response.forEach(municipality => {
-                    $('#occupationMunicipality').append(`<option value="${municipality.name}" data-code="${municipality.code}">${municipality.name}</option>`);
+                    $('#occupationMunicipality').append(`<option value="${municipality.name.toUpperCase()}" data-code="${municipality.code}">${municipality.name.toUpperCase()}</option>`);
                 });
                 $('#occupationMunicipality_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
                 response.forEach(municipality => {
-                    $('#occupationMunicipality_review').append(`<option value="${municipality.name}" data-code="${municipality.code}">${municipality.name}</option>`);
+                    $('#occupationMunicipality_review').append(`<option value="${municipality.name.toUpperCase()}" data-code="${municipality.code}">${municipality.name.toUpperCase()}</option>`);
                 });
                 toggleSelect2Fields('#occupationMunicipality');
             },
@@ -501,11 +504,11 @@ $(document).ready(function () {
             success: function (response) {
                 $('#occupationBarangay').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select OccupationBarangay--</option></option>`);
                 response.forEach(barangay => {
-                    $('#occupationBarangay').append(`<option value="${barangay.name}" data-code="${barangay.code}">${barangay.name}</option>`);
+                    $('#occupationBarangay').append(`<option value="${barangay.name.toUpperCase()}" data-code="${barangay.code}">${barangay.name.toUpperCase()}</option>`);
                 });
                 $('#occupationBarangay_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
                 response.forEach(barangay => {
-                    $('#occupationBarangay_review').append(`<option value="${barangay.name}" data-code="${barangay.code}">${barangay.name}</option>`);
+                    $('#occupationBarangay_review').append(`<option value="${barangay.name.toUpperCase()}" data-code="${barangay.code}">${barangay.name.toUpperCase()}</option>`);
                 });
                 toggleSelect2Fields('#occupationBarangay');
             },
@@ -529,7 +532,7 @@ $(document).ready(function () {
         const othersGroup = $("#maritalStatusOtherGroup");
         const othersInput = $("#maritalStatusOtherInput");
         const selected = $('.form-step[data-step="8"] input[type="radio"]:checked').val();
-        if (selected === "Others") {
+        if (selected === "OTHERS") {
             othersGroup.removeClass("d-none");
             othersInput.attr("required", true).focus();
         } else {
@@ -539,7 +542,7 @@ $(document).ready(function () {
         }
     });
     $(document).on('change', 'input[name="buyerDecisionHold"]', function () {
-        if ($(this).val() === "Yes") {
+        if ($(this).val() === "YES") {
             if ($("#buyerDecisionHoldReasonGroup").hasClass('d-none')) {
                 $("#buyerDecisionHoldReasonGroup").removeClass('d-none');
                 $("#buyerDecisionHoldReason").attr("required", true).focus();

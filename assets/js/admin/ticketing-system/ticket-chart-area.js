@@ -170,4 +170,9 @@ $(document).ready(function () {
     $('#endDate').val(end.toISOString().split('T')[0]);
 
     fetchChartData($('#startDate').val(), $('#endDate').val());
+
+    // 🔄 Auto-refresh chart every 1 minute (60,000 ms)
+    setInterval(function () {
+        fetchChartData($('#startDate').val(), $('#endDate').val());
+    }, 60000);
 });

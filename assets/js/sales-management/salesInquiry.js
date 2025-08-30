@@ -17,17 +17,17 @@ const fetchInquiriesByProspectCount = () => {
                 let lostCount = 0;
 
                 response.data.forEach(item => {
-                    switch (item.prospect_type) {
-                        case "Hot":
+                    switch (item.prospect_type.toUpperCase()) {
+                        case "HOT":
                             hotCount = item.count;
                             break;
-                        case "Warm":
+                        case "WARM":
                             warmCount = item.count;
                             break;
-                        case "Cold":
+                        case "COLD":
                             coldCount = item.count;
                             break;
-                        case "Lost":
+                        case "LOST":
                             lostCount = item.count;
                             break;
                     }

@@ -12,15 +12,15 @@
                             <h3 class="text-center">Prospect Type <span class="text-danger">*</span> </h3>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 prospectRadioGroup">
-                            <input type="radio" name="prospectType" id="prospectType_hot" value="Hot">
+                            <input type="radio" name="prospectType" id="prospectType_hot" value="HOT">
                             <label for="prospectType_hot" class="mb-0 flex-grow-1">HOT (WITHIN 1 WEEK TO 2 MONTHS)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 prospectRadioGroup">
-                            <input type="radio" name="prospectType" id="prospectType_warm" value="Warm">
+                            <input type="radio" name="prospectType" id="prospectType_warm" value="WARM">
                             <label for="prospectType_warm" class="mb-0 flex-grow-1">WARM (WITHIN 2 TO 5 MONTHS)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 prospectRadioGroup">
-                            <input type="radio" name="prospectType" id="prospectType_cold" value="Cold">
+                            <input type="radio" name="prospectType" id="prospectType_cold" value="COLD">
                             <label for="prospectType_cold" class="mb-0 flex-grow-1">COLD (6 MONTHS AND ABOVE)</label>
                         </div>
                         <div class="invalid-feedback">
@@ -65,12 +65,12 @@
                         </div>
                         <div class="d-flex form-group gap-2">
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceRadioGroup">
-                                <input type="radio" name="inquirySource" id="inquirySource_f2f" value="Face To Face">
-                                <label for="inquirySource_f2f" class="mb-0 flex-grow-1">Face To Face</label>
+                                <input type="radio" name="inquirySource" id="inquirySource_f2f" value="FACE TO FACE">
+                                <label for="inquirySource_f2f" class="mb-0 flex-grow-1">FACE TO FACE</label>
                             </div>
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceRadioGroup">
-                                <input type="radio" name="inquirySource" id="inquirySource_online" value="Online">
-                                <label for="inquirySource_online" class="mb-0 flex-grow-1">Online</label>
+                                <input type="radio" name="inquirySource" id="inquirySource_online" value="ONLINE">
+                                <label for="inquirySource_online" class="mb-0 flex-grow-1">ONLINE</label>
                             </div>
                             <div class="invalid-feedback">Please select an Inquiry Source.</div>
                         </div>
@@ -81,52 +81,52 @@
                                 </div>
                                 <div class="d-flex gap-2">
                                     <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_showroom" value="Showroom Walk-In">
-                                        <label for="inquirySourceType_showroom" class="mb-0 flex-grow-1">Showroom Walk-In</label>
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_showroom" value="SHOWROOM WALK-IN">
+                                        <label for="inquirySourceType_showroom" class="mb-0 flex-grow-1">SHOWROOM WALK-IN</label>
                                     </div>
                                     <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_mall" value="Mall Display">
-                                        <label for="inquirySourceType_mall" class="mb-0 flex-grow-1">Mall Display</label>
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_saturation" value="Saturation">
-                                        <label for="inquirySourceType_saturation" class="mb-0 flex-grow-1">Saturation</label>
-                                    </div>
-                                    <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_bankDisplay" value="Bank Display">
-                                        <label for="inquirySourceType_bankDisplay" class="mb-0 flex-grow-1">Bank Display</label>
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_mall" value="MALL DISPLAY">
+                                        <label for="inquirySourceType_mall" class="mb-0 flex-grow-1">MALL DISPLAY</label>
                                     </div>
                                 </div>
                                 <div class="d-flex gap-2">
                                     <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_repeat" value="Repeat">
-                                        <label for="inquirySourceType_repeat" class="mb-0 flex-grow-1">Repeat</label>
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_saturation" value="SATURATION">
+                                        <label for="inquirySourceType_saturation" class="mb-0 flex-grow-1">SATURATION</label>
                                     </div>
                                     <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_referral" value="Referral">
-                                        <label for="inquirySourceType_referral" class="mb-0 flex-grow-1">Referral</label>
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_phone" value="Phone-In">
-                                        <label for="inquirySourceType_phone" class="mb-0 flex-grow-1">Phone-In</label>
-                                    </div>
-                                    <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_attackList" value="Attack List (UIO)">
-                                        <label for="inquirySourceType_attackList" class="mb-0 flex-grow-1">Attack List (UIO)</label>
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_bankDisplay" value="BANK DISPLAY">
+                                        <label for="inquirySourceType_bankDisplay" class="mb-0 flex-grow-1">BANK DISPLAY</label>
                                     </div>
                                 </div>
                                 <div class="d-flex gap-2">
                                     <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_goyokiki" value="Goyokiki">
-                                        <label for="inquirySourceType_goyokiki" class="mb-0 flex-grow-1">Goyokiki</label>
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_repeat" value="REPEAT">
+                                        <label for="inquirySourceType_repeat" class="mb-0 flex-grow-1">REPEAT</label>
                                     </div>
                                     <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_hansaClient" value="Client From Service/Parts/Insurance">
-                                        <label for="inquirySourceType_hansaClient" class="mb-0 flex-grow-1">Client From Service/Parts/Insurance</label>
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_referral" value="REFERRAL">
+                                        <label for="inquirySourceType_referral" class="mb-0 flex-grow-1">REFERRAL</label>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_phone" value="PHONE-IN">
+                                        <label for="inquirySourceType_phone" class="mb-0 flex-grow-1">PHONE-IN</label>
+                                    </div>
+                                    <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_attackList" value="ATTACK LIST (UIO)">
+                                        <label for="inquirySourceType_attackList" class="mb-0 flex-grow-1">ATTACK LIST (UIO)</label>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_goyokiki" value="GOYOKIKI">
+                                        <label for="inquirySourceType_goyokiki" class="mb-0 flex-grow-1">GOYOKIKI</label>
+                                    </div>
+                                    <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_hansaClient" value="CLIENT FROM SERVICE/PARTS/INSURANCE">
+                                        <label for="inquirySourceType_hansaClient" class="mb-0 flex-grow-1">CLIENT FROM SERVICE/PARTS/INSURANCE</label>
                                     </div>
                                 </div>
                             </div>
@@ -137,42 +137,42 @@
                                 </div>
                                 <div class="d-flex gap-2">
                                     <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_tmrFb" value="TMR FB PAGE (Toyota Marilao Bulacan Inc.)">
-                                        <label for="inquirySourceType_tmrFb" class="mb-0 flex-grow-1">TMR FB PAGE (Toyota Marilao Bulacan Inc.)</label>
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_tmrFb" value="TMR FB PAGE (TOYOTA MARILAO BULACAN INC.)">
+                                        <label for="inquirySourceType_tmrFb" class="mb-0 flex-grow-1">TMR FB PAGE (TOYOTA MARILAO BULACAN INC.)</label>
                                     </div>
                                     <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_mpFb" value="MP FB Page (MP-Toyota Marilao)">
-                                        <label for="inquirySourceType_mpFb" class="mb-0 flex-grow-1">MP FB Page (MP-Toyota Marilao)</label>
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_grmFb" value="Group FB Page (GRM-Toyota Marilao)">
-                                        <label for="inquirySourceType_grmFb" class="mb-0 flex-grow-1">Group FB Page (GRM-Toyota Marilao)</label>
-                                    </div>
-                                    <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_personalFb" value="Personal Facebook">
-                                        <label for="inquirySourceType_personalFb" class="mb-0 flex-grow-1">Personal Facebook</label>
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_mpFb" value="MP FB PAGE (MP-TOYOTA MARILAO)">
+                                        <label for="inquirySourceType_mpFb" class="mb-0 flex-grow-1">MP FB PAGE (MP-TOYOTA MARILAO)</label>
                                     </div>
                                 </div>
                                 <div class="d-flex gap-2">
                                     <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_tiktok" value="TikTok">
-                                        <label for="inquirySourceType_tiktok" class="mb-0 flex-grow-1">TikTok</label>
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_grmFb" value="GROUP FB PAGE (GRM-TOYOTA MARILAO)">
+                                        <label for="inquirySourceType_grmFb" class="mb-0 flex-grow-1">GROUP FB PAGE (GRM-TOYOTA MARILAO)</label>
                                     </div>
                                     <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_instagram" value="Instagram">
-                                        <label for="inquirySourceType_instagram" class="mb-0 flex-grow-1">Instagram</label>
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_personalFb" value="PERSONAL FACEBOOK">
+                                        <label for="inquirySourceType_personalFb" class="mb-0 flex-grow-1">PERSONAL FACEBOOK</label>
                                     </div>
                                 </div>
                                 <div class="d-flex gap-2">
                                     <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_youtube" value="YouTube">
-                                        <label for="inquirySourceType_youtube" class="mb-0 flex-grow-1">YouTube</label>
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_tiktok" value="TIKTOK">
+                                        <label for="inquirySourceType_tiktok" class="mb-0 flex-grow-1">TIKTOK</label>
                                     </div>
                                     <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
-                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_philGeps" value="PhilGeps">
-                                        <label for="inquirySourceType_philGeps" class="mb-0 flex-grow-1">PhilGeps</label>
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_instagram" value="INSTAGRAM">
+                                        <label for="inquirySourceType_instagram" class="mb-0 flex-grow-1">INSTAGRAM</label>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_youtube" value="YOUTUBE">
+                                        <label for="inquirySourceType_youtube" class="mb-0 flex-grow-1">YOUTUBE</label>
+                                    </div>
+                                    <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 inquirySourceTypeRadioGroup">
+                                        <input type="radio" name="inquirySourceType" id="inquirySourceType_philGeps" value="PHILGEPS">
+                                        <label for="inquirySourceType_philGeps" class="mb-0 flex-grow-1">PHILGEPS</label>
                                     </div>
                                 </div>
                             </div>
@@ -241,16 +241,16 @@
                         </div>
                         <div class="d-flex form-group gap-2">
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 genderRadioGroup">
-                                <input type="radio" name="gender" id="gender_male" value="Male">
-                                <label for="gender_male" class="mb-0 flex-grow-1">Male</label>
+                                <input type="radio" name="gender" id="gender_male" value="MALE">
+                                <label for="gender_male" class="mb-0 flex-grow-1">MALE</label>
                             </div>
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 genderRadioGroup">
-                                <input type="radio" name="gender" id="gender_female" value="Female">
-                                <label for="gender_female" class="mb-0 flex-grow-1">Female</label>
+                                <input type="radio" name="gender" id="gender_female" value="FEMALE">
+                                <label for="gender_female" class="mb-0 flex-grow-1">FEMALE</label>
                             </div>
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 genderRadioGroup">
-                                <input type="radio" name="gender" id="gender_lgbt" value="LGBT">
-                                <label for="gender_lgbt" class="mb-0 flex-grow-1">LGBT</label>
+                                <input type="radio" name="gender" id="gender_lgbt" value="LGBTQ+">
+                                <label for="gender_lgbt" class="mb-0 flex-grow-1">LGBTQ+</label>
                             </div>
                             <div class="invalid-feedback">Please select a Gender.</div>
                         </div>
@@ -261,38 +261,38 @@
                         </div>
                         <div class="d-flex gap-2">
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 maritalStatusRadioGroup">
-                                <input type="radio" name="maritalStatus" id="maritalStatus_single" value="Single">
-                                <label for="maritalStatus_single" class="mb-0 flex-grow-1">Single</label>
+                                <input type="radio" name="maritalStatus" id="maritalStatus_single" value="SINGLE">
+                                <label for="maritalStatus_single" class="mb-0 flex-grow-1">SINGLE</label>
                             </div>
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 maritalStatusRadioGroup">
-                                <input type="radio" name="maritalStatus" id="maritalStatus_married" value="Married">
-                                <label for="maritalStatus_married" class="mb-0 flex-grow-1">Married</label>
-                            </div>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 maritalStatusRadioGroup">
-                                <input type="radio" name="maritalStatus" id="maritalStatus_divorced" value="Divorced">
-                                <label for="maritalStatus_divorced" class="mb-0 flex-grow-1">Divorced</label>
-                            </div>
-                            <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 maritalStatusRadioGroup">
-                                <input type="radio" name="maritalStatus" id="maritalStatus_separated" value="Separated">
-                                <label for="maritalStatus_separated" class="mb-0 flex-grow-1">Separated</label>
+                                <input type="radio" name="maritalStatus" id="maritalStatus_married" value="MARRIED">
+                                <label for="maritalStatus_married" class="mb-0 flex-grow-1">MARRIED</label>
                             </div>
                         </div>
                         <div class="d-flex gap-2">
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 maritalStatusRadioGroup">
-                                <input type="radio" name="maritalStatus" id="maritalStatus_widowed" value="Widowed">
-                                <label for="maritalStatus_widowed" class="mb-0 flex-grow-1">Widowed</label>
+                                <input type="radio" name="maritalStatus" id="maritalStatus_divorced" value="DIVORCED">
+                                <label for="maritalStatus_divorced" class="mb-0 flex-grow-1">DIVORCED</label>
                             </div>
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 maritalStatusRadioGroup">
-                                <input type="radio" name="maritalStatus" id="maritalStatus_annuled" value="Annuled">
-                                <label for="maritalStatus_annuled" class="mb-0 flex-grow-1">Annuled</label>
+                                <input type="radio" name="maritalStatus" id="maritalStatus_separated" value="SEPARATED">
+                                <label for="maritalStatus_separated" class="mb-0 flex-grow-1">SEPARATED</label>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 maritalStatusRadioGroup">
+                                <input type="radio" name="maritalStatus" id="maritalStatus_widowed" value="WIDOWED">
+                                <label for="maritalStatus_widowed" class="mb-0 flex-grow-1">WIDOWED</label>
+                            </div>
+                            <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 maritalStatusRadioGroup">
+                                <input type="radio" name="maritalStatus" id="maritalStatus_annuled" value="ANNULED">
+                                <label for="maritalStatus_annuled" class="mb-0 flex-grow-1">ANNULED</label>
                             </div>
                         </div>
                         <div class="d-flex gap-2">
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 maritalStatusRadioGroup">
-                                <input type="radio" name="maritalStatus" id="maritalStatus_others" value="Others">
-                                <label for="maritalStatus_others" class="mb-0 flex-grow-1">Others</label>
+                                <input type="radio" name="maritalStatus" id="maritalStatus_others" value="OTHERS">
+                                <label for="maritalStatus_others" class="mb-0 flex-grow-1">OTHERS</label>
                             </div>
                             <div class="col form-group d-none p-0" id="maritalStatusOtherGroup">
                                 <input
@@ -323,16 +323,16 @@
                         </div>
                         <div class="d-flex gap-2">
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup">
-                                <input type="radio" name="buyerType" id="buyerType_first" value="First-Time">
-                                <label for="buyerType_first" class="mb-0 flex-grow-1">First-Time</label>
+                                <input type="radio" name="buyerType" id="buyerType_first" value="FIRST-TIME">
+                                <label for="buyerType_first" class="mb-0 flex-grow-1">FIRST-TIME</label>
                             </div>
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup">
-                                <input type="radio" name="buyerType" id="buyerType_replacement" value="Replacement">
-                                <label for="buyerType_replacement" class="mb-0 flex-grow-1">Replacement</label>
+                                <input type="radio" name="buyerType" id="buyerType_replacement" value="REPLACEMENT">
+                                <label for="buyerType_replacement" class="mb-0 flex-grow-1">REPLACEMENT</label>
                             </div>
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup">
-                                <input type="radio" name="buyerType" id="buyerType_additional" value="Additional">
-                                <label for="buyerType_additional" class="mb-0 flex-grow-1">Additional</label>
+                                <input type="radio" name="buyerType" id="buyerType_additional" value="ADDITIONAL">
+                                <label for="buyerType_additional" class="mb-0 flex-grow-1">ADDITIONAL</label>
                             </div>
                         </div>
                         <div class="invalid-feedback">Please select a Buyer Type.</div>
@@ -410,32 +410,32 @@
                         </div>
                         <div class="d-flex gap-2">
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 transactionTypeRadioGroup">
-                                <input type="radio" name="transactionType" id="transactionType_financing" value="Financing">
-                                <label for="transactionType_financing" class="mb-0 flex-grow-1">Financing</label>
+                                <input type="radio" name="transactionType" id="transactionType_financing" value="FINANCING">
+                                <label for="transactionType_financing" class="mb-0 flex-grow-1">FINANCING</label>
                             </div>
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 transactionTypeRadioGroup">
-                                <input type="radio" name="transactionType" id="transactionType_bankPo" value="Bank PO">
-                                <label for="transactionType_bankPo" class="mb-0 flex-grow-1">Bank PO</label>
-                            </div>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 transactionTypeRadioGroup">
-                                <input type="radio" name="transactionType" id="transactionType_cash" value="Cash">
-                                <label for="transactionType_cash" class="mb-0 flex-grow-1">Cash</label>
-                            </div>
-                            <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 transactionTypeRadioGroup">
-                                <input type="radio" name="transactionType" id="transactionType_companyPo" value="Company PO">
-                                <label for="transactionType_companyPo" class="mb-0 flex-grow-1">Company PO</label>
+                                <input type="radio" name="transactionType" id="transactionType_bankPo" value="BANK PO">
+                                <label for="transactionType_bankPo" class="mb-0 flex-grow-1">BANK PO</label>
                             </div>
                         </div>
                         <div class="d-flex gap-2">
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 transactionTypeRadioGroup">
-                                <input type="radio" name="transactionType" id="transactionType_governmentPo" value="Government PO">
-                                <label for="transactionType_governmentPo" class="mb-0 flex-grow-1">Government PO</label>
+                                <input type="radio" name="transactionType" id="transactionType_cash" value="CASH">
+                                <label for="transactionType_cash" class="mb-0 flex-grow-1">CASH</label>
                             </div>
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 transactionTypeRadioGroup">
-                                <input type="radio" name="transactionType" id="transactionType_kinto" value="Kinto">
-                                <label for="transactionType_kinto" class="mb-0 flex-grow-1">Kinto</label>
+                                <input type="radio" name="transactionType" id="transactionType_companyPo" value="COMPANY PO">
+                                <label for="transactionType_companyPo" class="mb-0 flex-grow-1">COMPANY PO</label>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 transactionTypeRadioGroup">
+                                <input type="radio" name="transactionType" id="transactionType_governmentPo" value="GOVERNMENT PO">
+                                <label for="transactionType_governmentPo" class="mb-0 flex-grow-1">GOVERNMENT PO</label>
+                            </div>
+                            <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 transactionTypeRadioGroup">
+                                <input type="radio" name="transactionType" id="transactionType_kinto" value="KINTO">
+                                <label for="transactionType_kinto" class="mb-0 flex-grow-1">KINTO</label>
                             </div>
                         </div>
                     </div>
@@ -445,12 +445,12 @@
                         </div>
                         <div class="d-flex gap-2">
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 hasApplicationRadioGroup">
-                                <input type="radio" name="hasApplication" id="hasApplication_yes" value="Yes">
-                                <label for="hasApplication_yes" class="mb-0 flex-grow-1">Yes</label>
+                                <input type="radio" name="hasApplication" id="hasApplication_yes" value="YES">
+                                <label for="hasApplication_yes" class="mb-0 flex-grow-1">YES</label>
                             </div>
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 hasApplicationRadioGroup">
-                                <input type="radio" name="hasApplication" id="hasApplication_no" value="No">
-                                <label for="hasApplication_no" class="mb-0 flex-grow-1">No</label>
+                                <input type="radio" name="hasApplication" id="hasApplication_no" value="NO">
+                                <label for="hasApplication_no" class="mb-0 flex-grow-1">NO</label>
                             </div>
                         </div>
                         <div class="row justify-content-center align-items-center">
@@ -458,12 +458,12 @@
                         </div>
                         <div class="d-flex gap-2">
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 hasReservationRadioGroup">
-                                <input type="radio" name="hasReservation" id="hasReservation_yes" value="Yes">
-                                <label for="hasReservation_yes" class="mb-0 flex-grow-1">Yes</label>
+                                <input type="radio" name="hasReservation" id="hasReservation_yes" value="YES">
+                                <label for="hasReservation_yes" class="mb-0 flex-grow-1">YES</label>
                             </div>
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 hasReservationRadioGroup">
-                                <input type="radio" name="hasReservation" id="hasReservation_no" value="No">
-                                <label for="hasReservation_no" class="mb-0 flex-grow-1">No</label>
+                                <input type="radio" name="hasReservation" id="hasReservation_no" value="NO">
+                                <label for="hasReservation_no" class="mb-0 flex-grow-1">NO</label>
                             </div>
                         </div>
                     </div>
@@ -484,42 +484,42 @@
                         </div>
                         <div class="d-flex gap-2">
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 occupationRadioGroup">
-                                <input type="radio" name="occupation" id="occupation_businessOwner" value="Business Owner">
-                                <label for="occupation_businessOwner" class="mb-0 flex-grow-1">Business Owner</label>
+                                <input type="radio" name="occupation" id="occupation_businessOwner" value="BUSINESS OWNER">
+                                <label for="occupation_businessOwner" class="mb-0 flex-grow-1">BUSINESS OWNER</label>
                             </div>
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 occupationRadioGroup">
-                                <input type="radio" name="occupation" id="occupation_employed" value="Employed">
-                                <label for="occupation_employed" class="mb-0 flex-grow-1">Employed</label>
-                            </div>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 occupationRadioGroup">
-                                <input type="radio" name="occupation" id="occupation_ofw" value="OFW/Seaman">
-                                <label for="occupation_ofw" class="mb-0 flex-grow-1">OFW/Seaman</label>
-                            </div>
-                            <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 occupationRadioGroup">
-                                <input type="radio" name="occupation" id="occupation_pensioner" value="Pensioner">
-                                <label for="occupation_pensioner" class="mb-0 flex-grow-1">Pensioner</label>
+                                <input type="radio" name="occupation" id="occupation_employed" value="EMPLOYED">
+                                <label for="occupation_employed" class="mb-0 flex-grow-1">EMPLOYED</label>
                             </div>
                         </div>
                         <div class="d-flex gap-2">
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 occupationRadioGroup">
-                                <input type="radio" name="occupation" id="occupation_unemployed" value="Unemployed/Remittance Receiver">
-                                <label for="occupation_unemployed" class="mb-0 flex-grow-1">Unemployed/Remittance Receiver</label>
+                                <input type="radio" name="occupation" id="occupation_ofw" value="OFW/SEAMAN">
+                                <label for="occupation_ofw" class="mb-0 flex-grow-1">OFW/SEAMAN</label>
                             </div>
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 occupationRadioGroup">
-                                <input type="radio" name="occupation" id="occupation_freelancer" value="Freelancer">
-                                <label for="occupation_freelancer" class="mb-0 flex-grow-1">Freelancer</label>
+                                <input type="radio" name="occupation" id="occupation_pensioner" value="PENSIONER">
+                                <label for="occupation_pensioner" class="mb-0 flex-grow-1">PENSIONER</label>
                             </div>
                         </div>
                         <div class="d-flex gap-2">
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 occupationRadioGroup">
-                                <input type="radio" name="occupation" id="occupation_familySupported" value="Family Supported/Gift/Donation">
-                                <label for="occupation_familySupported" class="mb-0 flex-grow-1">Family Supported/Gift/Donation</label>
+                                <input type="radio" name="occupation" id="occupation_unemployed" value="UNEMPLOYED/REMITTANCE RECEIVER">
+                                <label for="occupation_unemployed" class="mb-0 flex-grow-1">UNEMPLOYED/REMITTANCE RECEIVER</label>
                             </div>
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 occupationRadioGroup">
-                                <input type="radio" name="occupation" id="occupation_tnvs" value="TNVS (Grab, Lalamove, Joyride, etc.)">
-                                <label for="occupation_tnvs" class="mb-0 flex-grow-1">TNVS (Grab, Lalamove, Joyride, etc.)</label>
+                                <input type="radio" name="occupation" id="occupation_freelancer" value="FREELANCER">
+                                <label for="occupation_freelancer" class="mb-0 flex-grow-1">FREELANCER</label>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 occupationRadioGroup">
+                                <input type="radio" name="occupation" id="occupation_familySupported" value="FAMILY SUPPORTED/GIFT/DONATION">
+                                <label for="occupation_familySupported" class="mb-0 flex-grow-1">FAMILY SUPPORTED/GIFT/DONATION</label>
+                            </div>
+                            <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 occupationRadioGroup">
+                                <input type="radio" name="occupation" id="occupation_tnvs" value="TNVS (GRAB, LALAMOVE, JOYRIDE, ETC.)">
+                                <label for="occupation_tnvs" class="mb-0 flex-grow-1">TNVS (GRAB, LALAMOVE, JOYRIDE, ETC.)</label>
                             </div>
                         </div>
                     </div>
@@ -575,7 +575,7 @@
                             </h3>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_agriculture" value="Agriculture">
+                            <input type="radio" name="businessCategory" id="businessCategory_agriculture" value="AGRICULTURE">
                             <label for="businessCategory_agriculture" class="mb-0 flex-grow-1">AGRICULTURE (POULTRY RAISING, HOG RAISING, VEGETABLE FARMING, DAIRY FARMING, RICE CULTIVATION, AND AUACULTURE. ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
@@ -583,91 +583,91 @@
                             <label for="businessCategory_bpo" class="mb-0 flex-grow-1">BPO (CONCENTRIX PHIL., TELEPERFORMANCE PHILS., ACCENTURE, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_clinic" value="Clinic">
+                            <input type="radio" name="businessCategory" id="businessCategory_clinic" value="CLINIC">
                             <label for="businessCategory_clinic" class="mb-0 flex-grow-1">CLINIC (MyHEALTH CLINIC, DERMATOLOGY, DENTAL CLINIC, OB-GYN, PEDIATRICS, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_construction" value="Construction">
+                            <input type="radio" name="businessCategory" id="businessCategory_construction" value="CONSTRUCTION">
                             <label for="businessCategory_construction" class="mb-0 flex-grow-1">CONSTRUCTION (DMCI, MEGAWIDE CONSTRUCTION CORPORATION, WILCON DEPOT, HOLCIM PHILS., CONTRACTOR, ARCHITECT, ENGINEER, DPWH, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_enterprise" value="Enterprise">
+                            <input type="radio" name="businessCategory" id="businessCategory_enterprise" value="ENTERPRISE">
                             <label for="businessCategory_enterprise" class="mb-0 flex-grow-1">ENTERPRISE (OWNER OF SAN MIGUEL CORP., AYALA CORP., SM INVESTMENTS CORP., PLDT/SMART COMMUNICATIONS, METRO OIL PHILS., ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_eCommerce" value="E-Commerce">
+                            <input type="radio" name="businessCategory" id="businessCategory_eCommerce" value="E-COMMERCE">
                             <label for="businessCategory_eCommerce" class="mb-0 flex-grow-1">E-COMMERCE (ONLINE SELLING-SHOPEE, LAZADA, WALTERMART DELIVERY, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_foodServices" value="Food Services">
+                            <input type="radio" name="businessCategory" id="businessCategory_foodServices" value="FOOD SERVICES">
                             <label for="businessCategory_foodServices" class="mb-0 flex-grow-1">FOOD SERVICES (FAST FOOD CHIN, RESTAURANT, COFFEE SHOP, CATERING, FOOD VENDORS, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_generalMerchandise" value="General Merchandise">
+                            <input type="radio" name="businessCategory" id="businessCategory_generalMerchandise" value="GENERAL MERCHANDISE">
                             <label for="businessCategory_generalMerchandise" class="mb-0 flex-grow-1">GENERAL MERCHANDISE (HOUSEHOLD GOODS, CLOTHING, BASIC ELECTRONICS, TOILETRIES, SCHOOL SUPPLIES, SMALL TOOLS AND SOMETIMES SNACK OR GROCERIES ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_generalServices" value="General Services">
+                            <input type="radio" name="businessCategory" id="businessCategory_generalServices" value="GENERAL SERVICES">
                             <label for="businessCategory_generalServices" class="mb-0 flex-grow-1">GENERAL SERVICES (JANITORIAL AND CLEANING SERVICES, PEST CONTROL, APPLIANCE REPAIR, SECURE AND MANPOWER SERVICES, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_government" value="Government">
+                            <input type="radio" name="businessCategory" id="businessCategory_government" value="GOVERNMENT">
                             <label for="businessCategory_government" class="mb-0 flex-grow-1">GOVERNMENT (LGU, GOVERNMENT AGENCIES, LTO, COMELEC, PNP, AFP TEACHER, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_hrm" value="Hospitality/Tourism/Travel">
+                            <input type="radio" name="businessCategory" id="businessCategory_hrm" value="HOSPITALITY/TOURISM/TRAVEL">
                             <label for="businessCategory_hrm" class="mb-0 flex-grow-1">HOSPITALITY/TOURISM/TRAVEL (HOTEL, RESPORT, AIRBNB, WELLNESS, TRAVEL AGENCIES, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_landscaping" value="Landscaping">
+                            <input type="radio" name="businessCategory" id="businessCategory_landscaping" value="LANDSCAPING">
                             <label for="businessCategory_landscaping" class="mb-0 flex-grow-1">LANDSCAPING (OFFERS GARDEN DESIGN, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_logistic" value="Logistic">
+                            <input type="radio" name="businessCategory" id="businessCategory_logistic" value="LOGISTIC">
                             <label for="businessCategory_logistic" class="mb-0 flex-grow-1">LOGISTIC (LBC, 2GO, TRANSFORTIFY, FOOD PANDA, JT EXPRESS, CARGO, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_manufacturing" value="Manufacturing">
+                            <input type="radio" name="businessCategory" id="businessCategory_manufacturing" value="MANUFACTURING">
                             <label for="businessCategory_manufacturing" class="mb-0 flex-grow-1">MANUFACTURING (FOOD AND BEVERAGE PRODUCTION, SAN MIGUEL CORPORATION, TOYOTA MOTOR PHILS., ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_healthcare" value="Pharma/Healthcare">
+                            <input type="radio" name="businessCategory" id="businessCategory_healthcare" value="PHARMA/HEALTHCARE">
                             <label for="businessCategory_healthcare" class="mb-0 flex-grow-1">PHARMA/HEALTHCAARE (UNILAB, MERCURY DRUG CORP., RITEMED, PFIZER, FDA PHILIPS., DOH, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_rental" value="Rental">
+                            <input type="radio" name="businessCategory" id="businessCategory_rental" value="RENTAL">
                             <label for="businessCategory_rental" class="mb-0 flex-grow-1">RENTAL (APARTMENT, COMMERCIAL SPACES, VEHICLE, CHAIRS AND TABLES, SOUND SYSTEM, CONCRETE MIXERS, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_retailsShop" value="Retails Shop">
+                            <input type="radio" name="businessCategory" id="businessCategory_retailsShop" value="RETAILS SHOP">
                             <label for="businessCategory_retailsShop" class="mb-0 flex-grow-1">RETAILS SHOP (GOODS, CLOTHING, ACCESSORIES, DRY GOODS, COSMETICS, SCHOOL AND OFFICE SUPPLIES, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_technology" value="IT/Technology">
+                            <input type="radio" name="businessCategory" id="businessCategory_technology" value="IT/TECHNOLOGY">
                             <label for="businessCategory_technology" class="mb-0 flex-grow-1">IT/TECHNOLOGY (ACCENTURE PHILS., POINTWEST TECHONOLOGIES, IMB PHILS., SOFTWARE ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_trading" value="Trading">
+                            <input type="radio" name="businessCategory" id="businessCategory_trading" value="TRADING">
                             <label for="businessCategory_trading" class="mb-0 flex-grow-1">TRADING (A TRADING BUSNESS BUYS PRODUCTS AND RESELLS THEM A)T A PROFIT ETIHTER LOCALLY OR INTERNATIONALLY</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_transportation" value="Transportation">
+                            <input type="radio" name="businessCategory" id="businessCategory_transportation" value="TRANSPORTATION">
                             <label for="businessCategory_transportation" class="mb-0 flex-grow-1">TRANSPORTATION (PASSENGER TRANSPORT, CARGO & LOGISTICS TRANSPORT SHUTTLE, SEA, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_trucking" value="Trucking">
+                            <input type="radio" name="businessCategory" id="businessCategory_trucking" value="TRUCKING">
                             <label for="businessCategory_trucking" class="mb-0 flex-grow-1">TRUCKING (A TRUCKING BUSINESS PROVIDES TRANSPORTAIONG OF GOODS USING TRUCKS)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_utilities" value="Utilities">
+                            <input type="radio" name="businessCategory" id="businessCategory_utilities" value="UTILITIES">
                             <label for="businessCategory_utilities" class="mb-0 flex-grow-1">UTILITIES (WATER, ELECTRICAL, CABLE, WIFI)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_wholesale" value="Wholesale">
+                            <input type="radio" name="businessCategory" id="businessCategory_wholesale" value="WHOLESALE">
                             <label for="businessCategory_wholesale" class="mb-0 flex-grow-1">WHOLESALE (A WHOLESALE BUSINESS BUYS PRODUCTS IN A LARGE QUANTITIES FROM MANUFACTURERS OR SUPPLIERS AND RESELLS THEM IN BULK, NOT INDIVIDUALLY)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
-                            <input type="radio" name="businessCategory" id="businessCategory_wholesaleRetail" value="Wholesale/Retail">
+                            <input type="radio" name="businessCategory" id="businessCategory_wholesaleRetail" value="WHOLESALE/RETAIL">
                             <label for="businessCategory_wholesaleRetail" class="mb-0 flex-grow-1">WHOLESALE/RETAIL (A WHOLESALE AND RETAIL BUSINESS OPERATES ON TWO LEVELS: WHOLESALE & RETAIL)</label>
                         </div>
 
@@ -744,22 +744,22 @@
                             </h3>
                             <div class="d-flex gap-2">
                                 <div class="col form-group col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 businessSizeRadioGroup">
-                                    <input type="radio" name="businessSize" id="businessSize_micro" value="Micro">
-                                    <label for="businessSize_micro" class="mb-0 flex-grow-1">Micro (1-9 Employees)</label>
+                                    <input type="radio" name="businessSize" id="businessSize_micro" value="MICRO">
+                                    <label for="businessSize_micro" class="mb-0 flex-grow-1">MICRO (1-9 EMPLOYEES)</label>
                                 </div>
                                 <div class="col form-group col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 businessSizeRadioGroup">
-                                    <input type="radio" name="businessSize" id="businessSize_small" value="Small">
-                                    <label for="businessSize_small" class="mb-0 flex-grow-1">Small (10-99 Employees)</label>
+                                    <input type="radio" name="businessSize" id="businessSize_small" value="SMALL">
+                                    <label for="businessSize_small" class="mb-0 flex-grow-1">SMALL (10-99 EMPLOYEES)</label>
                                 </div>
                             </div>
                             <div class="d-flex gap-2">
                                 <div class="col form-group col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 businessSizeRadioGroup">
-                                    <input type="radio" name="businessSize" id="businessSize_medium" value="Medium">
-                                    <label for="businessSize_medium" class="mb-0 flex-grow-1">Medium (100-199 Employees)</label>
+                                    <input type="radio" name="businessSize" id="businessSize_medium" value="MEDIUM">
+                                    <label for="businessSize_medium" class="mb-0 flex-grow-1">MEDIUM (100-199 EMPLOYEES)</label>
                                 </div>
                                 <div class="col form-group col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 businessSizeRadioGroup">
-                                    <input type="radio" name="businessSize" id="businessSize_large" value="Large">
-                                    <label for="businessSize_large" class="mb-0 flex-grow-1">Large (200 & Above Employees)</label>
+                                    <input type="radio" name="businessSize" id="businessSize_large" value="LARGE">
+                                    <label for="businessSize_large" class="mb-0 flex-grow-1">LARGE (200 & ABOVE EMPLOYEES)</label>
                                 </div>
                             </div>
                         </div>
@@ -798,12 +798,12 @@
                         </div>
                         <div class="d-flex gap-2">
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 buyerDecisionHoldRadioGroup">
-                                <input type="radio" name="buyerDecisionHold" id="buyerDecisionHold_yes" value="Yes">
-                                <label for="buyerDecisionHold_yes" class="mb-0 flex-grow-1">Yes</label>
+                                <input type="radio" name="buyerDecisionHold" id="buyerDecisionHold_yes" value="YES">
+                                <label for="buyerDecisionHold_yes" class="mb-0 flex-grow-1">YES</label>
                             </div>
                             <div class="col justify-content-center align-items-center radio-column mb-4 py-1 pr-0 d-flex gap-2 buyerDecisionHoldRadioGroup">
-                                <input type="radio" name="buyerDecisionHold" id="buyerDecisionHold_no" value="No">
-                                <label for="buyerDecisionHold_no" class="mb-0 flex-grow-1">No</label>
+                                <input type="radio" name="buyerDecisionHold" id="buyerDecisionHold_no" value="NO">
+                                <label for="buyerDecisionHold_no" class="mb-0 flex-grow-1">NO</label>
                             </div>
                             <div class="invalid-feedback">Please select an option.</div>
                         </div>

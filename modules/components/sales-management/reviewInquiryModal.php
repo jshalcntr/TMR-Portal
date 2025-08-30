@@ -15,15 +15,15 @@
                             <p class="form-label">Prospect Type <span class="text-danger">*</span></p>
                             <div class="row justify-content-center align-items-center">
                                 <div class="justify-content-center align-items-center radio-column mb-2 py-1 d-flex gap-2 prospectRadioGroup">
-                                    <input type="radio" name="prospectType" id="prospectType_hot_review" value="Hot">
+                                    <input type="radio" name="prospectType" id="prospectType_hot_review" value="HOT">
                                     <label for="prospectType_hot_review" class="mb-0 flex-grow-1">HOT (WITHIN 1 WEEK TO 2 MONTHS)</label>
                                 </div>
                                 <div class="justify-content-center align-items-center radio-column mb-2 py-1 d-flex gap-2 prospectRadioGroup">
-                                    <input type="radio" name="prospectType" id="prospectType_warm_review" value="Warm">
+                                    <input type="radio" name="prospectType" id="prospectType_warm_review" value="WARM">
                                     <label for="prospectType_warm_review" class="mb-0 flex-grow-1">WARM (WITHIN 2 TO 5 MONTHS)</label>
                                 </div>
                                 <div class="justify-content-center align-items-center radio-column mb-2 py-1 d-flex gap-2 prospectRadioGroup">
-                                    <input type="radio" name="prospectType" id="prospectType_cold_review" value="Cold">
+                                    <input type="radio" name="prospectType" id="prospectType_cold_review" value="COLD">
                                     <label for="prospectType_cold_review" class="mb-0 flex-grow-1">COLD (6 MONTHS AND ABOVE)</label>
                                 </div>
                                 <div class="invalid-feedback">
@@ -93,16 +93,16 @@
                             <p class="form-label">Client Gender <span class="text-danger">*</span></p>
                             <div class="row d-flex form-group gap-2">
                                 <div class="col justify-content-center align-items-center radio-column py-1 d-flex gap-2 genderRadioGroup">
-                                    <input type="radio" name="gender" id="gender_male_review" value="Male">
-                                    <label for="gender_male_review" class="mb-0 flex-grow-1">Male</label>
+                                    <input type="radio" name="gender" id="gender_male_review" value="MALE">
+                                    <label for="gender_male_review" class="mb-0 flex-grow-1">MALE</label>
                                 </div>
                                 <div class="col justify-content-center align-items-center radio-column py-1 d-flex gap-2 genderRadioGroup">
-                                    <input type="radio" name="gender" id="gender_female_review" value="Female">
-                                    <label for="gender_female_review" class="mb-0 flex-grow-1">Female</label>
+                                    <input type="radio" name="gender" id="gender_female_review" value="FEMALE">
+                                    <label for="gender_female_review" class="mb-0 flex-grow-1">FEMALE</label>
                                 </div>
                                 <div class="col justify-content-center align-items-center radio-column py-1 d-flex gap-2 genderRadioGroup">
-                                    <input type="radio" name="gender" id="gender_lgbt_review" value="LGBT">
-                                    <label for="gender_lgbt_review" class="mb-0 flex-grow-1">LGBT</label>
+                                    <input type="radio" name="gender" id="gender_lgbt_review" value="LGBTQ+">
+                                    <label for="gender_lgbt_review" class="mb-0 flex-grow-1">LGBTQ+</label>
                                 </div>
                                 <div class="invalid-feedback">Please select a Gender.</div>
                             </div>
@@ -112,13 +112,13 @@
                             <div class="row d-flex form-group gap-2">
                                 <select class="form-select form-select-sm" name="maritalStatus" id="maritalStatus_review">
                                     <option selected disabled value="" hidden>--Select Marital Status--</option>
-                                    <option value="Single">Single</option>
-                                    <option value="Married">Married</option>
-                                    <option value="Divorced">Divorced</option>
-                                    <option value="Separated">Separated</option>
-                                    <option value="Widowed">Widowed</option>
-                                    <option value="Annuled">Annuled</option>
-                                    <option value="Others">Others</option>
+                                    <option value="SINGLE">SINGLE</option>
+                                    <option value="MARRIED">MARRIED</option>
+                                    <option value="DIVORCED">DIVORCED</option>
+                                    <option value="SEPARATED">SEPARATED</option>
+                                    <option value="WIDOWED">WIDOWED</option>
+                                    <option value="ANNULED">ANNULED</option>
+                                    <option value="OTHERS">OTHERS</option>
                                 </select>
                                 <div class="invalid-feedback">Please select a Marital Status.</div>
                             </div>
@@ -144,14 +144,14 @@
                             <div class="row d-flex form-group gap-2">
                                 <select name="occupation" id="occupation_review" class="form-select form-select-sm">
                                     <option selected disabled value="" hidden>--Select Occupation--</option>
-                                    <option value="Business Owner">Business Owner</option>
-                                    <option value="Employed">Employed</option>
-                                    <option value="OFW/Seaman">OFW/Seaman</option>
-                                    <option value="Pensioner">Pensioner</option>
-                                    <option value="Unemploye/Remittance Receiver">Unemploye/Remittance Receiver</option>
-                                    <option value="Freelancer">Freelancer</option>
-                                    <option value="Family Support/Gift/Donation">Family Support/Gift/Donation</option>
-                                    <option value="TNVS (Grab, Lalamove, Joyride, etc.)">TNVS (Grab, Lalamove, Joyride, etc.)</option>
+                                    <option value="BUSINESS OWNER">BUSINESS OWNER</option>
+                                    <option value="EMPLOYED">EMPLOYED</option>
+                                    <option value="OFW/SEAMAN">OFW/SEAMAN</option>
+                                    <option value="PENSIONER">PENSIONER</option>
+                                    <option value="UNEMPLOYED/REMITTANCE RECEIVER">UNEMPLOYED/REMITTANCE RECEIVER</option>
+                                    <option value="FREELANCER">FREELANCER</option>
+                                    <option value="FAMILY SUPPORT/GIFT/DONATION">FAMILY SUPPORT/GIFT/DONATION</option>
+                                    <option value="TNVS (GRAB, LALAMOVE, JOYRIDE, ETC.)">TNVS (GRAB, LALAMOVE, JOYRIDE, ETC.)</option>
                                 </select>
                             </div>
                             <div class="invalid-feedback">Please select an Occupation.</div>
@@ -193,30 +193,30 @@
                             <div class="row d-flex form-group gap-2">
                                 <select name="businessCategory" id="businessCategory_review" class="form-select form-select-sm">
                                     <option selected disabled value="" hidden>--Select Business Category--</option>
-                                    <option value="Agriculture">AGRICULTURE (POULTRY RAISING, HOG RAISING, VEGETABLE FARMING, DAIRY FARMING, RICE CULTIVATION, AND AUACULTURE. ETC.)</option>
+                                    <option value="AGRICULTURE">AGRICULTURE (POULTRY RAISING, HOG RAISING, VEGETABLE FARMING, DAIRY FARMING, RICE CULTIVATION, AND AUACULTURE. ETC.)</option>
                                     <option value="BPO">BPO (CONCENTRIX PHIL., TELEPERFORMANCE PHILS., ACCENTURE, ETC.)</option>
-                                    <option value="Clinic">CLINIC (MyHEALTH CLINIC, DERMATOLOGY, DENTAL CLINIC, OB-GYN, PEDIATRICS, ETC.)</option>
-                                    <option value="Construction">CONSTRUCTION (DMCI, MEGAWIDE CONSTRUCTION CORPORATION, WILCON DEPOT, HOLCIM PHILS., CONTRACTOR, ARCHITECT, ENGINEER, DPWH, ETC.)</option>
-                                    <option value="Enterprise">ENTERPRISE (OWNER OF SAN MIGUEL CORP., AYALA CORP., SM INVESTMENTS CORP., PLDT/SMART COMMUNICATIONS, METRO OIL PHILS., ETC.)</option>
-                                    <option value="E-Commerce">E-COMMERCE (ONLINE SELLING-SHOPEE, LAZADA, WALTERMART DELIVERY, ETC.)</option>
-                                    <option value="Food Services">FOOD SERVICES (FAST FOOD CHIN, RESTAURANT, COFFEE SHOP, CATERING, FOOD VENDORS, ETC.)</option>
-                                    <option value="General Merchandise">GENERAL MERCHANDISE (HOUSEHOLD GOODS, CLOTHING, BASIC ELECTRONICS, TOILETRIES, SCHOOL SUPPLIES, SMALL TOOLS AND SOMETIMES SNACK OR GROCERIES ETC.)</option>
-                                    <option value="General Services">GENERAL SERVICES (JANITORIAL AND CLEANING SERVICES, PEST CONTROL, APPLIANCE REPAIR, SECURE AND MANPOWER SERVICES, ETC.)</option>
-                                    <option value="Government">GOVERNMENT (LGU, GOVERNMENT AGENCIES, LTO, COMELEC, PNP, AFP TEACHER, ETC.)</option>
-                                    <option value="Hospitality/Tourism/Travel">HOSPITALITY/TOURISM/TRAVEL (HOTEL, RESPORT, AIRBNB, WELLNESS, TRAVEL AGENCIES, ETC.)</option>
-                                    <option value="Landscaping">LANDSCAPING (OFFERS GARDEN DESIGN, ETC.)</option>
-                                    <option value="Logistic">LOGISTIC (LBC, 2GO, TRANSFORTIFY, FOOD PANDA, JT EXPRESS, CARGO, ETC.)</option>
-                                    <option value="Manufacturing">MANUFACTURING (FOOD AND BEVERAGE PRODUCTION, SAN MIGUEL CORPORATION, TOYOTA MOTOR PHILS., ETC.)</option>
-                                    <option value="Pharma/Healthcare">PHARMA/HEALTHCAARE (UNILAB, MERCURY DRUG CORP., RITEMED, PFIZER, FDA PHILIPS., DOH, ETC.)</option>
-                                    <option value="Rental">RENTAL (APARTMENT, COMMERCIAL SPACES, VEHICLE, CHAIRS AND TABLES, SOUND SYSTEM, CONCRETE MIXERS, ETC.)</option>
-                                    <option value="Retails Shop">RETAILS SHOP (GOODS, CLOTHING, ACCESSORIES, DRY GOODS, COSMETICS, SCHOOL AND OFFICE SUPPLIES, ETC.)</option>
-                                    <option value="IT/Technology">IT/TECHNOLOGY (ACCENTURE PHILS., POINTWEST TECHONOLOGIES, IMB PHILS., SOFTWARE ETC.)</option>
-                                    <option value="Trading">TRADING (A TRADING BUSNESS BUYS PRODUCTS AND RESELLS THEM A)T A PROFIT ETIHTER LOCALLY OR INTERNATIONALLY</option>
-                                    <option value="Transportation">TRANSPORTATION (PASSENGER TRANSPORT, CARGO & LOGISTICS TRANSPORT SHUTTLE, SEA, ETC.)</option>
-                                    <option value="Trucking">TRUCKING (A TRUCKING BUSINESS PROVIDES TRANSPORTAIONG OF GOODS USING TRUCKS)</option>
-                                    <option value="Utilities">UTILITIES (WATER, ELECTRICAL, CABLE, WIFI)</option>
-                                    <option value="Wholesale">WHOLESALE (A WHOLESALE BUSINESS BUYS PRODUCTS IN A LARGE QUANTITIES FROM MANUFACTURERS OR SUPPLIERS AND RESELLS THEM IN BULK, NOT INDIVIDUALLY)</option>
-                                    <option value="Wholesale/Retail">WHOLESALE/RETAIL (A WHOLESALE AND RETAIL BUSINESS OPERATES ON TWO LEVELS: WHOLESALE & RETAIL)</option>
+                                    <option value="CLINIC">CLINIC (MyHEALTH CLINIC, DERMATOLOGY, DENTAL CLINIC, OB-GYN, PEDIATRICS, ETC.)</option>
+                                    <option value="CONSTRUCTION">CONSTRUCTION (DMCI, MEGAWIDE CONSTRUCTION CORPORATION, WILCON DEPOT, HOLCIM PHILS., CONTRACTOR, ARCHITECT, ENGINEER, DPWH, ETC.)</option>
+                                    <option value="ENTERPRISE">ENTERPRISE (OWNER OF SAN MIGUEL CORP., AYALA CORP., SM INVESTMENTS CORP., PLDT/SMART COMMUNICATIONS, METRO OIL PHILS., ETC.)</option>
+                                    <option value="E-COMMERCE">E-COMMERCE (ONLINE SELLING-SHOPEE, LAZADA, WALTERMART DELIVERY, ETC.)</option>
+                                    <option value="FOOD SERVICES">FOOD SERVICES (FAST FOOD CHIN, RESTAURANT, COFFEE SHOP, CATERING, FOOD VENDORS, ETC.)</option>
+                                    <option value="GENERAL MERCHANDISE">GENERAL MERCHANDISE (HOUSEHOLD GOODS, CLOTHING, BASIC ELECTRONICS, TOILETRIES, SCHOOL SUPPLIES, SMALL TOOLS AND SOMETIMES SNACK OR GROCERIES ETC.)</option>
+                                    <option value="GENERAL SERVICES">GENERAL SERVICES (JANITORIAL AND CLEANING SERVICES, PEST CONTROL, APPLIANCE REPAIR, SECURE AND MANPOWER SERVICES, ETC.)</option>
+                                    <option value="GOVERNMENT">GOVERNMENT (LGU, GOVERNMENT AGENCIES, LTO, COMELEC, PNP, AFP TEACHER, ETC.)</option>
+                                    <option value="HOSPITALITY/TOURISM/TRAVEL">HOSPITALITY/TOURISM/TRAVEL (HOTEL, RESPORT, AIRBNB, WELLNESS, TRAVEL AGENCIES, ETC.)</option>
+                                    <option value="LANDSCAPING">LANDSCAPING (OFFERS GARDEN DESIGN, ETC.)</option>
+                                    <option value="LOGISTIC">LOGISTIC (LBC, 2GO, TRANSFORTIFY, FOOD PANDA, JT EXPRESS, CARGO, ETC.)</option>
+                                    <option value="MANUFACTURING">MANUFACTURING (FOOD AND BEVERAGE PRODUCTION, SAN MIGUEL CORPORATION, TOYOTA MOTOR PHILS., ETC.)</option>
+                                    <option value="PHARMA/HEALTHCARE">PHARMA/HEALTHCAARE (UNILAB, MERCURY DRUG CORP., RITEMED, PFIZER, FDA PHILIPS., DOH, ETC.)</option>
+                                    <option value="RENTAL">RENTAL (APARTMENT, COMMERCIAL SPACES, VEHICLE, CHAIRS AND TABLES, SOUND SYSTEM, CONCRETE MIXERS, ETC.)</option>
+                                    <option value="RETAILS SHOP">RETAILS SHOP (GOODS, CLOTHING, ACCESSORIES, DRY GOODS, COSMETICS, SCHOOL AND OFFICE SUPPLIES, ETC.)</option>
+                                    <option value="IT/TECHNOLOGY">IT/TECHNOLOGY (ACCENTURE PHILS., POINTWEST TECHONOLOGIES, IMB PHILS., SOFTWARE ETC.)</option>
+                                    <option value="TRADING">TRADING (A TRADING BUSNESS BUYS PRODUCTS AND RESELLS THEM A)T A PROFIT ETIHTER LOCALLY OR INTERNATIONALLY</option>
+                                    <option value="TRANSPORTATION">TRANSPORTATION (PASSENGER TRANSPORT, CARGO & LOGISTICS TRANSPORT SHUTTLE, SEA, ETC.)</option>
+                                    <option value="TRUCKING">TRUCKING (A TRUCKING BUSINESS PROVIDES TRANSPORTAIONG OF GOODS USING TRUCKS)</option>
+                                    <option value="UTILITIES">UTILITIES (WATER, ELECTRICAL, CABLE, WIFI)</option>
+                                    <option value="WHOLESALE">WHOLESALE (A WHOLESALE BUSINESS BUYS PRODUCTS IN A LARGE QUANTITIES FROM MANUFACTURERS OR SUPPLIERS AND RESELLS THEM IN BULK, NOT INDIVIDUALLY)</option>
+                                    <option value="WHOLESALE/RETAIL">WHOLESALE/RETAIL (A WHOLESALE AND RETAIL BUSINESS OPERATES ON TWO LEVELS: WHOLESALE & RETAIL)</option>
                                 </select>
                             </div>
                         </div>
@@ -225,10 +225,10 @@
                             <div class="row d-flex form-group gap-2">
                                 <select name="businessSize" id="businessSize_review" class="form-select form-select-sm">
                                     <option value="" hidden selected disabled>--Select Business Size--</option>
-                                    <option value="Micro">Micro (1-9 Employees)</option>
-                                    <option value="Small">Small (10-99 Employees)</option>
-                                    <option value="Medium">Medium (100-199 Employees)</option>
-                                    <option value="Large">Large (200 & Above Employees)</option>
+                                    <option value="MICRO">MICRO (1-9 EMPLOYEES)</option>
+                                    <option value="SMALL">SMALL (10-99 EMPLOYEES)</option>
+                                    <option value="MEDIUM">MEDIUM (100-199 EMPLOYEES)</option>
+                                    <option value="LARGE">LARGE (200 & Above EMPLOYEES)</option>
                                 </select>
                             </div>
                         </div>
@@ -267,8 +267,8 @@
                             <div class="row d-flex form-group gap-2">
                                 <select name="inquirySource" id="inquirySource_review" class="form-select form-select-sm">
                                     <option value="" hidden selected disabled>--Select Source--</option>
-                                    <option value="Face To Face">Face To Face</option>
-                                    <option value="Online">Online</option>
+                                    <option value="FACE TO FACE">FACE TO FACE</option>
+                                    <option value="ONLINE">ONLINE</option>
                                 </select>
                             </div>
                         </div>
@@ -277,15 +277,15 @@
                             <div class="row d-flex form-group gap-2">
                                 <select name="inquirySourceType" id="f2fSource_review" class="form-select form-select-sm">
                                     <option value="" hidden selected disabled>--Select Source--</option>
-                                    <option value="Showroom Walk-In">Showroom Walk-In</option>
-                                    <option value="Mall Display">Mall Display</option>
-                                    <option value="Saturation">Saturation</option>
-                                    <option value="Bank Display">Bank Display</option>
-                                    <option value="Repeat">Repeat</option>
-                                    <option value="Phone-In">Phone-In</option>
-                                    <option value="Attack List (UIO)">Attack List (UIO)</option>
-                                    <option value="Goyokiki">Goyokiki</option>
-                                    <option value="Client From Service/Parts/Insurance">Client From Service/Parts/Insurance</option>
+                                    <option value="SHOWROOM WALK-IN">SHOWROOM WALK-IN</option>
+                                    <option value="MALL DISPLAY">MALL DISPLAY</option>
+                                    <option value="SATURATION">SATURATION</option>
+                                    <option value="BANK DISPLAY">BANK DISPLAY</option>
+                                    <option value="REPEAT">REPEAT</option>
+                                    <option value="PHONE-IN">PHONE-IN</option>
+                                    <option value="ATTACK LIST (UIO)">ATTACK LIST (UIO)</option>
+                                    <option value="GOYOKIKI">GOYOKIKI</option>
+                                    <option value="CLIENT FROM SERVICE/PARTS/INSURANCE">CLIENT FROM SERVICE/PARTS/INSURANCE</option>
                                 </select>
                             </div>
                         </div>
@@ -294,14 +294,14 @@
                             <div class="row d-flex form-group gap-2">
                                 <select name="inquirySourceType" id="onlineSource_review" class="form-select form-select-sm">
                                     <option value="" hidden selected disabled>--Select Source--</option>
-                                    <option value="TMR FB PAGE (Toyota Marilao Bulacan Inc.)">TMR FB PAGE (Toyota Marilao Bulacan Inc.)</option>
-                                    <option value="MP FB Page (MP-Toyota Marilao)">MP FB Page (MP-Toyota Marilao)</option>
-                                    <option value="Group FB Page (GRM-Toyota Marilao)">Group FB Page (GRM-Toyota Marilao)</option>
-                                    <option value="Personal Facebook">Personal Facebook</option>
-                                    <option value="TikTok">TikTok</option>
-                                    <option value="Instagram">Instagram</option>
-                                    <option value="YouTube">YouTube</option>
-                                    <option value="PhilGeps">PhilGeps</option>
+                                    <option value="TMR FB PAGE (TOYOTA MARILAO BULACAN INC.)">TMR FB PAGE (TOYOTA MARILAO BULACAN INC.)</option>
+                                    <option value="MP FB PAGE (MP-TOYOTA MARILAO)">MP FB PAGE (MP-TOYOTA MARILAO)</option>
+                                    <option value="GROUP FB PAGE (GRM-TOYOTA MARILAO)">GROUP FB PAGE (GRM-TOYOTA MARILAO)</option>
+                                    <option value="PERSONAL FACEBOOK">PERSONAL FACEBOOK</option>
+                                    <option value="TIKTOK">TIKTOK</option>
+                                    <option value="INSTAGRAM">INSTAGRAM</option>
+                                    <option value="YOUTUBE">YOUTUBE</option>
+                                    <option value="PHILGEPS">PHILGEPS</option>
                                 </select>
                             </div>
                         </div>
@@ -315,16 +315,16 @@
                             <p class="form-label">Buyer Type <span class="text-danger">*</span></p>
                             <div class="row d-flex form-group gap-2">
                                 <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup">
-                                    <input type="radio" name="buyerType" id="buyerType_first_review" value="First-Time">
-                                    <label for="buyerType_first_review" class="mb-0 flex-grow-1">First-Time</label>
+                                    <input type="radio" name="buyerType" id="buyerType_first_review" value="FIRST-TIME">
+                                    <label for="buyerType_first_review" class="mb-0 flex-grow-1">FIRST-TIME</label>
                                 </div>
                                 <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup">
-                                    <input type="radio" name="buyerType" id="buyerType_replacement_review" value="Replacement">
-                                    <label for="buyerType_replacement_review" class="mb-0 flex-grow-1">Replacement</label>
+                                    <input type="radio" name="buyerType" id="buyerType_replacement_review" value="REPLACEMENT">
+                                    <label for="buyerType_replacement_review" class="mb-0 flex-grow-1">REPLACEMENT</label>
                                 </div>
                                 <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup">
-                                    <input type="radio" name="buyerType" id="buyerType_additional_review" value="Additional">
-                                    <label for="buyerType_additional_review" class="mb-0 flex-grow-1">Additional</label>
+                                    <input type="radio" name="buyerType" id="buyerType_additional_review" value="ADDITIONAL">
+                                    <label for="buyerType_additional_review" class="mb-0 flex-grow-1">ADDITIONAL</label>
                                 </div>
                             </div>
                         </div>
@@ -358,12 +358,12 @@
                             <div class="row d-flex gap-2">
                                 <select name="transactionType" id="transactionType_review" class="form-select form-select-sm">
                                     <option value="" hidden selected disabled>--Select Transaction Type--</option>
-                                    <option value="Financing">Financing</option>
-                                    <option value="Bank PO">Bank PO</option>
-                                    <option value="Cash">Cash</option>
-                                    <option value="Company PO">Company PO</option>
-                                    <option value="Government PO">Government PO</option>
-                                    <option value="Kinto">Kinto</option>
+                                    <option value="FINANCING">FINANCING</option>
+                                    <option value="BANK PO">BANK PO</option>
+                                    <option value="CASH">CASH</option>
+                                    <option value="COMPANY PO">COMPANY PO</option>
+                                    <option value="GOVERNMENT PO">GOVERNMENT PO</option>
+                                    <option value="KINTO">KINTO</option>
                                 </select>
                             </div>
                         </div>
@@ -371,12 +371,12 @@
                             <p class="form-label">With Application</p>
                             <div class="row d-flex form-group gap-2">
                                 <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasApplicationRadioGroup">
-                                    <input type="radio" name="hasApplication" id="hasApplication_yes_review" value="Yes">
-                                    <label for="hasApplication_yes_review" class="mb-0 flex-grow-1">Yes</label>
+                                    <input type="radio" name="hasApplication" id="hasApplication_yes_review" value="YES">
+                                    <label for="hasApplication_yes_review" class="mb-0 flex-grow-1">YES</label>
                                 </div>
                                 <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasApplicationRadioGroup">
-                                    <input type="radio" name="hasApplication" id="hasApplication_no_review" value="No">
-                                    <label for="hasApplication_no_review" class="mb-0 flex-grow-1">No</label>
+                                    <input type="radio" name="hasApplication" id="hasApplication_no_review" value="NO">
+                                    <label for="hasApplication_no_review" class="mb-0 flex-grow-1">NO</label>
                                 </div>
                             </div>
                         </div>
@@ -384,12 +384,12 @@
                             <p class="form-label">With Reservation</p>
                             <div class="row d-flex form-group gap-2">
                                 <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasReservationRadioGroup">
-                                    <input type="radio" name="hasReservation" id="hasReservation_yes_review" value="Yes">
-                                    <label for="hasReservation_yes_review" class="mb-0 flex-grow-1">Yes</label>
+                                    <input type="radio" name="hasReservation" id="hasReservation_yes_review" value="YES">
+                                    <label for="hasReservation_yes_review" class="mb-0 flex-grow-1">YES</label>
                                 </div>
                                 <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasReservationRadioGroup">
-                                    <input type="radio" name="hasReservation" id="hasReservation_no_review" value="No">
-                                    <label for="hasReservation_no_review" class="mb-0 flex-grow-1">No</label>
+                                    <input type="radio" name="hasReservation" id="hasReservation_no_review" value="NO">
+                                    <label for="hasReservation_no_review" class="mb-0 flex-grow-1">NO</label>
                                 </div>
                             </div>
                         </div>
@@ -415,12 +415,12 @@
                             <p class="form-label">Buyer's Decision on hold?</p>
                             <div class="row d-flex form-group gap-2">
                                 <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerDecisionHoldRadioGroup">
-                                    <input type="radio" name="buyerDecisionHold" id="buyerDecisionHold_yes_review" value="Yes">
-                                    <label for="buyerDecisionHold_yes_review" class="mb-0 flex-grow-1">Yes</label>
+                                    <input type="radio" name="buyerDecisionHold" id="buyerDecisionHold_yes_review" value="YES">
+                                    <label for="buyerDecisionHold_yes_review" class="mb-0 flex-grow-1">YES</label>
                                 </div>
                                 <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerDecisionHoldRadioGroup">
-                                    <input type="radio" name="buyerDecisionHold" id="buyerDecisionHold_no_review" value="No">
-                                    <label for="buyerDecisionHold_no_review" class="mb-0 flex-grow-1">No</label>
+                                    <input type="radio" name="buyerDecisionHold" id="buyerDecisionHold_no_review" value="NO">
+                                    <label for="buyerDecisionHold_no_review" class="mb-0 flex-grow-1">NO</label>
                                 </div>
                             </div>
                         </div>

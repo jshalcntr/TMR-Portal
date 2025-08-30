@@ -18,18 +18,18 @@ $(document).on('click', '.viewInquiryDetailsBtn', function () {
                 const customerId = inquiryDetails.customer_id;
                 const firstName = inquiryDetails.customer_firstname;
                 const middleName = inquiryDetails.customer_middlename;
-                const lastName = inquiryDetails.lastname;
+                const lastName = inquiryDetails.customer_lastname;
                 const gender = inquiryDetails.gender;
                 const contactNumber = inquiryDetails.contact_number;
-                const streetAddress = inquiryDetails.street === "" ? "No Street Address" : inquiryDetails.street;
+                const streetAddress = inquiryDetails.street === "" ? "NO STREET ADDRESS" : inquiryDetails.street;
                 const barangay = inquiryDetails.barangay;
                 const municipality = inquiryDetails.municipality;
                 const province = inquiryDetails.province;
                 const maritalStatus = inquiryDetails.marital_status;
-                const birthday = convertToReadableDate(inquiryDetails.birthday);
+                const birthday = convertToReadableDate(inquiryDetails.birthday).toUpperCase();
 
                 const occupation = inquiryDetails.occupation;
-                const occupationStreetAddress = inquiryDetails.occupation_street === "" ? "No Street Address" : inquiryDetails.occupation_street;
+                const occupationStreetAddress = inquiryDetails.occupation_street === "" ? "NO STREET ADDRESS" : inquiryDetails.occupation_street;
                 const occupationBarangay = inquiryDetails.occupation_barangay;
                 const occupationMunicipality = inquiryDetails.occupation_municipality;
                 const occupationProvince = inquiryDetails.occupation_province;
@@ -40,22 +40,22 @@ $(document).on('click', '.viewInquiryDetailsBtn', function () {
 
                 const inquiryId = inquiryDetails.inquiry_id;
                 const prospectType = inquiryDetails.prospect_type;
-                const dateOfInquiry = convertToReadableDate(inquiryDetails.inquiry_date);
+                const dateOfInquiry = convertToReadableDate(inquiryDetails.inquiry_date).toUpperCase();
                 const inquirySource = inquiryDetails.inquiry_source;
-                const inquirySourceType = inquiryDetails.inquiry_source;
-                const mallSource = inquiryDetails.mall === "" ? "No Mall" : inquiryDetails.mall;
+                const inquirySourceType = inquiryDetails.inquiry_source_type;
+                const mallSource = inquiryDetails.mall === "" ? "NO MALL" : inquiryDetails.mall;
                 const buyerType = inquiryDetails.buyer_type;
                 const unitInquired = inquiryDetails.unit_inquired;
                 const transactionType = inquiryDetails.transaction_type;
-                const hasApplication = inquiryDetails.has_application === 1 ? "Yes" : "No";
-                const hasReservation = inquiryDetails.has_reservation === 1 ? "Yes" : "No";
-                const reservationDate = inquiryDetails.reservation_date === "0000-00-00" ? "No Reservation" : convertToReadableDate(inquiryDetails.reservation_date);
-                const appointmentDateTime = `${convertToReadableDate(inquiryDetails.appointment_date)} ${inquiryDetails.appointment_time}`;
+                const hasApplication = inquiryDetails.has_application === 1 ? "YES" : "NO";
+                const hasReservation = inquiryDetails.has_reservation === 1 ? "YES" : "NO";
+                const reservationDate = inquiryDetails.reservation_date === "0000-00-00" ? "NO RESERVATION" : convertToReadableDate(inquiryDetails.reservation_date).toUpperCase();
+                const appointmentDateTime = `${convertToReadableDate(inquiryDetails.appointment_date).toUpperCase()} ${inquiryDetails.appointment_time}`;
 
                 const tamarawVariant = inquiryDetails.tamaraw_variant;
                 const additionalUnit = inquiryDetails.additional_unit;
-                const buyerDecisionHold = inquiryDetails.buyer_decision_hold === 1 ? "Yes" : "No";
-                const buyerDecisionHoldReason = inquiryDetails.buyer_decision_hold_reason === null ? "No Reason" : inquiryDetails.buyer_decision_hold_reason;
+                const buyerDecisionHold = inquiryDetails.buyer_decision_hold === 1 ? "YES" : "NO";
+                const buyerDecisionHoldReason = inquiryDetails.buyer_decision_hold_reason === null ? "NO REASON" : inquiryDetails.buyer_decision_hold_reason;
                 const specificUsage = inquiryDetails.tamaraw_specific_usage;
 
                 $("#customerId_details").text(customerId);

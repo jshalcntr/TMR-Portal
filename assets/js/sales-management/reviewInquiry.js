@@ -9,10 +9,10 @@ $(document).ready(function () {
                 $('#municipality_review').empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
                 $('#barangay_review').empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
 
-                $('#province_review').append(`<option value="National Capital Region" data-code="130000000" data-type="region">National Capital Region (NCR)</option>`);
+                $('#province_review').append(`<option value="NATIONAL CAPITAL REGION" data-code="130000000" data-type="region">NATIONAL CAPITAL REGION (NCR)</option>`);
 
                 response.forEach(province => {
-                    $('#province_review').append(`<option value="${province.name}" data-code="${province.code}">${province.name}</option>`);
+                    $('#province_review').append(`<option value="${province.name.toUpperCase()}" data-code="${province.code}">${province.name.toUpperCase()}</option>`);
                 });
 
                 $("#province_review").select2({
@@ -75,10 +75,10 @@ $(document).ready(function () {
                 $('#occupationMunicipality_review').empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
                 $('#occupationBarangay_review').empty().append(`<option value="" selected hidden>--Select Barangay--</option></option>`);
 
-                $('#occupationProvince_review').append(`<option value="National Capital Region" data-code="130000000" data-type="region">National Capital Region (NCR)</option>`);
+                $('#occupationProvince_review').append(`<option value="NATIONAL CAPITAL REGION" data-code="130000000" data-type="region">NATIONAL CAPITAL REGION (NCR)</option>`);
 
                 response.forEach(province => {
-                    $('#occupationProvince_review').append(`<option value="${province.name}" data-code="${province.code}">${province.name}</option>`);
+                    $('#occupationProvince_review').append(`<option value="${province.name.toUpperCase()}" data-code="${province.code}">${province.name.toUpperCase()}</option>`);
                 });
                 $("#occupationProvince_review").select2({
                     placeholder: `--Select Province--`,
@@ -186,11 +186,11 @@ $(document).ready(function () {
         //     `
         // );
 
-        if (prospectType === "Hot") {
+        if (prospectType === "HOT") {
             $("#prospectType_hot_review").prop('checked', true);
-        } else if (prospectType === "Warm") {
+        } else if (prospectType === "WARM") {
             $("#prospectType_warm_review").prop('checked', true);
-        } else if (prospectType === "Cold") {
+        } else if (prospectType === "COLD") {
             $("#prospectType_cold_review").prop('checked', true);
         }
         $("#customerFirstName_review").val(customerFirstName);
@@ -198,12 +198,12 @@ $(document).ready(function () {
         $("#customerLastName_review").val(customerLastName);
         $("#street_review").val(street);
         $("#contactNumber_review").val(contactNumber);
-        if (gender === "Male") {
+        if (gender === "MALE") {
             $("#gender_male_review").prop('checked', true);
-        } else if (gender === "Female") {
+        } else if (gender === "FEMALE") {
             $("#gender_female_review").prop('checked', true);
-        } else if (gender === "LGBT") {
-            $("#gender_otlgbt_review").prop('checked', true);
+        } else if (gender === "LGBTQ+") {
+            $("#gender_lgbt_review").prop('checked', true);
         }
         $("#maritalStatus_review").val(maritalStatus).trigger('change');
         $("#maritalStatusOtherInput_review").val(maritalStatusOther === null || maritalStatusOther === "" ? maritalStatus : maritalStatusOther);
@@ -217,47 +217,47 @@ $(document).ready(function () {
 
         $("#inquiryDate_review").val(inquiryDate);
         $("#inquirySource_review").val(inquirySource).trigger('change');
-        if (inquirySource === "Face To Face") {
+        if (inquirySource === "FACE TO FACE") {
             $("#f2fSource_review").val(inquirySourceType).trigger('change');
-        } else if (inquirySource === "Online") {
+        } else if (inquirySource === "ONLINE") {
             $("#onlineSource_review").val(inquirySourceType).trigger('change');
         }
         $("#f2fSource_review").val(inquirySourceType);
         $("#onlineSource_review").val(inquirySourceType);
         $("#mallDisplay_review").val(mallDisplay);
-        if (buyerType === "First-Time") {
+        if (buyerType === "FIRST-TIME") {
             $("#buyerType_first_review").prop('checked', true);
-        } else if (buyerType === "Replacement") {
+        } else if (buyerType === "REPLACEMENT") {
             $("#buyerType_replacement_review").prop('checked', true);
-        } else if (buyerType === "additional") {
+        } else if (buyerType === "ADDITIONAL") {
             $("#buyerType_additional_review").prop('checked', true);
         }
         $("#unitInquired_review").val(unitInquired).trigger('change');
         $("#tamarawVariant_review").val(tamarawVariant);
         $("#transactionType_review").val(transactionType);
-        if (hasApplication === "Yes") {
+        if (hasApplication === "YES") {
             $("#hasApplication_yes_review").prop('checked', true).trigger('change');
-        } else if (hasApplication === "No") {
+        } else if (hasApplication === "NO") {
             $("#hasApplication_no_review").prop('checked', true).trigger('change');
         }
-        if (hasReservation === "Yes") {
+        if (hasReservation === "YES") {
             $("#hasReservation_yes_review").prop('checked', true).trigger('change');
-        } else if (hasReservation === "No") {
+        } else if (hasReservation === "NO") {
             $("#hasReservation_no_review").prop('checked', true).trigger('change');
         }
         $("#reservationDate_review").val(reservationDate);
         $("#additionalUnit_review").val(additionalUnit);
         $("#tamarawSpecificUsage_review").val(tamarawSpecificUsage);
-        if (buyerDecisionHold === "Yes") {
+        if (buyerDecisionHold === "YES") {
             $("#buyerDecisionHold_yes_review").prop('checked', true).trigger('change');
-        } else if (buyerDecisionHold === "No") {
+        } else if (buyerDecisionHold === "NO") {
             $("#buyerDecisionHold_no_review").prop('checked', true).trigger('change');
         }
         $("#buyerDecisionHoldReason_review").val(buyerDecisionHoldReason);
         $("#appointmentDate_review").val(appointmentDate);
         $("#appointmentTime_review").val(appointmentTime);
 
-        if (maritalStatus === "Others") {
+        if (maritalStatus === "OTHERS") {
             $("#maritalStatusOtherGroup_review").removeClass("d-none");
             $("#maritalStatusOtherInput_review").attr("required", true).focus();
         } else {
@@ -286,7 +286,7 @@ $(document).ready(function () {
             success: function (response) {
                 $('#municipality_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
                 response.forEach(municipality => {
-                    $('#municipality_review').append(`<option value="${municipality.name}" data-code="${municipality.code}">${municipality.name}</option>`);
+                    $('#municipality_review').append(`<option value="${municipality.name.toUpperCase()}" data-code="${municipality.code}">${municipality.name.toUpperCase()}</option>`);
                 });
             },
             error: function (xhr, status, error) {
@@ -311,7 +311,7 @@ $(document).ready(function () {
             success: function (response) {
                 $('#barangay_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Barangay--</option></option>`);
                 response.forEach(barangay => {
-                    $('#barangay_review').append(`<option value="${barangay.name}" data-code="${barangay.code}">${barangay.name}</option>`);
+                    $('#barangay_review').append(`<option value="${barangay.name.toUpperCase()}" data-code="${barangay.code}">${barangay.name.toUpperCase()}</option>`);
                 });
             },
             error: function (xhr, status, error) {
@@ -345,7 +345,7 @@ $(document).ready(function () {
             success: function (response) {
                 $('#occupationMunicipality_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select OccupationMunicipality--</option></option>`);
                 response.forEach(municipality => {
-                    $('#occupationMunicipality_review').append(`<option value="${municipality.name}" data-code="${municipality.code}">${municipality.name}</option>`);
+                    $('#occupationMunicipality_review').append(`<option value="${municipality.name.toUpperCase()}" data-code="${municipality.code}">${municipality.name.toUpperCase()}</option>`);
                 });
             },
             error: function (xhr, status, error) {
@@ -370,7 +370,7 @@ $(document).ready(function () {
             success: function (response) {
                 $('#occupationBarangay_review').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select OccupationBarangay--</option></option>`);
                 response.forEach(barangay => {
-                    $('#occupationBarangay_review').append(`<option value="${barangay.name}" data-code="${barangay.code}">${barangay.name}</option>`);
+                    $('#occupationBarangay_review').append(`<option value="${barangay.name.toUpperCase()}" data-code="${barangay.code}">${barangay.name.toUpperCase()}</option>`);
                 });
             },
             error: function (xhr, status, error) {
@@ -407,7 +407,7 @@ $(document).ready(function () {
         }
     });
     $(document).on("change", "#occupation_review", function () {
-        if ($(this).val() === "Business Owner") {
+        if ($(this).val() === "BUSINESS OWNER") {
             $(".occupationLabel").text("Business");
             if ($("#businessCategoryRow_review").hasClass("d-none")) {
                 $("#businessCategoryRow_review").removeClass("d-none");
@@ -417,7 +417,7 @@ $(document).ready(function () {
                 $("#businessCategory_review").attr("required", true);
                 $("#businessSize_review").attr("required", true);
             }
-        } else if ($(this).val() === "Employed") {
+        } else if ($(this).val() === "EMPLOYED") {
             $(".occupationLabel").text("Employer");
             if ($("#businessCategoryRow_review").hasClass("d-flex")) {
                 $("#businessCategoryRow_review").removeClass("d-flex");
@@ -440,7 +440,7 @@ $(document).ready(function () {
         }
     });
     $(document).on('change', '#inquirySource_review', function () {
-        if ($(this).val() === "Face To Face") {
+        if ($(this).val() === "FACE TO FACE") {
             if ($("#f2fSourceRow_review").hasClass('d-none')) {
                 $("#f2fSourceRow_review").removeClass('d-none');
             }
@@ -448,7 +448,7 @@ $(document).ready(function () {
                 $("#onlineSourceRow_review").addClass('d-none');
                 $("#onlineSource_review").val("").trigger('change');
             }
-        } else if ($(this).val() === "Online") {
+        } else if ($(this).val() === "ONLINE") {
             if ($("#onlineSourceRow_review").hasClass('d-none')) {
                 $("#onlineSourceRow_review").removeClass('d-none');
             }
@@ -459,7 +459,7 @@ $(document).ready(function () {
         }
     });
     $(document).on('change', '#f2fSource_review', function () {
-        if ($(this).val() === "Mall Display") {
+        if ($(this).val() === "MALL DISPLAY") {
             if ($("#mallDisplayRow_review").hasClass('d-none')) {
                 $("#mallDisplayRow_review").removeClass('d-none');
                 $("#mallDisplay_review").attr('required', true);
@@ -498,12 +498,12 @@ $(document).ready(function () {
         }
     });
     $(document).on('change', '#hasReservation_yes_review, #hasReservation_no_review', function () {
-        if ($(this).val() === "Yes") {
+        if ($(this).val() === "YES") {
             if ($("#reservationDateRow_review").hasClass('d-none')) {
                 $("#reservationDateRow_review").removeClass('d-none');
                 $("#reservationDate_review").attr("required", true);
             }
-        } else if ($(this).val() === "No") {
+        } else if ($(this).val() === "NO") {
             if (!$("#reservationDateRow_review").hasClass('d-none')) {
                 $("#reservationDateRow_review").addClass('d-none');
                 $("#reservationDate_review").removeAttr("required");
@@ -512,12 +512,12 @@ $(document).ready(function () {
         }
     });
     $(document).on('change', '#buyerDecisionHold_yes_review, #buyerDecisionHold_no_review', function () {
-        if ($(this).val() === "Yes") {
+        if ($(this).val() === "YES") {
             if ($("#buyerDecisionHoldReasonRow_review").hasClass('d-none')) {
                 $("#buyerDecisionHoldReasonRow_review").removeClass('d-none');
                 $("#buyerDecisionHoldReason_review").attr("required", true);
             }
-        } else if ($(this).val() === "No") {
+        } else if ($(this).val() === "NO") {
             if (!$("#buyerDecisionHoldReasonRow_review").hasClass('d-none')) {
                 $("#buyerDecisionHoldReasonRow_review").addClass('d-none');
                 $("#buyerDecisionHoldReason_review").removeAttr("required");
