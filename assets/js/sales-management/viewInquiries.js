@@ -27,9 +27,19 @@ $(document).ready(function () {
                     }
                 },
                 { data: "prospectType" },
-                { data: "inquiryDateReadable" },
+                {
+                    data: "inquiryDateReadable",
+                    render: function (data) {
+                        return data ? data.toUpperCase() : "N/A";
+                    }
+                },
                 { data: "unitInquired" },
-                { data: "appointmentDateReadable" },
+                {
+                    data: "appointmentDateReadable",
+                    render: function (data) {
+                        return data ? data.toUpperCase() : "N/A";
+                    }
+                },
                 {
                     data: "inquiryId",
                     render: function (data, type, row) {

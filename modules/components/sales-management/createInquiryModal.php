@@ -576,7 +576,7 @@
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
                             <input type="radio" name="businessCategory" id="businessCategory_agriculture" value="AGRICULTURE">
-                            <label for="businessCategory_agriculture" class="mb-0 flex-grow-1">AGRICULTURE (POULTRY RAISING, HOG RAISING, VEGETABLE FARMING, DAIRY FARMING, RICE CULTIVATION, AND AUACULTURE. ETC.)</label>
+                            <label for="businessCategory_agriculture" class="mb-0 flex-grow-1">AGRICULTURE (POULTRY RAISING, HOG RAISING, VEGETABLE FARMING, DAIRY FARMING, RICE CULTIVATION, AND AQUACULTURE, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
                             <input type="radio" name="businessCategory" id="businessCategory_bpo" value="BPO">
@@ -596,11 +596,11 @@
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
                             <input type="radio" name="businessCategory" id="businessCategory_eCommerce" value="E-COMMERCE">
-                            <label for="businessCategory_eCommerce" class="mb-0 flex-grow-1">E-COMMERCE (ONLINE SELLING-SHOPEE, LAZADA, WALTERMART DELIVERY, ETC.)</label>
+                            <label for="businessCategory_eCommerce" class="mb-0 flex-grow-1">E-COMMERCE (ONLINE SELLING, SHOPEE, LAZADA, WALTERMART DELIVERY, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
                             <input type="radio" name="businessCategory" id="businessCategory_foodServices" value="FOOD SERVICES">
-                            <label for="businessCategory_foodServices" class="mb-0 flex-grow-1">FOOD SERVICES (FAST FOOD CHIN, RESTAURANT, COFFEE SHOP, CATERING, FOOD VENDORS, ETC.)</label>
+                            <label for="businessCategory_foodServices" class="mb-0 flex-grow-1">FOOD SERVICES (FAST FOOD CHAIN, RESTAURANT, COFFEE SHOP, CATERING, FOOD VENDORS, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
                             <input type="radio" name="businessCategory" id="businessCategory_generalMerchandise" value="GENERAL MERCHANDISE">
@@ -612,11 +612,11 @@
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
                             <input type="radio" name="businessCategory" id="businessCategory_government" value="GOVERNMENT">
-                            <label for="businessCategory_government" class="mb-0 flex-grow-1">GOVERNMENT (LGU, GOVERNMENT AGENCIES, LTO, COMELEC, PNP, AFP TEACHER, ETC.)</label>
+                            <label for="businessCategory_government" class="mb-0 flex-grow-1">GOVERNMENT (LGU, GOVERNMENT AGENCIES, LTO, COMELEC, PNP, AFP, TEACHER, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
                             <input type="radio" name="businessCategory" id="businessCategory_hrm" value="HOSPITALITY/TOURISM/TRAVEL">
-                            <label for="businessCategory_hrm" class="mb-0 flex-grow-1">HOSPITALITY/TOURISM/TRAVEL (HOTEL, RESPORT, AIRBNB, WELLNESS, TRAVEL AGENCIES, ETC.)</label>
+                            <label for="businessCategory_hrm" class="mb-0 flex-grow-1">HOSPITALITY/TOURISM/TRAVEL (HOTEL, RESORT, AIRBNB, WELLNESS, TRAVEL AGENCIES, ETC.)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
                             <input type="radio" name="businessCategory" id="businessCategory_landscaping" value="LANDSCAPING">
@@ -648,7 +648,7 @@
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
                             <input type="radio" name="businessCategory" id="businessCategory_trading" value="TRADING">
-                            <label for="businessCategory_trading" class="mb-0 flex-grow-1">TRADING (A TRADING BUSNESS BUYS PRODUCTS AND RESELLS THEM A)T A PROFIT ETIHTER LOCALLY OR INTERNATIONALLY</label>
+                            <label for="businessCategory_trading" class="mb-0 flex-grow-1">TRADING (A TRADING BUSNESS BUYS PRODUCTS AND RESELLS THEM AT A PROFIT ETIHTER LOCALLY OR INTERNATIONALLY)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
                             <input type="radio" name="businessCategory" id="businessCategory_transportation" value="TRANSPORTATION">
@@ -656,11 +656,11 @@
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
                             <input type="radio" name="businessCategory" id="businessCategory_trucking" value="TRUCKING">
-                            <label for="businessCategory_trucking" class="mb-0 flex-grow-1">TRUCKING (A TRUCKING BUSINESS PROVIDES TRANSPORTAIONG OF GOODS USING TRUCKS)</label>
+                            <label for="businessCategory_trucking" class="mb-0 flex-grow-1">TRUCKING (A TRUCKING BUSINESS PROVIDES TRANSPORTATION OF GOODS USING TRUCKS)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
                             <input type="radio" name="businessCategory" id="businessCategory_utilities" value="UTILITIES">
-                            <label for="businessCategory_utilities" class="mb-0 flex-grow-1">UTILITIES (WATER, ELECTRICAL, CABLE, WIFI)</label>
+                            <label for="businessCategory_utilities" class="mb-0 flex-grow-1">UTILITIES (WATER, ELECTRICAL, CABLE, WI-FI)</label>
                         </div>
                         <div class="col justify-content-center align-items-center radio-column mb-4 py-1 d-flex gap-2 businessCategoryRadioGroup">
                             <input type="radio" name="businessCategory" id="businessCategory_wholesale" value="WHOLESALE">
@@ -771,9 +771,12 @@
                             </label>
                         </div>
                         <div class="row justify-content-center align-items-center">
-                            <div class="col form-group">
+                            <div class="col form-group mb-0">
                                 <input type="text" name="additionalUnit" id="additionalUnit" class="form-control form-control-sm">
                             </div>
+                        </div>
+                        <div class="row justify-content-center align-items-center">
+                            <p>Input "N/A" if no unit is currently used for business.</p>
                         </div>
                     </div>
                     <div class="form-step" data-step="23">

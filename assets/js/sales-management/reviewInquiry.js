@@ -411,31 +411,57 @@ $(document).ready(function () {
             $(".occupationLabel").text("Business");
             if ($("#businessCategoryRow_review").hasClass("d-none")) {
                 $("#businessCategoryRow_review").removeClass("d-none");
-                $("#businessCategoryRow_review").addClass("d-flex");
                 $("#businessSizeRow_review").removeClass("d-none");
-                $("#businessSizeRow_review").addClass("d-flex");
                 $("#businessCategory_review").attr("required", true);
                 $("#businessSize_review").attr("required", true);
             }
+            if ($("#businessNameRow_review").hasClass('d-none')) {
+                $("#businessNameRow_review").removeClass('d-none');
+                $("#businessAddressRow_review").removeClass('d-none');
+                $("#businessName_review").attr("required", false).focus();
+            }
         } else if ($(this).val() === "EMPLOYED") {
             $(".occupationLabel").text("Employer");
-            if ($("#businessCategoryRow_review").hasClass("d-flex")) {
-                $("#businessCategoryRow_review").removeClass("d-flex");
+            if (!$("#businessCategoryRow_review").hasClass("d-none")) {
                 $("#businessCategoryRow_review").addClass("d-none");
-                $("#businessSizeRow_review").removeClass("d-flex");
                 $("#businessSizeRow_review").addClass("d-none");
                 $("#businessCategory_review").removeAttr("required");
                 $("#businessSize_review").removeAttr("required");
             }
-        } else {
-            $(".occupationLabel").text("Occupation");
-            if ($("#businessCategoryRow_review").hasClass("d-flex")) {
-                $("#businessCategoryRow_review").removeClass("d-flex");
+            if ($("#businessNameRow_review").hasClass('d-none')) {
+                $("#businessNameRow_review").removeClass('d-none');
+                $("#businessAddressRow_review").removeClass('d-none');
+                $("#businessName_review").attr("required", false).focus();
+            }
+        } else if ($(this).val() === "FREELANCER") {
+            if (!$("#businessCategoryRow_review").hasClass("d-none")) {
                 $("#businessCategoryRow_review").addClass("d-none");
-                $("#businessSizeRow_review").removeClass("d-flex");
                 $("#businessSizeRow_review").addClass("d-none");
                 $("#businessCategory_review").removeAttr("required");
                 $("#businessSize_review").removeAttr("required");
+            }
+            if (!$("#businessNameRow_review").hasClass('d-none')) {
+                $("#businessNameRow_review").addClass('d-none');
+                $("#businessAddressRow_review").addClass('d-none');
+                $("#businessName_review").attr("required", true).focus();
+            }
+        } else {
+            $(".occupationLabel").text("Occupation");
+            if ($(this).val() === "FAMILY SUPPORT/GIFT/DONATION") {
+                $(".occupationLabel").text("Sponsor");
+            } else if ($(this).val() === "PENSIONER") {
+                $(".occupationLabel").text("Pensioner");
+            }
+            if (!$("#businessCategoryRow_review").hasClass("d-none")) {
+                $("#businessCategoryRow_review").addClass("d-none");
+                $("#businessSizeRow_review").addClass("d-none");
+                $("#businessCategory_review").removeAttr("required");
+                $("#businessSize_review").removeAttr("required");
+            }
+            if ($("#businessNameRow_review").hasClass('d-none')) {
+                $("#businessNameRow_review").removeClass('d-none');
+                $("#businessAddressRow_review").removeClass('d-none');
+                $("#businessName_review").attr("required", false).focus();
             }
         }
     });

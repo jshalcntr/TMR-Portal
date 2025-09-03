@@ -156,14 +156,14 @@
                             </div>
                             <div class="invalid-feedback">Please select an Occupation.</div>
                         </div>
-                        <div class="row">
+                        <div class="rowv d-none" id="businessNameRow_review">
                             <label for="businessName_review" class="form-label"><span class="occupationLabel">Occupation</span> Name</label>
                             <div class="row d-flex form-group gap-2">
                                 <input type="text" name="businessName" id="businessName_review" class="form-control form-control-sm" required>
                                 <div class="invalid-feedback" id="occupationFeedback">Please provide a valid Business Name.</div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="rowv d-none" id="businessAddressRow_review">
                             <label for="businessAddress_review" class="form-label"><span class="occupationLabel">Occupation</span> Address</label>
                             <div class="row justify-content-center align-items-center g-2">
                                 <div class="col-12 col-md-4 form-group">
@@ -193,17 +193,17 @@
                             <div class="row d-flex form-group gap-2">
                                 <select name="businessCategory" id="businessCategory_review" class="form-select form-select-sm">
                                     <option selected disabled value="" hidden>--Select Business Category--</option>
-                                    <option value="AGRICULTURE">AGRICULTURE (POULTRY RAISING, HOG RAISING, VEGETABLE FARMING, DAIRY FARMING, RICE CULTIVATION, AND AUACULTURE. ETC.)</option>
+                                    <option value="AGRICULTURE">AGRICULTURE (POULTRY RAISING, HOG RAISING, VEGETABLE FARMING, DAIRY FARMING, RICE CULTIVATION, AND AQUACULTURE, ETC.)</option>
                                     <option value="BPO">BPO (CONCENTRIX PHIL., TELEPERFORMANCE PHILS., ACCENTURE, ETC.)</option>
                                     <option value="CLINIC">CLINIC (MyHEALTH CLINIC, DERMATOLOGY, DENTAL CLINIC, OB-GYN, PEDIATRICS, ETC.)</option>
                                     <option value="CONSTRUCTION">CONSTRUCTION (DMCI, MEGAWIDE CONSTRUCTION CORPORATION, WILCON DEPOT, HOLCIM PHILS., CONTRACTOR, ARCHITECT, ENGINEER, DPWH, ETC.)</option>
                                     <option value="ENTERPRISE">ENTERPRISE (OWNER OF SAN MIGUEL CORP., AYALA CORP., SM INVESTMENTS CORP., PLDT/SMART COMMUNICATIONS, METRO OIL PHILS., ETC.)</option>
-                                    <option value="E-COMMERCE">E-COMMERCE (ONLINE SELLING-SHOPEE, LAZADA, WALTERMART DELIVERY, ETC.)</option>
-                                    <option value="FOOD SERVICES">FOOD SERVICES (FAST FOOD CHIN, RESTAURANT, COFFEE SHOP, CATERING, FOOD VENDORS, ETC.)</option>
+                                    <option value="E-COMMERCE">E-COMMERCE (ONLINE SELLING, SHOPEE, LAZADA, WALTERMART DELIVERY, ETC.)</option>
+                                    <option value="FOOD SERVICES">FOOD SERVICES (FAST FOOD CHAIN, RESTAURANT, COFFEE SHOP, CATERING, FOOD VENDORS, ETC.)</option>
                                     <option value="GENERAL MERCHANDISE">GENERAL MERCHANDISE (HOUSEHOLD GOODS, CLOTHING, BASIC ELECTRONICS, TOILETRIES, SCHOOL SUPPLIES, SMALL TOOLS AND SOMETIMES SNACK OR GROCERIES ETC.)</option>
                                     <option value="GENERAL SERVICES">GENERAL SERVICES (JANITORIAL AND CLEANING SERVICES, PEST CONTROL, APPLIANCE REPAIR, SECURE AND MANPOWER SERVICES, ETC.)</option>
-                                    <option value="GOVERNMENT">GOVERNMENT (LGU, GOVERNMENT AGENCIES, LTO, COMELEC, PNP, AFP TEACHER, ETC.)</option>
-                                    <option value="HOSPITALITY/TOURISM/TRAVEL">HOSPITALITY/TOURISM/TRAVEL (HOTEL, RESPORT, AIRBNB, WELLNESS, TRAVEL AGENCIES, ETC.)</option>
+                                    <option value="GOVERNMENT">GOVERNMENT (LGU, GOVERNMENT AGENCIES, LTO, COMELEC, PNP, AFP, TEACHER, ETC.)</option>
+                                    <option value="HOSPITALITY/TOURISM/TRAVEL">HOSPITALITY/TOURISM/TRAVEL (HOTEL, RESORT, AIRBNB, WELLNESS, TRAVEL AGENCIES, ETC.)</option>
                                     <option value="LANDSCAPING">LANDSCAPING (OFFERS GARDEN DESIGN, ETC.)</option>
                                     <option value="LOGISTIC">LOGISTIC (LBC, 2GO, TRANSFORTIFY, FOOD PANDA, JT EXPRESS, CARGO, ETC.)</option>
                                     <option value="MANUFACTURING">MANUFACTURING (FOOD AND BEVERAGE PRODUCTION, SAN MIGUEL CORPORATION, TOYOTA MOTOR PHILS., ETC.)</option>
@@ -211,10 +211,10 @@
                                     <option value="RENTAL">RENTAL (APARTMENT, COMMERCIAL SPACES, VEHICLE, CHAIRS AND TABLES, SOUND SYSTEM, CONCRETE MIXERS, ETC.)</option>
                                     <option value="RETAILS SHOP">RETAILS SHOP (GOODS, CLOTHING, ACCESSORIES, DRY GOODS, COSMETICS, SCHOOL AND OFFICE SUPPLIES, ETC.)</option>
                                     <option value="IT/TECHNOLOGY">IT/TECHNOLOGY (ACCENTURE PHILS., POINTWEST TECHONOLOGIES, IMB PHILS., SOFTWARE ETC.)</option>
-                                    <option value="TRADING">TRADING (A TRADING BUSNESS BUYS PRODUCTS AND RESELLS THEM A)T A PROFIT ETIHTER LOCALLY OR INTERNATIONALLY</option>
+                                    <option value="TRADING">TRADING (A TRADING BUSNESS BUYS PRODUCTS AND RESELLS THEM AT A PROFIT ETIHTER LOCALLY OR INTERNATIONALLY)</option>
                                     <option value="TRANSPORTATION">TRANSPORTATION (PASSENGER TRANSPORT, CARGO & LOGISTICS TRANSPORT SHUTTLE, SEA, ETC.)</option>
                                     <option value="TRUCKING">TRUCKING (A TRUCKING BUSINESS PROVIDES TRANSPORTAIONG OF GOODS USING TRUCKS)</option>
-                                    <option value="UTILITIES">UTILITIES (WATER, ELECTRICAL, CABLE, WIFI)</option>
+                                    <option value="UTILITIES">UTILITIES (WATER, ELECTRICAL, CABLE, WI-FI)</option>
                                     <option value="WHOLESALE">WHOLESALE (A WHOLESALE BUSINESS BUYS PRODUCTS IN A LARGE QUANTITIES FROM MANUFACTURERS OR SUPPLIERS AND RESELLS THEM IN BULK, NOT INDIVIDUALLY)</option>
                                     <option value="WHOLESALE/RETAIL">WHOLESALE/RETAIL (A WHOLESALE AND RETAIL BUSINESS OPERATES ON TWO LEVELS: WHOLESALE & RETAIL)</option>
                                 </select>

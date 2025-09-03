@@ -121,8 +121,8 @@ $(document).ready(function () {
             },
             16: () => {
                 const occupation = current.find("input[name='occupation']:checked").val();
-                const labelOne = occupation === "BUSINESS OWNER" ? "Business Name" : "Employer Name";
-                const labelTwo = occupation === "BUSINESS OWNER" ? "Complete Business Address" : "Complete Employer Address";
+                const labelOne = occupation === "BUSINESS OWNER" ? "Business Name" : (occupation === "PENSIONER" ? "Provider Name" : (occupation === "FAMILY SUPPORTED/GIFT/DONATION" ? "Sponsor Name" : "Employer Name"));
+                const labelTwo = occupation === "BUSINESS OWNER" ? "Complete Business Address" : (occupation === "FAMILY SUPPORTED/GIFT/DONATION" ? "Complete Sponsor Address" : "Complete Employer Address");
 
                 $("#occupationHeaderOne").text(labelOne);
                 $("#occupationHeaderTwo").text(labelTwo);
@@ -160,11 +160,21 @@ $(document).ready(function () {
             } else if (currentStep === 14 && $(".form-step[data-step='14']").find("input[name='hasReservation']:checked").val() === "YES") {
                 $("#reservationDate").prop("required", true);
             }
+            if (currentStep === 16 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() === "FREELANCER") {
+                currentStep++;
+                currentStep++;
+            }
+            if (currentStep === 17 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() === "PENSIONER") {
+                currentStep++;
+            }
             if (currentStep === 18 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "BUSINESS OWNER") {
                 currentStep++
             }
             if (currentStep === 20 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "BUSINESS OWNER") {
                 currentStep++
+                if ($("#unitInquired").val() === "TAMARAW") {
+                    currentStep++;
+                }
                 if ($("#unitInquired").val() !== "TAMARAW") {
                     currentStep++;
                     currentStep++;
@@ -193,8 +203,19 @@ $(document).ready(function () {
         };
         if (currentStep === 20 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "BUSINESS OWNER") {
             currentStep--;
+            if ($(".form-step[data-step='16']").find("input[name='occupation']:checked").val() === "FREELANCER") {
+                currentStep--;
+                currentStep--;
+            }
+            if ($(".form-step[data-step='16']").find("input[name='occupation']:checked").val() === "PENSIONER") {
+                currentStep--;
+            }
         }
         if (currentStep === 22 && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "BUSINESS OWNER") {
+            currentStep--;
+        }
+        if (currentStep === 23 && $("#unitInquired").val() === "TAMARAW" && $(".form-step[data-step='16']").find("input[name='occupation']:checked").val() !== "BUSINESS OWNER") {
+            currentStep--;
             currentStep--;
         }
         if (currentStep === 25 && $("#unitInquired").val() !== "TAMARAW") {
