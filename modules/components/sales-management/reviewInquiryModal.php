@@ -14,20 +14,17 @@
                         <div class="row">
                             <p class="form-label">Prospect Type <span class="text-danger">*</span></p>
                             <div class="row justify-content-center align-items-center">
-                                <div class="justify-content-center align-items-center radio-column mb-2 py-1 d-flex gap-2 prospectRadioGroup">
+                                <div class="justify-content-center align-items-center radio-column mb-2 py-1 d-flex gap-2 prospectRadioGroup_review">
                                     <input type="radio" name="prospectType" id="prospectType_hot_review" value="HOT">
                                     <label for="prospectType_hot_review" class="mb-0 flex-grow-1">HOT (WITHIN 1 WEEK TO 2 MONTHS)</label>
                                 </div>
-                                <div class="justify-content-center align-items-center radio-column mb-2 py-1 d-flex gap-2 prospectRadioGroup">
+                                <div class="justify-content-center align-items-center radio-column mb-2 py-1 d-flex gap-2 prospectRadioGroup_review">
                                     <input type="radio" name="prospectType" id="prospectType_warm_review" value="WARM">
                                     <label for="prospectType_warm_review" class="mb-0 flex-grow-1">WARM (WITHIN 2 TO 5 MONTHS)</label>
                                 </div>
-                                <div class="justify-content-center align-items-center radio-column mb-2 py-1 d-flex gap-2 prospectRadioGroup">
+                                <div class="justify-content-center align-items-center radio-column mb-2 py-1 d-flex gap-2 prospectRadioGroup_review">
                                     <input type="radio" name="prospectType" id="prospectType_cold_review" value="COLD">
                                     <label for="prospectType_cold_review" class="mb-0 flex-grow-1">COLD (6 MONTHS AND ABOVE)</label>
-                                </div>
-                                <div class="invalid-feedback">
-                                    Please select a Prospect Type.
                                 </div>
                             </div>
                         </div>
@@ -37,7 +34,6 @@
                                 <div class="col form-group">
                                     <label for="customerFirstName_review">First Name <span class="text-danger">*</span></label>
                                     <input type="text" name="customerFirstName" id="customerFirstName_review" class="form-control form-control-sm" required>
-                                    <div class="invalid-feedback">Please provide a valid First Name.</div>
                                 </div>
                                 <div class="col form-group">
                                     <label for="customerMiddleName_review">Middle Name</label>
@@ -46,7 +42,6 @@
                                 <div class="col form-group">
                                     <label for="customerLastName_review">Last Name <span class="text-danger">*</span></label>
                                     <input type="text" name="customerLastName" id="customerLastName_review" class="form-control form-control-sm" required>
-                                    <div class="invalid-feedback">Please provide a valid Last Name.</div>
                                 </div>
                             </div>
                         </div>
@@ -56,17 +51,14 @@
                                 <div class="col-12 col-md-4 form-group">
                                     <label for="province_review" class="mb-0 flex-grow-1">Province <span class="text-danger">*</span></label>
                                     <select name="province" id="province_review" class="form-select form-select-sm" required></select>
-                                    <div class="invalid-feedback">Please select a Province.</div>
                                 </div>
                                 <div class="col-12 col-md-4 form-group">
                                     <label for="municipality_review" class="mb-0 flex-grow-1">Municipality <span class="text-danger">*</span></label>
                                     <select name="municipality" id="municipality_review" class="form-select form-select-sm" disabled required></select>
-                                    <div class="invalid-feedback">Please select a Municipality.</div>
                                 </div>
                                 <div class="col-12 col-md-4 form-group">
                                     <label for="barangay_review" class="mb-0 flex-grow-1">Barangay <span class="text-danger">*</span></label>
                                     <select name="barangay" id="barangay_review" class="form-select form-select-sm" disabled required></select>
-                                    <div class="invalid-feedback">Please select a Barangay.</div>
                                 </div>
                             </div>
                             <div class="row justify-content-center align-items-center">
@@ -86,31 +78,29 @@
                                     required
                                     pattern="^(09\d{9}|\+639\d{9})$"
                                     placeholder="Enter a valid Philippine mobile number (e.g., 09XXXXXXXXX or +639XXXXXXXXX)">
-                                <div class="invalid-feedback">Please provide a valid Contact Number.</div>
                             </div>
                         </div>
                         <div class="row">
                             <p class="form-label">Client Gender <span class="text-danger">*</span></p>
                             <div class="row d-flex form-group gap-2">
-                                <div class="col justify-content-center align-items-center radio-column py-1 d-flex gap-2 genderRadioGroup">
+                                <div class="col justify-content-center align-items-center radio-column py-1 d-flex gap-2 genderRadioGroup_review">
                                     <input type="radio" name="gender" id="gender_male_review" value="MALE">
                                     <label for="gender_male_review" class="mb-0 flex-grow-1">MALE</label>
                                 </div>
-                                <div class="col justify-content-center align-items-center radio-column py-1 d-flex gap-2 genderRadioGroup">
+                                <div class="col justify-content-center align-items-center radio-column py-1 d-flex gap-2 genderRadioGroup_review">
                                     <input type="radio" name="gender" id="gender_female_review" value="FEMALE">
                                     <label for="gender_female_review" class="mb-0 flex-grow-1">FEMALE</label>
                                 </div>
-                                <div class="col justify-content-center align-items-center radio-column py-1 d-flex gap-2 genderRadioGroup">
+                                <div class="col justify-content-center align-items-center radio-column py-1 d-flex gap-2 genderRadioGroup_review">
                                     <input type="radio" name="gender" id="gender_lgbt_review" value="LGBTQ+">
                                     <label for="gender_lgbt_review" class="mb-0 flex-grow-1">LGBTQ+</label>
                                 </div>
-                                <div class="invalid-feedback">Please select a Gender.</div>
                             </div>
                         </div>
                         <div class="row">
                             <label for="maritalStatus_review" class="form-label">Marital Status <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <select class="form-select form-select-sm" name="maritalStatus" id="maritalStatus_review">
+                                <select class="form-select form-select-sm" name="maritalStatus" id="maritalStatus_review" required>
                                     <option selected disabled value="" hidden>--Select Marital Status--</option>
                                     <option value="SINGLE">SINGLE</option>
                                     <option value="MARRIED">MARRIED</option>
@@ -120,7 +110,6 @@
                                     <option value="ANNULED">ANNULED</option>
                                     <option value="OTHERS">OTHERS</option>
                                 </select>
-                                <div class="invalid-feedback">Please select a Marital Status.</div>
                             </div>
                             <div class="row d-none form-group gap-1" id="maritalStatusOthersRow_review">
                                 <label for="maritalStatusOtherInput_review" class="form-label">Please Specify <span class="text-danger">*</span></label>
@@ -129,20 +118,18 @@
                                     id="maritalStatusOtherInput_review"
                                     name="maritalStatus"
                                     class="form-control form-control-sm">
-                                <div class="invalid-feedback">Please specify your marital status.</div>
                             </div>
                         </div>
                         <div class="row">
-                            <label for="birthday_review" class="form-label">Date of Birth</label>
+                            <label for="birthday_review" class="form-label">Date of Birth <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <input type="date" name="birthday" id="birthday_review" class="form-control form-control-sm" required>
-                                <div class="invalid-feedback">Please provide a valid Date of Birth.</div>
                             </div>
                         </div>
                         <div class="row">
-                            <label for="occupation_review" class="form-label">Occupation</label>
+                            <label for="occupation_review" class="form-label">Occupation <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <select name="occupation" id="occupation_review" class="form-select form-select-sm">
+                                <select name="occupation" id="occupation_review" class="form-select form-select-sm" required>
                                     <option selected disabled value="" hidden>--Select Occupation--</option>
                                     <option value="BUSINESS OWNER">BUSINESS OWNER</option>
                                     <option value="EMPLOYED">EMPLOYED</option>
@@ -154,32 +141,27 @@
                                     <option value="TNVS (GRAB, LALAMOVE, JOYRIDE, ETC.)">TNVS (GRAB, LALAMOVE, JOYRIDE, ETC.)</option>
                                 </select>
                             </div>
-                            <div class="invalid-feedback">Please select an Occupation.</div>
                         </div>
-                        <div class="rowv d-none" id="businessNameRow_review">
-                            <label for="businessName_review" class="form-label"><span class="occupationLabel">Occupation</span> Name</label>
+                        <div class="row d-none" id="businessNameRow_review">
+                            <label for="businessName_review" class="form-label"><span class="occupationLabel">Occupation</span> Name <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <input type="text" name="businessName" id="businessName_review" class="form-control form-control-sm" required>
-                                <div class="invalid-feedback" id="occupationFeedback">Please provide a valid Business Name.</div>
                             </div>
                         </div>
-                        <div class="rowv d-none" id="businessAddressRow_review">
-                            <label for="businessAddress_review" class="form-label"><span class="occupationLabel">Occupation</span> Address</label>
+                        <div class="row d-none" id="businessAddressRow_review">
+                            <label for="businessAddress_review" class="form-label"><span class="occupationLabel">Occupation</span> Address <span class="text-danger">*</span></label>
                             <div class="row justify-content-center align-items-center g-2">
                                 <div class="col-12 col-md-4 form-group">
                                     <label for="occupationProvince_review" class="mb-0 flex-grow-1">Province <span class="text-danger">*</span></label>
                                     <select name="occupationProvince" id="occupationProvince_review" class="form-select form-select-sm" required></select>
-                                    <div class="invalid-feedback">Please select a Province.</div>
                                 </div>
                                 <div class="col-12 col-md-4 form-group">
                                     <label for="occupationMunicipality_review" class="mb-0 flex-grow-1">Municipality <span class="text-danger">*</span></label>
                                     <select name="occupationMunicipality" id="occupationMunicipality_review" class="form-select form-select-sm" disabled required></select>
-                                    <div class="invalid-feedback">Please select a Municipality.</div>
                                 </div>
                                 <div class="col-12 col-md-4 form-group">
                                     <label for="occupationBarangay_review" class="mb-0 flex-grow-1">Barangay <span class="text-danger">*</span></label>
                                     <select name="occupationBarangay" id="occupationBarangay_review" class="form-select form-select-sm" disabled required></select>
-                                    <div class="invalid-feedback">Please select a Barangay.</div>
                                 </div>
                             </div>
                             <div class="row justify-content-center align-items-center">
@@ -189,7 +171,7 @@
                             </div>
                         </div>
                         <div class="row d-none" id="businessCategoryRow_review">
-                            <label for="businessCategory_review" class="form-label">Business Category</label>
+                            <label for="businessCategory_review" class="form-label">Business Category <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <select name="businessCategory" id="businessCategory_review" class="form-select form-select-sm">
                                     <option selected disabled value="" hidden>--Select Business Category--</option>
@@ -221,7 +203,7 @@
                             </div>
                         </div>
                         <div class="row d-none" id="businessSizeRow_review">
-                            <label for="businessSize_review" class="form-label">Business Size</label>
+                            <label for="businessSize_review" class="form-label">Business Size <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <select name="businessSize" id="businessSize_review" class="form-select form-select-sm">
                                     <option value="" hidden selected disabled>--Select Business Size--</option>
@@ -233,9 +215,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <label for="monthlyAverage_review" class="form-label">Monthly Average</label>
+                            <label for="monthlyAverage_review" class="form-label">Monthly Average <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <select name="monthlyAverage" id="monthlyAverage_review" class="form-select form-select-sm">
+                                <select name="monthlyAverage" id="monthlyAverage_review" class="form-select form-select-sm" required>
                                     <option value="" hidden selected disabled>--Select Monthly Average--</option>
                                     <option value="50K and Below">50K AND BELOW</option>
                                     <option value="51K to 60K">51K TO 60K</option>
@@ -259,13 +241,13 @@
                         <div class="row">
                             <label for="inquiryDate_review" class="form-label">Date of Inquiry <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <input type="date" name="inquiryDate" id="inquiryDate_review" class="form-control form-control-sm">
+                                <input type="date" name="inquiryDate" id="inquiryDate_review" class="form-control form-control-sm" required>
                             </div>
                         </div>
                         <div class="row">
                             <label for="inquirySource_review" class="form-label">Source of Inquiry <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <select name="inquirySource" id="inquirySource_review" class="form-select form-select-sm">
+                                <select name="inquirySource" id="inquirySource_review" class="form-select form-select-sm" required>
                                     <option value="" hidden selected disabled>--Select Source--</option>
                                     <option value="FACE TO FACE">FACE TO FACE</option>
                                     <option value="ONLINE">ONLINE</option>
@@ -314,15 +296,15 @@
                         <div class="row">
                             <p class="form-label">Buyer Type <span class="text-danger">*</span></p>
                             <div class="row d-flex form-group gap-2">
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup">
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup_review">
                                     <input type="radio" name="buyerType" id="buyerType_first_review" value="FIRST-TIME">
                                     <label for="buyerType_first_review" class="mb-0 flex-grow-1">FIRST-TIME</label>
                                 </div>
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup">
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup_review">
                                     <input type="radio" name="buyerType" id="buyerType_replacement_review" value="REPLACEMENT">
                                     <label for="buyerType_replacement_review" class="mb-0 flex-grow-1">REPLACEMENT</label>
                                 </div>
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup">
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup_review">
                                     <input type="radio" name="buyerType" id="buyerType_additional_review" value="ADDITIONAL">
                                     <label for="buyerType_additional_review" class="mb-0 flex-grow-1">ADDITIONAL</label>
                                 </div>
@@ -332,11 +314,10 @@
                             <label for="unitInquired_review" class="form-label">Unit Inquired <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <select name="unitInquired" id="unitInquired_review" class=" form-select form-select-sm" required></select>
-                                <div class="invalid-feedback">Please provide a valid Unit Inquired.</div>
                             </div>
                         </div>
                         <div class="row d-none" id="tamarawVariantRow_review">
-                            <label for="tamarawVariant_review" class="form-label">Tamaraw Variant</label>
+                            <label for="tamarawVariant_review" class="form-label">Tamaraw Variant <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <select name="tamarawVariant" id="tamarawVariant_review" class="form-select form-select-sm">
                                     <option value="" hidden selected disabled>--Select Tamaraw Variant--</option>
@@ -354,9 +335,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <label for="transactionType_review" class="form-label">Trasnsaction Type</label>
+                            <label for="transactionType_review" class="form-label">Trasnsaction Type <span class="text-danger">*</span></label>
                             <div class="row d-flex gap-2">
-                                <select name="transactionType" id="transactionType_review" class="form-select form-select-sm">
+                                <select name="transactionType" id="transactionType_review" class="form-select form-select-sm" required>
                                     <option value="" hidden selected disabled>--Select Transaction Type--</option>
                                     <option value="FINANCING">FINANCING</option>
                                     <option value="BANK PO">BANK PO</option>
@@ -368,26 +349,26 @@
                             </div>
                         </div>
                         <div class="row">
-                            <p class="form-label">With Application</p>
+                            <p class="form-label">With Application <span class="text-danger">*</span></p>
                             <div class="row d-flex form-group gap-2">
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasApplicationRadioGroup">
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasApplicationRadioGroup_review">
                                     <input type="radio" name="hasApplication" id="hasApplication_yes_review" value="YES">
                                     <label for="hasApplication_yes_review" class="mb-0 flex-grow-1">YES</label>
                                 </div>
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasApplicationRadioGroup">
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasApplicationRadioGroup_review">
                                     <input type="radio" name="hasApplication" id="hasApplication_no_review" value="NO">
                                     <label for="hasApplication_no_review" class="mb-0 flex-grow-1">NO</label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <p class="form-label">With Reservation</p>
+                            <p class="form-label">With Reservation <span class="text-danger">*</span></p>
                             <div class="row d-flex form-group gap-2">
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasReservationRadioGroup">
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasReservationRadioGroup_review">
                                     <input type="radio" name="hasReservation" id="hasReservation_yes_review" value="YES">
                                     <label for="hasReservation_yes_review" class="mb-0 flex-grow-1">YES</label>
                                 </div>
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasReservationRadioGroup">
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasReservationRadioGroup_review">
                                     <input type="radio" name="hasReservation" id="hasReservation_no_review" value="NO">
                                     <label for="hasReservation_no_review" class="mb-0 flex-grow-1">NO</label>
                                 </div>
@@ -400,32 +381,32 @@
                             </div>
                         </div>
                         <div class="row d-none" id="additionalUnitRow_review">
-                            <label for="additionalUnit_review" class="form-label">Additional Unit Currently used for Business</label>
+                            <label for="additionalUnit_review" class="form-label">Additional Unit Currently used for Business <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <input type="text" name="additionalUnit" id="additionalUnit_review" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="row d-none" id="tamarawSpecificUsageRow_review">
-                            <label for="tamarawSpecificUsage_review" class="form-label">Specific Purpose or Usage of Tamaraw</label>
+                            <label for="tamarawSpecificUsage_review" class="form-label">Specific Purpose or Usage of Tamaraw <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <input type="text" name="tamarawSpecificUsage" id="tamarawSpecificUsage_review" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="row d-none" id="buyerDecisionHoldRow_review">
-                            <p class="form-label">Buyer's Decision on hold?</p>
+                            <p class="form-label">Buyer's Decision on hold? <span class="text-danger">*</span></p>
                             <div class="row d-flex form-group gap-2">
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerDecisionHoldRadioGroup">
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerDecisionHoldRadioGroup_review">
                                     <input type="radio" name="buyerDecisionHold" id="buyerDecisionHold_yes_review" value="YES">
                                     <label for="buyerDecisionHold_yes_review" class="mb-0 flex-grow-1">YES</label>
                                 </div>
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerDecisionHoldRadioGroup">
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerDecisionHoldRadioGroup_review">
                                     <input type="radio" name="buyerDecisionHold" id="buyerDecisionHold_no_review" value="NO">
                                     <label for="buyerDecisionHold_no_review" class="mb-0 flex-grow-1">NO</label>
                                 </div>
                             </div>
                         </div>
                         <div class="row d-none" id="buyerDecisionHoldReasonRow_review">
-                            <label for="buyerDecisionHoldReason_review" class="form-label">Reason why the client's buying decision is on hold</label>
+                            <label for="buyerDecisionHoldReason_review" class="form-label">Reason why the client's buying decision is on hold <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <input type="text" name="buyerDecisionHoldReason" id="buyerDecisionHoldReason_review" class="form-control form-control-sm">
                             </div>
@@ -433,13 +414,13 @@
                         <div class="row">
                             <p class="form-label">Set an Appointment (For the next call)</p>
                             <div class="row d-flex form-group gap-2">
-                                <label for="appointmentDate_review">Appintment Date</label>
-                                <input type="date" name="appointmentDate" id="appointmentDate_review" class="form-control form-control-sm">
+                                <label for="appointmentDate_review">Appintment Date <span class="text-danger">*</span></label>
+                                <input type="date" name="appointmentDate" id="appointmentDate_review" class="form-control form-control-sm" required>
                             </div>
                             <div class="row d-flex form-group gap-2">
-                                <label for="appointmentTime_review" class="mb-0 flex-grow-1">Appointment Time</label>
-                                <select name="appointmentTime" id="appointmentTime_review" class="form-select form-select-sm">
-                                    <option value="" disabled selected>-- Select Time --</option>
+                                <label for="appointmentTime_review" class="mb-0 flex-grow-1">Appointment Time <span class="text-danger">*</span></label>
+                                <select name="appointmentTime" id="appointmentTime_review" class="form-select form-select-sm" required>
+                                    <option value="" disabled selected>--Select Time--</option>
                                     <!-- Morning -->
                                     <option value="08:00 AM">08:00 AM</option>
                                     <option value="08:30 AM">08:30 AM</option>

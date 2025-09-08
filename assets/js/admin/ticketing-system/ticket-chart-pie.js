@@ -2,9 +2,21 @@
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
-$(document).ready(function () {
+// Custom function to show a modal instead of alert()
+function showModal(message) {
+    document.getElementById('alertMessage').innerText = message;
+    document.getElementById('alertModal').classList.remove('d-none');
+}
+
+// Hide the modal when the OK button is clicked
+document.getElementById('closeModalBtn').addEventListener('click', function () {
+    document.getElementById('alertModal').classList.add('d-none');
+});
+
+document.addEventListener('DOMContentLoaded', function () {
     let chartInstance;
 
+    // Function to render or update the Chart.js instance
     function renderChart(labels, data) {
         const ctx = document.getElementById('ticketPieChart').getContext('2d');
 
@@ -56,28 +68,44 @@ $(document).ready(function () {
         });
     }
 
-    function fetchAndRenderChartData() {
-        $.ajax({
-            url: '../../../backend/admin/ticketing-system/fetch_tickets_by_department.php',
-            method: 'GET',
-            success: function (response) {
-                if (response.status === 'success') {
-                    const labels = response.data.map(item => item.department);
-                    const data = response.data.map(item => item.ticket_count);
-                    renderChart(labels, data);
-                } else {
-                    console.error('Error:', response.message);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error('AJAX error:', error);
+    // Function to fetch chart data from the PHP backend
+    async function fetchAndRenderChartData(startDate = '', endDate = '') {
+        try {
+            const response = await fetch(`../../../backend/admin/ticketing-system/fetch_tickets_by_department.php?start_date=${startDate}&end_date=${endDate}`);
+            const result = await response.json();
+
+            if (result.status === 'success') {
+                const labels = result.data.map(item => item.department);
+                const data = result.data.map(item => item.ticket_count);
+                renderChart(labels, data);
+            } else {
+                console.error("No data found");
             }
-        });
+        } catch (error) {
+            console.error('Error fetching chart data:', error);
+        }
     }
 
-    // Initial chart render
+    // Event listener for the filter button
+    document.getElementById('filterBtn').addEventListener('click', function () {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+
+        if (!startDate || !endDate) {
+            showModal("Please select both start and end dates.");
+            return;
+        }
+
+        fetchAndRenderChartData(startDate, endDate);
+    });
+
+    // Initial data load on page load
     fetchAndRenderChartData();
 
-    // Refresh every 60 seconds
-    setInterval(fetchAndRenderChartData, 60000);
+    // Auto-refresh chart every 1 minute (60,000 ms)
+    setInterval(function () {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        fetchAndRenderChartData(startDate, endDate);
+    }, 60000);
 });

@@ -68,7 +68,7 @@ if (authorize(true, $conn)) {
                         <div class="card-header py-3 d-flex align-items-center justify-content-between">
                             <h6 class="m-0 font-weight-bold text-primary">Inquiries</h6>
                             <div class="actions d-flex flex-row-reverse gap-3">
-                                <button class="btn btn-sm shadow-sm btn-primary" id="createInquiryBtn" data-bs-toggle="modal" data-bs-target="#createInquiryModal">
+                                <button class="btn btn-sm shadow-sm btn-primary" id="createInquiryBtn" data-bs-toggle="modal" data-bs-target="#reviewInquiryModal">
                                     <i class="fas fa-circle-plus"></i> Create Inquiry
                                 </button>
                                 <button class="btn btn-sm shadow-sm btn-success" id="viewInquiriesBtn" data-bs-toggle="modal" data-bs-target="#viewInquiriesModal">

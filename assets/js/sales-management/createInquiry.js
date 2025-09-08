@@ -140,12 +140,19 @@ $(document).ready(function () {
             isValid = validateRequiredFields(current);
         }
 
-        // isValid = true;
+        isValid = true;
         return isValid;
     }
 
     $("#nextBtn").click(() => {
         if (validateStep(currentStep)) {
+            if ($(".form-step[data-step='1']").find("input[name='prospectType']:checked").val() === "COLD") {
+                if (currentStep === 7) {
+                    currentStep = 10;
+                } else if (currentStep === 11) {
+                    currentStep = 24;
+                }
+            }
             if (currentStep === 11 && $("#unitInquired").val() !== "TAMARAW") {
                 currentStep++
                 $("#additionalUnit").prop("required", false);
@@ -186,15 +193,19 @@ $(document).ready(function () {
                 currentStep++;
                 currentStep++;
             }
-            // if (currentStep === 22 && $("#unitInquired").val() !== "TAMARAW") {
-            //     currentStep++;
-            // }
             currentStep++;
             showStep(currentStep);
         }
     });
 
     $("#previousBtn").click(() => {
+        if ($(".form-step[data-step='1']").find("input[name='prospectType']:checked").val() === "COLD") {
+            if (currentStep === 25) {
+                currentStep = 12;
+            } else if (currentStep === 11) {
+                currentStep = 8;
+            }
+        }
         if (currentStep === 13 && $("#unitInquired").val() !== "TAMARAW") {
             currentStep--;
         };

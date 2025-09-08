@@ -258,10 +258,10 @@ $(document).ready(function () {
         $("#appointmentTime_review").val(appointmentTime);
 
         if (maritalStatus === "OTHERS") {
-            $("#maritalStatusOtherGroup_review").removeClass("d-none");
+            $("#maritalStatusOthersRow_review").removeClass("d-none");
             $("#maritalStatusOtherInput_review").attr("required", true).focus();
         } else {
-            $("#maritalStatusOtherGroup_review").addClass("d-none");
+            $("#maritalStatusOthersRow_review").addClass("d-none");
             $("#maritalStatusOtherInput_review").removeAttr("required").removeClass("is-invalid");
         }
     }
@@ -390,7 +390,7 @@ $(document).ready(function () {
         const othersGroup = $("#maritalStatusOthersRow_review");
         const othersInput = $("#maritalStatusOtherInput_review");
         const selected = $("#maritalStatus_review").val();
-        if (selected === "Others") {
+        if (selected === "OTHERS") {
             othersInput.val("");
             if (othersGroup.hasClass('d-none')) {
                 othersGroup.removeClass("d-none");
@@ -418,7 +418,11 @@ $(document).ready(function () {
             if ($("#businessNameRow_review").hasClass('d-none')) {
                 $("#businessNameRow_review").removeClass('d-none');
                 $("#businessAddressRow_review").removeClass('d-none');
-                $("#businessName_review").attr("required", false).focus();
+                $("#businessName_review").attr("required", true);
+            }
+            if ($("#unitInquired_review").val() === "TAMARAW") {
+                $("#additionalUnitRow_review").removeClass("d-none");
+                $("#additionalUnit_review").attr("required", true);
             }
         } else if ($(this).val() === "EMPLOYED") {
             $(".occupationLabel").text("Employer");
@@ -431,8 +435,10 @@ $(document).ready(function () {
             if ($("#businessNameRow_review").hasClass('d-none')) {
                 $("#businessNameRow_review").removeClass('d-none');
                 $("#businessAddressRow_review").removeClass('d-none');
-                $("#businessName_review").attr("required", false).focus();
+                $("#businessName_review").attr("required", false);
             }
+            $("#additionalUnitRow_review").addClass("d-none");
+            $("#additionalUnit_review").attr("required", false);
         } else if ($(this).val() === "FREELANCER") {
             if (!$("#businessCategoryRow_review").hasClass("d-none")) {
                 $("#businessCategoryRow_review").addClass("d-none");
@@ -443,8 +449,10 @@ $(document).ready(function () {
             if (!$("#businessNameRow_review").hasClass('d-none')) {
                 $("#businessNameRow_review").addClass('d-none');
                 $("#businessAddressRow_review").addClass('d-none');
-                $("#businessName_review").attr("required", true).focus();
+                $("#businessName_review").attr("required", false);
             }
+            $("#additionalUnitRow_review").addClass("d-none");
+            $("#additionalUnit_review").attr("required", false);
         } else {
             $(".occupationLabel").text("Occupation");
             if ($(this).val() === "FAMILY SUPPORT/GIFT/DONATION") {
@@ -461,26 +469,32 @@ $(document).ready(function () {
             if ($("#businessNameRow_review").hasClass('d-none')) {
                 $("#businessNameRow_review").removeClass('d-none');
                 $("#businessAddressRow_review").removeClass('d-none');
-                $("#businessName_review").attr("required", false).focus();
+                $("#businessName_review").attr("required", false);
             }
+            $("#additionalUnitRow_review").addClass("d-none");
+            $("#additionalUnit_review").attr("required", false);
         }
     });
     $(document).on('change', '#inquirySource_review', function () {
         if ($(this).val() === "FACE TO FACE") {
             if ($("#f2fSourceRow_review").hasClass('d-none')) {
                 $("#f2fSourceRow_review").removeClass('d-none');
+                $("#f2fSource_review").attr('required', true);
             }
             if (!$("#onlineSourceRow_review").hasClass('d-none')) {
                 $("#onlineSourceRow_review").addClass('d-none');
                 $("#onlineSource_review").val("").trigger('change');
+                $("#onlineSource_review").attr('required', false);
             }
         } else if ($(this).val() === "ONLINE") {
             if ($("#onlineSourceRow_review").hasClass('d-none')) {
                 $("#onlineSourceRow_review").removeClass('d-none');
+                $("#onlineSource_review").attr('required', true);
             }
             if (!$("#f2fSourceRow_review").hasClass('d-none')) {
                 $("#f2fSourceRow_review").addClass('d-none');
                 $("#f2fSource_review").val("").trigger('change');
+                $("#f2fSource_review").attr('required', false);
             }
         }
     });
@@ -503,18 +517,26 @@ $(document).ready(function () {
             if ($("#tamarawVariantRow_review").hasClass('d-none')) {
                 $("#tamarawVariantRow_review").removeClass('d-none');
                 $("#tamarawVariant_review").attr('required', true);
+                $("#tamarawSpecificUsage_review").attr('required', true);
 
-                $("#additionalUnitRow_review").removeClass("d-none");
+
                 $("#tamarawSpecificUsageRow_review").removeClass("d-none");
                 $("#buyerDecisionHoldRow_review").removeClass("d-none");
+            }
+            if ($("#occupation_review").val() === "BUSINESS OWNER") {
+                $("#additionalUnitRow_review").removeClass("d-none");
+                $("#additionalUnit_review").attr("required", true);
             }
         } else {
             if (!$("#tamarawVariantRow_review").hasClass('d-none')) {
                 $("#tamarawVariantRow_review").addClass('d-none');
                 $("#tamarawVariant_review").removeAttr('required');
                 $("#tamarawVariant_review").val('');
+                $("#tamarawVariant_review").attr('required', false);
+                $("#tamarawSpecificUsage_review").attr('required', false);
 
                 $("#additionalUnitRow_review").addClass("d-none");
+                $("#additionalUnit_review").attr("required", false);
                 $("#additionalUnit_review").val("");
                 $("#tamarawSpecificUsageRow_review").addClass("d-none");
                 $("#tamarawSpecificUsage_review").val("");
@@ -552,39 +574,75 @@ $(document).ready(function () {
         }
     });
 
+    let reviewInquiryFormValidationTimeout;
     $("#reviewInquiryForm").submit(function (e) {
         e.preventDefault();
         const formData = $(this).serialize();
 
-        $.ajax({
-            type: "POST",
-            url: "../../backend/sales-management/createInquiry.php",
-            data: formData,
-            success: function (response) {
-                if (response.status === "success") {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: `${response.message}`,
-                        icon: 'success',
-                        confirmButtonColor: 'var(--bs-success)'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $("#reviewInquiryModal").modal('hide');
-                            // Reset Other Modal that has Tables
-                            fetchInquiriesByProspectCount();
-                        }
-                    });
-                } else {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: `${response.message}`,
-                        text: 'An internal error occurred. Please contact MIS.',
-                        icon: 'error',
-                        confirmButtonColor: 'var(--bs-danger)'
-                    });
+        if (reviewInquiryFormValidationTimeout) {
+            clearTimeout(reviewInquiryFormValidationTimeout);
+        }
+        $("#reviewInquiryForm").removeClass("was-validated");
+        if (!this.checkValidity() || !$("input[name='prospectType']:checked").val() || !$("input[name='gender']:checked").val() || !$("input[name='buyerType']:checked").val() || !$("input[name='hasApplication']:checked").val() || !$("input[name='hasReservation']:checked").val() || ($("#unitInquired_review").val() === "TAMARAW" && !$("input[name='buyerDecisionHold']:checked").val())) {
+            e.stopPropagation();
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "../../backend/sales-management/createInquiry.php",
+                data: formData,
+                success: function (response) {
+                    if (response.status === "success") {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: `${response.message}`,
+                            icon: 'success',
+                            confirmButtonColor: 'var(--bs-success)'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#reviewInquiryModal").modal('hide');
+                                fetchInquiriesByProspectCount();
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: `${response.message}`,
+                            text: 'An internal error occurred. Please contact MIS.',
+                            icon: 'error',
+                            confirmButtonColor: 'var(--bs-danger)'
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }
+        $(this).addClass('was-validated');
+        if (!$("input[name='prospectType']:checked").val()) {
+            $(".prospectRadioGroup_review").addClass("radio-invalid");
+        }
+        if (!$("input[name='gender']:checked").val()) {
+            $(".genderRadioGroup_review").addClass("radio-invalid");
+        }
+        if (!$("input[name='buyerType']:checked").val()) {
+            $(".buyerTypeRadioGroup_review").addClass("radio-invalid");
+        }
+        if (!$("input[name='hasApplication']:checked").val()) {
+            $(".hasApplicationRadioGroup_review").addClass("radio-invalid");
+        }
+        if (!$("input[name='hasReservation']:checked").val()) {
+            $(".hasReservationRadioGroup_review").addClass("radio-invalid");
+        }
+        if ($("#unitInquired_review").val() === "TAMARAW" && !$("input[name='buyerDecisionHold']:checked").val()) {
+            $(".buyerDecisionHoldRadioGroup_review").addClass("radio-invalid");
+        }
+        reviewInquiryFormValidationTimeout = setTimeout(() => {
+            $("#reviewInquiryForm").removeClass("was-validated");
+            $(".prospectRadioGroup_review").removeClass("radio-invalid");
+            $(".genderRadioGroup_review").removeClass("radio-invalid");
+            $(".buyerTypeRadioGroup_review").removeClass("radio-invalid");
+            $(".hasApplicationRadioGroup_review").removeClass("radio-invalid");
+            $(".hasReservationRadioGroup_review").removeClass("radio-invalid");
+            $(".buyerDecisionHoldRadioGroup_review").removeClass("radio-invalid");
+        }, 3000);
     });
 
     $("#reviewBtn").on('click', function () {

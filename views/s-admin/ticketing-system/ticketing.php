@@ -587,11 +587,10 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                         </div>
 
                         <!------------------------------------------Charts--------------------------------------------------->
-
                         <!-- Date Filter + Line Chart -->
-                        <div class="col-md-8">
-                            <!-- Chart Card -->
-                            <div class="card shadow mb-4">
+                        <!-- Chart Card -->
+                        <div class="col-md-10 row">
+                            <div class="card shadow mb-4 col-md-8">
                                 <div class="card-header py-3">
                                     <div class="d-flex justify-content-between align-items-center flex-wrap">
                                         <!-- Title -->
@@ -612,11 +611,8 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Pie Chart -->
-                        <div class="col-md-4">
-                            <div class="card shadow mb-4">
+                            <!-- Pie Chart -->
+                            <div class="card shadow mb-4 col-md-4">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Department Tickets</h6>
                                 </div>
@@ -625,6 +621,31 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                         <canvas id="ticketPieChart"></canvas>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="card shadow mb-4 col-md-2">
+                            <div class="card-header py-3">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                    <!-- Title -->
+                                    <h6 class="m-0 fw-bold text-primary">Monthly Closed Tickets</h6>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <!-- Replaced the canvas with a simple number display -->
+                                <div class="d-flex flex-column align-items-center justify-content-center h-100 py-5">
+                                    <div class="text-center">
+                                        <div class="h1 fw-bold text-gray-800 display-1" id="totalClosedTickets">0</div>
+                                        <div class="text-secondary fs-4">Closed Tickets</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Custom Modal for alerts -->
+                        <div id="alertModal" class="modal-overlay d-none">
+                            <div class="modal-content">
+                                <h3 class="h4 text-gray-900 mb-4 fw-bold">Warning</h3>
+                                <p class="text-gray-600 mb-4" id="alertMessage"></p>
+                                <button id="closeModalBtn" class="btn btn-primary">OK</button>
                             </div>
                         </div>
 
@@ -660,6 +681,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
 <?php include "../../../modules/components/shared/external-js-import.php" ?>
 <script src="../../../assets/js/admin/ticketing-system/ticket-chart-area.js"></script>
 <script src="../../../assets/js/admin/ticketing-system/ticket-chart-pie.js"></script>
+<script src="../../../assets/js/admin/ticketing-system/ticket-chart-closed.js"></script>
 <script src="../../../assets/js/s-admin/ticketing-system/s-admin-tickets.js"></script>
 
 </html>
