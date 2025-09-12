@@ -98,7 +98,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <label for="maritalStatus_review" class="form-label">Marital Status <span class="text-danger">*</span></label>
+                            <label for="maritalStatus_review" class="form-label">Marital Status <span class="text-danger" id="maritalStatusRequired_review">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <select class="form-select form-select-sm" name="maritalStatus" id="maritalStatus_review" required>
                                     <option selected disabled value="" hidden>--Select Marital Status--</option>
@@ -121,13 +121,13 @@
                             </div>
                         </div>
                         <div class="row">
-                            <label for="birthday_review" class="form-label">Date of Birth <span class="text-danger">*</span></label>
+                            <label for="birthday_review" class="form-label">Date of Birth <span class="text-danger" id="birthdayRequired_review">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <input type="date" name="birthday" id="birthday_review" class="form-control form-control-sm" required>
                             </div>
                         </div>
                         <div class="row">
-                            <label for="occupation_review" class="form-label">Occupation <span class="text-danger">*</span></label>
+                            <label for="occupation_review" class="form-label">Occupation <span class="text-danger" id="occupationRequired_review">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <select name="occupation" id="occupation_review" class="form-select form-select-sm" required>
                                     <option selected disabled value="" hidden>--Select Occupation--</option>
@@ -143,24 +143,24 @@
                             </div>
                         </div>
                         <div class="row d-none" id="businessNameRow_review">
-                            <label for="businessName_review" class="form-label"><span class="occupationLabel">Occupation</span> Name <span class="text-danger">*</span></label>
+                            <label for="businessName_review" class="form-label"><span class="occupationLabel">Occupation</span> Name <span class="text-danger" id="businessNameRequired_review">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <input type="text" name="businessName" id="businessName_review" class="form-control form-control-sm" required>
                             </div>
                         </div>
                         <div class="row d-none" id="businessAddressRow_review">
-                            <label for="businessAddress_review" class="form-label"><span class="occupationLabel">Occupation</span> Address <span class="text-danger">*</span></label>
+                            <label for="businessAddress_review" class="form-label"><span class="occupationLabel">Occupation</span> Address <span class="text-danger" id="businessAddressRequired_review">*</span></label>
                             <div class="row justify-content-center align-items-center g-2">
                                 <div class="col-12 col-md-4 form-group">
-                                    <label for="occupationProvince_review" class="mb-0 flex-grow-1">Province <span class="text-danger">*</span></label>
+                                    <label for="occupationProvince_review" class="mb-0 flex-grow-1">Province <span class="text-danger" id="occupationProvinceRequired_review">*</span></label>
                                     <select name="occupationProvince" id="occupationProvince_review" class="form-select form-select-sm" required></select>
                                 </div>
                                 <div class="col-12 col-md-4 form-group">
-                                    <label for="occupationMunicipality_review" class="mb-0 flex-grow-1">Municipality <span class="text-danger">*</span></label>
+                                    <label for="occupationMunicipality_review" class="mb-0 flex-grow-1">Municipality <span class="text-danger" id="occupationMunicipalityRequired_review">*</span></label>
                                     <select name="occupationMunicipality" id="occupationMunicipality_review" class="form-select form-select-sm" disabled required></select>
                                 </div>
                                 <div class="col-12 col-md-4 form-group">
-                                    <label for="occupationBarangay_review" class="mb-0 flex-grow-1">Barangay <span class="text-danger">*</span></label>
+                                    <label for="occupationBarangay_review" class="mb-0 flex-grow-1">Barangay <span class="text-danger" id="occupationBarangayRequired_review">*</span></label>
                                     <select name="occupationBarangay" id="occupationBarangay_review" class="form-select form-select-sm" disabled required></select>
                                 </div>
                             </div>
@@ -171,7 +171,7 @@
                             </div>
                         </div>
                         <div class="row d-none" id="businessCategoryRow_review">
-                            <label for="businessCategory_review" class="form-label">Business Category <span class="text-danger">*</span></label>
+                            <label for="businessCategory_review" class="form-label">Business Category <span class="text-danger" id="businessCategoryRequired_review">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <select name="businessCategory" id="businessCategory_review" class="form-select form-select-sm">
                                     <option selected disabled value="" hidden>--Select Business Category--</option>
@@ -203,7 +203,7 @@
                             </div>
                         </div>
                         <div class="row d-none" id="businessSizeRow_review">
-                            <label for="businessSize_review" class="form-label">Business Size <span class="text-danger">*</span></label>
+                            <label for="businessSize_review" class="form-label">Business Size <span class="text-danger" id="businessSizeRequired_review">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <select name="businessSize" id="businessSize_review" class="form-select form-select-sm">
                                     <option value="" hidden selected disabled>--Select Business Size--</option>
@@ -215,7 +215,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <label for="monthlyAverage_review" class="form-label">Monthly Average <span class="text-danger">*</span></label>
+                            <label for="monthlyAverage_review" class="form-label">Monthly Average <span class="text-danger" id="monthlyAverageRequired_review">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <select name="monthlyAverage" id="monthlyAverage_review" class="form-select form-select-sm" required>
                                     <option value="" hidden selected disabled>--Select Monthly Average--</option>
@@ -294,7 +294,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <p class="form-label">Buyer Type <span class="text-danger">*</span></p>
+                            <p class="form-label">Buyer Type <span class="text-danger" id="buyerTypeRequired_review">*</span></p>
                             <div class="row d-flex form-group gap-2">
                                 <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup_review">
                                     <input type="radio" name="buyerType" id="buyerType_first_review" value="FIRST-TIME">
@@ -335,7 +335,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <label for="transactionType_review" class="form-label">Trasnsaction Type <span class="text-danger">*</span></label>
+                            <label for="transactionType_review" class="form-label">Trasnsaction Type <span class="text-danger" id="transactionTypeRequired_review">*</span></label>
                             <div class="row d-flex gap-2">
                                 <select name="transactionType" id="transactionType_review" class="form-select form-select-sm" required>
                                     <option value="" hidden selected disabled>--Select Transaction Type--</option>
@@ -349,7 +349,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <p class="form-label">With Application <span class="text-danger">*</span></p>
+                            <p class="form-label">With Application <span class="text-danger" id="hasApplicationRequired_review">*</span></p>
                             <div class="row d-flex form-group gap-2">
                                 <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasApplicationRadioGroup_review">
                                     <input type="radio" name="hasApplication" id="hasApplication_yes_review" value="YES">
@@ -362,7 +362,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <p class="form-label">With Reservation <span class="text-danger">*</span></p>
+                            <p class="form-label">With Reservation <span class="text-danger" id="hasReservationRequired_review">*</span></p>
                             <div class="row d-flex form-group gap-2">
                                 <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasReservationRadioGroup_review">
                                     <input type="radio" name="hasReservation" id="hasReservation_yes_review" value="YES">
@@ -375,25 +375,25 @@
                             </div>
                         </div>
                         <div class="row d-none" id="reservationDateRow_review">
-                            <label for="reservationDate_review" class="form-label">Date of Reservation</label>
+                            <label for="reservationDate_review" class="form-label">Date of Reservation <span class="text-danger" id="reservationDateRequired_review">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <input type="date" name="reservationDate" id="reservationDate_review" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="row d-none" id="additionalUnitRow_review">
-                            <label for="additionalUnit_review" class="form-label">Additional Unit Currently used for Business <span class="text-danger">*</span></label>
+                            <label for="additionalUnit_review" class="form-label">Additional Unit Currently used for Business <span class="text-danger" id="additionalUnitRequired_review">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <input type="text" name="additionalUnit" id="additionalUnit_review" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="row d-none" id="tamarawSpecificUsageRow_review">
-                            <label for="tamarawSpecificUsage_review" class="form-label">Specific Purpose or Usage of Tamaraw <span class="text-danger">*</span></label>
+                            <label for="tamarawSpecificUsage_review" class="form-label">Specific Purpose or Usage of Tamaraw <span class="text-danger" id="tamarawSpecificUsageRequired_review">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <input type="text" name="tamarawSpecificUsage" id="tamarawSpecificUsage_review" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="row d-none" id="buyerDecisionHoldRow_review">
-                            <p class="form-label">Buyer's Decision on hold? <span class="text-danger">*</span></p>
+                            <p class="form-label">Buyer's Decision on hold? <span class="text-danger" id="buyerDecisionHoldRequired_review">*</span></p>
                             <div class="row d-flex form-group gap-2">
                                 <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerDecisionHoldRadioGroup_review">
                                     <input type="radio" name="buyerDecisionHold" id="buyerDecisionHold_yes_review" value="YES">
@@ -406,7 +406,7 @@
                             </div>
                         </div>
                         <div class="row d-none" id="buyerDecisionHoldReasonRow_review">
-                            <label for="buyerDecisionHoldReason_review" class="form-label">Reason why the client's buying decision is on hold <span class="text-danger">*</span></label>
+                            <label for="buyerDecisionHoldReason_review" class="form-label">Reason why the client's buying decision is on hold <span class="text-danger" id="buyerDecisionHoldReasonRequired_review">*</span></label>
                             <div class="row d-flex form-group gap-2">
                                 <input type="text" name="buyerDecisionHoldReason" id="buyerDecisionHoldReason_review" class="form-control form-control-sm">
                             </div>

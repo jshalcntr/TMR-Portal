@@ -103,3 +103,176 @@ document.addEventListener('DOMContentLoaded', function () {
         fetchChartData(startDate, endDate);
     }, 60000);
 });
+
+
+$(document).ready(function () {
+    const ctx = $("#topSubjectsChart");
+    let chartInstance = null;
+
+    function getRandomColor() {
+        const r = Math.floor(Math.random() * 255);
+        const g = Math.floor(Math.random() * 255);
+        const b = Math.floor(Math.random() * 255);
+        return `rgba(${r}, ${g}, ${b}, 0.8)`; // Semi-transparent
+    }
+
+    function renderChart(labels, data) {
+        if (chartInstance) {
+            chartInstance.destroy();
+        }
+
+        // Generate random colors for each bar
+        const colors = labels.map(() => getRandomColor());
+
+        chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Top 5 Ticket Subjects",
+                    backgroundColor: colors,
+                    borderColor: colors.map(c => c.replace("0.8", "1")), // full opacity border
+                    borderWidth: 1,
+                    data: data,
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                layout: {
+                    padding: { left: 10, right: 25, top: 25, bottom: 0 }
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: { display: false, drawBorder: false },
+                        ticks: { maxTicksLimit: 5 }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1,
+                            callback: function (value) { return value; }
+                        },
+                        gridLines: {
+                            color: "rgb(234, 236, 244)",
+                            zeroLineColor: "rgb(234, 236, 244)",
+                            drawBorder: false,
+                            borderDash: [2],
+                            zeroLineBorderDash: [2]
+                        }
+                    }]
+                },
+                legend: { display: false },
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    titleMarginBottom: 10,
+                    titleFontColor: '#6e707e',
+                    titleFontSize: 14,
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: true,
+                    caretPadding: 10,
+                    callbacks: {
+                        label: function (tooltipItem, chart) {
+                            return "Tickets: " + tooltipItem.yLabel;
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function fetchTopSubjects(startDate = '', endDate = '') {
+        $.ajax({
+            url: '../../../backend/admin/ticketing-system/fetch_top_subjects.php',
+            type: 'GET',
+            data: { start_date: startDate, end_date: endDate },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    const labels = [];
+                    const counts = [];
+                    response.data.forEach(item => {
+                        labels.push(item.ticket_subject);
+                        counts.push(item.subject_count);
+                    });
+                    renderChart(labels, counts);
+                } else {
+                    console.error("No data found");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching top subjects:", error);
+            }
+        });
+    }
+
+    // Hook to filter button (same as your other charts)
+    $('#filterBtn').on('click', function () {
+        const startDate = $('#startDate').val();
+        const endDate = $('#endDate').val();
+
+        if (!startDate || !endDate) {
+            alert("Please select both start and end dates.");
+            return;
+        }
+
+        fetchTopSubjects(startDate, endDate);
+    });
+
+    // Load default (this month)
+    const today = new Date();
+    const start = new Date(today.getFullYear(), today.getMonth(), 1);
+    const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+    $('#startDate').val(start.toISOString().split('T')[0]);
+    $('#endDate').val(end.toISOString().split('T')[0]);
+
+    fetchTopSubjects($('#startDate').val(), $('#endDate').val());
+});
+
+
+$(document).ready(function () {
+    function fetchAvgResponse(startDate = '', endDate = '') {
+        $.ajax({
+            url: '../../../backend/admin/ticketing-system/fetch_avg_response.php',
+            type: 'GET',
+            data: { start_date: startDate, end_date: endDate },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    $("#avgResponseText").text(response.average_response_time);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching avg response:", error);
+            }
+        });
+
+    }
+
+    // Hook to filter button
+    $('#filterBtn').on('click', function () {
+        const startDate = $('#startDate').val();
+        const endDate = $('#endDate').val();
+
+        if (!startDate || !endDate) {
+            alert("Please select both start and end dates.");
+            return;
+        }
+
+        fetchAvgResponse(startDate, endDate);
+    });
+
+    // Load default (this month)
+    const today = new Date();
+    const start = new Date(today.getFullYear(), today.getMonth(), 1);
+    const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+    $('#startDate').val(start.toISOString().split('T')[0]);
+    $('#endDate').val(end.toISOString().split('T')[0]);
+
+    fetchAvgResponse($('#startDate').val(), $('#endDate').val());
+});

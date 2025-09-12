@@ -105,39 +105,6 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                             </div>
                         </div>
                         <div class="col-md-2 row">
-                            <!-- <div class="card shadow mb-4 col-md-2" data-category="overdue" onclick="fetchAndShowTickets(this)">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Overdue Tasks</h6>
-                                </div>
-                                <div class="card-body text-center">
-                                    <h1 class="card-title font-weight-bold" id="overdue-tasks">0</h1>
-                                </div>
-                            </div>
-                            <div class="card shadow mb-4 col-md-2" data-category="today-due" onclick="fetchAndShowTickets(this)">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Tickets Due Today</h6>
-                                </div>
-                                <div class="card-body text-center">
-                                    <h1 class="card-title font-weight-bold" id="today-due-tickets">0</h1>
-                                </div>
-                            </div>
-                            <div class="card shadow mb-4 col-md-2" data-category="open" onclick="fetchAndShowTickets(this)">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Open Tickets</h6>
-                                </div>
-                                <div class="card-body text-center">
-                                    <h1 class="card-title font-weight-bold" id="open-tickets">0</h1>
-                                </div>
-                            </div>
-                            <div class="card shadow mb-4 col-md-2" data-category="for-approval" onclick="fetchAndShowTickets(this)">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">For Approval Tickets</h6>
-                                </div>
-                                <div class="card-body text-center">
-                                    <h1 class="card-title font-weight-bold" id="for-approval-tickets">0</h1>
-                                </div>
-                            </div> -->
-
                             <div class="card shadow mb-4 col-md-12" data-category="finished" onclick="fetchAndShowTickets(this)">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Closed Tickets</h6>
@@ -146,14 +113,6 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                     <h1 class="card-title font-weight-bold" id="closed-tickets">0</h1>
                                 </div>
                             </div>
-                            <!-- <div class="card shadow mb-4 col-md-2" data-category="all" onclick="fetchAndShowTickets(this)">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">All Tickets</h6>
-                                </div>
-                                <div class="card-body text-center">
-                                    <h1 class="card-title font-weight-bold" id="all-tickets">0</h1>
-                                </div>
-                            </div> -->
                         </div>
 
                         <!-- Modal for Tickets Table -->
@@ -572,24 +531,24 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
 
 
                         <!-- Chatbox -->
-                        <div id="chatbox" class="chatbox">
+                        <!-- <div id="chatbox" class="chatbox">
                             <div class="chatbox-header">
                                 <span id="chatboxTitle">Ticket Title</span>
                                 <button id="closeChatbox" class="close-chatbox">&times;</button>
                             </div>
-                            <div id="chatboxMessages" class="chatbox-messages">
-                                <!-- Chat messages will be populated here -->
-                            </div>
+                            <div id="chatboxMessages" class="chatbox-messages"> -->
+                        <!-- Chat messages will be populated here -->
+                        <!-- </div>
                             <div class="chatbox-input">
                                 <input type="text" id="chatboxInput" placeholder="Type a message...">
                                 <button id="sendChatboxMessage">Send</button>
                             </div>
-                        </div>
+                        </div> -->
 
                         <!------------------------------------------Charts--------------------------------------------------->
                         <!-- Date Filter + Line Chart -->
                         <!-- Chart Card -->
-                        <div class="col-md-10 row">
+                        <div class="col-md-12 row">
                             <div class="card shadow mb-4 col-md-8">
                                 <div class="card-header py-3">
                                     <div class="d-flex justify-content-between align-items-center flex-wrap">
@@ -611,6 +570,7 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                     </div>
                                 </div>
                             </div>
+
                             <!-- Pie Chart -->
                             <div class="card shadow mb-4 col-md-4">
                                 <div class="card-header py-3">
@@ -622,24 +582,55 @@ if (authorize($_SESSION['user']['role'] == "S-ADMIN", $conn)) {
                                     </div>
                                 </div>
                             </div>
+
                         </div>
-                        <div class="card shadow mb-4 col-md-2">
-                            <div class="card-header py-3">
-                                <div class="d-flex justify-content-between align-items-center flex-wrap">
-                                    <!-- Title -->
-                                    <h6 class="m-0 fw-bold text-primary">Monthly Closed Tickets</h6>
+                        <!-- Bar Chart -->
+                        <div class="col-md-12 row">
+                            <div class="card shadow mb-4 col-md-8">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Top 5 Ticket Subjects</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-bar">
+                                        <canvas id="topSubjectsChart"></canvas>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <!-- Replaced the canvas with a simple number display -->
-                                <div class="d-flex flex-column align-items-center justify-content-center h-100 py-5">
-                                    <div class="text-center">
-                                        <div class="h1 fw-bold text-gray-800 display-1" id="totalClosedTickets">0</div>
-                                        <div class="text-secondary fs-4">Closed Tickets</div>
+                            <!-- Average Response Time Chart -->
+                            <div class="card shadow mb-4 col-md-2">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Average Response Time</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area d-flex flex-column align-items-center justify-content-center h-100 py-5">
+                                        <div id="avgResponseText" class=" fw-bold text-gray-800 fs-2">Loading...</div>
+                                        <div class="text-secondary fs-4">Response Time</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Closed Tickets Number Display -->
+                            <div class="card shadow mb-4 col-md-2">
+                                <div class="card-header py-3">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                        <!-- Title -->
+                                        <h6 class="m-0 fw-bold text-primary">Monthly Closed Tickets</h6>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Replaced the canvas with a simple number display -->
+                                    <div class="d-flex flex-column align-items-center justify-content-center h-100 py-5">
+                                        <div class="text-center">
+                                            <div class="h1 fw-bold text-gray-800 display-3" id="totalClosedTickets">0</div>
+                                            <div class="text-secondary fs-4">Closed Tickets</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
+
                         <!-- Custom Modal for alerts -->
                         <div id="alertModal" class="modal-overlay d-none">
                             <div class="modal-content">

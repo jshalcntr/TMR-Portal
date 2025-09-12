@@ -140,7 +140,7 @@ $(document).ready(function () {
             isValid = validateRequiredFields(current);
         }
 
-        isValid = true;
+        // isValid = true;
         return isValid;
     }
 
@@ -315,6 +315,7 @@ $(document).ready(function () {
 
     $("#createInquiryBtn").on('click', function (e) {
         $("#createInquiryForm")[0].reset();
+        $("#reviewInquiryForm")[0].reset();
         $("input[name='inquirySource']").trigger('change');
         $('input[name="inquirySourceType"]').trigger('change');
         $('#municipality').prop('disabled', true);
@@ -404,7 +405,7 @@ $(document).ready(function () {
         });
 
         $("#maritalStatusOtherGroup").addClass("d-none");
-        $("#maritalStatusOtherInput").removeAttr("required").removeClass("is-invalid");
+        $("#maritalStatusOtherInput").prop("required", false).removeClass("is-invalid");
     });
 
     $("#province").on('change', function () {
@@ -566,23 +567,23 @@ $(document).ready(function () {
         const selected = $('.form-step[data-step="8"] input[type="radio"]:checked').val();
         if (selected === "OTHERS") {
             othersGroup.removeClass("d-none");
-            othersInput.attr("required", true).focus();
+            othersInput.prop("required", true).focus();
         } else {
             othersInput.val("");
             othersGroup.addClass("d-none");
-            othersInput.removeAttr("required").removeClass("is-invalid");
+            othersInput.prop("required", false).removeClass("is-invalid");
         }
     });
     $(document).on('change', 'input[name="buyerDecisionHold"]', function () {
         if ($(this).val() === "YES") {
             if ($("#buyerDecisionHoldReasonGroup").hasClass('d-none')) {
                 $("#buyerDecisionHoldReasonGroup").removeClass('d-none');
-                $("#buyerDecisionHoldReason").attr("required", true).focus();
+                $("#buyerDecisionHoldReason").prop("required", true).focus();
             }
         } else {
             if (!$("#buyerDecisionHoldReasonGroup").hasClass('d-none')) {
                 $("#buyerDecisionHoldReasonGroup").addClass('d-none');
-                $("#buyerDecisionHoldReason").removeAttr("required").removeClass("is-invalid");
+                $("#buyerDecisionHoldReason").prop("required", false).removeClass("is-invalid");
             }
         }
     });
