@@ -589,8 +589,8 @@ $(document).ready(function () {
         if ($(this).val() === "TAMARAW") {
             if ($("#tamarawVariantRow_review").hasClass('d-none')) {
                 $("#tamarawVariantRow_review").removeClass('d-none');
-                $("#tamarawVariant_review").prop('required', true);
                 if ($("input[name='prospectType']:checked").val() !== "COLD") {
+                    $("#tamarawVariant_review").prop('required', true);
                     $("#tamarawSpecificUsage_review").prop('required', true);
                 }
 
@@ -659,20 +659,30 @@ $(document).ready(function () {
     $("#reviewInquiryForm").submit(function (e) {
         e.preventDefault();
         const formData = $(this).serialize();
-
         if (reviewInquiryFormValidationTimeout) {
             clearTimeout(reviewInquiryFormValidationTimeout);
         }
         $("#reviewInquiryForm").removeClass("was-validated");
-        // if (!this.checkValidity() || !$("input[name='prospectType']:checked").val() || !$("input[name='gender']:checked").val() || !$("input[name='buyerType']:checked").val() || !$("input[name='hasApplication']:checked").val() || !$("input[name='hasReservation']:checked").val() || ($("#unitInquired_review").val() === "TAMARAW" && !$("input[name='buyerDecisionHold']:checked").val()))
-        if (!this.checkValidity() ||
-            ($("input[name='prospectType']:checked").val() !== "COLD" && (!$("input[name='prospectType']:checked").val() ||
-                !$("input[name='gender']:checked").val() ||
-                !$("input[name='buyerType']:checked").val() ||
+
+        let firstValidity = !this.checkValidity();
+        let secondValidity = !$("input[name='gender']:checked").val();
+        let thirdValidity;
+        let fourthValidity;
+
+        if ($("input[name='prospectType']:checked").val() !== "COLD") {
+            thirdValidity = !$("input[name='buyerType']:checked").val() ||
                 !$("input[name='hasApplication']:checked").val() ||
-                !$("input[name='hasReservation']:checked").val())) ||
-            ($("#unitInquired_review").val() === "TAMARAW" && !$("input[name='buyerDecisionHold']:checked").val())) {
+                !$("input[name='hasReservation']:checked").val();
+            fourthValidity = $("#unitInquired_review").val() === "TAMARAW" &&
+                !$("input[name='buyerDecisionHold']:checked").val();
+        } else {
+            thirdValidity = false;
+            fourthValidity = false;
+        }
+
+        if (firstValidity || secondValidity || thirdValidity || fourthValidity) {
             e.stopPropagation();
+            console.log("FAILED");
         } else {
             $.ajax({
                 type: "POST",
@@ -742,7 +752,7 @@ $(document).ready(function () {
             $(".hasApplicationRadioGroup_review").removeClass("radio-invalid");
             $(".hasReservationRadioGroup_review").removeClass("radio-invalid");
             $(".buyerDecisionHoldRadioGroup_review").removeClass("radio-invalid");
-        }, 300000000);
+        }, 3000);
     });
 
     $("#reviewBtn").on('click', function () {

@@ -24,9 +24,10 @@ $start_date = $_GET['start_date'] ?? null;
 $end_date   = $_GET['end_date'] ?? null;
 
 $query = "SELECT AVG(TIMESTAMPDIFF(SECOND, date_created, date_accepted)) AS avg_seconds
-          FROM ticket_records_tbl
-          WHERE ticket_status = 'CLOSED'
-          AND TIME(date_created) BETWEEN '07:00:00' AND '17:00:00'";  // ✅ only between 7am–5:30pm
+FROM ticket_records_tbl
+WHERE ticket_status = 'CLOSED'
+  AND TIME(date_created) BETWEEN '07:00:00' AND '17:30:00'
+  AND DATE(date_created) = DATE(date_accepted)";  // ✅ only between 7am–5:30pm
 
 $params = [];
 $types  = '';

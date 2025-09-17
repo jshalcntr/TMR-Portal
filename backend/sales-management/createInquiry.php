@@ -88,6 +88,8 @@ $appointmentDate         = post_clean('appointmentDate');
 $appointmentTime         = post_clean('appointmentTime');
 $agentId                 = $_SESSION['user']['id'] ?? null;
 
+$currentTimestamp = date("Y-m-d H:i:s");
+
 
 $sql1 = "INSERT INTO sales_customers_tbl (
     customer_firstname,
@@ -135,6 +137,17 @@ $sql1 = "INSERT INTO sales_customers_tbl (
 
 $sql2 = "INSERT INTO sales_inquiries_tbl(
     customer_id,
+    agent_id,
+    created_at
+) VALUES (
+    ?,
+    ?,
+    ?
+)";
+
+$sql3 = "INSERT INTO sales_inquiries_history_tbl(
+    inquiry_id,
+    version,
     prospect_type,
     inquiry_date,
     inquiry_source,
@@ -148,8 +161,9 @@ $sql2 = "INSERT INTO sales_inquiries_tbl(
     reservation_date,
     appointment_date,
     appointment_time,
-    agent_id
-) VALUES (
+    updated_at
+) VALUES(
+    ?,
     ?,
     ?,
     ?,
@@ -167,8 +181,8 @@ $sql2 = "INSERT INTO sales_inquiries_tbl(
     ?
 )";
 
-$sql3 = "INSERT INTO sales_inquiries_tamaraw_tbl(
-    inquiry_id,
+$sql4 = "INSERT INTO sales_inquiries_tamaraw_history_tbl(
+    history_id,
     tamaraw_variant,
     additional_unit,
     tamaraw_specific_usage,
@@ -182,6 +196,7 @@ $sql3 = "INSERT INTO sales_inquiries_tamaraw_tbl(
     ?,
     ?
 )";
+
 
 $conn->begin_transaction();
 
@@ -221,15 +236,33 @@ if (!$stmt1->execute()) {
 $customerId = $stmt1->insert_id;
 $stmt1->close();
 
-//* INSERT INQUIRY DATA
 $stmt2 = $conn->prepare($sql2);
 if (!$stmt2) {
     $conn->rollback();
     respondWithError("Failed to Create Inquiry. Please Contact the Programmer", $conn->error);
 }
 $stmt2->bind_param(
-    "issssssssiisssi",
+    "iis",
     $customerId,
+    $agentId,
+    $currentTimestamp
+);
+if (!$stmt2->execute()) {
+    $conn->rollback();
+    respondWithError("Failed to Create Inquiry. Please Contact the Programmer", $stmt2->error);
+}
+$inquiryId = $stmt2->insert_id;
+
+$stmt3 = $conn->prepare($sql3);
+if (!$stmt3) {
+    $conn->rollback();
+    respondWithError("Failed to Create Inquiry. Please Contact the Programmer", $conn->error);
+}
+$version = 1;
+$stmt3->bind_param(
+    "iissssssssiissss",
+    $inquiryId,
+    $version,
     $prospectType,
     $inquiryDate,
     $inquirySource,
@@ -243,36 +276,33 @@ $stmt2->bind_param(
     $reservationDate,
     $appointmentDate,
     $appointmentTime,
-    $agentId
+    $currentTimestamp
 );
-if (!$stmt2->execute()) {
+if (!$stmt3->execute()) {
     $conn->rollback();
-    respondWithError("Failed to Create Inquiry. Please Contact the Programmer", $stmt2->error);
+    respondWithError("Failed to Create Inquiry. Please Contact the Programmer", $stmt3->error);
 }
-$inquiryId = $stmt2->insert_id;
-$stmt2->close();
+$historyId = $stmt3->insert_id;
 
-//* INSERT TAMARAW DATA IF UNIT INQUIRED IS TAMARAW
 if ($unitInquired == "TAMARAW") {
-    $stmt3 = $conn->prepare($sql3);
-    if (!$stmt3) {
+    $stmt4 = $conn->prepare($sql4);
+    if (!$stmt4) {
         $conn->rollback();
         respondWithError("Failed to Create Inquiry. Please Contact the Programmer", $conn->error);
     }
-    $stmt3->bind_param(
+    $stmt4->bind_param(
         "isssis",
-        $inquiryId,
+        $historyId,
         $tamarawVariant,
         $additionalUnit,
         $tamarawSpecificUsage,
         $buyerDecisionHold,
         $buyerDecisionHoldReason
     );
-    if (!$stmt3->execute()) {
+    if (!$stmt4->execute()) {
         $conn->rollback();
-        respondWithError("Failed to Create Inquiry. Please Contact the Programmer", $stmt3->error);
+        respondWithError("Failed to Create Inquiry. Please Contact the Programmer", $stmt4->error);
     }
-    $stmt3->close();
 }
 
 //? IF THE INQUIRY IS CREATED SUCCESSFULLY

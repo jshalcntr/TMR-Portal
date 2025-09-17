@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 
 $sql = "SELECT prospect_type, COUNT(*) as count 
         FROM sales_inquiries_tbl 
-        WHERE prospect_type IN ('Hot', 'Warm', 'Cold', 'Lost') AND agent_id = ?
+        WHERE prospect_type IN ('HOT', 'WARM', 'COLD', 'LOST') AND agent_id = ?
         GROUP BY prospect_type";
 
 $stmt = $conn->prepare($sql);

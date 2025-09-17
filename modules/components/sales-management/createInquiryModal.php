@@ -1,6 +1,6 @@
 <div class="modal fade" id="createInquiryModal" tabindex="-1" aria-labelledby="createInquiryModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-        <form id="createInquiryForm" class="needs-validation w-100" novalidate>
+        <form id="createInquiryForm" class="needs-validation w-100" novalidate autocomplete="off">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h5 class="modal-title" id="createInquiryModalLabel">Create Inquiry</h5>
