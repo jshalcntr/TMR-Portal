@@ -171,6 +171,23 @@
 
                 </ul>
             </div>
+            <!-- E-Boss Sidebar -->
+            <div class="side-item">
+                <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'backorders.php') !== false ? 'active' : '' ?>">
+                    <li class="iso-pro">
+
+                        <a href="/tmr-portal/modules/e-boss/backorders.php">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <i class="fa-solid fa-screwdriver-wrench svg"></i>
+                            <div class="text">E-BOSS</div>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- end E-Boss Sidebar  -->
         <?php endif; ?>
     <?php endif; ?>
 

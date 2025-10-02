@@ -21,6 +21,7 @@ if (isset($_SESSION["user"])) {
 <script src="/tmr-portal/assets/js/sb-admin-2.js"></script>
 <script src="/tmr-portal/assets/vendor/sweetalert2-11.14.2/dist/sweetalert2.all.min.js"></script>
 <script src="/tmr-portal/assets/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/tmr-portal/assets/vendor/datatables/dataTables.fixedColumns.min.js"></script>
 <script src="/tmr-portal/assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="/tmr-portal/assets/js/pipes.js"></script>
 <script src="/tmr-portal/assets/vendor/chart.js/Chart.js"></script>

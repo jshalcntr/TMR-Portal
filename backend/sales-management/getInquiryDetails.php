@@ -27,29 +27,38 @@ $sql = "SELECT
         sales_customers_tbl.business_category,
         sales_customers_tbl.business_size,
         sales_customers_tbl.monthly_average,
-        sales_inquiries_tbl.inquiry_id,
-        sales_inquiries_tbl.prospect_type,
-        sales_inquiries_tbl.inquiry_date,
-        sales_inquiries_tbl.inquiry_source,
-        sales_inquiries_tbl.inquiry_source_type,
-        sales_inquiries_tbl.mall,
-        sales_inquiries_tbl.buyer_type,
-        sales_inquiries_tbl.unit_inquired,
-        sales_inquiries_tbl.transaction_type,
-        sales_inquiries_tbl.has_application,
-        sales_inquiries_tbl.has_reservation,
-        sales_inquiries_tbl.reservation_date,
-        sales_inquiries_tbl.appointment_date,
-        sales_inquiries_tbl.appointment_time,
+        sales_inquiries_history_tbl.inquiry_id,
+        sales_inquiries_history_tbl.prospect_type,
+        sales_inquiries_history_tbl.inquiry_date,
+        sales_inquiries_history_tbl.inquiry_source,
+        sales_inquiries_history_tbl.inquiry_source_type,
+        sales_inquiries_history_tbl.mall,
+        sales_inquiries_history_tbl.buyer_type,
+        sales_inquiries_history_tbl.unit_inquired,
+        sales_inquiries_history_tbl.transaction_type,
+        sales_inquiries_history_tbl.has_application,
+        sales_inquiries_history_tbl.has_reservation,
+        sales_inquiries_history_tbl.reservation_date,
+        sales_inquiries_history_tbl.appointment_date,
+        sales_inquiries_history_tbl.appointment_time,
         sales_inquiries_tbl.agent_id,
-        sales_inquiries_tamaraw_tbl.tamaraw_variant,
-        sales_inquiries_tamaraw_tbl.additional_unit,
-        sales_inquiries_tamaraw_tbl.tamaraw_specific_usage,
-        sales_inquiries_tamaraw_tbl.buyer_decision_hold,
-        sales_inquiries_tamaraw_tbl.buyer_decision_hold_reason
-        FROM sales_inquiries_tbl
-        JOIN sales_customers_tbl ON sales_inquiries_tbl.customer_id = sales_customers_tbl.customer_id
-        LEFT JOIN sales_inquiries_tamaraw_tbl ON sales_inquiries_tbl.inquiry_id = sales_inquiries_tamaraw_tbl.inquiry_id 
+        sales_inquiries_tamaraw_history_tbl.tamaraw_variant,
+        sales_inquiries_tamaraw_history_tbl.additional_unit,
+        sales_inquiries_tamaraw_history_tbl.tamaraw_specific_usage,
+        sales_inquiries_tamaraw_history_tbl.buyer_decision_hold,
+        sales_inquiries_tamaraw_history_tbl.buyer_decision_hold_reason
+        FROM sales_inquiries_history_tbl
+        JOIN
+            (SELECT inquiry_id, MAX(version) as max_version
+                FROM sales_inquiries_history_tbl
+                GROUP BY inquiry_id) latest
+            ON sales_inquiries_history_tbl.inquiry_id = latest.inquiry_id AND sales_inquiries_history_tbl.version = latest.max_version
+        JOIN sales_inquiries_tbl
+            ON sales_inquiries_history_tbl.inquiry_id = sales_inquiries_tbl.inquiry_id
+        JOIN sales_customers_tbl
+            ON sales_inquiries_tbl.customer_id = sales_customers_tbl.customer_id
+        LEFT JOIN sales_inquiries_tamaraw_history_tbl
+            ON sales_inquiries_history_tbl.history_id = sales_inquiries_tamaraw_history_tbl.history_id
         WHERE sales_inquiries_tbl.inquiry_id = ?";
 $stmt = $conn->prepare($sql);
 

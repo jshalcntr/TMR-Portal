@@ -1,0 +1,18 @@
+#backordersRecordsTable thead,
+#backordersRecordsTable tbody td {
+    white-space: nowrap !important;
+}
+
+#backordersRecordsTable thead th {
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
+    /* optional if you want "..." on overflow */
+}
+
+.short-line {
+    display: inline-block;
+    width: 97%;
+    border: none;
+    border-top: 1px solid #000;
+    vertical-align: middle;
+}

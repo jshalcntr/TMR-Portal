@@ -83,6 +83,7 @@ $(document).on('click', '.viewInquiryDetailsBtn', function () {
                 $("#monthlyAverage_details").text(monthlyAverage);
 
                 $("#inquiryId_details").text(inquiryId);
+                $("#updateInquiryBtn").data('inquiry-id', inquiryId)
                 $("#prospectType_details").text(prospectType);
                 $("#dateOfInquiry_details").text(dateOfInquiry);
                 $("#inquirySource_details").text(inquirySource);
@@ -103,7 +104,6 @@ $(document).on('click', '.viewInquiryDetailsBtn', function () {
                 $("#specificUsage_details").text(specificUsage);
 
                 if (unitInquired === "TAMARAW") {
-                    console.log(unitInquired);
                     if ($("#tamarawDetailsTable").hasClass("d-none")) {
                         $("#tamarawDetailsTable").removeClass("d-none");
                     }
@@ -133,5 +133,7 @@ $(document).on('click', '.viewInquiryDetailsBtn', function () {
     });
 });
 $("#viewInquiryDetailsModal").on('hidden.bs.modal', function () {
-    $("#viewInquiriesModal").modal('show');
+    if (!$("#updateInquiryModal").hasClass('show')) {
+        $("#viewInquiriesModal").modal('show');
+    }
 });

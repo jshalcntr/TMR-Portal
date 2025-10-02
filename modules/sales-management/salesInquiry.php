@@ -171,6 +171,7 @@ if (authorize(true, $conn)) {
     <?php include "../components/sales-management/viewInquiryDetailsModal.php" ?>
     <?php include "../components/sales-management/viewInquiriesByProspectModal.php" ?>
     <?php include "../components/sales-management/viewInquiryDetailsByProspectModal.php" ?>
+    <?php include "../components/sales-management/updateInquiryModal.php" ?>
     <?php include "../components/sales-management/inquiryAlertsModal.php" ?>
 </body>
 <?php include '../components/shared/external-js-import.php'; ?>
@@ -183,5 +184,6 @@ if (authorize(true, $conn)) {
 <script src="../../assets/js/sales-management/viewInquiry.js"></script>
 <script src="../../assets/js/sales-management/viewInquiriesByProspect.js"></script>
 <script src="../../assets/js/sales-management/viewInquiryByProspect.js"></script>
+<script src="../../assets/js/sales-management/updateInquiry.js"></script>
 
 </html>

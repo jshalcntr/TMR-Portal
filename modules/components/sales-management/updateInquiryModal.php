@@ -1,9 +1,9 @@
-<div class="modal fade" id="reviewInquiryModal" tabindex="-1" aria-labelledby="reviewInquiryModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="updateInquiryModal" tabindex="-1" aria-labelledby="updateInquiryModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-        <form id="reviewInquiryForm" class="needs-validation w-100" novalidate>
+        <form id="updateInquiryForm" class="needs-validation w-100" novalidate>
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h5 class="modal-title" id="reviewInquiryModalLabel">Review Inquiry</h5>
+                    <h5 class="modal-title" id="updateInquiryModalLabel">Update Inquiry</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="row modal-body custom-scrollable-body">
@@ -12,19 +12,32 @@
                             <h3 class="text-center">Customer Details</h3>
                         </div>
                         <div class="row">
-                            <p class="form-label">Prospect Type <span class="text-danger">*</span></p>
+                            <p class="mb-0">Current Prospect Type:</p>
+                            <div id="currentProspectTypeRow" class="row">
+                                <h4 class="col">
+                                    <i class="fa-solid fa-snowflake" id="currentProspectTypeIcon"></i>
+                                    <span id="currentProspectType"></span>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p class="form-label">New Prospect Type <span class="text-danger">*</span></p>
                             <div class="row justify-content-center align-items-center">
-                                <div class="justify-content-center align-items-center radio-column mb-2 py-1 d-flex gap-2 prospectRadioGroup_review">
-                                    <input type="radio" name="prospectType" id="prospectType_hot_review" value="HOT">
-                                    <label for="prospectType_hot_review" class="mb-0 flex-grow-1">HOT (WITHIN 1 WEEK TO 2 MONTHS)</label>
+                                <div class="justify-content-center align-items-center radio-column mb-2 py-1 d-flex gap-2 prospectRadioGroup_update">
+                                    <input type="radio" name="prospectType" id="prospectType_hot_update" value="HOT">
+                                    <label for="prospectType_hot_update" class="mb-0 flex-grow-1">HOT</label>
                                 </div>
-                                <div class="justify-content-center align-items-center radio-column mb-2 py-1 d-flex gap-2 prospectRadioGroup_review">
-                                    <input type="radio" name="prospectType" id="prospectType_warm_review" value="WARM">
-                                    <label for="prospectType_warm_review" class="mb-0 flex-grow-1">WARM (WITHIN 2 TO 5 MONTHS)</label>
+                                <div class="justify-content-center align-items-center radio-column mb-2 py-1 d-flex gap-2 prospectRadioGroup_update">
+                                    <input type="radio" name="prospectType" id="prospectType_warm_update" value="WARM">
+                                    <label for="prospectType_warm_update" class="mb-0 flex-grow-1">WARM</label>
                                 </div>
-                                <div class="justify-content-center align-items-center radio-column mb-2 py-1 d-flex gap-2 prospectRadioGroup_review">
-                                    <input type="radio" name="prospectType" id="prospectType_cold_review" value="COLD">
-                                    <label for="prospectType_cold_review" class="mb-0 flex-grow-1">COLD (6 MONTHS AND ABOVE)</label>
+                                <div class="justify-content-center align-items-center radio-column mb-2 py-1 d-flex gap-2 prospectRadioGroup_update">
+                                    <input type="radio" name="prospectType" id="prospectType_cold_update" value="COLD">
+                                    <label for="prospectType_cold_update" class="mb-0 flex-grow-1">COLD</label>
+                                </div>
+                                <div class="justify-content-center align-items-center radio-column mb-2 py-1 d-flex gap-2 prospectRadioGroup_update">
+                                    <input type="radio" name="prospectType" id="prospectType_lost_update" value="LOST">
+                                    <label for="prospectType_lost_update" class="mb-0 flex-grow-1">LOST</label>
                                 </div>
                             </div>
                         </div>
@@ -32,16 +45,16 @@
                             <p class="form-label">Customer Name</p>
                             <div class="row justify-content-center align-items-center">
                                 <div class="col form-group">
-                                    <label for="customerFirstName_review">First Name <span class="text-danger">*</span></label>
-                                    <input type="text" name="customerFirstName" id="customerFirstName_review" class="form-control form-control-sm" required>
+                                    <label for="customerFirstName_update">First Name <span class="text-danger" id="customerFirstNameRequired_update">*</span></label>
+                                    <input type="text" name="customerFirstName" id="customerFirstName_update" class="form-control form-control-sm" required>
                                 </div>
                                 <div class="col form-group">
-                                    <label for="customerMiddleName_review">Middle Name</label>
-                                    <input type="text" name="customerMiddleName" id="customerMiddleName_review" class="form-control form-control-sm">
+                                    <label for="customerMiddleName_update">Middle Name</label>
+                                    <input type="text" name="customerMiddleName" id="customerMiddleName_update" class="form-control form-control-sm">
                                 </div>
                                 <div class="col form-group">
-                                    <label for="customerLastName_review">Last Name <span class="text-danger">*</span></label>
-                                    <input type="text" name="customerLastName" id="customerLastName_review" class="form-control form-control-sm" required>
+                                    <label for="customerLastName_update">Last Name <span class="text-danger" id="customerLastNameRequired_update">*</span></label>
+                                    <input type="text" name="customerLastName" id="customerLastName_update" class="form-control form-control-sm" required>
                                 </div>
                             </div>
                         </div>
@@ -49,31 +62,31 @@
                             <p class="form-label">Client Address <span class="text-danger">*</span></p>
                             <div class="row justify-content-center align-items-center g-2">
                                 <div class="col-12 col-md-4 form-group">
-                                    <label for="province_review" class="mb-0 flex-grow-1">Province <span class="text-danger">*</span></label>
-                                    <select name="province" id="province_review" class="form-select form-select-sm" required></select>
+                                    <label for="province_update" class="mb-0 flex-grow-1">Province <span class="text-danger">*</span></label>
+                                    <select name="province" id="province_update" class="form-select form-select-sm" required></select>
                                 </div>
                                 <div class="col-12 col-md-4 form-group">
-                                    <label for="municipality_review" class="mb-0 flex-grow-1">Municipality <span class="text-danger">*</span></label>
-                                    <select name="municipality" id="municipality_review" class="form-select form-select-sm" disabled required></select>
+                                    <label for="municipality_update" class="mb-0 flex-grow-1">Municipality <span class="text-danger">*</span></label>
+                                    <select name="municipality" id="municipality_update" class="form-select form-select-sm" disabled required></select>
                                 </div>
                                 <div class="col-12 col-md-4 form-group">
-                                    <label for="barangay_review" class="mb-0 flex-grow-1">Barangay <span class="text-danger">*</span></label>
-                                    <select name="barangay" id="barangay_review" class="form-select form-select-sm" disabled required></select>
+                                    <label for="barangay_update" class="mb-0 flex-grow-1">Barangay <span class="text-danger">*</span></label>
+                                    <select name="barangay" id="barangay_update" class="form-select form-select-sm" disabled required></select>
                                 </div>
                             </div>
                             <div class="row justify-content-center align-items-center">
-                                <label for="street_review" class="mb-0 flex-grow-1">Street Address</label>
-                                <input type="text" name="street" id="street_review" class="form-control form-control-sm">
+                                <label for="street_update" class="mb-0 flex-grow-1">Street Address</label>
+                                <input type="text" name="street" id="street_update" class="form-control form-control-sm">
                                 </input>
                             </div>
                         </div>
                         <div class="row">
                             <div class="row justify-content-center align-items-center">
-                                <label for="contactNumber_review" class="form-label">Client Contact Number <span class="text-danger">*</span></label>
+                                <label for="contactNumber_update" class="form-label">Client Contact Number <span class="text-danger">*</span></label>
                                 <input
                                     type="tel"
                                     name="contactNumber"
-                                    id="contactNumber_review"
+                                    id="contactNumber_update"
                                     class="form-control form-control-sm"
                                     required
                                     pattern="^(09\d{9}|\+639\d{9})$"
@@ -83,24 +96,24 @@
                         <div class="row">
                             <p class="form-label">Client Gender <span class="text-danger">*</span></p>
                             <div class="row d-flex form-group gap-2">
-                                <div class="col justify-content-center align-items-center radio-column py-1 d-flex gap-2 genderRadioGroup_review">
-                                    <input type="radio" name="gender" id="gender_male_review" value="MALE">
-                                    <label for="gender_male_review" class="mb-0 flex-grow-1">MALE</label>
+                                <div class="col justify-content-center align-items-center radio-column py-1 d-flex gap-2 genderRadioGroup_update">
+                                    <input type="radio" name="gender" id="gender_male_update" value="MALE">
+                                    <label for="gender_male_update" class="mb-0 flex-grow-1">MALE</label>
                                 </div>
-                                <div class="col justify-content-center align-items-center radio-column py-1 d-flex gap-2 genderRadioGroup_review">
-                                    <input type="radio" name="gender" id="gender_female_review" value="FEMALE">
-                                    <label for="gender_female_review" class="mb-0 flex-grow-1">FEMALE</label>
+                                <div class="col justify-content-center align-items-center radio-column py-1 d-flex gap-2 genderRadioGroup_update">
+                                    <input type="radio" name="gender" id="gender_female_update" value="FEMALE">
+                                    <label for="gender_female_update" class="mb-0 flex-grow-1">FEMALE</label>
                                 </div>
-                                <div class="col justify-content-center align-items-center radio-column py-1 d-flex gap-2 genderRadioGroup_review">
-                                    <input type="radio" name="gender" id="gender_lgbt_review" value="LGBTQ+">
-                                    <label for="gender_lgbt_review" class="mb-0 flex-grow-1">LGBTQ+</label>
+                                <div class="col justify-content-center align-items-center radio-column py-1 d-flex gap-2 genderRadioGroup_update">
+                                    <input type="radio" name="gender" id="gender_lgbt_update" value="LGBTQ+">
+                                    <label for="gender_lgbt_update" class="mb-0 flex-grow-1">LGBTQ+</label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <label for="maritalStatus_review" class="form-label">Marital Status <span class="text-danger" id="maritalStatusRequired_review">*</span></label>
+                            <label for="maritalStatus_update" class="form-label">Marital Status <span class="text-danger" id="maritalStatusRequired_update">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <select class="form-select form-select-sm" name="maritalStatus" id="maritalStatus_review" required>
+                                <select class="form-select form-select-sm" name="maritalStatus" id="maritalStatus_update" required>
                                     <option selected disabled value="" hidden>--Select Marital Status--</option>
                                     <option value="SINGLE">SINGLE</option>
                                     <option value="MARRIED">MARRIED</option>
@@ -111,25 +124,25 @@
                                     <option value="OTHERS">OTHERS</option>
                                 </select>
                             </div>
-                            <div class="row d-none form-group gap-1" id="maritalStatusOthersRow_review">
-                                <label for="maritalStatusOtherInput_review" class="form-label">Please Specify <span class="text-danger">*</span></label>
+                            <div class="row d-none form-group gap-1" id="maritalStatusOthersRow_update">
+                                <label for="maritalStatusOtherInput_update" class="form-label">Please Specify <span class="text-danger">*</span></label>
                                 <input
                                     type="text"
-                                    id="maritalStatusOtherInput_review"
+                                    id="maritalStatusOtherInput_update"
                                     name="maritalStatus"
                                     class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="row">
-                            <label for="birthday_review" class="form-label">Date of Birth <span class="text-danger" id="birthdayRequired_review">*</span></label>
+                            <label for="birthday_update" class="form-label">Date of Birth <span class="text-danger" id="birthdayRequired_update">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <input type="date" name="birthday" id="birthday_review" class="form-control form-control-sm" required>
+                                <input type="date" name="birthday" id="birthday_update" class="form-control form-control-sm" required>
                             </div>
                         </div>
                         <div class="row">
-                            <label for="occupation_review" class="form-label">Occupation <span class="text-danger" id="occupationRequired_review">*</span></label>
+                            <label for="occupation_update" class="form-label">Occupation <span class="text-danger" id="occupationRequired_update">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <select name="occupation" id="occupation_review" class="form-select form-select-sm" required>
+                                <select name="occupation" id="occupation_update" class="form-select form-select-sm" required>
                                     <option selected disabled value="" hidden>--Select Occupation--</option>
                                     <option value="BUSINESS OWNER">BUSINESS OWNER</option>
                                     <option value="EMPLOYED">EMPLOYED</option>
@@ -142,38 +155,38 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row d-none" id="businessNameRow_review">
-                            <label for="businessName_review" class="form-label"><span class="occupationLabel">Occupation</span> Name <span class="text-danger" id="businessNameRequired_review">*</span></label>
+                        <div class="row d-none" id="businessNameRow_update">
+                            <label for="businessName_update" class="form-label"><span class="occupationLabel_update">Occupation</span> Name <span class="text-danger" id="businessNameRequired_update">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <input type="text" name="businessName" id="businessName_review" class="form-control form-control-sm" required>
+                                <input type="text" name="businessName" id="businessName_update" class="form-control form-control-sm" required>
                             </div>
                         </div>
-                        <div class="row d-none" id="businessAddressRow_review">
-                            <label for="businessAddress_review" class="form-label"><span class="occupationLabel">Occupation</span> Address <span class="text-danger" id="businessAddressRequired_review">*</span></label>
+                        <div class="row d-none" id="businessAddressRow_update">
+                            <label for="businessAddress_update" class="form-label"><span class="occupationLabel_update">Occupation</span> Address <span class="text-danger" id="businessAddressRequired_update">*</span></label>
                             <div class="row justify-content-center align-items-center g-2">
                                 <div class="col-12 col-md-4 form-group">
-                                    <label for="occupationProvince_review" class="mb-0 flex-grow-1">Province <span class="text-danger" id="occupationProvinceRequired_review">*</span></label>
-                                    <select name="occupationProvince" id="occupationProvince_review" class="form-select form-select-sm" required></select>
+                                    <label for="occupationProvince_update" class="mb-0 flex-grow-1">Province <span class="text-danger" id="occupationProvinceRequired_update">*</span></label>
+                                    <select name="occupationProvince" id="occupationProvince_update" class="form-select form-select-sm" required></select>
                                 </div>
                                 <div class="col-12 col-md-4 form-group">
-                                    <label for="occupationMunicipality_review" class="mb-0 flex-grow-1">Municipality <span class="text-danger" id="occupationMunicipalityRequired_review">*</span></label>
-                                    <select name="occupationMunicipality" id="occupationMunicipality_review" class="form-select form-select-sm" disabled required></select>
+                                    <label for="occupationMunicipality_update" class="mb-0 flex-grow-1">Municipality <span class="text-danger" id="occupationMunicipalityRequired_update">*</span></label>
+                                    <select name="occupationMunicipality" id="occupationMunicipality_update" class="form-select form-select-sm" disabled required></select>
                                 </div>
                                 <div class="col-12 col-md-4 form-group">
-                                    <label for="occupationBarangay_review" class="mb-0 flex-grow-1">Barangay <span class="text-danger" id="occupationBarangayRequired_review">*</span></label>
-                                    <select name="occupationBarangay" id="occupationBarangay_review" class="form-select form-select-sm" disabled required></select>
+                                    <label for="occupationBarangay_update" class="mb-0 flex-grow-1">Barangay <span class="text-danger" id="occupationBarangayRequired_update">*</span></label>
+                                    <select name="occupationBarangay" id="occupationBarangay_update" class="form-select form-select-sm" disabled required></select>
                                 </div>
                             </div>
                             <div class="row justify-content-center align-items-center">
-                                <label for="occupationStreet_review" class="mb-0 flex-grow-1">Street Address</label>
-                                <input type="text" name="occupationStreet" id="occupationStreet_review" class="form-control form-control-sm">
+                                <label for="occupationStreet_update" class="mb-0 flex-grow-1">Street Address</label>
+                                <input type="text" name="occupationStreet" id="occupationStreet_update" class="form-control form-control-sm">
                                 </input>
                             </div>
                         </div>
-                        <div class="row d-none" id="businessCategoryRow_review">
-                            <label for="businessCategory_review" class="form-label">Business Category <span class="text-danger" id="businessCategoryRequired_review">*</span></label>
+                        <div class="row d-none" id="businessCategoryRow_update">
+                            <label for="businessCategory_update" class="form-label">Business Category <span class="text-danger" id="businessCategoryRequired_update">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <select name="businessCategory" id="businessCategory_review" class="form-select form-select-sm">
+                                <select name="businessCategory" id="businessCategory_update" class="form-select form-select-sm">
                                     <option selected disabled value="" hidden>--Select Business Category--</option>
                                     <option value="AGRICULTURE">AGRICULTURE (POULTRY RAISING, HOG RAISING, VEGETABLE FARMING, DAIRY FARMING, RICE CULTIVATION, AND AQUACULTURE, ETC.)</option>
                                     <option value="BPO">BPO (CONCENTRIX PHIL., TELEPERFORMANCE PHILS., ACCENTURE, ETC.)</option>
@@ -202,10 +215,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row d-none" id="businessSizeRow_review">
-                            <label for="businessSize_review" class="form-label">Business Size <span class="text-danger" id="businessSizeRequired_review">*</span></label>
+                        <div class="row d-none" id="businessSizeRow_update">
+                            <label for="businessSize_update" class="form-label">Business Size <span class="text-danger" id="businessSizeRequired_update">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <select name="businessSize" id="businessSize_review" class="form-select form-select-sm">
+                                <select name="businessSize" id="businessSize_update" class="form-select form-select-sm">
                                     <option value="" hidden selected disabled>--Select Business Size--</option>
                                     <option value="MICRO">MICRO (1-9 EMPLOYEES)</option>
                                     <option value="SMALL">SMALL (10-99 EMPLOYEES)</option>
@@ -215,9 +228,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <label for="monthlyAverage_review" class="form-label">Monthly Average <span class="text-danger" id="monthlyAverageRequired_review">*</span></label>
+                            <label for="monthlyAverage_update" class="form-label">Monthly Average <span class="text-danger" id="monthlyAverageRequired_update">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <select name="monthlyAverage" id="monthlyAverage_review" class="form-select form-select-sm" required>
+                                <select name="monthlyAverage" id="monthlyAverage_update" class="form-select form-select-sm" required>
                                     <option value="" hidden selected disabled>--Select Monthly Average--</option>
                                     <option value="50K and Below">50K AND BELOW</option>
                                     <option value="51K to 60K">51K TO 60K</option>
@@ -239,25 +252,25 @@
                             <h3 class="text-center">Inquiry Details</h3>
                         </div>
                         <div class="row">
-                            <label for="inquiryDate_review" class="form-label">Date of Inquiry <span class="text-danger">*</span></label>
+                            <label for="inquiryDate_update" class="form-label">Date of Inquiry <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <input type="date" name="inquiryDate" id="inquiryDate_review" class="form-control form-control-sm" required>
+                                <input type="date" name="inquiryDate" id="inquiryDate_update" class="form-control form-control-sm" required>
                             </div>
                         </div>
                         <div class="row">
-                            <label for="inquirySource_review" class="form-label">Source of Inquiry <span class="text-danger">*</span></label>
+                            <label for="inquirySource_update" class="form-label">Source of Inquiry <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <select name="inquirySource" id="inquirySource_review" class="form-select form-select-sm" required>
+                                <select name="inquirySource" id="inquirySource_update" class="form-select form-select-sm" required>
                                     <option value="" hidden selected disabled>--Select Source--</option>
                                     <option value="FACE TO FACE">FACE TO FACE</option>
                                     <option value="ONLINE">ONLINE</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="row d-none" id="f2fSourceRow_review">
-                            <label for="f2fSource_review" class="form-label">Face To Face Inquiry Source <span class="text-danger">*</span></label>
+                        <div class="row d-none" id="f2fSourceRow_update">
+                            <label for="f2fSource_update" class="form-label">Face To Face Inquiry Source <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <select name="inquirySourceType" id="f2fSource_review" class="form-select form-select-sm">
+                                <select name="inquirySourceType" id="f2fSource_update" class="form-select form-select-sm">
                                     <option value="" hidden selected disabled>--Select Source--</option>
                                     <option value="SHOWROOM WALK-IN">SHOWROOM WALK-IN</option>
                                     <option value="MALL DISPLAY">MALL DISPLAY</option>
@@ -271,10 +284,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row d-none" id="onlineSourceRow_review">
-                            <label for="onlineSource_review" class="form-label">Online Inquiry Source <span class="text-danger">*</span></label>
+                        <div class="row d-none" id="onlineSourceRow_update">
+                            <label for="onlineSource_update" class="form-label">Online Inquiry Source <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <select name="inquirySourceType" id="onlineSource_review" class="form-select form-select-sm">
+                                <select name="inquirySourceType" id="onlineSource_update" class="form-select form-select-sm">
                                     <option value="" hidden selected disabled>--Select Source--</option>
                                     <option value="TMR FB PAGE (TOYOTA MARILAO BULACAN INC.)">TMR FB PAGE (TOYOTA MARILAO BULACAN INC.)</option>
                                     <option value="MP FB PAGE (MP-TOYOTA MARILAO)">MP FB PAGE (MP-TOYOTA MARILAO)</option>
@@ -287,41 +300,41 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row d-none" id="mallDisplayRow_review">
-                            <label for="mallDisplay_review" class="form-label">Mall Display <span class="text-danger">*</span></label>
+                        <div class="row d-none" id="mallDisplayRow_update">
+                            <label for="mallDisplay_update" class="form-label">Mall Display <span class="text-danger">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <select name="mallDisplay" id="mallDisplay_review" class="form-select form-select-sm">
+                                <select name="mallDisplay" id="mallDisplay_update" class="form-select form-select-sm">
 
                                 </select>
                             </div>
                         </div>
                         <div class="row">
-                            <p class="form-label">Buyer Type <span class="text-danger" id="buyerTypeRequired_review">*</span></p>
+                            <p class="form-label">Buyer Type <span class="text-danger" id="buyerTypeRequired_update">*</span></p>
                             <div class="row d-flex form-group gap-2">
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup_review">
-                                    <input type="radio" name="buyerType" id="buyerType_first_review" value="FIRST-TIME">
-                                    <label for="buyerType_first_review" class="mb-0 flex-grow-1">FIRST-TIME</label>
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup_update">
+                                    <input type="radio" name="buyerType" id="buyerType_first_update" value="FIRST-TIME">
+                                    <label for="buyerType_first_update" class="mb-0 flex-grow-1">FIRST-TIME</label>
                                 </div>
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup_review">
-                                    <input type="radio" name="buyerType" id="buyerType_replacement_review" value="REPLACEMENT">
-                                    <label for="buyerType_replacement_review" class="mb-0 flex-grow-1">REPLACEMENT</label>
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup_update">
+                                    <input type="radio" name="buyerType" id="buyerType_replacement_update" value="REPLACEMENT">
+                                    <label for="buyerType_replacement_update" class="mb-0 flex-grow-1">REPLACEMENT</label>
                                 </div>
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup_review">
-                                    <input type="radio" name="buyerType" id="buyerType_additional_review" value="ADDITIONAL">
-                                    <label for="buyerType_additional_review" class="mb-0 flex-grow-1">ADDITIONAL</label>
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerTypeRadioGroup_update">
+                                    <input type="radio" name="buyerType" id="buyerType_additional_update" value="ADDITIONAL">
+                                    <label for="buyerType_additional_update" class="mb-0 flex-grow-1">ADDITIONAL</label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <label for="unitInquired_review" class="form-label">Unit Inquired <span class="text-danger">*</span></label>
+                            <label for="unitInquired_update" class="form-label">Unit Inquired <span class="text-danger" id="unitInquiredRequired_update">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <select name="unitInquired" id="unitInquired_review" class=" form-select form-select-sm" required></select>
+                                <select name="unitInquired" id="unitInquired_update" class=" form-select form-select-sm" required></select>
                             </div>
                         </div>
-                        <div class="row d-none" id="tamarawVariantRow_review">
-                            <label for="tamarawVariant_review" class="form-label">Tamaraw Variant <span class="text-danger">*</span></label>
+                        <div class="row d-none" id="tamarawVariantRow_update">
+                            <label for="tamarawVariant_update" class="form-label">Tamaraw Variant <span class="text-danger" id="tamarawVariantRequired_update">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <select name="tamarawVariant" id="tamarawVariant_review" class="form-select form-select-sm">
+                                <select name="tamarawVariant" id="tamarawVariant_update" class="form-select form-select-sm">
                                     <option value="" hidden selected disabled>--Select Tamaraw Variant--</option>
                                     <option value="GL DROP SIDE HI AT (LONG WHEEL BASE-DIESEL)">GL DROP SIDE HI AT (LONG WHEEL BASE-DIESEL)</option>
                                     <option value="UTILITY VAN FX MT (LONG WHEEL BASE-DIESEL)">UTILITY VAN FX MT (LONG WHEEL BASE-DIESEL)</option>
@@ -337,9 +350,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <label for="transactionType_review" class="form-label">Trasnsaction Type <span class="text-danger" id="transactionTypeRequired_review">*</span></label>
+                            <label for="transactionType_update" class="form-label">Trasnsaction Type <span class="text-danger" id="transactionTypeRequired_update">*</span></label>
                             <div class="row d-flex gap-2">
-                                <select name="transactionType" id="transactionType_review" class="form-select form-select-sm" required>
+                                <select name="transactionType" id="transactionType_update" class="form-select form-select-sm" required>
                                     <option value="" hidden selected disabled>--Select Transaction Type--</option>
                                     <option value="FINANCING">FINANCING</option>
                                     <option value="BANK PO">BANK PO</option>
@@ -351,77 +364,77 @@
                             </div>
                         </div>
                         <div class="row">
-                            <p class="form-label">With Application <span class="text-danger" id="hasApplicationRequired_review">*</span></p>
+                            <p class="form-label">With Application <span class="text-danger" id="hasApplicationRequired_update">*</span></p>
                             <div class="row d-flex form-group gap-2">
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasApplicationRadioGroup_review">
-                                    <input type="radio" name="hasApplication" id="hasApplication_yes_review" value="YES">
-                                    <label for="hasApplication_yes_review" class="mb-0 flex-grow-1">YES</label>
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasApplicationRadioGroup_update">
+                                    <input type="radio" name="hasApplication" id="hasApplication_yes_update" value="YES">
+                                    <label for="hasApplication_yes_update" class="mb-0 flex-grow-1">YES</label>
                                 </div>
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasApplicationRadioGroup_review">
-                                    <input type="radio" name="hasApplication" id="hasApplication_no_review" value="NO">
-                                    <label for="hasApplication_no_review" class="mb-0 flex-grow-1">NO</label>
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasApplicationRadioGroup_update">
+                                    <input type="radio" name="hasApplication" id="hasApplication_no_update" value="NO">
+                                    <label for="hasApplication_no_update" class="mb-0 flex-grow-1">NO</label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <p class="form-label">With Reservation <span class="text-danger" id="hasReservationRequired_review">*</span></p>
+                            <p class="form-label">With Reservation <span class="text-danger" id="hasReservationRequired_update">*</span></p>
                             <div class="row d-flex form-group gap-2">
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasReservationRadioGroup_review">
-                                    <input type="radio" name="hasReservation" id="hasReservation_yes_review" value="YES">
-                                    <label for="hasReservation_yes_review" class="mb-0 flex-grow-1">YES</label>
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasReservationRadioGroup_update">
+                                    <input type="radio" name="hasReservation" id="hasReservation_yes_update" value="YES">
+                                    <label for="hasReservation_yes_update" class="mb-0 flex-grow-1">YES</label>
                                 </div>
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasReservationRadioGroup_review">
-                                    <input type="radio" name="hasReservation" id="hasReservation_no_review" value="NO">
-                                    <label for="hasReservation_no_review" class="mb-0 flex-grow-1">NO</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row d-none" id="reservationDateRow_review">
-                            <label for="reservationDate_review" class="form-label">Date of Reservation <span class="text-danger" id="reservationDateRequired_review">*</span></label>
-                            <div class="row d-flex form-group gap-2">
-                                <input type="date" name="reservationDate" id="reservationDate_review" class="form-control form-control-sm">
-                            </div>
-                        </div>
-                        <div class="row d-none" id="additionalUnitRow_review">
-                            <label for="additionalUnit_review" class="form-label">Additional Unit Currently used for Business <span class="text-danger" id="additionalUnitRequired_review">*</span></label>
-                            <div class="row d-flex form-group gap-2">
-                                <input type="text" name="additionalUnit" id="additionalUnit_review" class="form-control form-control-sm">
-                            </div>
-                        </div>
-                        <div class="row d-none" id="tamarawSpecificUsageRow_review">
-                            <label for="tamarawSpecificUsage_review" class="form-label">Specific Purpose or Usage of Tamaraw <span class="text-danger" id="tamarawSpecificUsageRequired_review">*</span></label>
-                            <div class="row d-flex form-group gap-2">
-                                <input type="text" name="tamarawSpecificUsage" id="tamarawSpecificUsage_review" class="form-control form-control-sm">
-                            </div>
-                        </div>
-                        <div class="row d-none" id="buyerDecisionHoldRow_review">
-                            <p class="form-label">Buyer's Decision on hold? <span class="text-danger" id="buyerDecisionHoldRequired_review">*</span></p>
-                            <div class="row d-flex form-group gap-2">
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerDecisionHoldRadioGroup_review">
-                                    <input type="radio" name="buyerDecisionHold" id="buyerDecisionHold_yes_review" value="YES">
-                                    <label for="buyerDecisionHold_yes_review" class="mb-0 flex-grow-1">YES</label>
-                                </div>
-                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerDecisionHoldRadioGroup_review">
-                                    <input type="radio" name="buyerDecisionHold" id="buyerDecisionHold_no_review" value="NO">
-                                    <label for="buyerDecisionHold_no_review" class="mb-0 flex-grow-1">NO</label>
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 hasReservationRadioGroup_update">
+                                    <input type="radio" name="hasReservation" id="hasReservation_no_update" value="NO">
+                                    <label for="hasReservation_no_update" class="mb-0 flex-grow-1">NO</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="row d-none" id="buyerDecisionHoldReasonRow_review">
-                            <label for="buyerDecisionHoldReason_review" class="form-label">Reason why the client's buying decision is on hold <span class="text-danger" id="buyerDecisionHoldReasonRequired_review">*</span></label>
+                        <div class="row d-none" id="reservationDateRow_update">
+                            <label for="reservationDate_update" class="form-label">Date of Reservation <span class="text-danger" id="reservationDateRequired_update">*</span></label>
                             <div class="row d-flex form-group gap-2">
-                                <input type="text" name="buyerDecisionHoldReason" id="buyerDecisionHoldReason_review" class="form-control form-control-sm">
+                                <input type="date" name="reservationDate" id="reservationDate_update" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="row d-none" id="additionalUnitRow_update">
+                            <label for="additionalUnit_update" class="form-label">Additional Unit Currently used for Business <span class="text-danger" id="additionalUnitRequired_update">*</span></label>
+                            <div class="row d-flex form-group gap-2">
+                                <input type="text" name="additionalUnit" id="additionalUnit_update" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="row d-none" id="tamarawSpecificUsageRow_update">
+                            <label for="tamarawSpecificUsage_update" class="form-label">Specific Purpose or Usage of Tamaraw <span class="text-danger" id="tamarawSpecificUsageRequired_update">*</span></label>
+                            <div class="row d-flex form-group gap-2">
+                                <input type="text" name="tamarawSpecificUsage" id="tamarawSpecificUsage_update" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="row d-none" id="buyerDecisionHoldRow_update">
+                            <p class="form-label">Buyer's Decision on hold? <span class="text-danger" id="buyerDecisionHoldRequired_update">*</span></p>
+                            <div class="row d-flex form-group gap-2">
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerDecisionHoldRadioGroup_update">
+                                    <input type="radio" name="buyerDecisionHold" id="buyerDecisionHold_yes_update" value="YES">
+                                    <label for="buyerDecisionHold_yes_update" class="mb-0 flex-grow-1">YES</label>
+                                </div>
+                                <div class="col justify-content-center align-items-center radio-column py-1 pr-0 d-flex gap-2 buyerDecisionHoldRadioGroup_update">
+                                    <input type="radio" name="buyerDecisionHold" id="buyerDecisionHold_no_update" value="NO">
+                                    <label for="buyerDecisionHold_no_update" class="mb-0 flex-grow-1">NO</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row d-none" id="buyerDecisionHoldReasonRow_update">
+                            <label for="buyerDecisionHoldReason_update" class="form-label">Reason why the client's buying decision is on hold <span class="text-danger" id="buyerDecisionHoldReasonRequired_update">*</span></label>
+                            <div class="row d-flex form-group gap-2">
+                                <input type="text" name="buyerDecisionHoldReason" id="buyerDecisionHoldReason_update" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="row">
                             <p class="form-label">Set an Appointment (For the next call)</p>
                             <div class="row d-flex form-group gap-2">
-                                <label for="appointmentDate_review">Appintment Date <span class="text-danger">*</span></label>
-                                <input type="date" name="appointmentDate" id="appointmentDate_review" class="form-control form-control-sm" required>
+                                <label for="appointmentDate_update">New Appintment Date <span class="text-danger" id="appointmentDateRequired_update">*</span></label>
+                                <input type="date" name="appointmentDate" id="appointmentDate_update" class="form-control form-control-sm" required>
                             </div>
                             <div class="row d-flex form-group gap-2">
-                                <label for="appointmentTime_review" class="mb-0 flex-grow-1">Appointment Time <span class="text-danger">*</span></label>
-                                <select name="appointmentTime" id="appointmentTime_review" class="form-select form-select-sm" required>
+                                <label for="appointmentTime_update" class="mb-0 flex-grow-1">New Appointment Time <span class="text-danger" id="appointmentTimeRequired_update">*</span></label>
+                                <select name="appointmentTime" id="appointmentTime_update" class="form-select form-select-sm" required>
                                     <option value="" disabled selected>--Select Time--</option>
                                     <!-- Morning -->
                                     <option value="08:00 AM">08:00 AM</option>
@@ -450,9 +463,9 @@
                         </div>
                     </div>
                 </div>
+                <input type="hidden" name="inquiryId" id="inquiryId_update">
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="previousBtn_review"><i class="fa-solid fa-backward-step"></i> Previous</button>
-                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-memo-pad"></i> Save Inquiry</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-memo-circle-check"></i> Save Inquiry</button>
                 </div>
             </div>
         </form>

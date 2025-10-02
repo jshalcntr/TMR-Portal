@@ -4,10 +4,17 @@ include('../dbconn.php');
 
 header('Content-Type: application/json');
 
-$sql = "SELECT prospect_type, COUNT(*) as count 
-        FROM sales_inquiries_tbl 
-        WHERE prospect_type IN ('HOT', 'WARM', 'COLD', 'LOST') AND agent_id = ?
-        GROUP BY prospect_type";
+$sql = "SELECT prospect_type, COUNT(*) as count
+        FROM sales_inquiries_history_tbl
+        JOIN 
+            (SELECT inquiry_id, MAX(version) as max_version
+                FROM sales_inquiries_history_tbl
+                GROUP BY inquiry_id) latest
+            ON sales_inquiries_history_tbl.inquiry_id = latest.inquiry_id AND sales_inquiries_history_tbl.version = latest.max_version
+        JOIN sales_inquiries_tbl
+            ON sales_inquiries_history_tbl.inquiry_id = sales_inquiries_tbl.inquiry_id
+        WHERE prospect_type IN ('HOT', 'WARM', 'COLD', 'LOST')
+            AND sales_inquiries_tbl.agent_id = ? GROUP BY prospect_type;";
 
 $stmt = $conn->prepare($sql);
 if (!$stmt) {

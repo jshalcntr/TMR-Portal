@@ -4,19 +4,27 @@ include('../dbconn.php');
 include('../middleware/pipes.php');
 header('Content-Type: application/json');
 
-$sql = "SELECT
-        sales_inquiries_tbl.prospect_type,
-        sales_inquiries_tbl.inquiry_date,
-        sales_inquiries_tbl.unit_inquired,
-        sales_inquiries_tbl.appointment_date,
-        sales_inquiries_tbl.appointment_time,
-        sales_inquiries_tbl.inquiry_id,
+$sql = "SELECT 
+        sales_inquiries_history_tbl.prospect_type,
+        sales_inquiries_history_tbl.inquiry_date,
+        sales_inquiries_history_tbl.unit_inquired,
+        sales_inquiries_history_tbl.appointment_date,
+        sales_inquiries_history_tbl.appointment_time,
+        sales_inquiries_history_tbl.inquiry_id,
         sales_customers_tbl.customer_firstname,
         sales_customers_tbl.customer_middlename,
         sales_customers_tbl.customer_lastname
-        FROM sales_inquiries_tbl
-        JOIN sales_customers_tbl ON sales_inquiries_tbl.customer_id = sales_customers_tbl.customer_id
-        WHERE agent_id = ? AND  prospect_type = ?
+        FROM sales_inquiries_history_tbl
+        JOIN
+            (SELECT inquiry_id, MAX(version) as max_version
+                FROM sales_inquiries_history_tbl
+                GROUP BY inquiry_id) latest
+            ON sales_inquiries_history_tbl.inquiry_id = latest.inquiry_id AND sales_inquiries_history_tbl.version = latest.max_version
+        JOIN sales_inquiries_tbl
+            ON sales_inquiries_history_tbl.inquiry_id = sales_inquiries_tbl.inquiry_id
+        JOIN sales_customers_tbl
+            ON sales_inquiries_tbl.customer_id = sales_customers_tbl.customer_id
+        WHERE sales_inquiries_tbl.agent_id = ? AND sales_inquiries_history_tbl.prospect_type = ?
 ";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {

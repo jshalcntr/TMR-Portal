@@ -2,6 +2,26 @@ $(document).ready(function () {
     function populateInquiryFields() {
         $.ajax({
             type: "GET",
+            url: "../../backend/sales-management/getAllMalls.php",
+            success: function (response) {
+                if (response.status === "internal-error") {
+                    Swal.fire({
+                        title: 'Error! ',
+                        text: `${response.message}`,
+                        icon: 'error',
+                        confirmButtonColor: 'var(--bs-danger)'
+                    })
+                } else if (response.status === "success") {
+                    const malls = response.data;
+                    $("#mallDisplay_review").empty().append(`<option value="">--Select Mall--</option>`);
+                    malls.forEach(mall => {
+                        $("#mallDisplay_review").append(`<option value="${mall.mall_name}">${mall.mall_name}</option>`);
+                    });
+                }
+            }
+        });
+        $.ajax({
+            type: "GET",
             dataType: "json",
             url: "https://psgc.gitlab.io/api/provinces/",
             success: function (response) {
@@ -110,37 +130,37 @@ $(document).ready(function () {
         });
     }
     function migrateInquiryData() {
-        const prospectType = $('input[name="prospectType"]:checked').val();
+        const prospectType = $('#createInquiryForm input[name="prospectType"]:checked').val();
         const customerFirstName = $("#customerFirstName").val();
         const customerMiddleName = $("#customerMiddleName").val();
         const customerLastName = $("#customerLastName").val();
         const street = $("#street").val();
         const contactNumber = $("#contactNumber").val();
-        const gender = $('input[name="gender"]:checked').val();
-        const maritalStatus = $('input[name="maritalStatus"]:checked').val();
+        const gender = $('#createInquiryForm input[name="gender"]:checked').val();
+        const maritalStatus = $('#createInquiryForm input[name="maritalStatus"]:checked').val();
         const maritalStatusOther = $("#maritalStatusOtherInput").val();
         const birthday = $("#birthday").val();
-        const occupation = $('input[name="occupation"]:checked').val();
+        const occupation = $('#createInquiryForm input[name="occupation"]:checked').val();
         const businessName = $("#businessName").val();
         const occupationStreet = $("#occupationStreet").val();
-        const businessCategory = $('input[name="businessCategory"]:checked').val();
-        const businessSize = $('input[name="businessSize"]:checked').val();
-        const monthlyAverage = $('input[name="monthlyAverage"]:checked').val();
+        const businessCategory = $('#createInquiryForm input[name="businessCategory"]:checked').val();
+        const businessSize = $('#createInquiryForm input[name="businessSize"]:checked').val();
+        const monthlyAverage = $('#createInquiryForm input[name="monthlyAverage"]:checked').val();
 
         const inquiryDate = $('#inquiryDate').val();
-        const inquirySource = $('input[name="inquirySource"]:checked').val();
-        const inquirySourceType = $('input[name="inquirySourceType"]:checked').val();
+        const inquirySource = $('#createInquiryForm input[name="inquirySource"]:checked').val();
+        const inquirySourceType = $('#createInquiryForm input[name="inquirySourceType"]:checked').val();
         const mallDisplay = $("#mallDisplay").val();
-        const buyerType = $('input[name="buyerType"]:checked').val();
+        const buyerType = $('#createInquiryForm input[name="buyerType"]:checked').val();
         const unitInquired = $("#unitInquired").val();
-        const tamarawVariant = $('input[name="tamarawVariant"]:checked').val();
-        const transactionType = $('input[name="transactionType"]:checked').val();
-        const hasApplication = $('input[name="hasApplication"]:checked').val();
-        const hasReservation = $('input[name="hasReservation"]:checked').val();
+        const tamarawVariant = $('#createInquiryForm input[name="tamarawVariant"]:checked').val();
+        const transactionType = $('#createInquiryForm input[name="transactionType"]:checked').val();
+        const hasApplication = $('#createInquiryForm input[name="hasApplication"]:checked').val();
+        const hasReservation = $('#createInquiryForm input[name="hasReservation"]:checked').val();
         const reservationDate = $('#reservationDate').val();
         const additionalUnit = $("#additionalUnit").val();
         const tamarawSpecificUsage = $("#tamarawSpecificUsage").val();
-        const buyerDecisionHold = $('input[name="buyerDecisionHold"]:checked').val();
+        const buyerDecisionHold = $('#createInquiryForm input[name="buyerDecisionHold"]:checked').val();
         const buyerDecisionHoldReason = $("#buyerDecisionHoldReason").val();
         const appointmentDate = $("#appointmentDate").val();
         const appointmentTime = $("#appointmentTime").val();
@@ -193,6 +213,7 @@ $(document).ready(function () {
         } else if (prospectType === "COLD") {
             $("#prospectType_cold_review").prop('checked', true);
         }
+        $("#reviewInquiryForm input[name='prospectType']").trigger('change');
         $("#customerFirstName_review").val(customerFirstName);
         $("#customerMiddleName_review").val(customerMiddleName);
         $("#customerLastName_review").val(customerLastName);
@@ -268,7 +289,7 @@ $(document).ready(function () {
 
     populateInquiryFields();
 
-    $("input[name='prospectType']").on('change', function () {
+    $("#reviewInquiryForm input[name='prospectType']").on('change', function () {
         if ($(this).val() === "COLD") {
             $("#maritalStatusRequired_review").addClass("d-none");
             $("#birthdayRequired_review").addClass("d-none");
@@ -303,6 +324,7 @@ $(document).ready(function () {
             $("#monthlyAverage_review").prop("required", false);
             $("#transactionType_review").prop("required", false);
             $("#additionalUnit_review").prop("required", false);
+            $("#tamarawVariant_review").prop("required", false);
             $("#tamarawSpecificUsage_review").prop("required", false);
             $("#buyerDecisionHoldReason_review").prop("required", false);
         } else {
@@ -345,12 +367,13 @@ $(document).ready(function () {
                 $("#occupationBarangay_review").prop("required", true);
             }
             if ($("#unitInquired_review").val() === "TAMARAW") {
+                $("#tamarawVariant_review").prop("required", true);
                 $("#tamarawSpecificUsage_review").prop("required", true);
             }
             if ($("#unitInquired_review").val() === "TAMARAW" && $("#occupation_review").val() === "BUSINESS OWNER") {
                 $("#additionalUnit_review").prop("required", true);
             }
-            if ($("#unitInquired_review").val() === "TAMARAW" && $("input[name='buyerDecisionHold']:checked").val() === "YES") {
+            if ($("#unitInquired_review").val() === "TAMARAW" && $("#reviewInquiryForm input[name='buyerDecisionHold']:checked").val() === "YES") {
                 $("#buyerDecisionHoldReason_review").prop("required", true);
 
             }
@@ -498,14 +521,12 @@ $(document).ready(function () {
     // 
     $(document).on("change", "#occupation_review", function () {
         const val = $(this).val();
-        const prospectType = $("input[name='prospectType']:checked").val();
+        const prospectType = $("#reviewInquiryForm input[name='prospectType']:checked").val();
         const unitInquired = $("#unitInquired_review").val();
 
         $(".occupationLabel").text("Occupation");
-        $("#businessCategoryRow_review, #businessSizeRow_review, #businessNameRow_review, #businessAddressRow_review, #additionalUnitRow_review")
-            .addClass("d-none");
-        $("#businessCategory_review, #businessSize_review, #businessName_review, #additionalUnit_review")
-            .prop("required", false);
+        $("#businessCategoryRow_review, #businessSizeRow_review, #businessNameRow_review, #businessAddressRow_review, #additionalUnitRow_review").addClass("d-none");
+        $("#businessCategory_review, #businessSize_review, #businessName_review, #additionalUnit_review").prop("required", false);
 
         if (prospectType !== "COLD") {
             $("#occupationProvince_review, #occupationMunicipality_review, #occupationBarangay_review").prop('required', true);
@@ -528,16 +549,13 @@ $(document).ready(function () {
                     $("#additionalUnit_review").prop("required", true);
                 }
             }
-        }
-        else if (val === "EMPLOYED" || val === "OFW/SEAMAN") {
+        } else if (val === "EMPLOYED" || val === "OFW/SEAMAN") {
             $(".occupationLabel").text("Employer");
 
             $("#businessNameRow_review, #businessAddressRow_review").removeClass("d-none");
-        }
-        else if (val === "FREELANCER") {
+        } else if (val === "FREELANCER") {
             $("#occupationProvince_review, #occupationMunicipality_review, #occupationBarangay_review").prop('required', false);
-        }
-        else {
+        } else {
             if (val === "FAMILY SUPPORT/GIFT/DONATION") {
                 $(".occupationLabel").text("Sponsor");
             } else if (val === "PENSIONER") {
@@ -589,7 +607,7 @@ $(document).ready(function () {
         if ($(this).val() === "TAMARAW") {
             if ($("#tamarawVariantRow_review").hasClass('d-none')) {
                 $("#tamarawVariantRow_review").removeClass('d-none');
-                if ($("input[name='prospectType']:checked").val() !== "COLD") {
+                if ($("#reviewInquiryForm input[name='prospectType']:checked").val() !== "COLD") {
                     $("#tamarawVariant_review").prop('required', true);
                     $("#tamarawSpecificUsage_review").prop('required', true);
                 }
@@ -600,7 +618,7 @@ $(document).ready(function () {
             }
             if ($("#occupation_review").val() === "BUSINESS OWNER") {
                 $("#additionalUnitRow_review").removeClass("d-none");
-                if ($("input[name='prospectType']:checked").val() !== "COLD") {
+                if ($("#reviewInquiryForm input[name='prospectType']:checked").val() !== "COLD") {
                     $("#additionalUnit_review").prop("required", true);
                 }
             }
@@ -641,7 +659,7 @@ $(document).ready(function () {
         if ($(this).val() === "YES") {
             if ($("#buyerDecisionHoldReasonRow_review").hasClass('d-none')) {
                 $("#buyerDecisionHoldReasonRow_review").removeClass('d-none');
-                if ($("input[name='prospectType']:checked").val() !== "COLD") {
+                if ($("#reviewInquiryForm input[name='prospectType']:checked").val() !== "COLD") {
                     $("#buyerDecisionHoldReason_review").prop("required", true);
                 }
             }
@@ -665,16 +683,16 @@ $(document).ready(function () {
         $("#reviewInquiryForm").removeClass("was-validated");
 
         let firstValidity = !this.checkValidity();
-        let secondValidity = !$("input[name='gender']:checked").val();
+        let secondValidity = !$("#reviewInquiryForm input[name='gender']:checked").val();
         let thirdValidity;
         let fourthValidity;
 
-        if ($("input[name='prospectType']:checked").val() !== "COLD") {
-            thirdValidity = !$("input[name='buyerType']:checked").val() ||
-                !$("input[name='hasApplication']:checked").val() ||
-                !$("input[name='hasReservation']:checked").val();
+        if ($("#reviewInquiryForm input[name='prospectType']:checked").val() !== "COLD") {
+            thirdValidity = !$("#reviewInquiryForm input[name='buyerType']:checked").val() ||
+                !$("#reviewInquiryForm input[name='hasApplication']:checked").val() ||
+                !$("#reviewInquiryForm input[name='hasReservation']:checked").val();
             fourthValidity = $("#unitInquired_review").val() === "TAMARAW" &&
-                !$("input[name='buyerDecisionHold']:checked").val();
+                !$("#reviewInquiryForm input[name='buyerDecisionHold']:checked").val();
         } else {
             thirdValidity = false;
             fourthValidity = false;
@@ -682,7 +700,6 @@ $(document).ready(function () {
 
         if (firstValidity || secondValidity || thirdValidity || fourthValidity) {
             e.stopPropagation();
-            console.log("FAILED");
         } else {
             $.ajax({
                 type: "POST",
@@ -714,32 +731,32 @@ $(document).ready(function () {
             });
         }
         $(this).addClass('was-validated');
-        if (!$("input[name='prospectType']:checked").val()) {
+        if (!$("#reviewInquiryForm input[name='prospectType']:checked").val()) {
             $(".prospectRadioGroup_review").addClass("radio-invalid");
         } else {
             $(".prospectRadioGroup_review").removeClass("radio-invalid");
         }
-        if (!$("input[name='gender']:checked").val()) {
+        if (!$("#reviewInquiryForm input[name='gender']:checked").val()) {
             $(".genderRadioGroup_review").addClass("radio-invalid");
         } else {
             $(".genderRadioGroup_review").removeClass("radio-invalid");
         }
-        if (!$("input[name='buyerType']:checked").val() && $("input[name='prospectType']:checked").val() !== "COLD") {
+        if (!$("#reviewInquiryForm input[name='buyerType']:checked").val() && $("#reviewInquiryForm input[name='prospectType']:checked").val() !== "COLD") {
             $(".buyerTypeRadioGroup_review").addClass("radio-invalid");
         } else {
             $(".buyerTypeRadioGroup_review").removeClass("radio-invalid");
         }
-        if (!$("input[name='hasApplication']:checked").val() && $("input[name='prospectType']:checked").val() !== "COLD") {
+        if (!$("#reviewInquiryForm input[name='hasApplication']:checked").val() && $("#reviewInquiryForm input[name='prospectType']:checked").val() !== "COLD") {
             $(".hasApplicationRadioGroup_review").addClass("radio-invalid");
         } else {
             $(".hasApplicationRadioGroup_review").removeClass("radio-invalid");
         }
-        if (!$("input[name='hasReservation']:checked").val() && $("input[name='prospectType']:checked").val() !== "COLD") {
+        if (!$("#reviewInquiryForm input[name='hasReservation']:checked").val() && $("#reviewInquiryForm input[name='prospectType']:checked").val() !== "COLD") {
             $(".hasReservationRadioGroup_review").addClass("radio-invalid");
         } else {
             $(".hasReservationRadioGroup_review").removeClass("radio-invalid");
         }
-        if ($("#unitInquired_review").val() === "TAMARAW" && !$("input[name='buyerDecisionHold']:checked").val() && $("input[name='prospectType']:checked").val() !== "COLD") {
+        if ($("#unitInquired_review").val() === "TAMARAW" && !$("#reviewInquiryForm input[name='buyerDecisionHold']:checked").val() && $("#reviewInquiryForm input[name='prospectType']:checked").val() !== "COLD") {
             $(".buyerDecisionHoldRadioGroup_review").addClass("radio-invalid");
         } else {
             $(".buyerDecisionHoldRadioGroup_review").removeClass("radio-invalid");
