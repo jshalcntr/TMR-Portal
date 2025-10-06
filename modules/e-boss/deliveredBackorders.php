@@ -19,7 +19,6 @@ if (authorize(true, $conn)) {
     header("Location: ../../index.php");
 }
 
-
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +31,7 @@ if (authorize(true, $conn)) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>E-BOSS</title>
+    <title>E-BOSS - Delivered Backorders</title>
 
     <?php include "../components/shared/external-css-import.php" ?>
     <link rel="stylesheet" href="../../assets/css/custom/e-boss/e-boss.css">
@@ -46,19 +45,18 @@ if (authorize(true, $conn)) {
                 <?php include "../components/shared/topbar.php" ?>
                 <div class="container-fluid">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h1 class="h3 mb-2 text-gray-800">Backorders Status System</h1>
+                        <h1 class="h3 mb-2 text-gray-800">Delivered Backorders</h1>
                         <div class="d-flex align-items-center">
-                            <a href="#" class="btn btn-sm btn-primary shadow-sm mr-2" data-bs-toggle="modal" data-bs-target="#addBackorderModal">
-                                <i class="fas fa-edit fa-sm"></i> Add Backorder
-                            </a>
+                            <a href="backorders.php" class="btn btn-sm btn-outline-primary shadow-sm mr-2"><i class="fas fa-list fa-sm"></i> Backorders</a>
                             <a href="cancelledBackorders.php" class="btn btn-sm btn-outline-primary shadow-sm mr-2"><i class="fas fa-cancel fa-sm"></i> Cancelled Backorder</a>
                             <a href="deletedBackorders.php" class="btn btn-sm btn-outline-primary shadow-sm mr-2"><i class="fas fa-trash fa-sm"></i> Deleted Backorder</a>
-                            <a href="deliveredBackorders.php" class="btn btn-sm btn-outline-primary shadow-sm mr-2"><i class="fas fa-check fa-sm"></i> Delivered Backorder</a>
+                            <a href="deliveredBackorders.php" class="btn btn-sm btn-primary shadow-sm mr-2"><i class="fas fa-check fa-sm"></i> Delivered Backorder</a>
                             <button class="btn btn-sm btn-primary shadow-sm" id="exportBtn">
                                 <i class="fas fa-download fa-sm"></i> Export Excel
                             </button>
                         </div>
                     </div>
+
                     <!-- Bulk Operations -->
                     <div class="card shadow mb-4" id="bulkOperations" style="display: none;">
                         <div class="card-body">
@@ -66,14 +64,8 @@ if (authorize(true, $conn)) {
                                 <strong>Bulk Operations:</strong>
                                 <span id="selectedCount">0</span> item(s) selected
                                 <div class="btn-group ms-3" role="group">
-                                    <button class="btn btn-sm btn-info" id="bulkEtaBtn">
-                                        <i class="fas fa-calendar"></i> Update ETA (+15 days)
-                                    </button>
-                                    <button class="btn btn-sm btn-warning" id="bulkCancelBtn">
-                                        <i class="fas fa-ban"></i> Cancel Selected
-                                    </button>
-                                    <button class="btn btn-sm btn-primary" id="bulkDeliverBtn">
-                                        <i class="fas fa-check"></i> Mark as Delivered
+                                    <button class="btn btn-sm btn-warning" id="bulkRestoreBtn">
+                                        <i class="fas fa-undo"></i> Restore Selected
                                     </button>
                                     <button class="btn btn-sm btn-danger" id="bulkDeleteBtn">
                                         <i class="fas fa-trash"></i> Delete Selected
@@ -112,12 +104,12 @@ if (authorize(true, $conn)) {
                                             <th>UNIT STATUS</th>
                                             <th>REMARKS</th>
                                             <th>ORDER STATUS</th>
+                                            <th>DELIVERY DATE</th>
                                             <th>ACTION</th>
                                         </tr>
                                     </thead>
                                 </table>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -125,14 +117,11 @@ if (authorize(true, $conn)) {
         </div>
     </div>
 
-    <!-- <?php include '../components/shared/logoutModal.php'; ?> -->
-    <?php include '../components/e-boss/addBackorderModal.php'; ?>
     <?php include '../components/e-boss/actionsModal.php'; ?>
 </body>
 <?php include '../components/shared/external-js-import.php'; ?>
-<script src="../../assets/js/e-boss/backordersRecords.js"></script>
+<script src="../../assets/js/e-boss/deliveredBackorders.js"></script>
 <script src="../../assets/js/e-boss/backorderActions.js"></script>
-<script src="../../assets/js/e-boss/addBackorders.js"></script>
 <script src="../../assets/js/e-boss/getServiceEstimator.js"></script>
 
 </html>

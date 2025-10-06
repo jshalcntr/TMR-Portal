@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 
 // Fetch all orders first
 $query = "SELECT *, (qty * bo_price) AS total 
-          FROM backorders_tbl ORDER BY order_date DESC";
+          FROM backorders_tbl WHERE order_status != 'Cancelled' AND order_status != 'Delivered' AND is_deleted = 0 ORDER BY order_date DESC";
 
 $result = mysqli_query($conn, $query);
 
@@ -22,34 +22,16 @@ while ($row = mysqli_fetch_assoc($result)) {
 
     if ($eta1) {
         $today = new DateTime();
+        $finalEta = $eta1; // Always use ETA_1 as the final ETA
 
-        if ($today <= $eta1) {
-            // Not overdue, use eta_1
-            $finalEta = $eta1;
-        } else {
-            // Overdue: add 15 days = eta_2
-            $eta2 = (clone $eta1)->modify('+15 days');
+        // Check if we have ETA_2 or ETA_3 from previous manual updates
+        if (!empty($row['eta_2'])) {
+            $eta2 = new DateTime($row['eta_2']);
             $finalEta = $eta2;
-
-            if (empty($row['eta_2'])) {
-                $update = "UPDATE backorders_tbl 
-                           SET eta_2 = '" . $eta2->format('Y-m-d') . "' 
-                           WHERE id = " . $row['id'];
-                mysqli_query($conn, $update);
-            }
-
-            if ($today > $eta2) {
-                // Overdue again: add another 15 days = eta_3
-                $eta3 = (clone $eta2)->modify('+15 days');
-                $finalEta = $eta3;
-
-                if (empty($row['eta_3'])) {
-                    $update = "UPDATE backorders_tbl 
-                               SET eta_3 = '" . $eta3->format('Y-m-d') . "' 
-                               WHERE id = " . $row['id'];
-                    mysqli_query($conn, $update);
-                }
-            }
+        }
+        if (!empty($row['eta_3'])) {
+            $eta3 = new DateTime($row['eta_3']);
+            $finalEta = $eta3;
         }
 
         // ✅ Human-readable aging
@@ -69,7 +51,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
         $aging = implode(", ", $parts);
 
-        // Determine row class
+        // Determine row class - simple overdue logic
         if ($today > $finalEta) {
             $rowClass = "table-danger"; // overdue
         } else {
@@ -86,9 +68,62 @@ while ($row = mysqli_fetch_assoc($result)) {
     $row['eta_2']    = $eta2 ? $eta2->format('m/d/Y') : ($row['eta_2'] ? (new DateTime($row['eta_2']))->format('m/d/Y') : null);
     $row['eta_3']    = $eta3 ? $eta3->format('m/d/Y') : ($row['eta_3'] ? (new DateTime($row['eta_3']))->format('m/d/Y') : null);
     $row['rowClass'] = $rowClass;
+    // Determine ETA button data attributes and color based on confirmation status
+    $etaButtonClass = "btn-primary"; // Default blue
+    $etaButtonData = 'data-id="' . $row['id'] . '"';
+    $currentEtaDate = $finalEta ? $finalEta->format('Y-m-d') : "";
+    $needsConfirmation = false;
+
+    // Check if ETA is overdue and needs confirmation
+    if ($today > $finalEta) {
+        // Check if we're using ETA_2 and it's not confirmed
+        if (!empty($row['eta_2']) && !$row['eta_2_confirmed']) {
+            $needsConfirmation = true;
+            $etaButtonData .= ' data-eta-type="eta_2"';
+        }
+        // Check if we're using ETA_3 and it's not confirmed
+        elseif (!empty($row['eta_3']) && !$row['eta_3_confirmed']) {
+            $needsConfirmation = true;
+            $etaButtonData .= ' data-eta-type="eta_3"';
+        }
+        // If ETA_1 is overdue and no ETA_2 exists yet
+        elseif (empty($row['eta_2'])) {
+            $needsConfirmation = true;
+            $etaButtonData .= ' data-eta-type="eta_2"';
+        }
+        // If ETA_2 exists but no ETA_3 yet
+        elseif (!empty($row['eta_2']) && empty($row['eta_3'])) {
+            $needsConfirmation = true;
+            $etaButtonData .= ' data-eta-type="eta_3"';
+        }
+        // All ETAs exist, update ETA_3
+        else {
+            $etaButtonData .= ' data-eta-type="eta_3"';
+        }
+    } else {
+        // Not overdue, determine which ETA field to update next
+        if (empty($row['eta_2'])) {
+            $etaButtonData .= ' data-eta-type="eta_2"';
+        } elseif (empty($row['eta_3'])) {
+            $etaButtonData .= ' data-eta-type="eta_3"';
+        } else {
+            $etaButtonData .= ' data-eta-type="eta_3"';
+        }
+    }
+
+    // Set button color based on confirmation status
+    if ($needsConfirmation) {
+        $etaButtonClass = "btn-warning"; // Yellow when needs confirmation
+    }
+
+    // Add current ETA date to button data
+    if ($currentEtaDate) {
+        $etaButtonData .= ' data-current-eta="' . $currentEtaDate . '"';
+    }
+
     $row['action'] = '
     <div class="btn-group" role="group">
-        <button class="btn btn-sm btn-primary updateEtaBtn" data-id="' . $row['id'] . '">
+        <button class="btn btn-sm ' . $etaButtonClass . ' updateEtaBtn" ' . $etaButtonData . ' title="Update ETA">
             <i class="fa fa-calendar fa-sm"></i>
         </button>
         <button type="button" class="btn btn-sm btn-info viewBtn" data-id="' . $row['id'] . '">

@@ -13,11 +13,13 @@ $(document).ready(function () {
             return;
         }
         
-        let table = $('#backordersRecordsTable').DataTable({
+        let table;
+        try {
+            table = $('#backordersRecordsTable').DataTable({
         processing: true,
         serverSide: false,
         ajax: {
-            url: '../../backend/e-boss/fetchBackorders.php',
+            url: '../../backend/e-boss/fetchCancelledBackorders.php',
             type: 'GET',
             error: function(xhr, error, thrown) {
                 console.error('DataTable AJAX error:', error, thrown);
@@ -55,6 +57,7 @@ $(document).ready(function () {
             { data: 'unit_status' },
             { data: 'remarks' },
             { data: 'order_status' },
+            { data: 'cancel_reason' },
             { data: 'action' }
         ],
         rowCallback: function (row, data) {
@@ -95,22 +98,31 @@ $(document).ready(function () {
                 targets: 0,
                 className: 'text-center',
                 width: '50px'
+            },
+            {
+                targets: -1, // Last column (action)
+                orderable: false,
+                searchable: false
             }
         ],
         order: [[2, 'desc']],
         responsive: true,
         pageLength: 25
     });
-
+        } catch (error) {
+            console.error('DataTable initialization error:', error);
+            alert('Error initializing table: ' + error.message);
+            return;
+        }
 
     // Export functionality
     $('#exportBtn').on('click', function() {
-        let exportUrl = '../../backend/e-boss/exportBackorders.php';
+        let exportUrl = '../../backend/e-boss/exportCancelledBackorders.php';
         
         // Create temporary link and trigger download
         let link = document.createElement('a');
         link.href = exportUrl;
-        link.download = 'backorders_export_' + new Date().toISOString().slice(0, 19).replace(/:/g, '-') + '.xlsx';
+        link.download = 'cancelled_backorders_export_' + new Date().toISOString().slice(0, 19).replace(/:/g, '-') + '.xlsx';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -151,62 +163,20 @@ $(document).ready(function () {
         $('#selectAll').prop('checked', totalCheckboxes > 0 && checkedCheckboxes === totalCheckboxes);
     }
     
-    // Bulk cancel
-    $('#bulkCancelBtn').on('click', function() {
+    // Bulk restore
+    $('#bulkRestoreBtn').on('click', function() {
         if (selectedItems.length === 0) return;
         
         Swal.fire({
-            title: 'Cancel Selected Items',
-            input: 'text',
-            inputLabel: 'Cancel Reason',
-            inputPlaceholder: 'Enter reason for cancellation',
-            showCancelButton: true,
-            confirmButtonText: 'Cancel Items',
-            cancelButtonText: 'Keep Items',
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'Cancel reason is required!';
-                }
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                performBulkOperation('cancel', selectedItems, result.value);
-            }
-        });
-    });
-    
-    // Bulk deliver
-    $('#bulkDeliverBtn').on('click', function() {
-        if (selectedItems.length === 0) return;
-        
-        Swal.fire({
-            title: 'Mark as Delivered',
-            text: `Are you sure you want to mark ${selectedItems.length} item(s) as delivered?`,
+            title: 'Restore Selected Items',
+            text: `Are you sure you want to restore ${selectedItems.length} item(s) back to pending status?`,
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: 'Yes, Mark as Delivered',
+            confirmButtonText: 'Yes, Restore',
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
-                performBulkOperation('deliver', selectedItems);
-            }
-        });
-    });
-    
-    // Bulk ETA update
-    $('#bulkEtaBtn').on('click', function() {
-        if (selectedItems.length === 0) return;
-        
-        Swal.fire({
-            title: 'Update ETA for Selected Items',
-            text: `This will add 15 days to the current ETA for ${selectedItems.length} item(s). Continue?`,
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, Update ETA',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                performBulkOperation('update_eta', selectedItems);
+                performBulkOperation('restore', selectedItems);
             }
         });
     });
@@ -217,7 +187,7 @@ $(document).ready(function () {
         
         Swal.fire({
             title: 'Delete Selected Items',
-            text: `Are you sure you want to delete ${selectedItems.length} item(s)? This action cannot be undone.`,
+            text: `Are you sure you want to delete ${selectedItems.length} item(s)?`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Yes, Delete',
@@ -230,14 +200,13 @@ $(document).ready(function () {
         });
     });
     
-    function performBulkOperation(action, ids, reason = '') {
+    function performBulkOperation(action, ids) {
         $.ajax({
-            url: '../../backend/e-boss/bulkOperations.php',
+            url: '../../backend/e-boss/bulkCancelledOperations.php',
             type: 'POST',
             data: {
                 action: action,
-                ids: ids,
-                reason: reason
+                ids: ids
             },
             dataType: 'json',
             success: function(response) {
@@ -268,7 +237,6 @@ $(document).ready(function () {
             }
         });
     }
-
 
     }, 100); // End of setTimeout
 });

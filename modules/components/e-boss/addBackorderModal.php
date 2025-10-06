@@ -62,20 +62,20 @@
                     <div class="col-md-3">
                         <label class="form-label d-block">Order Type</label>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="order_type" value="Counter" required>
-                            <label class="form-check-label">Counter</label>
+                            <input class="form-check-input" type="radio" name="order_type" id="order_type_counter" value="Counter" required>
+                            <label class="form-check-label" for="order_type_counter">Counter</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="order_type" value="Accessories">
-                            <label class="form-check-label">Accessories</label>
+                            <input class="form-check-input" type="radio" name="order_type" id="order_type_accessories" value="Accessories">
+                            <label class="form-check-label" for="order_type_accessories">Accessories</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="order_type" value="Chemical">
-                            <label class="form-check-label">Chemical</label>
+                            <input class="form-check-input" type="radio" name="order_type" id="order_type_chemical" value="Chemical">
+                            <label class="form-check-label" for="order_type_chemical">Chemical</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="order_type" value="S.O.Q.">
-                            <label class="form-check-label">S.O.Q.</label>
+                            <input class="form-check-input" type="radio" name="order_type" id="order_type_soq" value="S.O.Q.">
+                            <label class="form-check-label" for="order_type_soq">S.O.Q.</label>
                         </div>
                     </div>
                     <div class="col-md-3">
