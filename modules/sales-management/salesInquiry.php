@@ -60,7 +60,7 @@ if (authorize(true, $conn)) {
                     <div class="d-flex justify-content-between align-items-center">
                         <h1 class="h3 mb-2 text-gray-800">Sales Inquiry</h1>
                         <div id="inquiryAlertsBtnGroup">
-                            <i class="fa-solid fa-bell-exclamation text-primary fa-xl mr-4" role="button" data-bs-toggle="modal" data-bs-target="#inquiryAlerts" id="viewInquiryAlertsButton"></i>
+                            <i class="fa-solid fa-bell-exclamation text-primary fa-xl mr-4" role="button" data-bs-toggle="modal" data-bs-target="#inquiryAlertsModal" id="viewInquiryAlertsButton"></i>
                             <div id="newAlertsCount" class="d-none"></div>
                         </div>
                     </div>
@@ -185,5 +185,6 @@ if (authorize(true, $conn)) {
 <script src="../../assets/js/sales-management/viewInquiriesByProspect.js"></script>
 <script src="../../assets/js/sales-management/viewInquiryByProspect.js"></script>
 <script src="../../assets/js/sales-management/updateInquiry.js"></script>
+<script src="../../assets/js/sales-management/inquiryAppointmentNotification.js"></script>
 
 </html>

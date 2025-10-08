@@ -1,4 +1,4 @@
-<div class="modal fade" id="updateInquiryByProspectModal" tabindex="-1" aria-labelledby="updateInquiryByProspectModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="updateInquiryByProspectModal" tabindex="-1" aria-labelledby="updateInquiryByProspectModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <form id="updateInquiryByProspectForm" class="needs-validation w-100" novalidate>
             <div class="modal-content">

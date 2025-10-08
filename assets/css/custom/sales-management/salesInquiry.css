@@ -46,3 +46,34 @@ input[type="text"],
 textarea {
     text-transform: uppercase;
 }
+
+.scrollable-list {
+    max-height: 600px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 8px;
+}
+
+.scrollable-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scrollable-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+#inquiryAlertsBtnGroup {
+    position: relative;
+}
+#newAlertsCount {
+    color: var(--text-white);
+    background-color: var(--danger);
+    position: absolute;
+    width: fit-content;
+    height: fit-content;
+    top: -5px;
+    right: 16px;
+    font-size: 0.6em !important;
+    padding: 1px 4px;
+    border-radius: 50px;
+}

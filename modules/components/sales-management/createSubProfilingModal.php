@@ -1,4 +1,4 @@
-<div class="modal fade" id="createSubProfilingModal" tabindex="-1" aria-labelledby="createSubProfilingModalLabel" aria-modal="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="createSubProfilingModal" tabindex="-1" aria-labelledby="createSubProfilingModalLabel" aria-modal="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">

@@ -1,4 +1,4 @@
-<div class="modal fade" id="viewDemographicsModal" tabindex="-1" aria-labelledby="viewDemographicsModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="viewDemographicsModal" tabindex="-1" aria-labelledby="viewDemographicsModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" style="max-width: 90% !important; width:85% !important">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
