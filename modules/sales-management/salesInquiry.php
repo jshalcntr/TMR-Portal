@@ -171,6 +171,7 @@ if (authorize(true, $conn)) {
     <?php include "../components/sales-management/viewInquiryDetailsModal.php" ?>
     <?php include "../components/sales-management/viewInquiriesByProspectModal.php" ?>
     <?php include "../components/sales-management/viewInquiryDetailsByProspectModal.php" ?>
+    <?php include "../components/sales-management/viewInquiryDetailsNotificationModal.php" ?>
     <?php include "../components/sales-management/updateInquiryModal.php" ?>
     <?php include "../components/sales-management/inquiryAlertsModal.php" ?>
 </body>
