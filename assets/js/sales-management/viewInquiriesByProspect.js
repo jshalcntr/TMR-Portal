@@ -7,29 +7,37 @@ $(document).ready(function () {
         let prospectLogo = "";
         let headerBg = "";
         let textColor = "";
+        let buttonColor = "";
 
         if (prospectType === "Hot") {
             prospectLogo = `<i class="fas fa-fire"></i>`;
             headerBg = "bg-danger";
             textColor = "text-danger";
+            buttonColor = "btn-danger";
         } else if (prospectType === "Warm") {
             prospectLogo = `<i class="fas fa-mitten"></i>`;
             headerBg = "bg-warning";
             textColor = "text-warning";
+            buttonColor = "btn-warning";
         } else if (prospectType === "Cold") {
             prospectLogo = `<i class="fas fa-snowflake"></i>`;
             headerBg = "bg-info";
             textColor = "text-info";
+            buttonColor = "btn-info";
         } else if (prospectType === "Lost") {
             prospectLogo = `<i class="fas fa-person-circle-question"></i>`
             headerBg = "bg-secondary";
             textColor = "text-secondary";
+            buttonColor = "btn-secondary";
         }
 
         $("#selectedProspectType").html(`${prospectLogo} ${prospectType}`);
         $("#viewInquiriesByProspectModal .modal-header").removeClass("bg-primary bg-danger bg-warning bg-info bg-secondary").addClass(headerBg + " text-white");
+        $("#updateInquiryByProspectModal .modal-header").removeClass("bg-primary bg-danger bg-warning bg-info bg-secondary").addClass(headerBg + " text-white");
         $("#viewInquiryDetailsByProspectModal .modal-header").removeClass("bg-primary bg-danger bg-warning bg-info bg-secondary").addClass(headerBg + " text-white");
         $("#viewInquiriesByProspectTable thead tr th").removeClass("bg-primary bg-danger bg-warning bg-info bg-secondary").addClass(headerBg + " text-white");
+        $("#viewInquiryDetailsByProspectModal button").removeClass("btn-primary btn-danger btn-warning btn-info btn-secondary").addClass(buttonColor + " text-white");
+        $("#updateInquiryByProspectModal button").removeClass("btn-primary btn-danger btn-warning btn-info btn-secondary").addClass(buttonColor + " text-white");
 
         $("#viewInquiriesByProspectModal").modal('show');
 

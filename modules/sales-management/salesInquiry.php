@@ -173,6 +173,7 @@ if (authorize(true, $conn)) {
     <?php include "../components/sales-management/viewInquiryDetailsByProspectModal.php" ?>
     <?php include "../components/sales-management/viewInquiryDetailsNotificationModal.php" ?>
     <?php include "../components/sales-management/updateInquiryModal.php" ?>
+    <?php include "../components/sales-management/updateInquiryByProspectModal.php" ?>
     <?php include "../components/sales-management/inquiryAlertsModal.php" ?>
 </body>
 <?php include '../components/shared/external-js-import.php'; ?>
@@ -186,6 +187,7 @@ if (authorize(true, $conn)) {
 <script src="../../assets/js/sales-management/viewInquiriesByProspect.js"></script>
 <script src="../../assets/js/sales-management/viewInquiryByProspect.js"></script>
 <script src="../../assets/js/sales-management/updateInquiry.js"></script>
+<script src="../../assets/js/sales-management/updateInquiryByProspect.js"></script>
 <script src="../../assets/js/sales-management/inquiryAppointmentNotification.js"></script>
 
 </html>

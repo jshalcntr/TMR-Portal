@@ -83,6 +83,7 @@ $(document).on('click', '.viewInquiryDetailsByProspectBtn', function () {
                 $("#monthlyAverage_details_byProspect").text(monthlyAverage);
 
                 $("#inquiryId_details_byProspect").text(inquiryId);
+                $("#updateInquiryByProspectBtn").data('inquiry-id', inquiryId)
                 $("#prospectType_details_byProspect").text(prospectType);
                 $("#dateOfInquiry_details_byProspect").text(dateOfInquiry);
                 $("#inquirySource_details_byProspect").text(inquirySource);
@@ -133,5 +134,7 @@ $(document).on('click', '.viewInquiryDetailsByProspectBtn', function () {
     });
 });
 $("#viewInquiryDetailsByProspectModal").on('hidden.bs.modal', function () {
-    $("#viewInquiriesByProspectModal").modal('show');
+    if (!$("#updateInquiryByProspectModal").hasClass('show')) {
+        $("#viewInquiriesByProspectModal").modal('show');
+    }
 });

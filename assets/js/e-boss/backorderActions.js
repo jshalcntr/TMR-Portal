@@ -66,35 +66,58 @@ $(document).ready(function () {
         let id = $(this).data("id");
         let etaType = $(this).data("eta-type") || "eta_1";
         let confirmExtension = $(this).data("confirm-extension") || false;
-        
+        let $btn = $(this);
+
         // Reset form
         $("#updateEtaForm")[0].reset();
         $("#etaRecordId").val(id);
         $("#etaType").val(etaType);
         $("#confirmExtension").val(confirmExtension);
-        
-        // Set modal title
-        $("#etaModalTitle").text("Update ETA");
+
+        // Set modal title based on ETA type
+        let etaTypeText = etaType.replace('_', ' ').toUpperCase();
+        $("#etaModalTitle").text(`Update ${etaTypeText}`);
         $("#etaSubmitBtn").text("Update ETA");
-        
-        // Get current ETA date from the button's data attribute and add 15 days
+
+        // Get current ETA date from the button's data attribute
         let currentEtaDate = $(this).data("current-eta");
         if (currentEtaDate) {
             // Add 15 days to current ETA
             let currentDate = new Date(currentEtaDate);
-            currentDate.setDate(currentDate.getDate() + 15);
-            
+            let suggestedDate = new Date(currentDate);
+            suggestedDate.setDate(currentDate.getDate() + 15);
+
             // Format as YYYY-MM-DD
-            let newEtaDate = currentDate.toISOString().split('T')[0];
+            let newEtaDate = suggestedDate.toISOString().split('T')[0];
             $("#etaDate").val(newEtaDate);
+
+            // Show current and suggested dates
+            $("#currentEtaInfo").html(`
+                <div class="alert alert-info">
+                    <strong>Current ETA:</strong> ${currentDate.toLocaleDateString()}<br>
+                    <strong>Suggested New ETA:</strong> ${suggestedDate.toLocaleDateString()} (+ 15 days)<br>
+                    <small>You can modify the date if needed, maximum 90 days from today.</small>
+                </div>
+            `);
         }
-        
+
+        // Set max date (90 days from today)
+        let maxDate = new Date();
+        maxDate.setDate(maxDate.getDate() + 90);
+        $("#etaDate").attr('max', maxDate.toISOString().split('T')[0]);
+
+        // Show modal
         $("#updateEtaModal").modal("show");
     });
 
     $("#updateEtaForm").submit(function (e) {
         e.preventDefault();
-        
+
+        // Disable submit button and show loading state
+        let $submitBtn = $("#etaSubmitBtn");
+        let originalText = $submitBtn.text();
+        $submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Updating...');
+
         $.ajax({
             url: "../../backend/e-boss/updateEta.php",
             type: "POST",
@@ -103,15 +126,42 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     let message = response.message || "ETA has been updated successfully.";
-                    Swal.fire("Success!", message, "success");
-                    $("#updateEtaModal").modal("hide");
-                    $("#backordersRecordsTable").DataTable().ajax.reload(null, false);
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        $("#updateEtaModal").modal("hide");
+                        $("#backordersRecordsTable").DataTable().ajax.reload(null, false);
+                    });
                 } else {
-                    Swal.fire("Error!", response.message || "Something went wrong.", "error");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: response.message || "Something went wrong.",
+                        confirmButtonColor: '#d33'
+                    });
                 }
             },
-            error: function() {
-                Swal.fire("Error!", "Something went wrong.", "error");
+            error: function (xhr) {
+                let errorMessage = "Something went wrong.";
+                try {
+                    let response = JSON.parse(xhr.responseText);
+                    errorMessage = response.message || errorMessage;
+                } catch (e) { }
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: errorMessage,
+                    confirmButtonColor: '#d33'
+                });
+            },
+            complete: function () {
+                // Re-enable submit button
+                $submitBtn.prop('disabled', false).text(originalText);
             }
         });
     });

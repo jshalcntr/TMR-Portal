@@ -12,29 +12,89 @@
                     <input type="hidden" id="etaType" name="eta_type">
                     <input type="hidden" id="confirmExtension" name="confirm_extension" value="false">
 
+                    <!-- Current ETA Info Section -->
+                    <div class="mb-3" id="currentEtaInfo">
+                        <!-- Dynamically populated by JavaScript -->
+                    </div>
+
                     <div class="mb-3">
-                        <div class="alert alert-info">
+                        <label for="etaDate" class="form-label">
+                            <i class="fas fa-calendar-alt"></i> New ETA Date
+                            <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group">
+                            <input type="date"
+                                class="form-control"
+                                id="etaDate"
+                                name="new_eta"
+                                required
+                                min=""
+                                max="">
+                            <button class="btn btn-outline-secondary"
+                                type="button"
+                                onclick="document.getElementById('etaDate').value = ''">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="form-text text-muted">
                             <i class="fas fa-info-circle"></i>
-                            <strong>ETA Extension</strong><br>
-                            This will add 15 days to the current ETA. You can modify the date if needed.
+                            Select a date between today and 90 days from now
                         </div>
                     </div>
 
+                    <!-- Progressive Enhancement - Additional Info -->
                     <div class="mb-3">
-                        <label for="etaDate" class="form-label">New ETA Date</label>
-                        <input type="date" class="form-control" id="etaDate" name="new_eta" required>
-                        <div class="form-text">15 days will be added to the current ETA. You can modify this date.</div>
+                        <div class="progress" style="height: 5px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 0%;"
+                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="90"
+                                id="etaDaysProgress">
+                            </div>
+                        </div>
+                        <small class="text-muted" id="etaDaysInfo">
+                            Selected: 0 days from today (Max: 90 days)
+                        </small>
                     </div>
 
                     <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary" id="etaSubmitBtn">Update ETA</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="etaSubmitBtn">
+                            <i class="fas fa-save"></i> Update ETA
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Add this script after your modal -->
+<script>
+    document.getElementById('etaDate').addEventListener('change', function() {
+        const selectedDate = new Date(this.value);
+        const today = new Date();
+        const diffTime = Math.abs(selectedDate - today);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        // Update progress bar
+        const percentage = Math.min((diffDays / 90) * 100, 100);
+        document.getElementById('etaDaysProgress').style.width = percentage + '%';
+        document.getElementById('etaDaysProgress').setAttribute('aria-valuenow', diffDays);
+
+        // Update days info text
+        document.getElementById('etaDaysInfo').textContent =
+            `Selected: ${diffDays} days from today (Max: 90 days)`;
+    });
+
+    // Set min date to today and max date to 90 days from now
+    const today = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + 90);
+
+    document.getElementById('etaDate').min = today.toISOString().split('T')[0];
+    document.getElementById('etaDate').max = maxDate.toISOString().split('T')[0];
+</script>
 
 <!-- Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
