@@ -158,8 +158,8 @@
                             <td id="reservationDate_details_byProspect">Reservation Date</td>
                         </tr>
                         <tr>
-                            <th class="bg-light w-40">Next Call Date & Time</th>
-                            <td id="appointmentDateTime_details_byProspect">Next Call Date & Time</td>
+                            <th class="bg-light w-40">Appointment Date & Time</th>
+                            <td id="appointmentDateTime_details_byProspect">Appointment Date & Time</td>
                         </tr>
                     </table>
                     <table id="tamarawDetailsByProspectTable" class="table table-bordered table-striped m-0 mt-2 d-none">

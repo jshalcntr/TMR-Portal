@@ -33,7 +33,7 @@ $sql = "SELECT
         JOIN sales_inquiries_tbl
         ON sales_inquiries_tbl.inquiry_id = sales_inquiries_history_tbl.inquiry_id
         WHERE sales_inquiries_history_tbl.appointment_date != '0000-00-00'
-            AND sales_inquiries_history_tbl.appointment_time IS NOT NULL";
+          AND sales_inquiries_history_tbl.appointment_time IS NOT NULL";
 
 $result = $conn->query($sql);
 
@@ -47,10 +47,10 @@ while ($row = $result->fetch_assoc()) {
 
     $diff = $appointment->getTimestamp() - $now->getTimestamp();
 
-    if ($diff >= 0 && $diff <= 86400) {
+    if ($diff >= 0 && $diff <= 3600) {
         $check = $conn->prepare("SELECT notification_id 
-                                FROM sales_inquiry_notifications_tbl 
-                                WHERE history_id=?");
+                                 FROM sales_inquiry_notifications_tbl 
+                                 WHERE history_id=?");
         $check->bind_param("i", $row['history_id']);
         $check->execute();
         $existing = $check->get_result();

@@ -1,6 +1,6 @@
 <?php
 require('../dbconn.php');
-session_start();
+
 if (isset($_POST['id'])) {
     $id = intval($_POST['id']);
     $sql = "SELECT * FROM backorders_tbl WHERE id = ?";

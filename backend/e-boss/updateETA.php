@@ -1,6 +1,6 @@
 <?php
 require('../dbconn.php');
-session_start();
+
 header('Content-Type: application/json');
 
 // Function to validate date format YYYY-MM-DD

@@ -89,7 +89,6 @@
                 </li>
             </ul>
         </div>
-
     <?php endif; ?>
 
     <hr class="sidebar-divider">
@@ -124,7 +123,7 @@
 
         <div class="sidebar-heading">Sales Management System</div>
 
-        <?php if ($_SESSION['user']['department_name'] == "Vehicle Sales" && $_SESSION['user']['section_name'] == "Marketing Professional" || $_SESSION['user']['section_name'] == "Marketing Specialist"): ?>
+        <?php if ($_SESSION['user']['department_name'] == "Vehicle Sales" && $_SESSION['user']['section_name'] == "Marketing Professional"): ?>
             <div class="side-item">
                 <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'salesInquiry.php') !== false ? 'active' : '' ?>">
                     <li class="iso-pro">
@@ -172,9 +171,6 @@
 
                 </ul>
             </div>
-            <hr class="sidebar-divider">
-            <div class="sidebar-heading">E-BOSS</div>
-
             <!-- E-Boss Sidebar -->
             <div class="side-item">
                 <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'backorders.php') !== false ? 'active' : '' ?>">
@@ -192,23 +188,7 @@
                 </ul>
             </div>
             <!-- end E-Boss Sidebar  -->
-            <!-- Service Advisor Sidebar -->
-            <div class="side-item">
-                <ul class="<?= strpos($_SERVER['REQUEST_URI'], 'serviceAdvisorBackorders.php') !== false ? 'active' : '' ?>">
-                    <li class="iso-pro">
-                        <a href="/tmr-portal/modules/e-boss/serviceAdvisorBackorders.php">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <i class="fas fa-car-mechanic svg"></i>
-                            <div class="text">Service Advisor</div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
         <?php endif; ?>
-
-
     <?php endif; ?>
 
     <!-- End From Uiverse.io by MijailVillega -->

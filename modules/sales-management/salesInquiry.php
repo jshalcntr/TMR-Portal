@@ -13,7 +13,6 @@ if (authorize(true, $conn)) {
     $authRole = $_SESSION['user']['role'];
     $authPP = $_SESSION['user']['profile_picture'];
     $authDepartment = $_SESSION['user']['department'];
-    $authSection = $_SESSION['user']['section_name'];
 
     $authorizations = setAuthorizations($_SESSION['user']);
 } else {
@@ -60,25 +59,21 @@ if (authorize(true, $conn)) {
                 <div class="container-fluid">
                     <div class="d-flex justify-content-between align-items-center">
                         <h1 class="h3 mb-2 text-gray-800">Sales Inquiry</h1>
-                        <?php if ($authSection == "Marketing Professional") : ?>
-                            <div id="inquiryAlertsBtnGroup">
-                                <i class="fa-solid fa-bell-exclamation text-primary fa-xl mr-4" role="button" data-bs-toggle="modal" data-bs-target="#inquiryAlertsModal" id="viewInquiryAlertsButton"></i>
-                                <div id="newAlertsCount" class="d-none"></div>
-                            </div>
-                        <?php endif; ?>
+                        <div id="inquiryAlertsBtnGroup">
+                            <i class="fa-solid fa-bell-exclamation text-primary fa-xl mr-4" role="button" data-bs-toggle="modal" data-bs-target="#inquiryAlertsModal" id="viewInquiryAlertsButton"></i>
+                            <div id="newAlertsCount" class="d-none"></div>
+                        </div>
                     </div>
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex align-items-center justify-content-between">
                             <h6 class="m-0 font-weight-bold text-primary">Inquiries</h6>
                             <div class="actions d-flex flex-row-reverse gap-3">
-                                <?php if ($authSection == "Marketing Professional") : ?>
-                                    <button class="btn btn-sm shadow-sm btn-primary" id="createInquiryBtn" data-bs-toggle="modal" data-bs-target="#createInquiryModal">
-                                        <i class="fas fa-circle-plus"></i> Create Inquiry
-                                    </button>
-                                    <button class="btn btn-sm shadow-sm btn-success" id="viewInquiriesBtn" data-bs-toggle="modal" data-bs-target="#viewInquiriesModal">
-                                        <i class=" fas fa-paperclip"></i> Inquiries
-                                    </button>
-                                <?php endif; ?>
+                                <button class="btn btn-sm shadow-sm btn-primary" id="createInquiryBtn" data-bs-toggle="modal" data-bs-target="#createInquiryModal">
+                                    <i class="fas fa-circle-plus"></i> Create Inquiry
+                                </button>
+                                <button class="btn btn-sm shadow-sm btn-success" id="viewInquiriesBtn" data-bs-toggle="modal" data-bs-target="#viewInquiriesModal">
+                                    <i class=" fas fa-paperclip"></i> Inquiries
+                                </button>
                                 <button class="btn btn-sm shadow-sm btn-warning" id="viewDemographicsBtn" data-bs-toggle="modal" data-bs-target="#viewDemographicsModal">
                                     <i class="fas fa-chart-simple"></i> Demographics
                                 </button>
@@ -86,20 +81,6 @@ if (authorize(true, $conn)) {
                         </div>
 
                         <div class="card-body">
-                            <!-- <div class="row justify-content-center g-3 mb-3" style="max-width: 700px; margin: 0 auto;">
-                                <div class="col-md-4 col-sm-6 m-0">
-                                    <label class="form-label text-gray-800 fw-bold mb-0">Month</label>
-                                    <select class="form-select" id="inquiryMonth">
-                                        <option value="0">All</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 col-sm-6 m-0">
-                                    <label class="form-label text-gray-800 fw-bold mb-0">Year</label>
-                                    <select class="form-select" id="inquiryYear">
-                                        <option value="0">All</option>
-                                    </select>
-                                </div>
-                            </div> -->
                             <div class="row g-3">
                                 <div class="col-xl-3 col-md-6 mb-4">
                                     <div class="card border-left-danger shadow h-85 py-2 prospectCard" data-prospect-type="Hot" role="button">
@@ -183,40 +164,30 @@ if (authorize(true, $conn)) {
             </div>
         </div>
     </div>
+    <?php include "../components/sales-management/createInquiryModal.php" ?>
+    <?php include "../components/sales-management/reviewInquiryModal.php" ?>
     <?php include "../components/sales-management/viewDemographicsModal.php" ?>
-    <?php if ($authSection == "Marketing Professional") : ?>
-        <?php include "../components/sales-management/createInquiryModal.php" ?>
-        <?php include "../components/sales-management/reviewInquiryModal.php" ?>
-        <?php include "../components/sales-management/viewInquiriesModal.php" ?>
-        <?php include "../components/sales-management/viewInquiryDetailsModal.php" ?>
-        <?php include "../components/sales-management/viewInquiriesByProspectModal.php" ?>
-        <?php include "../components/sales-management/viewInquiryDetailsByProspectModal.php" ?>
-        <?php include "../components/sales-management/viewInquiryDetailsNotificationModal.php" ?>
-        <?php include "../components/sales-management/updateInquiryModal.php" ?>
-        <?php include "../components/sales-management/updateInquiryByProspectModal.php" ?>
-        <?php include "../components/sales-management/updateInquiryNotificationModal.php" ?>
-        <?php include "../components/sales-management/inquiryAlertsModal.php" ?>
-    <?php endif; ?>
+    <?php include "../components/sales-management/viewInquiriesModal.php" ?>
+    <?php include "../components/sales-management/viewInquiryDetailsModal.php" ?>
+    <?php include "../components/sales-management/viewInquiriesByProspectModal.php" ?>
+    <?php include "../components/sales-management/viewInquiryDetailsByProspectModal.php" ?>
+    <?php include "../components/sales-management/viewInquiryDetailsNotificationModal.php" ?>
+    <?php include "../components/sales-management/updateInquiryModal.php" ?>
+    <?php include "../components/sales-management/updateInquiryByProspectModal.php" ?>
+    <?php include "../components/sales-management/inquiryAlertsModal.php" ?>
 </body>
 <?php include '../components/shared/external-js-import.php'; ?>
-<script src="../../assets/js/sales-management/viewDemographics.js"></script>
 <script src="../../assets/js/sales-management/salesInquiry.js"></script>
+<script src="../../assets/js/sales-management/createInquiry.js"></script>
+<script src="../../assets/js/sales-management/reviewInquiry.js"></script>
+<script src="../../assets/js/sales-management/viewDemographics.js"></script>
 <script src="../../assets/js/sales-management/getSalesChart.js"></script>
-<?php if ($authSection == "Marketing Professional") : ?>
-    <script src="../../assets/js/sales-management/getInquiriesByProspectCount.js"></script>
-    <script src="../../assets/js/sales-management/createInquiry.js"></script>
-    <script src="../../assets/js/sales-management/reviewInquiry.js"></script>
-    <script src="../../assets/js/sales-management/viewInquiries.js"></script>
-    <script src="../../assets/js/sales-management/viewInquiry.js"></script>
-    <script src="../../assets/js/sales-management/viewInquiriesByProspect.js"></script>
-    <script src="../../assets/js/sales-management/viewInquiryByProspect.js"></script>
-    <script src="../../assets/js/sales-management/updateInquiry.js"></script>
-    <script src="../../assets/js/sales-management/updateInquiryByProspect.js"></script>
-    <script src="../../assets/js/sales-management/updateInquiryNotification.js"></script>
-    <script src="../../assets/js/sales-management/inquiryAppointmentNotification.js"></script>
-<?php endif; ?>
-<?php if ($authSection == "Marketing Specialist") : ?>
-    <script src="../../assets/js/sales-management/getAllInquiriesByProspectCount.js"></script>
-<?php endif; ?>
+<script src="../../assets/js/sales-management/viewInquiries.js"></script>
+<script src="../../assets/js/sales-management/viewInquiry.js"></script>
+<script src="../../assets/js/sales-management/viewInquiriesByProspect.js"></script>
+<script src="../../assets/js/sales-management/viewInquiryByProspect.js"></script>
+<script src="../../assets/js/sales-management/updateInquiry.js"></script>
+<script src="../../assets/js/sales-management/updateInquiryByProspect.js"></script>
+<script src="../../assets/js/sales-management/inquiryAppointmentNotification.js"></script>
 
 </html>

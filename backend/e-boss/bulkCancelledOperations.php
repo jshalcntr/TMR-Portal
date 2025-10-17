@@ -1,7 +1,7 @@
 <?php
 require('../dbconn.php');
 header('Content-Type: application/json');
-session_start();
+
 // Input validation function
 function validateInput($data, $type = 'string', $required = true)
 {

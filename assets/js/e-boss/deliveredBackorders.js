@@ -1,18 +1,18 @@
 $(document).ready(function () {
     // Wait a bit to ensure DOM is fully loaded
-    setTimeout(function () {
+    setTimeout(function() {
         // Check if table exists
         if ($('#backordersRecordsTable').length === 0) {
             console.error('Table #backordersRecordsTable not found');
             return;
         }
-
+        
         // Check if DataTable is already initialized
         if ($.fn.DataTable.isDataTable('#backordersRecordsTable')) {
             console.log('DataTable already initialized');
             return;
         }
-
+        
         let table;
         try {
             table = $('#backordersRecordsTable').DataTable({
@@ -21,17 +21,17 @@ $(document).ready(function () {
                 ajax: {
                     url: '../../backend/e-boss/fetchDeliveredBackorders.php',
                     type: 'GET',
-                    error: function (xhr, error, thrown) {
+                    error: function(xhr, error, thrown) {
                         console.error('DataTable AJAX error:', error, thrown);
                         alert('Error loading data: ' + error);
                     }
                 },
                 columns: [
-                    {
+                    { 
                         data: null,
                         orderable: false,
                         searchable: false,
-                        render: function (data, type, row) {
+                        render: function(data, type, row) {
                             return '<input type="checkbox" class="row-checkbox" value="' + row.id + '">';
                         }
                     },
@@ -51,25 +51,6 @@ $(document).ready(function () {
                     { data: 'eta_3' },
                     { data: 'order_type' },
                     { data: 'service_type' },
-                    { data: 'appointment_date' },
-                    {
-                        data: 'appointment_time',
-                        render: function (data) {
-                            return data || '';
-                        }
-                    },
-                    {
-                        data: 'appointment_remarks',
-                        render: function (data) {
-                            return data || '';
-                        }
-                    },
-                    {
-                        data: 'scheduled_by',
-                        render: function (data) {
-                            return data || '';
-                        }
-                    },
                     { data: 'service_estimator' },
                     { data: 'unit_model' },
                     { data: 'plate_no' },
@@ -135,9 +116,9 @@ $(document).ready(function () {
         }
 
         // Export functionality
-        $('#exportBtn').on('click', function () {
+        $('#exportBtn').on('click', function() {
             let exportUrl = '../../backend/e-boss/exportDeliveredBackorders.php';
-
+            
             // Create temporary link and trigger download
             let link = document.createElement('a');
             link.href = exportUrl;
@@ -149,43 +130,43 @@ $(document).ready(function () {
 
         // Bulk operations functionality
         let selectedItems = [];
-
+        
         // Select all checkbox
-        $('#selectAll').on('change', function () {
+        $('#selectAll').on('change', function() {
             let isChecked = $(this).is(':checked');
             $('.row-checkbox').prop('checked', isChecked);
             updateBulkOperations();
         });
-
+        
         // Individual row checkboxes
-        $(document).on('change', '.row-checkbox', function () {
+        $(document).on('change', '.row-checkbox', function() {
             updateBulkOperations();
         });
-
+        
         function updateBulkOperations() {
             selectedItems = [];
-            $('.row-checkbox:checked').each(function () {
+            $('.row-checkbox:checked').each(function() {
                 selectedItems.push($(this).val());
             });
-
+            
             $('#selectedCount').text(selectedItems.length);
-
+            
             if (selectedItems.length > 0) {
                 $('#bulkOperations').show();
             } else {
                 $('#bulkOperations').hide();
             }
-
+            
             // Update select all checkbox
             let totalCheckboxes = $('.row-checkbox').length;
             let checkedCheckboxes = $('.row-checkbox:checked').length;
             $('#selectAll').prop('checked', totalCheckboxes > 0 && checkedCheckboxes === totalCheckboxes);
         }
-
+        
         // Bulk restore
-        $('#bulkRestoreBtn').on('click', function () {
+        $('#bulkRestoreBtn').on('click', function() {
             if (selectedItems.length === 0) return;
-
+            
             Swal.fire({
                 title: 'Restore Selected Items',
                 text: `Are you sure you want to restore ${selectedItems.length} item(s) back to pending status?`,
@@ -199,11 +180,11 @@ $(document).ready(function () {
                 }
             });
         });
-
+        
         // Bulk delete
-        $('#bulkDeleteBtn').on('click', function () {
+        $('#bulkDeleteBtn').on('click', function() {
             if (selectedItems.length === 0) return;
-
+            
             Swal.fire({
                 title: 'Delete Selected Items',
                 text: `Are you sure you want to delete ${selectedItems.length} item(s)?`,
@@ -218,7 +199,7 @@ $(document).ready(function () {
                 }
             });
         });
-
+        
         function performBulkOperation(action, ids) {
             $.ajax({
                 url: '../../backend/e-boss/bulkDeliveredOperations.php',
@@ -228,7 +209,7 @@ $(document).ready(function () {
                     ids: ids
                 },
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     if (response.status === 'success') {
                         Swal.fire({
                             title: 'Success!',
@@ -247,7 +228,7 @@ $(document).ready(function () {
                         });
                     }
                 },
-                error: function () {
+                error: function() {
                     Swal.fire({
                         title: 'Error!',
                         text: 'An error occurred while processing the request.',

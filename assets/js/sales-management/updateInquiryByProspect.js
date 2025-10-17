@@ -1,30 +1,30 @@
 $(document).ready(function () {
     function populateUpdateBPInquiryFields() {
-        // $.ajax({
-        //     type: "GET",
-        //     url: "../../backend/sales-management/getAllMalls.php",
-        //     success: function (response) {
-        //         if (response.status === "internal-error") {
-        //             Swal.fire({
-        //                 title: 'Error! ',
-        //                 text: `${response.message}`,
-        //                 icon: 'error',
-        //                 confirmButtonColor: 'var(--bs-danger)'
-        //             })
-        //         } else if (response.status === "success") {
-        //             const malls = response.data;
-        //             $("#mallDisplay_updateBP").empty().append(`<option value="">--Select Mall--</option>`);
-        //             malls.forEach(mall => {
-        //                 $("#mallDisplay_updateBP").append(`<option value="${mall.mall_name}">${mall.mall_name}</option>`);
-        //             });
-        //         }
-        //     }
-        // })
-        // const provinces1 = $.ajax({
-        //     type: "GET",
-        //     dataType: "json",
-        //     url: "https://psgc.gitlab.io/api/provinces/"
-        // });
+        $.ajax({
+            type: "GET",
+            url: "../../backend/sales-management/getAllMalls.php",
+            success: function (response) {
+                if (response.status === "internal-error") {
+                    Swal.fire({
+                        title: 'Error! ',
+                        text: `${response.message}`,
+                        icon: 'error',
+                        confirmButtonColor: 'var(--bs-danger)'
+                    })
+                } else if (response.status === "success") {
+                    const malls = response.data;
+                    $("#mallDisplay_updateBP").empty().append(`<option value="">--Select Mall--</option>`);
+                    malls.forEach(mall => {
+                        $("#mallDisplay_updateBP").append(`<option value="${mall.mall_name}">${mall.mall_name}</option>`);
+                    });
+                }
+            }
+        })
+        const provinces1 = $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "https://psgc.gitlab.io/api/provinces/"
+        });
 
         const vehicles = $.ajax({
             type: "GET",
@@ -37,24 +37,29 @@ $(document).ready(function () {
             url: "https://psgc.gitlab.io/api/provinces/"
         });
 
-        return $.when(vehicles, provinces2).done((resVehicles, res2) => {
+        // Return a promise that resolves when ALL 3 are done
+        return $.when(provinces1, vehicles, provinces2).done((res1, resVehicles, res2) => {
+            // res1, resVehicles, res2 each come as [data, status, xhr]
 
-            // const response1 = res1[0];
-            // $('#province_updateBP').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Province--</option>`);
-            // $('#municipality_updateBP').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option>`);
-            // $('#barangay_updateBP').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option>`);
+            // --- Populate first provinces ---
+            const response1 = res1[0];
+            $('#province_updateBP').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Province--</option>`);
+            $('#municipality_updateBP').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option>`);
+            $('#barangay_updateBP').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option>`);
 
-            // $('#province_updateBP').append(`<option value="NATIONAL CAPITAL REGION" data-code="130000000" data-type="region">NATIONAL CAPITAL REGION (NCR)</option>`);
-            // response1.forEach(province => {
-            //     $('#province_updateBP').append(`<option value="${province.name.toUpperCase()}" data-code="${province.code}">${province.name.toUpperCase()}</option>`);
-            // });
+            $('#province_updateBP').append(`<option value="NATIONAL CAPITAL REGION" data-code="130000000" data-type="region">NATIONAL CAPITAL REGION (NCR)</option>`);
+            response1.forEach(province => {
+                $('#province_updateBP').append(`<option value="${province.name.toUpperCase()}" data-code="${province.code}">${province.name.toUpperCase()}</option>`);
+            });
 
-            // $("#province_updateBP, #municipality_updateBP, #barangay_updateBP").select2({
-            //     placeholder: `--Select--`,
-            //     width: '100%',
-            //     dropdownParent: $('#updateInquiryByProspectModal')
-            // });
+            // Select2 init
+            $("#province_updateBP, #municipality_updateBP, #barangay_updateBP").select2({
+                placeholder: `--Select--`,
+                width: '100%',
+                dropdownParent: $('#updateInquiryByProspectModal')
+            });
 
+            // --- Populate vehicles ---
             const responseVehicles = resVehicles[0];
             if (responseVehicles.status === 'success') {
                 $("#unitInquired_updateBP").empty().append(`<option value="" hidden>--Select Vehicle--</option>`);
@@ -63,6 +68,7 @@ $(document).ready(function () {
                 });
             }
 
+            // --- Populate second provinces (occupation) ---
             const response2 = res2[0];
             $('#occupationProvince_updateBP').empty().append(`<option value="" selected hidden>--Select Province--</option>`);
             $('#occupationMunicipality_updateBP').empty().append(`<option value="" selected hidden>--Select Municipality--</option>`);
@@ -73,6 +79,7 @@ $(document).ready(function () {
                 $('#occupationProvince_updateBP').append(`<option value="${province.name.toUpperCase()}" data-code="${province.code}">${province.name.toUpperCase()}</option>`);
             });
 
+            // Select2 init
             $("#occupationProvince_updateBP, #occupationMunicipality_updateBP, #occupationBarangay_updateBP").select2({
                 placeholder: `--Select--`,
                 width: '100%',
@@ -164,78 +171,77 @@ $(document).ready(function () {
                             $("#currentProspectTypeIcon_byProspect").addClass("fa-person-circle-question");
                             $("#currentProspectTypeRow_byProspect").addClass("text-secondary");
                         }
-                        $("#customerFirstName_updateBP").text(customerFirstName);
-                        $("#customerMiddleName_updateBP").text(customerMiddleName ? customerMiddleName : "-");
-                        $("#customerLastName_updateBP").text(customerLastName);
-                        $("#province_updateBP").text(province);
-                        $("#municipality_updateBP").text(municipality);
-                        $("#barangay_updateBP").text(barangay);
-                        // const provinceCode = $("#province_updateBP").find(':selected').data('code');
-                        // const provinceType = $("#province_updateBP").find(':selected').data('type');
+                        $("#customerFirstName_updateBP").val(customerFirstName);
+                        $("#customerMiddleName_updateBP").val(customerMiddleName);
+                        $("#customerLastName_updateBP").val(customerLastName);
+                        $("#province_updateBP").val(province).trigger('change');
+                        const provinceCode = $("#province_updateBP").find(':selected').data('code');
+                        const provinceType = $("#province_updateBP").find(':selected').data('type');
 
-                        // let url = '';
-                        // if (provinceType === 'region' && provinceCode === 130000000) {
-                        //     url = `https://psgc.gitlab.io/api/regions/${provinceCode}/cities-municipalities/`;
-                        // } else {
-                        //     url = `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`;
-                        // }
+                        let url = '';
+                        if (provinceType === 'region' && provinceCode === 130000000) {
+                            url = `https://psgc.gitlab.io/api/regions/${provinceCode}/cities-municipalities/`;
+                        } else {
+                            url = `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`;
+                        }
 
-                        // $.ajax({
-                        //     type: "GET",
-                        //     url: url,
-                        //     dataType: "json",
-                        //     success: function (response) {
-                        //         $('#municipality_update').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
-                        //         response.forEach(municipality => {
-                        //             $('#municipality_update').append(`<option value="${municipality.name.toUpperCase()}" data-code="${municipality.code}">${municipality.name.toUpperCase()}</option>`);
-                        //         });
-                        //         const municipalityCode = $("#municipality_updateBP").find(':selected').data('code');
-                        //         $.ajax({
-                        //             type: "GET",
-                        //             url: `https://psgc.gitlab.io/api/cities-municipalities/${municipalityCode}/barangays/`,
-                        //             dataType: "json",
-                        //             success: function (response) {
-                        //                 $('#barangay_update').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Barangay--</option></option>`);
-                        //                 response.forEach(barangay => {
-                        //                     $('#barangay_update').append(`<option value="${barangay.name.toUpperCase()}" data-code="${barangay.code}">${barangay.name.toUpperCase()}</option>`);
-                        //                 });
-                        //             },
-                        //             error: function (xhr, status, error) {
-                        //                 console.error('XHR : ', xhr.responseText);
-                        //                 console.error('Status : ', status);
-                        //                 console.error('AJAX error : ', error);
-                        //                 Swal.fire({
-                        //                     title: 'Error! ',
-                        //                     text: 'An internal error occurred. Please contact MIS.',
-                        //                     icon: 'error',
-                        //                     confirmButtonColor: 'var(--bs-danger)'
-                        //                 })
-                        //             }
-                        //         });
-                        //     },
-                        //     error: function (xhr, status, error) {
-                        //         console.error('XHR : ', xhr.responseText);
-                        //         console.error('Status : ', status);
-                        //         console.error('AJAX error : ', error);
-                        //         Swal.fire({
-                        //             title: 'Error! ',
-                        //             text: 'An internal error occurred. Please contact MIS.',
-                        //             icon: 'error',
-                        //             confirmButtonColor: 'var(--bs-danger)'
-                        //         })
-                        //     }
-                        // });
+                        $.ajax({
+                            type: "GET",
+                            url: url,
+                            dataType: "json",
+                            success: function (response) {
+                                $('#municipality_updateBP').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
+                                response.forEach(municipality => {
+                                    $('#municipality_updateBP').append(`<option value="${municipality.name.toUpperCase()}" data-code="${municipality.code}">${municipality.name.toUpperCase()}</option>`);
+                                });
+                                $("#municipality_updateBP").val(municipality).trigger('change');
+                                const municipalityCode = $("#municipality_updateBP").find(':selected').data('code');
+                                $.ajax({
+                                    type: "GET",
+                                    url: `https://psgc.gitlab.io/api/cities-municipalities/${municipalityCode}/barangays/`,
+                                    dataType: "json",
+                                    success: function (response) {
+                                        $('#barangay_updateBP').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Barangay--</option></option>`);
+                                        response.forEach(barangay => {
+                                            $('#barangay_updateBP').append(`<option value="${barangay.name.toUpperCase()}" data-code="${barangay.code}">${barangay.name.toUpperCase()}</option>`);
+                                        });
+                                        $("#barangay_updateBP").val(barangay);
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error('XHR : ', xhr.responseText);
+                                        console.error('Status : ', status);
+                                        console.error('AJAX error : ', error);
+                                        Swal.fire({
+                                            title: 'Error! ',
+                                            text: 'An internal error occurred. Please contact MIS.',
+                                            icon: 'error',
+                                            confirmButtonColor: 'var(--bs-danger)'
+                                        })
+                                    }
+                                });
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('XHR : ', xhr.responseText);
+                                console.error('Status : ', status);
+                                console.error('AJAX error : ', error);
+                                Swal.fire({
+                                    title: 'Error! ',
+                                    text: 'An internal error occurred. Please contact MIS.',
+                                    icon: 'error',
+                                    confirmButtonColor: 'var(--bs-danger)'
+                                })
+                            }
+                        });
 
-                        $("#street_updateBP").text(street ? street : "-");
-                        $("#contactNumber_updateBP").text(contactNumber);
-                        $("#gender_updateBP").text(gender);
-                        // if (gender === "MALE") {
-                        //     $("#gender_male_updateBP").prop('checked', true);
-                        // } else if (gender === "FEMALE") {
-                        //     $("#gender_female_updateBP").prop('checked', true);
-                        // } else if (gender === "LGBTQ+") {
-                        //     $("#gender_lgbt_updateBP").prop('checked', true);
-                        // }
+                        $("#street_updateBP").val(street);
+                        $("#contactNumber_updateBP").val(contactNumber);
+                        if (gender === "MALE") {
+                            $("#gender_male_updateBP").prop('checked', true);
+                        } else if (gender === "FEMALE") {
+                            $("#gender_female_updateBP").prop('checked', true);
+                        } else if (gender === "LGBTQ+") {
+                            $("#gender_lgbt_updateBP").prop('checked', true);
+                        }
                         if (maritalStatus !== "SINGLE" && maritalStatus !== "MARRIED" && maritalStatus !== "DIVORCED" && maritalStatus !== "SEPARATED" && maritalStatus !== "WIDOWED" && maritalStatus !== "ANNULED" && maritalStatus !== "") {
                             $("#maritalStatus_updateBP").val("OTHERS").trigger('change');
                             $("#maritalStatusOtherInput_updateBP").val(maritalStatus).trigger('change');
@@ -286,34 +292,31 @@ $(document).ready(function () {
                                     response.forEach(municipality => {
                                         $('#occupationMunicipality_updateBP').append(`<option value="${municipality.name.toUpperCase()}" data-code="${municipality.code}">${municipality.name.toUpperCase()}</option>`);
                                     });
-                                    $("#occupationMunicipality_updateBP").val(occupationMunicipality);
-                                    if (occupationMunicipality) {
-                                        $("#occupationMunicipality_updateBP").trigger('change');
-                                        const occupationMunicipalityCode = $(occupationMunicipality_updateBP).find(':selected').data('code');
-                                        $.ajax({
-                                            type: "GET",
-                                            url: `https://psgc.gitlab.io/api/cities-municipalities/${occupationMunicipalityCode}/barangays/`,
-                                            dataType: "json",
-                                            success: function (response) {
-                                                $('#occupationBarangay_updateBP').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select OccupationBarangay--</option></option>`);
-                                                response.forEach(barangay => {
-                                                    $('#occupationBarangay_updateBP').append(`<option value="${barangay.name.toUpperCase()}" data-code="${barangay.code}">${barangay.name.toUpperCase()}</option>`);
-                                                });
-                                                $("#occupationBarangay_updateBP").val(occupationBarangay);
-                                            },
-                                            error: function (xhr, status, error) {
-                                                console.error('XHR : ', xhr.responseText);
-                                                console.error('Status : ', status);
-                                                console.error('AJAX error : ', error);
-                                                Swal.fire({
-                                                    title: 'Error! ',
-                                                    text: 'An internal error occurred. Please contact MIS.',
-                                                    icon: 'error',
-                                                    confirmButtonColor: 'var(--bs-danger)'
-                                                })
-                                            }
-                                        });
-                                    }
+                                    $("#occupationMunicipality_updateBP").val(occupationMunicipality).trigger('change');
+                                    const occupationMunicipalityCode = $(occupationMunicipality_updateBP).find(':selected').data('code');
+                                    $.ajax({
+                                        type: "GET",
+                                        url: `https://psgc.gitlab.io/api/cities-municipalities/${occupationMunicipalityCode}/barangays/`,
+                                        dataType: "json",
+                                        success: function (response) {
+                                            $('#occupationBarangay_updateBP').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select OccupationBarangay--</option></option>`);
+                                            response.forEach(barangay => {
+                                                $('#occupationBarangay_updateBP').append(`<option value="${barangay.name.toUpperCase()}" data-code="${barangay.code}">${barangay.name.toUpperCase()}</option>`);
+                                            });
+                                            $("#occupationBarangay_updateBP").val(occupationBarangay);
+                                        },
+                                        error: function (xhr, status, error) {
+                                            console.error('XHR : ', xhr.responseText);
+                                            console.error('Status : ', status);
+                                            console.error('AJAX error : ', error);
+                                            Swal.fire({
+                                                title: 'Error! ',
+                                                text: 'An internal error occurred. Please contact MIS.',
+                                                icon: 'error',
+                                                confirmButtonColor: 'var(--bs-danger)'
+                                            })
+                                        }
+                                    });
                                 },
                                 error: function (xhr, status, error) {
                                     console.error('XHR : ', xhr.responseText);
@@ -333,24 +336,23 @@ $(document).ready(function () {
                         $("#businessSize_updateBP").val(businessSize);
                         $("#monthlyAverage_updateBP").val(monthlyAverage);
 
-                        $("#inquiryDate_updateBP").text(convertToReadableDate(inquiryDate));
-                        $("#inquirySource_updateBP").text(inquirySource);
+                        $("#inquiryDate_updateBP").val(inquiryDate);
+                        $("#inquirySource_updateBP").val(inquirySource).trigger('change');
                         if (inquirySource === "FACE TO FACE") {
-                            $("#f2fSourceRow_updateBP").removeClass('d-none');
-                            $("#onlineSourceRow_updateBP").addClass('d-none');
-                            $("#f2fSource_updateBP").text(inquirySourceType);
-                            if (inquirySourceType === "MALL DISPLAY") {
-                                $("#mallDisplayRow_updateBP").removeClass("d-none");
-                                $("#mallDisplay_updateBP").text(mallDisplay);
-                            } else {
-                                $("#mallDisplayRow_updateBP").addClass("d-none");
-                            }
+                            $("#f2fSource_updateBP").val(inquirySourceType).trigger('change');
                         } else if (inquirySource === "ONLINE") {
-                            $("#onlineSourceRow_updateBP").removeClass('d-none');
-                            $("#f2fSourceRow_updateBP").addClass('d-none');
-                            $("#f2fSourceRow_updateBP").addClass('d-none');
-                            $("#onlineSource_updateBP").text(inquirySourceType);
-                            $("#mallDisplayRow_updateBP").addClass("d-none");
+                            $("#onlineSource_updateBP").val(inquirySourceType).trigger('change');
+                        }
+                        $("#f2fSource_updateBP").val(inquirySourceType);
+                        $("#onlineSource_updateBP").val(inquirySourceType);
+
+                        $("#mallDisplay_updateBP").val(mallDisplay);
+                        if (buyerType === "FIRST-TIME") {
+                            $("#buyerType_first_updateBP").prop('checked', true);
+                        } else if (buyerType === "REPLACEMENT") {
+                            $("#buyerType_replacement_updateBP").prop('checked', true);
+                        } else if (buyerType === "ADDITIONAL") {
+                            $("#buyerType_additional_updateBP").prop('checked', true);
                         }
                         $("#unitInquired_updateBP").val(unitInquired).trigger('change');
                         $("#tamarawVariant_updateBP").val(tamarawVariant);
@@ -416,6 +418,7 @@ $(document).ready(function () {
     $("#updateInquiryByProspectForm input[name='prospectType']").on('change', function () {
         if ($(this).val() === "LOST") {
             $("#maritalStatusRequired_updateBP").addClass("d-none");
+            $("#birthdayRequired_updateBP").addClass("d-none");
             $("#occupationRequired_updateBP").addClass("d-none");
             $("#businessNameRequired_updateBP").addClass("d-none");
             $("#occupationProvinceRequired_updateBP").addClass("d-none");
@@ -440,6 +443,7 @@ $(document).ready(function () {
             $("#appointmentTimeRequired_updateBP").addClass("d-none");
 
             $("#maritalStatus_updateBP").prop("required", false);
+            $("#birthday_updateBP").prop("required", false);
             $("#occupation_updateBP").prop("required", false);
             $("#businessName_updateBP").prop("required", false);
             $("#occupationProvince_updateBP").prop("required", false);
@@ -458,6 +462,7 @@ $(document).ready(function () {
             $("#appointmentTime_updateBP").prop("required", false);
         } else if ($(this).val() === "COLD") {
             $("#maritalStatusRequired_updateBP, #maritalStatusRequired_updateBP").addClass("d-none");
+            $("#birthdayRequired_updateBP").addClass("d-none");
             $("#occupationRequired_updateBP").addClass("d-none");
             $("#businessNameRequired_updateBP").addClass("d-none");
             $("#occupationProvinceRequired_updateBP").addClass("d-none");
@@ -482,6 +487,7 @@ $(document).ready(function () {
             $("#appointmentTimeRequired_updateBP").removeClass("d-none");
 
             $("#maritalStatus_updateBP").prop("required", false);
+            $("#birthday_updateBP").prop("required", false);
             $("#occupation_updateBP").prop("required", false);
             $("#businessName_updateBP").prop("required", false);
             $("#occupationProvince_updateBP").prop("required", false);
@@ -500,6 +506,7 @@ $(document).ready(function () {
             $("#appointmentTime_updateBP").prop("required", true);
         } else {
             $("#maritalStatusRequired_updateBP").removeClass("d-none");
+            $("#birthdayRequired_updateBP").removeClass("d-none");
             $("#occupationRequired_updateBP").removeClass("d-none");
             $("#businessNameRequired_updateBP").removeClass("d-none");
             $("#occupationProvinceRequired_updateBP").removeClass("d-none");
@@ -525,6 +532,7 @@ $(document).ready(function () {
 
             $("#unitInquired_updateBP").prop("required", true);
             $("#maritalStatus_updateBP").prop("required", true);
+            $("#birthday_updateBP").prop("required", true);
             $("#occupation_updateBP").prop("required", true);
             $("#businessName_updateBP").prop("required", true);
 
@@ -860,7 +868,7 @@ $(document).ready(function () {
         $("#updateInquiryByProspectForm").removeClass("was-validated");
 
         let updateFirstValidity = !this.checkValidity();
-        let updateSecondValidity = false;
+        let updateSecondValidity = !$("#updateInquiryByProspectForm input[name='gender']:checked").val();
         let updateThirdValidity;
         let updateFourthValidity;
 

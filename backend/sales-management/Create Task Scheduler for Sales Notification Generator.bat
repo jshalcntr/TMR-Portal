@@ -14,7 +14,7 @@ REM Delete task first if it already exists
 schtasks /delete /tn %TASK_NAME% /f >nul 2>&1
 
 REM Create task to run every 5 minute
-schtasks /create /sc minute /mo 60 /tn %TASK_NAME% /tr "\"%PHP_PATH%\" \"%SCRIPT_PATH%\"" /rl highest
+schtasks /create /sc minute /mo 5 /tn %TASK_NAME% /tr "\"%PHP_PATH%\" \"%SCRIPT_PATH%\"" /rl highest
 
-echo Task %TASK_NAME% created successfully! It will now run every 60 minutes.
+echo Task %TASK_NAME% created successfully! It will now run every 1 minute.
 pause

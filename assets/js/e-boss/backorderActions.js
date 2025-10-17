@@ -191,59 +191,6 @@ $(document).ready(function () {
         });
     });
 
-    // ===== Restore Button =====
-    $(document).on("click", ".restoreBtn", function () {
-        let id = $(this).data("id");
-
-        Swal.fire({
-            title: "Restore to Pending?",
-            text: "This will change the status back to pending. Are you sure?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#ffc107",
-            confirmButtonText: "Yes, restore it!",
-            cancelButtonText: "Cancel"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Show loading state
-                const $btn = $(this);
-                const originalHtml = $btn.html();
-                $btn.prop('disabled', true)
-                    .html('<i class="fas fa-spinner fa-spin"></i>');
-
-                $.ajax({
-                    url: "../../backend/e-boss/restoreBackorder.php",
-                    type: "POST",
-                    data: { id: id },
-                    dataType: "json",
-                    success: function (response) {
-                        if (response.success) {
-                            Swal.fire({
-                                icon: "success",
-                                title: "Success!",
-                                text: response.message,
-                                timer: 2000,
-                                showConfirmButton: false
-                            }).then(() => {
-                                // Reload the DataTable
-                                $("#backordersRecordsTable").DataTable().ajax.reload(null, false);
-                            });
-                        } else {
-                            Swal.fire("Error!", response.message, "error");
-                        }
-                    },
-                    error: function () {
-                        Swal.fire("Error!", "Something went wrong.", "error");
-                    },
-                    complete: function () {
-                        // Restore button state
-                        $btn.prop('disabled', false).html(originalHtml);
-                    }
-                });
-            }
-        });
-    });
-
     // Reject / Cancel
     $(document).on("click", ".rejectBtn", function () {
         let id = $(this).data("id");

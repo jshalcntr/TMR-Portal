@@ -151,7 +151,6 @@ $(document).ready(function () {
 
                     $("#inquiryId_details_notification").text(inquiryId);
                     $("#updateInquiryNotificationBtn").data('inquiry-id', inquiryId)
-                    $("#updateInquiryNotificationBtn").data('history-id', historyId)
                     $("#prospectType_details_notification").text(prospectType);
                     $("#dateOfInquiry_details_notification").text(dateOfInquiry);
                     $("#inquirySource_details_notification").text(inquirySource);

@@ -15,7 +15,7 @@
                                 <th>Prospect Type</th>
                                 <th>Date of Inquiry</th>
                                 <th>Unit Inquired</th>
-                                <th>Next Call Date & Time</th>
+                                <th>Appointment Date & Time</th>
                                 <th>View More</th>
                             </tr>
                         </thead>

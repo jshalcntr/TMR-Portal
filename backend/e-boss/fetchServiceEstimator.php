@@ -1,10 +1,10 @@
 <?php
 require('../dbconn.php');
-session_start();
+
 if (isset($_POST['position'])) {
     $position = mysqli_real_escape_string($conn, $_POST['position']);
 
-    $query = "SELECT id, full_name FROM accounts_tbl WHERE section = '$position' ORDER BY full_name ASC";
+    $query = "SELECT id, fullname FROM backorders_svc_advs_tbl WHERE position = '$position' ORDER BY fullname ASC";
     $result = mysqli_query($conn, $query);
 
     $data = [];

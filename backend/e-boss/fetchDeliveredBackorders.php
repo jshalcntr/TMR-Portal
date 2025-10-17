@@ -1,22 +1,13 @@
-﻿<?php
+<?php
 require('../dbconn.php');
-require('../middleware/pipes.php');
-session_start();
+
 header('Content-Type: application/json');
 
-// Fetch delivered orders with appointment information
-$query = "SELECT b.*, 
-            (b.qty * b.bo_price) AS total,
-            a.appointment_date,
-            a.appointment_time,
-            a.notes AS appointment_remarks,
-            u.full_name AS scheduled_by
-          FROM backorders_tbl b
-          LEFT JOIN backorders_appointment_tbl a ON b.id = a.backorder_id
-          LEFT JOIN accounts_tbl u ON a.created_by = u.id
-          WHERE b.order_status = 'Delivered' 
-          AND b.is_deleted = 0 
-          ORDER BY b.order_date DESC";
+// Fetch only Delivered orders
+$query = "SELECT *, (qty * bo_price) AS total 
+          FROM backorders_tbl 
+          WHERE order_status = 'Delivered' AND is_deleted = 0
+          ORDER BY order_date DESC";
 
 $result = mysqli_query($conn, $query);
 
@@ -49,17 +40,11 @@ while ($row = mysqli_fetch_assoc($result)) {
     }
 
     // Format dates
-    $row['order_date'] = convertToReadableDate($row['order_date']);
-    $row['eta_1'] = $eta1 ? convertToReadableDate($row['eta_1']) : '';
-    $row['eta_2'] = !empty($row['eta_2']) ? convertToReadableDate($row['eta_2']) : '';
-    $row['eta_3'] = !empty($row['eta_3']) ? convertToReadableDate($row['eta_3']) : '';
+    $row['order_date'] = $orderDate->format('m/d/Y');
+    $row['eta_1'] = $eta1 ? $eta1->format('m/d/Y') : null;
+    $row['eta_2'] = !empty($row['eta_2']) ? (new DateTime($row['eta_2']))->format('m/d/Y') : null;
+    $row['eta_3'] = !empty($row['eta_3']) ? (new DateTime($row['eta_3']))->format('m/d/Y') : null;
     $row['aging'] = $aging;
-
-    // Format appointment information
-    $row['appointment_date'] = !empty($row['appointment_date']) ? convertToReadableDate($row['appointment_date']) : '';
-    $row['appointment_time'] = !empty($row['appointment_time']) ? date('h:i A', strtotime($row['appointment_time'])) : '';
-    $row['appointment_remarks'] = $row['appointment_remarks'] ?? '';
-    $row['scheduled_by'] = $row['scheduled_by'] ?? '';
 
     // Delivered orders = static row style
     $row['rowClass'] = "table-success";
