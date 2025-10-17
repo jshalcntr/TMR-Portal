@@ -2,7 +2,7 @@
 session_start();
 require "../dbconn.php";
 
-$sql = "SELECT * FROM sales_inquiry_notifications_tbl WHERE receiver_id = ? ORDER BY isRead ASC, created_at DESC";
+$sql = "SELECT * FROM sales_inquiry_notifications_tbl WHERE receiver_id = ? AND isActive = 1 ORDER BY isRead ASC, created_at DESC";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     header('Content-Type: application/json');

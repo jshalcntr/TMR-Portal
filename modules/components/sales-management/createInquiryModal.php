@@ -54,7 +54,7 @@
                         </div>
                         <div class="row justify-content-center align-items-center">
                             <div class="col form-group">
-                                <input type="date" name="inquiryDate" id="inquiryDate" class="form-control form-control-sm" required>
+                                <input type="date" name="inquiryDate" id="MONTH OF SEPTEMBER OUT OF 44 CUSTOMER ONLINE INQUIRY 11,517.72 SALES GENERATED" class="form-control form-control-sm" required>
                                 <div class="invalid-feedback">Please provide a valid Inquiry Date.</div>
                             </div>
                         </div>
@@ -206,9 +206,8 @@
                                 <div class="invalid-feedback">Please select a Municipality.</div>
                             </div>
                             <div class="col-12 col-md-4 form-group">
-                                <label for="barangay" class="mb-0 flex-grow-1">Barangay <span class="text-danger">*</span></label>
-                                <select name="barangay" id="barangay" class="form-select form-select-sm" disabled required></select>
-                                <div class="invalid-feedback">Please select a Barangay.</div>
+                                <label for="barangay" class="mb-0 flex-grow-1">Barangay</label>
+                                <select name="barangay" id="barangay" class="form-select form-select-sm" disabled></select>
                             </div>
                         </div>
                         <div class="row justify-content-center align-items-center px-2">
@@ -308,12 +307,11 @@
                     </div>
                     <div class="form-step" data-step="9">
                         <div class="row justify-content-center align-items-center">
-                            <label for="birthday" class="h3 text-center">Date of Birth <span class="text-danger">*</span></label>
+                            <label for="birthday" class="h3 text-center">Date of Birth</label>
                         </div>
                         <div class="row justify-content-center align-items-center">
                             <div class="col form-group">
-                                <input type="date" name="birthday" id="birthday" class="form-control form-control-sm" required>
-                                <div class="invalid-feedback">Please provide a valid Date of Birth.</div>
+                                <input type="date" name="birthday" id="birthday" class="form-control form-control-sm">
                             </div>
                         </div>
                     </div>
@@ -828,14 +826,14 @@
                     <div class="form-step" data-step="25">
                         <div class="row justify-content-center align-items-center">
                             <h3 class="text-center">
-                                Set an Appointment (For the next call)<span class="text-danger">*</span>
+                                Schedule Next Call<span class="text-danger">*</span>
                             </h3>
                         </div>
 
                         <!-- Date Picker -->
                         <div class="row justify-content-center align-items-center">
                             <div class="col form-group">
-                                <label for="appointmentDate" class="mb-0 flex-grow-1">Appointment Date</label>
+                                <label for="appointmentDate" class="mb-0 flex-grow-1">Next Call Date</label>
                                 <input type="date" name="appointmentDate" id="appointmentDate" class="form-control form-control-sm" required>
                                 <div class="invalid-feedback">Please provide a valid Date.</div>
                             </div>
@@ -844,7 +842,7 @@
                         <!-- Time Picker -->
                         <div class="row justify-content-center align-items-center mt-2">
                             <div class="col form-group">
-                                <label for="appointmentTime" class="mb-0 flex-grow-1">Appointment Time</label>
+                                <label for="appointmentTime" class="mb-0 flex-grow-1">Next Call Time</label>
                                 <select name="appointmentTime" id="appointmentTime" class="form-select form-select-sm" required>
                                     <option value="" hidden disabled selected>-- Select Time --</option>
                                     <!-- Morning -->

@@ -1,6 +1,7 @@
 <?php
 require('../dbconn.php');
 require_once('../../vendor/autoload.php');
+session_start();
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;

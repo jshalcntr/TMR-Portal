@@ -104,7 +104,6 @@ if (authorize(true, $conn)) {
                                             <th>UNIT STATUS</th>
                                             <th>REMARKS</th>
                                             <th>ORDER STATUS</th>
-                                            <th>DELETE REASON</th>
                                             <th>ACTION</th>
                                         </tr>
                                     </thead>

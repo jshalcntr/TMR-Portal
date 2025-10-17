@@ -1,6 +1,6 @@
 <?php
 require('../dbconn.php');
-
+session_start();
 header('Content-Type: application/json');
 
 // Fetch only Deleted orders
@@ -47,7 +47,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $row['aging'] = $aging;
 
     // Deleted orders = static row style
-    $row['rowClass'] = "table-danger";
+    $row['rowClass'] = "";
 
     // Add action buttons
     $row['action'] = '
@@ -67,7 +67,6 @@ while ($row = mysqli_fetch_assoc($result)) {
         </div>';
 
     // Add delete reason if available
-    $row['delete_reason'] = !empty($row['delete_reason']) ? $row['delete_reason'] : "—";
     $row['remarks'] = !empty($row['remarks']) ? $row['remarks'] : "—";
 
     $data[] = $row;

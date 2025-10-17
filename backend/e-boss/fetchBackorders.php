@@ -1,6 +1,6 @@
 <?php
 require('../dbconn.php');
-
+session_start();
 header('Content-Type: application/json');
 
 // Fetch all orders first

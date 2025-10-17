@@ -1,0 +1,225 @@
+<?php<?php
+
+error_reporting(0);// Prevent PHP errors from being output
+
+ini_set('display_errors', 0);error_reporting(0);
+
+
+
+header('Content-Type: application/json');require('../dbconn.php');
+
+
+
+try {// Set headers for JSON response
+
+    require('../dbconn.php');header('Content-Type: application/json');
+
+    
+
+    if (!$conn) {try {
+
+        throw new Exception("Database connection failed");    // Fetch delivered orders with appointment information
+
+    }$query = "SELECT 
+
+            b.*,
+
+    $query = "SELECT             (b.qty * b.bo_price) AS total,
+
+                b.*,            DATE_FORMAT(a.appointment_date, '%Y-%m-%d') as appointment_date,
+
+                (b.qty * b.bo_price) AS total,            TIME_FORMAT(a.appointment_time, '%H:%i') as appointment_time,
+
+                a.appointment_date,            COALESCE(a.remarks, '') as appointment_remarks,
+
+                a.appointment_time,            COALESCE(u.full_name, '') as scheduled_by
+
+                COALESCE(a.remarks, '') as appointment_remarks,          FROM backorders_tbl b
+
+                COALESCE(u.full_name, '') as scheduled_by          LEFT JOIN backorders_appointment_tbl a ON b.id = a.backorder_id
+
+            FROM backorders_tbl b          LEFT JOIN users u ON a.created_by = u.id
+
+            LEFT JOIN backorders_appointment_tbl a ON b.id = a.backorder_id          WHERE b.order_status = 'Delivered' 
+
+            LEFT JOIN users u ON a.created_by = u.id          AND b.is_deleted = 0
+
+            WHERE b.order_status = 'Delivered'           ORDER BY b.order_date DESC";
+
+            AND b.is_deleted = 0
+
+            ORDER BY b.order_date DESC";$result = mysqli_query($conn, $query);
+
+
+
+    $result = mysqli_query($conn, $query);$data = [];
+
+    while ($row = mysqli_fetch_assoc($result)) {
+
+    if (!$result) {    // Calculate aging for delivered items (static calculation)
+
+        throw new Exception("Query failed: " . mysqli_error($conn));    $orderDate = new DateTime($row['order_date']);
+
+    }    $eta1 = !empty($row['eta_1']) ? new DateTime($row['eta_1']) : null;
+
+
+
+    $data = [];    $aging = '';
+
+    while ($row = mysqli_fetch_assoc($result)) {    if ($eta1) {
+
+        // Calculate aging for delivered items        $today = new DateTime();
+
+        $orderDate = new DateTime($row['order_date']);        if ($today <= $eta1) {
+
+        $eta1 = !empty($row['eta_1']) ? new DateTime($row['eta_1']) : null;            $finalEta = $eta1;
+
+        } else {
+
+        $aging = '';            $eta2 = (clone $eta1)->modify('+15 days');
+
+        if ($eta1) {            $finalEta = $eta2;
+
+            $today = new DateTime();            if ($today > $eta2) {
+
+            if ($today <= $eta1) {                $eta3 = (clone $eta2)->modify('+15 days');
+
+                $finalEta = $eta1;                $finalEta = $eta3;
+
+            } else {            }
+
+                $eta2 = (clone $eta1)->modify('+15 days');        }
+
+                $finalEta = $eta2;
+
+                if ($today > $eta2) {        $interval = $orderDate->diff($finalEta);
+
+                    $eta3 = (clone $eta2)->modify('+15 days');        $parts = [];
+
+                    $finalEta = $eta3;        if ($interval->y > 0) $parts[] = $interval->y . " year" . ($interval->y > 1 ? "s" : "");
+
+                }        if ($interval->m > 0) $parts[] = $interval->m . " month" . ($interval->m > 1 ? "s" : "");
+
+            }        if ($interval->d > 0 || empty($parts)) $parts[] = $interval->d . " day" . ($interval->d > 1 ? "s" : "");
+
+        $aging = implode(", ", $parts);
+
+            $interval = $orderDate->diff($finalEta);    }
+
+            $parts = [];
+
+            if ($interval->y > 0) $parts[] = $interval->y . " year" . ($interval->y > 1 ? "s" : "");    // Format dates
+
+            if ($interval->m > 0) $parts[] = $interval->m . " month" . ($interval->m > 1 ? "s" : "");    $row['order_date'] = $orderDate->format('m/d/Y');
+
+            if ($interval->d > 0 || empty($parts)) $parts[] = $interval->d . " day" . ($interval->d > 1 ? "s" : "");    $row['eta_1'] = $eta1 ? $eta1->format('m/d/Y') : '';
+
+            $aging = implode(", ", $parts);    $row['eta_2'] = !empty($row['eta_2']) ? (new DateTime($row['eta_2']))->format('m/d/Y') : '';
+
+        }    $row['eta_3'] = !empty($row['eta_3']) ? (new DateTime($row['eta_3']))->format('m/d/Y') : '';
+
+    $row['aging'] = $aging;
+
+        // Format dates
+
+        $row['order_date'] = $orderDate->format('m/d/Y');    // Ensure all fields have at least empty string values
+
+        $row['eta_1'] = !empty($row['eta_1']) ? (new DateTime($row['eta_1']))->format('m/d/Y') : '';    $fields = ['ro_number', 'customer_name', 'order_no', 'source', 'part_number', 
+
+        $row['eta_2'] = !empty($row['eta_2']) ? (new DateTime($row['eta_2']))->format('m/d/Y') : '';               'part_name', 'service_type', 'service_estimator', 'unit_model', 
+
+        $row['eta_3'] = !empty($row['eta_3']) ? (new DateTime($row['eta_3']))->format('m/d/Y') : '';               'plate_no', 'unit_status', 'order_status', 'order_type'];
+
+        $row['delivery_date'] = !empty($row['delivery_date']) ? (new DateTime($row['delivery_date']))->format('m/d/Y') : '';    foreach ($fields as $field) {
+
+        $row['appointment_date'] = !empty($row['appointment_date']) ? (new DateTime($row['appointment_date']))->format('m/d/Y') : '';        $row[$field] = isset($row[$field]) ? $row[$field] : '';
+
+        $row['appointment_time'] = !empty($row['appointment_time']) ? date('h:i A', strtotime($row['appointment_time'])) : '';    }
+
+        $row['aging'] = $aging;
+
+    // Numeric fields should be 0 if null
+
+        // Ensure all fields have at least empty string values    $row['qty'] = isset($row['qty']) ? (float)$row['qty'] : 0;
+
+        $fields = [    $row['bo_price'] = isset($row['bo_price']) ? (float)$row['bo_price'] : 0;
+
+            'ro_number', 'customer_name', 'order_no', 'source', 'part_number',     $row['total'] = isset($row['total']) ? (float)$row['total'] : 0;
+
+            'part_name', 'service_type', 'service_estimator', 'unit_model', 
+
+            'plate_no', 'unit_status', 'order_status', 'order_type', 'remarks'    // Delivered orders = static row style
+
+        ];    $row['rowClass'] = "table-success";
+
+        foreach ($fields as $field) {
+
+            $row[$field] = isset($row[$field]) ? $row[$field] : '';    // Add action buttons
+
+        }    $row['action'] = '
+
+        <div class="btn-group" role="group">
+
+        // Numeric fields should be 0 if null            <button type="button" class="btn btn-sm btn-info viewBtn" 
+
+        $row['qty'] = isset($row['qty']) ? (float)$row['qty'] : 0;                data-id="' . $row['id'] . '" title="View Details">
+
+        $row['bo_price'] = isset($row['bo_price']) ? (float)$row['bo_price'] : 0;                <i class="fa fa-eye fa-sm"></i>
+
+        $row['total'] = isset($row['total']) ? (float)$row['total'] : 0;            </button>
+
+            <button type="button" class="btn btn-sm btn-warning restoreBtn" 
+
+        // Delivered orders = static row style                data-id="' . $row['id'] . '" title="Restore to Pending">
+
+        $row['rowClass'] = "table-success";                <i class="fa fa-undo fa-sm"></i>
+
+            </button>
+
+        // Add action buttons            <button type="button" class="btn btn-sm btn-danger deleteBtn" 
+
+        $row['action'] = '                data-id="' . $row['id'] . '" title="Delete Backorder">
+
+            <div class="btn-group" role="group">                <i class="fa fa-trash fa-sm"></i>
+
+                <button type="button" class="btn btn-sm btn-info viewBtn"             </button>
+
+                    data-id="' . $row['id'] . '" title="View Details">        </div>';
+
+                    <i class="fa fa-eye fa-sm"></i>
+
+                </button>    $data[] = $row;
+
+                <button type="button" class="btn btn-sm btn-warning restoreBtn" }
+
+                    data-id="' . $row['id'] . '" title="Restore to Pending">
+
+                    <i class="fa fa-undo fa-sm"></i>echo json_encode([
+
+                </button>    "data" => $data
+
+                <button type="button" class="btn btn-sm btn-danger deleteBtn" ]);
+
+                    data-id="' . $row['id'] . '" title="Delete Backorder">
+                    <i class="fa fa-trash fa-sm"></i>
+                </button>
+            </div>';
+
+        $data[] = $row;
+    }
+
+    // Return in DataTables format
+    echo json_encode([
+        "data" => $data,
+        "recordsTotal" => count($data),
+        "recordsFiltered" => count($data)
+    ]);
+
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode([
+        "error" => true,
+        "message" => $e->getMessage(),
+        "data" => []
+    ]);
+}

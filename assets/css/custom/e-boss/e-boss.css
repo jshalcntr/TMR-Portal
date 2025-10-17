@@ -3,6 +3,11 @@
     white-space: nowrap !important;
 }
 
+#serviceAdvisorTable thead,
+#serviceAdvisorTable tbody td {
+    white-space: nowrap !important;
+}
+
 #backordersRecordsTable thead th {
     overflow: hidden;
     /* text-overflow: ellipsis; */
@@ -15,4 +20,132 @@
     border: none;
     border-top: 1px solid #000;
     vertical-align: middle;
+}
+
+/* Apply to all table headers in e-boss */
+.table th,
+.dataTables_wrapper th,
+.table thead th,
+.table-bg-primary tr th {
+    background-color: #356b49 !important;
+    color: #fff !important;
+}
+
+/* Sticky/Fixed Column Styles */
+td[style*="position: sticky"],
+td.dtfc-fixed-left,
+td.dtfc-fixed-right {
+    z-index: 1 !important;
+    background-clip: padding-box !important;
+}
+
+/* Row Colors for Sticky/Fixed Columns */
+tr.table-danger td[style*="position: sticky"] {
+    background-color: #f8d7da !important;
+}
+
+tr.table-warning td[style*="position: sticky"] {
+    background-color: #fff3cd !important;
+}
+
+tr.table-success td[style*="position: sticky"] {
+    background-color: #d1e7dd !important;
+}
+
+/* Hover states for colored rows */
+tr.table-danger:hover td[style*="position: sticky"] {
+    background-color: #f1aeb5 !important;
+}
+
+tr.table-warning:hover td[style*="position: sticky"] {
+    background-color: #ffe69c !important;
+}
+
+tr.table-success:hover td[style*="position: sticky"] {
+    background-color: #bcd0c7 !important;
+}
+
+/* Fixed Column Borders and Shadows */
+td[style*="position: sticky"][style*="right: 0"] {
+    border-left: 1px solid #dee2e6 !important;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+td[style*="position: sticky"][style*="left:"] {
+    border-right: 1px solid #dee2e6 !important;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure proper z-index for content in fixed columns */
+td[style*="position: sticky"] .btn-group {
+    position: relative;
+    z-index: 2;
+}
+
+/* Additional specificity for DataTables fixed columns */
+.dataTables_wrapper tr.table-warning td.dtfc-fixed-left,
+.dataTables_wrapper tr.table-warning td.dtfc-fixed-right {
+    background-color: #fff3cd !important;
+}
+
+.dataTables_wrapper tr.table-danger td.dtfc-fixed-left,
+.dataTables_wrapper tr.table-danger td.dtfc-fixed-right {
+    background-color: #f8d7da !important;
+}
+
+.dataTables_wrapper tr.table-success td.dtfc-fixed-left,
+.dataTables_wrapper tr.table-success td.dtfc-fixed-right {
+    background-color: #d1e7dd !important;
+}
+
+/* Fix for first column checkbox alignment */
+td.dtfc-fixed-left[style*="left: 0"] {
+    padding-left: 8px !important;
+}
+
+tr.table-danger:hover td.dtfc-fixed-right {
+    background-color: #f1aeb5 !important;
+}
+
+tr.table-warning:hover td[style*="position: sticky"],
+tr.table-warning:hover td.dtfc-fixed-left,
+tr.table-warning:hover td.dtfc-fixed-right {
+    background-color: #ffe69c !important;
+}
+
+tr.table-success:hover td[style*="position: sticky"],
+tr.table-success:hover td.dtfc-fixed-left,
+tr.table-success:hover td.dtfc-fixed-right {
+    background-color: #bcd0c7 !important;
+}
+
+/* Fix for hover states on colored rows in fixed columns */
+.DTFC_LeftBodyWrapper .table-danger:hover td,
+.DTFC_RightBodyWrapper .table-danger:hover td {
+    background-color: #f1aeb5 !important;
+}
+
+.DTFC_LeftBodyWrapper .table-warning:hover td,
+.DTFC_RightBodyWrapper .table-warning:hover td {
+    background-color: #ffe69c !important;
+}
+
+.DTFC_LeftBodyWrapper .table-success:hover td,
+.DTFC_RightBodyWrapper .table-success:hover td {
+    background-color: #bcd0c7 !important;
+}
+
+/* Ensure proper z-index for fixed columns */
+.DTFC_LeftWrapper,
+.DTFC_RightWrapper {
+    z-index: 2;
+}
+
+/* Fix box-shadow for better visual separation */
+.DTFC_LeftWrapper {
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.DTFC_RightWrapper {
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
 }

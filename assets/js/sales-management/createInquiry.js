@@ -340,7 +340,8 @@ $(document).ready(function () {
                     vehicles.forEach(vehicle => {
                         $("#unitInquired").append(`<option value="${vehicle.vehicle_name}">${vehicle.vehicle_name}</option>`);
                     });
-
+                    $('#inquiryDate').attr('max', new Date().toISOString().split('T')[0]);
+                    $('#inquiryDate_review').attr('max', new Date().toISOString().split('T')[0]);
                 }
             }
         });

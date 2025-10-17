@@ -13,6 +13,7 @@ if (authorize(true, $conn)) {
     $authRole = $_SESSION['user']['role'];
     $authPP = $_SESSION['user']['profile_picture'];
     $authDepartment = $_SESSION['user']['department'];
+    $authSection = $_SESSION['user']['section_name'];
 
     $authorizations = setAuthorizations($_SESSION['user']);
 } else {
@@ -98,6 +99,10 @@ if (authorize(true, $conn)) {
                                             <th>3RD ETA</th>
                                             <th>ORDER TYPE</th>
                                             <th>SERVICE TYPE</th>
+                                            <th>APPOINTMENT DATE</th>
+                                            <th>APPOINTMENT TIME</th>
+                                            <th>APPOINTMENT NOTES</th>
+                                            <th>SCHEDULED BY</th>
                                             <th>SERVICE ESTIMATOR</th>
                                             <th>UNIT / MODEL</th>
                                             <th>PLATE NO</th>

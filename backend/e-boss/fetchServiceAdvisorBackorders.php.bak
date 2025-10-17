@@ -1,0 +1,106 @@
+<?php
+require('../dbconn.php');
+session_start();
+header('Content-Type: application/json');
+
+// Get current page and length from DataTables
+$draw = $_POST['draw'] ?? 1;
+$start = $_POST['start'] ?? 0;
+$length = $_POST['length'] ?? 10;
+$search = $_POST['search']['value'] ?? '';
+
+// Base query
+$query = "SELECT b.*, 
+          (b.qty * b.bo_price) AS total,
+          CASE WHEN a.id IS NOT NULL THEN 1 ELSE 0 END as has_appointment
+          FROM backorders_tbl b 
+          LEFT JOIN backorders_appointment_tbl a ON b.id = a.backorder_id 
+          WHERE b.is_deleted = 0 AND b.order_status = 'DELIVERED'";
+
+// Add search condition if search term exists
+if (!empty($search)) {
+    $query .= " AND (
+        b.ro_number LIKE '%$search%' OR 
+        b.customer_name LIKE '%$search%' OR 
+        b.order_no LIKE '%$search%' OR 
+        b.part_number LIKE '%$search%' OR 
+        b.part_name LIKE '%$search%' OR 
+        b.plate_no LIKE '%$search%'
+    )";
+}
+
+// Get total count
+$total_query = "SELECT COUNT(*) as count FROM ($query) as subquery";
+$total_result = mysqli_query($conn, $total_query);
+$total_row = mysqli_fetch_assoc($total_result);
+$totalRecords = $total_row['count'];
+
+// Add pagination
+$query .= " ORDER BY b.order_date DESC LIMIT $start, $length";
+
+// Execute final query
+$result = mysqli_query($conn, $query);
+$data = [];
+
+while ($row = mysqli_fetch_assoc($result)) {
+    // Calculate aging and determine row class
+    $orderDate = new DateTime($row['order_date']);
+    $eta1 = !empty($row['eta_1']) ? new DateTime($row['eta_1']) : null;
+    $today = new DateTime();
+
+    $aging = '';
+    $rowClass = '';
+    $finalEta = $eta1;
+
+    if ($eta1) {
+        // Check for later ETAs
+        if (!empty($row['eta_2'])) {
+            $eta2 = new DateTime($row['eta_2']);
+            $finalEta = $eta2;
+        }
+        if (!empty($row['eta_3'])) {
+            $eta3 = new DateTime($row['eta_3']);
+            $finalEta = $eta3;
+        }
+
+        // Calculate aging
+        $interval = $orderDate->diff($finalEta);
+        $parts = [];
+        if ($interval->y > 0) $parts[] = $interval->y . " year" . ($interval->y > 1 ? "s" : "");
+        if ($interval->m > 0) $parts[] = $interval->m . " month" . ($interval->m > 1 ? "s" : "");
+        if ($interval->d > 0 || empty($parts)) $parts[] = $interval->d . " day" . ($interval->d > 1 ? "s" : "");
+
+        $aging = implode(", ", $parts);
+
+        // Determine row class
+        // if ($today > $finalEta && $row['order_status'] !== 'Delivered' && $row['order_status'] !== 'Cancelled') {
+        //     $rowClass = "table-danger"; // overdue
+        // } else {
+        //     $daysRemaining = $today->diff($finalEta)->days;
+        //     if ($daysRemaining <= 3 && $row['order_status'] !== 'Delivered' && $row['order_status'] !== 'Cancelled') {
+        //         $rowClass = "table-warning"; // due soon
+        //     }
+        // }
+    }
+
+    // Format dates
+    $row['order_date'] = $orderDate->format('m/d/Y');
+    $row['eta_1'] = $eta1 ? $eta1->format('m/d/Y') : null;
+    $row['eta_2'] = !empty($row['eta_2']) ? (new DateTime($row['eta_2']))->format('m/d/Y') : null;
+    $row['eta_3'] = !empty($row['eta_3']) ? (new DateTime($row['eta_3']))->format('m/d/Y') : null;
+
+    $row['aging'] = $aging;
+    $row['rowClass'] = $rowClass;
+
+    $data[] = $row;
+}
+
+// Prepare response
+$response = [
+    "draw" => intval($draw),
+    "recordsTotal" => $totalRecords,
+    "recordsFiltered" => $totalRecords,
+    "data" => $data
+];
+
+echo json_encode($response);

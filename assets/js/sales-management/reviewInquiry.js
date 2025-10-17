@@ -292,7 +292,6 @@ $(document).ready(function () {
     $("#reviewInquiryForm input[name='prospectType']").on('change', function () {
         if ($(this).val() === "COLD") {
             $("#maritalStatusRequired_review").addClass("d-none");
-            $("#birthdayRequired_review").addClass("d-none");
             $("#occupationRequired_review").addClass("d-none");
             $("#businessNameRequired_review").addClass("d-none");
             $("#occupationProvinceRequired_review").addClass("d-none");
@@ -313,7 +312,6 @@ $(document).ready(function () {
             $("#buyerDecisionHoldReasonRequired_review").addClass("d-none");
 
             $("#maritalStatus_review").prop("required", false);
-            $("#birthday_review").prop("required", false);
             $("#occupation_review").prop("required", false);
             $("#businessName_review").prop("required", false);
             $("#occupationProvince_review").prop("required", false);
@@ -329,7 +327,6 @@ $(document).ready(function () {
             $("#buyerDecisionHoldReason_review").prop("required", false);
         } else {
             $("#maritalStatusRequired_review").removeClass("d-none");
-            $("#birthdayRequired_review").removeClass("d-none");
             $("#occupationRequired_review").removeClass("d-none");
             $("#businessNameRequired_review").removeClass("d-none");
             $("#occupationProvinceRequired_review").removeClass("d-none");
@@ -350,7 +347,6 @@ $(document).ready(function () {
             $("#buyerDecisionHoldReasonRequired_review").removeClass("d-none");
 
             $("#maritalStatus_review").prop("required", true);
-            $("#birthday_review").prop("required", true);
             $("#occupation_review").prop("required", true);
             $("#businessName_review").prop("required", true);
 

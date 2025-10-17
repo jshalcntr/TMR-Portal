@@ -1,31 +1,30 @@
 $(document).ready(function () {
-    let lockedGender
     function populateUpdateInquiryFields() {
-        $.ajax({
-            type: "GET",
-            url: "../../backend/sales-management/getAllMalls.php",
-            success: function (response) {
-                if (response.status === "internal-error") {
-                    Swal.fire({
-                        title: 'Error! ',
-                        text: `${response.message}`,
-                        icon: 'error',
-                        confirmButtonColor: 'var(--bs-danger)'
-                    })
-                } else if (response.status === "success") {
-                    const malls = response.data;
-                    $("#mallDisplay_update").empty().append(`<option value="">--Select Mall--</option>`);
-                    malls.forEach(mall => {
-                        $("#mallDisplay_update").append(`<option value="${mall.mall_name}">${mall.mall_name}</option>`);
-                    });
-                }
-            }
-        })
-        const provinces1 = $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "https://psgc.gitlab.io/api/provinces/"
-        });
+        // $.ajax({
+        //     type: "GET",
+        //     url: "../../backend/sales-management/getAllMalls.php",
+        //     success: function (response) {
+        //         if (response.status === "internal-error") {
+        //             Swal.fire({
+        //                 title: 'Error! ',
+        //                 text: `${response.message}`,
+        //                 icon: 'error',
+        //                 confirmButtonColor: 'var(--bs-danger)'
+        //             })
+        //         } else if (response.status === "success") {
+        //             const malls = response.data;
+        //             $("#mallDisplay_update").empty().append(`<option value="">--Select Mall--</option>`);
+        //             malls.forEach(mall => {
+        //                 $("#mallDisplay_update").append(`<option value="${mall.mall_name}">${mall.mall_name}</option>`);
+        //             });
+        //         }
+        //     }
+        // })
+        // const provinces1 = $.ajax({
+        //     type: "GET",
+        //     dataType: "json",
+        //     url: "https://psgc.gitlab.io/api/provinces/"
+        // });
 
         const vehicles = $.ajax({
             type: "GET",
@@ -38,29 +37,23 @@ $(document).ready(function () {
             url: "https://psgc.gitlab.io/api/provinces/"
         });
 
-        // Return a promise that resolves when ALL 3 are done
-        return $.when(provinces1, vehicles, provinces2).done((res1, resVehicles, res2) => {
-            // res1, resVehicles, res2 each come as [data, status, xhr]
+        return $.when(vehicles, provinces2).done((resVehicles, res2) => {
 
-            // --- Populate first provinces ---
-            const response1 = res1[0];
-            $('#province_update').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Province--</option>`);
-            $('#municipality_update').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option>`);
-            $('#barangay_update').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option>`);
+            // const response1 = res1[0];
+            // $('#province_update').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Province--</option>`);
+            // $('#municipality_update').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option>`);
+            // $('#barangay_update').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option>`);
 
-            $('#province_update').append(`<option value="NATIONAL CAPITAL REGION" data-code="130000000" data-type="region">NATIONAL CAPITAL REGION (NCR)</option>`);
-            response1.forEach(province => {
-                $('#province_update').append(`<option value="${province.name.toUpperCase()}" data-code="${province.code}">${province.name.toUpperCase()}</option>`);
-            });
+            // $('#province_update').append(`<option value="NATIONAL CAPITAL REGION" data-code="130000000" data-type="region">NATIONAL CAPITAL REGION (NCR)</option>`);
+            // response1.forEach(province => {
+            //     $('#province_update').append(`<option value="${province.name.toUpperCase()}" data-code="${province.code}">${province.name.toUpperCase()}</option>`);
+            // });
 
-            // Select2 init
-            $("#province_update, #municipality_update, #barangay_update").select2({
-                placeholder: `--Select--`,
-                width: '100%',
-                dropdownParent: $('#updateInquiryModal')
-            });
-
-            // --- Populate vehicles ---
+            // $("#province_update, #municipality_update, #barangay_update").select2({
+            //     placeholder: `--Select--`,
+            //     width: '100%',
+            //     dropdownParent: $('#updateInquiryModal')
+            // });
             const responseVehicles = resVehicles[0];
             if (responseVehicles.status === 'success') {
                 $("#unitInquired_update").empty().append(`<option value="" hidden>--Select Vehicle--</option>`);
@@ -69,7 +62,6 @@ $(document).ready(function () {
                 });
             }
 
-            // --- Populate second provinces (occupation) ---
             const response2 = res2[0];
             $('#occupationProvince_update').empty().append(`<option value="" selected hidden>--Select Province--</option>`);
             $('#occupationMunicipality_update').empty().append(`<option value="" selected hidden>--Select Municipality--</option>`);
@@ -80,7 +72,6 @@ $(document).ready(function () {
                 $('#occupationProvince_update').append(`<option value="${province.name.toUpperCase()}" data-code="${province.code}">${province.name.toUpperCase()}</option>`);
             });
 
-            // Select2 init
             $("#occupationProvince_update, #occupationMunicipality_update, #occupationBarangay_update").select2({
                 placeholder: `--Select--`,
                 width: '100%',
@@ -172,77 +163,78 @@ $(document).ready(function () {
                             $("#currentProspectTypeIcon").addClass("fa-person-circle-question");
                             $("#currentProspectTypeRow").addClass("text-secondary");
                         }
-                        $("#customerFirstName_update").val(customerFirstName);
-                        $("#customerMiddleName_update").val(customerMiddleName);
-                        $("#customerLastName_update").val(customerLastName);
-                        $("#province_update").val(province).trigger('change');
-                        const provinceCode = $("#province_update").find(':selected').data('code');
-                        const provinceType = $("#province_update").find(':selected').data('type');
+                        $("#customerFirstName_update").text(customerFirstName);
+                        $("#customerMiddleName_update").text(customerMiddleName ? customerMiddleName : "-");
+                        $("#customerLastName_update").text(customerLastName);
+                        $("#province_update").text(province);
+                        $("#municipality_update").text(municipality);
+                        $("#barangay_update").text(barangay);
+                        // const provinceCode = $("#province_update").find(':selected').data('code');
+                        // const provinceType = $("#province_update").find(':selected').data('type');
 
-                        let url = '';
-                        if (provinceType === 'region' && provinceCode === 130000000) {
-                            url = `https://psgc.gitlab.io/api/regions/${provinceCode}/cities-municipalities/`;
-                        } else {
-                            url = `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`;
-                        }
+                        // let url = '';
+                        // if (provinceType === 'region' && provinceCode === 130000000) {
+                        //     url = `https://psgc.gitlab.io/api/regions/${provinceCode}/cities-municipalities/`;
+                        // } else {
+                        //     url = `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`;
+                        // }
 
-                        $.ajax({
-                            type: "GET",
-                            url: url,
-                            dataType: "json",
-                            success: function (response) {
-                                $('#municipality_update').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
-                                response.forEach(municipality => {
-                                    $('#municipality_update').append(`<option value="${municipality.name.toUpperCase()}" data-code="${municipality.code}">${municipality.name.toUpperCase()}</option>`);
-                                });
-                                $("#municipality_update").val(municipality).trigger('change');
-                                const municipalityCode = $("#municipality_update").find(':selected').data('code');
-                                $.ajax({
-                                    type: "GET",
-                                    url: `https://psgc.gitlab.io/api/cities-municipalities/${municipalityCode}/barangays/`,
-                                    dataType: "json",
-                                    success: function (response) {
-                                        $('#barangay_update').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Barangay--</option></option>`);
-                                        response.forEach(barangay => {
-                                            $('#barangay_update').append(`<option value="${barangay.name.toUpperCase()}" data-code="${barangay.code}">${barangay.name.toUpperCase()}</option>`);
-                                        });
-                                        $("#barangay_update").val(barangay);
-                                    },
-                                    error: function (xhr, status, error) {
-                                        console.error('XHR : ', xhr.responseText);
-                                        console.error('Status : ', status);
-                                        console.error('AJAX error : ', error);
-                                        Swal.fire({
-                                            title: 'Error! ',
-                                            text: 'An internal error occurred. Please contact MIS.',
-                                            icon: 'error',
-                                            confirmButtonColor: 'var(--bs-danger)'
-                                        })
-                                    }
-                                });
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('XHR : ', xhr.responseText);
-                                console.error('Status : ', status);
-                                console.error('AJAX error : ', error);
-                                Swal.fire({
-                                    title: 'Error! ',
-                                    text: 'An internal error occurred. Please contact MIS.',
-                                    icon: 'error',
-                                    confirmButtonColor: 'var(--bs-danger)'
-                                })
-                            }
-                        });
+                        // $.ajax({
+                        //     type: "GET",
+                        //     url: url,
+                        //     dataType: "json",
+                        //     success: function (response) {
+                        //         $('#municipality_update').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Municipality--</option></option>`);
+                        //         response.forEach(municipality => {
+                        //             $('#municipality_update').append(`<option value="${municipality.name.toUpperCase()}" data-code="${municipality.code}">${municipality.name.toUpperCase()}</option>`);
+                        //         });
+                        //         const municipalityCode = $("#municipality_update").find(':selected').data('code');
+                        //         $.ajax({
+                        //             type: "GET",
+                        //             url: `https://psgc.gitlab.io/api/cities-municipalities/${municipalityCode}/barangays/`,
+                        //             dataType: "json",
+                        //             success: function (response) {
+                        //                 $('#barangay_update').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select Barangay--</option></option>`);
+                        //                 response.forEach(barangay => {
+                        //                     $('#barangay_update').append(`<option value="${barangay.name.toUpperCase()}" data-code="${barangay.code}">${barangay.name.toUpperCase()}</option>`);
+                        //                 });
+                        //             },
+                        //             error: function (xhr, status, error) {
+                        //                 console.error('XHR : ', xhr.responseText);
+                        //                 console.error('Status : ', status);
+                        //                 console.error('AJAX error : ', error);
+                        //                 Swal.fire({
+                        //                     title: 'Error! ',
+                        //                     text: 'An internal error occurred. Please contact MIS.',
+                        //                     icon: 'error',
+                        //                     confirmButtonColor: 'var(--bs-danger)'
+                        //                 })
+                        //             }
+                        //         });
+                        //     },
+                        //     error: function (xhr, status, error) {
+                        //         console.error('XHR : ', xhr.responseText);
+                        //         console.error('Status : ', status);
+                        //         console.error('AJAX error : ', error);
+                        //         Swal.fire({
+                        //             title: 'Error! ',
+                        //             text: 'An internal error occurred. Please contact MIS.',
+                        //             icon: 'error',
+                        //             confirmButtonColor: 'var(--bs-danger)'
+                        //         })
+                        //     }
+                        // });
 
-                        $("#street_update").val(street);
-                        $("#contactNumber_update").val(contactNumber);
-                        if (gender === "MALE") {
-                            $("#gender_male_update").prop('checked', true);
-                        } else if (gender === "FEMALE") {
-                            $("#gender_female_update").prop('checked', true);
-                        } else if (gender === "LGBTQ+") {
-                            $("#gender_lgbt_update").prop('checked', true);
-                        }
+                        $("#street_update").text(street ? street : "-");
+                        $("#contactNumber_update").text(contactNumber);
+                        $("#gender_update").text(gender);
+                        // if (gender === "MALE") {
+                        //     $("#gender_male_update").prop('checked', true);
+                        // } else if (gender === "FEMALE") {
+                        //     $("#gender_female_update").prop('checked', true);
+                        // } else if (gender === "LGBTQ+") {
+                        //     $("#gender_lgbt_update").prop('checked', true);
+                        // }
                         if (maritalStatus !== "SINGLE" && maritalStatus !== "MARRIED" && maritalStatus !== "DIVORCED" && maritalStatus !== "SEPARATED" && maritalStatus !== "WIDOWED" && maritalStatus !== "ANNULED" && maritalStatus !== "") {
                             $("#maritalStatus_update").val("OTHERS").trigger('change');
                             $("#maritalStatusOtherInput_update").val(maritalStatus).trigger('change');
@@ -293,31 +285,34 @@ $(document).ready(function () {
                                     response.forEach(municipality => {
                                         $('#occupationMunicipality_update').append(`<option value="${municipality.name.toUpperCase()}" data-code="${municipality.code}">${municipality.name.toUpperCase()}</option>`);
                                     });
-                                    $("#occupationMunicipality_update").val(occupationMunicipality).trigger('change');
-                                    const occupationMunicipalityCode = $(occupationMunicipality_update).find(':selected').data('code');
-                                    $.ajax({
-                                        type: "GET",
-                                        url: `https://psgc.gitlab.io/api/cities-municipalities/${occupationMunicipalityCode}/barangays/`,
-                                        dataType: "json",
-                                        success: function (response) {
-                                            $('#occupationBarangay_update').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select OccupationBarangay--</option></option>`);
-                                            response.forEach(barangay => {
-                                                $('#occupationBarangay_update').append(`<option value="${barangay.name.toUpperCase()}" data-code="${barangay.code}">${barangay.name.toUpperCase()}</option>`);
-                                            });
-                                            $("#occupationBarangay_update").val(occupationBarangay);
-                                        },
-                                        error: function (xhr, status, error) {
-                                            console.error('XHR : ', xhr.responseText);
-                                            console.error('Status : ', status);
-                                            console.error('AJAX error : ', error);
-                                            Swal.fire({
-                                                title: 'Error! ',
-                                                text: 'An internal error occurred. Please contact MIS.',
-                                                icon: 'error',
-                                                confirmButtonColor: 'var(--bs-danger)'
-                                            })
-                                        }
-                                    });
+                                    $("#occupationMunicipality_update").val(occupationMunicipality);
+                                    if (occupationMunicipality) {
+                                        $("#occupationMunicipality_update").trigger('change');
+                                        const occupationMunicipalityCode = $(occupationMunicipality_update).find(':selected').data('code');
+                                        $.ajax({
+                                            type: "GET",
+                                            url: `https://psgc.gitlab.io/api/cities-municipalities/${occupationMunicipalityCode}/barangays/`,
+                                            dataType: "json",
+                                            success: function (response) {
+                                                $('#occupationBarangay_update').prop('disabled', false).empty().append(`<option value="" selected hidden>--Select OccupationBarangay--</option></option>`);
+                                                response.forEach(barangay => {
+                                                    $('#occupationBarangay_update').append(`<option value="${barangay.name.toUpperCase()}" data-code="${barangay.code}">${barangay.name.toUpperCase()}</option>`);
+                                                });
+                                                $("#occupationBarangay_update").val(occupationBarangay);
+                                            },
+                                            error: function (xhr, status, error) {
+                                                console.error('XHR : ', xhr.responseText);
+                                                console.error('Status : ', status);
+                                                console.error('AJAX error : ', error);
+                                                Swal.fire({
+                                                    title: 'Error! ',
+                                                    text: 'An internal error occurred. Please contact MIS.',
+                                                    icon: 'error',
+                                                    confirmButtonColor: 'var(--bs-danger)'
+                                                })
+                                            }
+                                        });
+                                    }
                                 },
                                 error: function (xhr, status, error) {
                                     console.error('XHR : ', xhr.responseText);
@@ -337,17 +332,25 @@ $(document).ready(function () {
                         $("#businessSize_update").val(businessSize);
                         $("#monthlyAverage_update").val(monthlyAverage);
 
-                        $("#inquiryDate_update").val(inquiryDate);
-                        $("#inquirySource_update").val(inquirySource).trigger('change');
+                        $("#inquiryDate_update").text(convertToReadableDate(inquiryDate));
+                        $("#inquirySource_update").text(inquirySource);
                         if (inquirySource === "FACE TO FACE") {
-                            $("#f2fSource_update").val(inquirySourceType).trigger('change');
+                            $("#f2fSourceRow_update").removeClass('d-none');
+                            $("#onlineSourceRow_update").addClass('d-none');
+                            $("#f2fSource_update").text(inquirySourceType);
+                            if (inquirySourceType === "MALL DISPLAY") {
+                                $("#mallDisplayRow_update").removeClass("d-none");
+                                $("#mallDisplay_update").text(mallDisplay);
+                            } else {
+                                $("#mallDisplayRow_update").addClass("d-none");
+                            }
                         } else if (inquirySource === "ONLINE") {
-                            $("#onlineSource_update").val(inquirySourceType).trigger('change');
+                            $("#onlineSourceRow_update").removeClass('d-none');
+                            $("#f2fSourceRow_update").addClass('d-none');
+                            $("#f2fSourceRow_update").addClass('d-none');
+                            $("#onlineSource_update").text(inquirySourceType);
+                            $("#mallDisplayRow_update").addClass("d-none");
                         }
-                        $("#f2fSource_update").val(inquirySourceType);
-                        $("#onlineSource_update").val(inquirySourceType);
-
-                        $("#mallDisplay_update").val(mallDisplay);
                         if (buyerType === "FIRST-TIME") {
                             $("#buyerType_first_update").prop('checked', true);
                         } else if (buyerType === "REPLACEMENT") {
@@ -396,22 +399,22 @@ $(document).ready(function () {
                     }
                 }
             }).then(() => {
-                $("#customerFirstName_update").prop("disabled", true);
-                $("#customerMiddleName_update").prop("disabled", true);
-                $("#customerLastName_update").prop("disabled", true);
-                $("#province_update").prop("disabled", true);
-                $("#municipality_update").prop("disabled", true);
-                $("#barangay_update").prop("disabled", true);
-                $("#street_update").prop("disabled", true);
-                $("#contactNumber_update").prop("disabled", true);
-                $("#gender_male_update").prop("disabled", true);
-                $("#gender_female_update").prop("disabled", true);
-                $("#gender_lgbt_update").prop("disabled", true);
-                $("#inquiryDate_update").prop("disabled", true);
-                $("#inquirySource_update").prop("disabled", true);
-                $("#f2fSource_update").prop("disabled", true);
-                $("#onlineSource_update").prop("disabled", true);
-                $("#mallDisplay_update").prop("disabled", true);
+                // $("#customerFirstName_update").prop("disabled", true);
+                // $("#customerMiddleName_update").prop("disabled", true);
+                // $("#customerLastName_update").prop("disabled", true);
+                // $("#province_update").prop("disabled", true);
+                // $("#municipality_update").prop("disabled", true);
+                // $("#barangay_update").prop("disabled", true);
+                // $("#street_update").prop("disabled", true);
+                // $("#contactNumber_update").prop("disabled", true);
+                // $("#gender_male_update").prop("disabled", true);
+                // $("#gender_female_update").prop("disabled", true);
+                // $("#gender_lgbt_update").prop("disabled", true);
+                // $("#inquiryDate_update").prop("disabled", true);
+                // $("#inquirySource_update").prop("disabled", true);
+                // $("#f2fSource_update").prop("disabled", true);
+                // $("#onlineSource_update").prop("disabled", true);
+                // $("#mallDisplay_update").prop("disabled", true);
             });
         });
 
@@ -419,7 +422,6 @@ $(document).ready(function () {
     $("#updateInquiryForm input[name='prospectType']").on('change', function () {
         if ($(this).val() === "LOST") {
             $("#maritalStatusRequired_update").addClass("d-none");
-            $("#birthdayRequired_update").addClass("d-none");
             $("#occupationRequired_update").addClass("d-none");
             $("#businessNameRequired_update").addClass("d-none");
             $("#occupationProvinceRequired_update").addClass("d-none");
@@ -444,7 +446,6 @@ $(document).ready(function () {
             $("#appointmentTimeRequired_update").addClass("d-none");
 
             $("#maritalStatus_update").prop("required", false);
-            $("#birthday_update").prop("required", false);
             $("#occupation_update").prop("required", false);
             $("#businessName_update").prop("required", false);
             $("#occupationProvince_update").prop("required", false);
@@ -463,7 +464,6 @@ $(document).ready(function () {
             $("#appointmentTime_update").prop("required", false);
         } else if ($(this).val() === "COLD") {
             $("#maritalStatusRequired_update, #maritalStatusRequired_update").addClass("d-none");
-            $("#birthdayRequired_update").addClass("d-none");
             $("#occupationRequired_update").addClass("d-none");
             $("#businessNameRequired_update").addClass("d-none");
             $("#occupationProvinceRequired_update").addClass("d-none");
@@ -488,7 +488,6 @@ $(document).ready(function () {
             $("#appointmentTimeRequired_update").removeClass("d-none");
 
             $("#maritalStatus_update").prop("required", false);
-            $("#birthday_update").prop("required", false);
             $("#occupation_update").prop("required", false);
             $("#businessName_update").prop("required", false);
             $("#occupationProvince_update").prop("required", false);
@@ -507,7 +506,6 @@ $(document).ready(function () {
             $("#appointmentTime_update").prop("required", true);
         } else {
             $("#maritalStatusRequired_update").removeClass("d-none");
-            $("#birthdayRequired_update").removeClass("d-none");
             $("#occupationRequired_update").removeClass("d-none");
             $("#businessNameRequired_update").removeClass("d-none");
             $("#occupationProvinceRequired_update").removeClass("d-none");
@@ -533,7 +531,6 @@ $(document).ready(function () {
 
             $("#unitInquired_update").prop("required", true);
             $("#maritalStatus_update").prop("required", true);
-            $("#birthday_update").prop("required", true);
             $("#occupation_update").prop("required", true);
             $("#businessName_update").prop("required", true);
 
@@ -753,43 +750,43 @@ $(document).ready(function () {
         }
     });
 
-    $(document).on('change', '#inquirySource_update', function () {
-        if ($(this).val() === "FACE TO FACE") {
-            if ($("#f2fSourceRow_update").hasClass('d-none')) {
-                $("#f2fSourceRow_update").removeClass('d-none');
-                $("#f2fSource_update").prop('required', true);
-            }
-            if (!$("#onlineSourceRow_update").hasClass('d-none')) {
-                $("#onlineSourceRow_update").addClass('d-none');
-                $("#onlineSource_update").val("").trigger('change');
-                $("#onlineSource_update").prop('required', false);
-            }
-        } else if ($(this).val() === "ONLINE") {
-            if ($("#onlineSourceRow_update").hasClass('d-none')) {
-                $("#onlineSourceRow_update").removeClass('d-none');
-                $("#onlineSource_update").prop('required', true);
-            }
-            if (!$("#f2fSourceRow_update").hasClass('d-none')) {
-                $("#f2fSourceRow_update").addClass('d-none');
-                $("#f2fSource_update").val("").trigger('change');
-                $("#f2fSource_update").prop('required', false);
-            }
-        }
-    });
-    $(document).on('change', '#f2fSource_update', function () {
-        if ($(this).val() === "MALL DISPLAY") {
-            if ($("#mallDisplayRow_update").hasClass('d-none')) {
-                $("#mallDisplayRow_update").removeClass('d-none');
-                $("#mallDisplay_update").prop('required', true);
-            }
-        } else {
-            if (!$("#mallDisplayRow_update").hasClass('d-none')) {
-                $("#mallDisplayRow_update").addClass('d-none');
-                $("#mallDisplay_update").prop('required', false);
-                $("#mallDisplay_update").val('');
-            }
-        }
-    });
+    // $(document).on('change', '#inquirySource_update', function () {
+    //     if ($(this).val() === "FACE TO FACE") {
+    //         if ($("#f2fSourceRow_update").hasClass('d-none')) {
+    //             $("#f2fSourceRow_update").removeClass('d-none');
+    //             $("#f2fSource_update").prop('required', true);
+    //         }
+    //         if (!$("#onlineSourceRow_update").hasClass('d-none')) {
+    //             $("#onlineSourceRow_update").addClass('d-none');
+    //             $("#onlineSource_update").val("").trigger('change');
+    //             $("#onlineSource_update").prop('required', false);
+    //         }
+    //     } else if ($(this).val() === "ONLINE") {
+    //         if ($("#onlineSourceRow_update").hasClass('d-none')) {
+    //             $("#onlineSourceRow_update").removeClass('d-none');
+    //             $("#onlineSource_update").prop('required', true);
+    //         }
+    //         if (!$("#f2fSourceRow_update").hasClass('d-none')) {
+    //             $("#f2fSourceRow_update").addClass('d-none');
+    //             $("#f2fSource_update").val("").trigger('change');
+    //             $("#f2fSource_update").prop('required', false);
+    //         }
+    //     }
+    // });
+    // $(document).on('change', '#f2fSource_update', function () {
+    //     if ($(this).val() === "MALL DISPLAY") {
+    //         if ($("#mallDisplayRow_update").hasClass('d-none')) {
+    //             $("#mallDisplayRow_update").removeClass('d-none');
+    //             $("#mallDisplay_update").prop('required', true);
+    //         }
+    //     } else {
+    //         if (!$("#mallDisplayRow_update").hasClass('d-none')) {
+    //             $("#mallDisplayRow_update").addClass('d-none');
+    //             $("#mallDisplay_update").prop('required', false);
+    //             $("#mallDisplay_update").val('');
+    //         }
+    //     }
+    // });
     $(document).on('change', '#unitInquired_update', function () {
         if ($(this).val() === "TAMARAW") {
             if ($("#tamarawVariantRow_update").hasClass('d-none')) {
@@ -863,13 +860,14 @@ $(document).ready(function () {
     $("#updateInquiryForm").submit(function (e) {
         e.preventDefault();
         const formData = $(this).serialize();
+        // console.log(formData);
         if (updateInquiryFormValidationTimeout) {
             clearTimeout(updateInquiryFormValidationTimeout);
         }
         $("#updateInquiryForm").removeClass("was-validated");
 
         let updateFirstValidity = !this.checkValidity();
-        let updateSecondValidity = !$("#updateInquiryForm input[name='gender']:checked").val();
+        let updateSecondValidity = false;
         let updateThirdValidity;
         let updateFourthValidity;
 
@@ -887,6 +885,12 @@ $(document).ready(function () {
         if (updateFirstValidity || updateSecondValidity || updateThirdValidity || updateFourthValidity) {
             e.stopPropagation();
             console.log("Invalid");
+            console.log(`
+                1: ${updateFirstValidity}
+                2: ${updateSecondValidity}
+                3: ${updateThirdValidity}
+                4: ${updateFourthValidity}
+                `);
         } else {
             $.ajax({
                 type: "POST",
